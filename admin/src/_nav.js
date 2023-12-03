@@ -28,7 +28,47 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Theme',
+    name: 'MODULES',
+  },
+  {
+    component: CNavGroup,
+    name: 'Users',
+    to: '/U',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Create',
+        to: '/users/create',
+      },
+      {
+        component: CNavItem,
+        name: 'List',
+        to: '/base/breadcrumbs',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Advertising Spots',
+    to: '/U',
+    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Create',
+        to: '/base/accordion',
+      },
+      {
+        component: CNavItem,
+        name: 'List',
+        to: '/base/breadcrumbs',
+      },
+    ],
+  },
+  {
+    component: CNavTitle,
+    name: 'TYPE',
   },
   {
     component: CNavItem,
