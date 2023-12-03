@@ -1,7 +1,17 @@
 import express from 'express';
+import addSocket from './middlewares/realtime';
+import socketHandler from './utils/socketHandler';
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server, {
+  cors:{
+    origin: "*"
+  }
+});
+
 app.use(express.json());
+app.use(addSocket(io));
 
 app.get('/', function (req, res) {
   res.json({
@@ -26,8 +36,10 @@ app.use(function (err, req, res, next) {
   });
 });
 
+socketHandler(io);
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, function () {
+server.listen(PORT, function () {
   console.log(`ADS API is listening at http://localhost:${PORT}`);
 });
 
