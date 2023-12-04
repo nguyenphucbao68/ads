@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SelectArrayInput, SelectArrayInputProps } from "react-admin";
 
-import segments from "../../segments/data";
+import segments from "../segments/data";
 
 const SegmentsInput = (props: SelectArrayInputProps) => (
   <SelectArrayInput

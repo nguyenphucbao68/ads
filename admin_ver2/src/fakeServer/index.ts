@@ -3,18 +3,8 @@
 let fakeServer: any;
 
 export default (type: string) => {
-    if (!fakeServer) {
-        switch (type) {
-            case 'graphql':
-                fakeServer = import('./graphql').then(factory =>
-                    factory.default()
-                );
-                break;
-            default:
-                fakeServer = import('./rest').then(factory =>
-                    factory.default()
-                );
-        }
-    }
-    return fakeServer;
+  if (!fakeServer) {
+    fakeServer = import("./rest").then((factory) => factory.default());
+  }
+  return fakeServer;
 };

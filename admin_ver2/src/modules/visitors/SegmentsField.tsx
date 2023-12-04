@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Stack, Chip } from "@mui/material";
 import { FieldProps, useTranslate, useRecordContext } from "react-admin";
-import segments from "../../segments/data";
+import segments from "../segments/data";
 import { Customer } from "../../types";
 
 const segmentsById = segments.reduce((acc, segment) => {

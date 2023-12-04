@@ -19,7 +19,7 @@ import { Layout, Login } from "./layout";
 import orders from "./modules/orders";
 import products from "./modules/products";
 import reviews from "./modules/reviews";
-import Segments from "./segments/Segments";
+import Segments from "./modules/segments/Segments";
 import visitors from "./modules/visitors";
 import { themes, ThemeName } from "./themes/themes";
 

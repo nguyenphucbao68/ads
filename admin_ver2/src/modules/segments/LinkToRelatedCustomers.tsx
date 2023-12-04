@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useTranslate } from "react-admin";
 import { stringify } from "query-string";
 
-import visitors from "../modules/visitors";
+import visitors from "../visitors";
 
 const LinkToRelatedCustomers = ({ segment }: { segment: string }) => {
   const translate = useTranslate();
