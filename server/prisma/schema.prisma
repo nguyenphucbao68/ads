@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ads_license {
+  id           Int       @id(map: "ads_license_pk") @default(autoincrement())
+  ads_panel_id Int
+  content      String
+  user_id      Int
+  start_date   DateTime  @db.Timestamptz(6)
+  expire_date  DateTime  @db.Timestamptz(6)
+  status       Int
+  is_deleted   Boolean   @default(false)
+  user         user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk")
+  ads_panel    ads_panel @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk_1")
+}
+
+model ads_panel {
+  id             Int            @id(map: "ads_panel_pk") @default(autoincrement())
+  ads_type_id    Int
+  height         Float          @db.Real
+  width          Float          @db.Real
+  expire_date    DateTime       @default(now()) @db.Timestamptz(6)
+  image          String
+  ads_spot_id    Int
+  is_deleted     Boolean        @default(false)
+  ads_license    ads_license[]
+  ads_panel_type ads_panel_type @relation(fields: [ads_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_panel_fk")
+  ads_spot       ads_spot       @relation(fields: [ads_spot_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_panel_fk_1")
+  report         report[]
+}
+
+model ads_panel_type {
+  id         Int         @id(map: "ads_panel_type_pk") @default(autoincrement())
+  name       String      @db.VarChar
+  is_deleted Boolean     @default(false)
+  ads_panel  ads_panel[]
+}
+
+model ads_spot {
+  id            Int         @id(map: "ads_spot_pk") @default(autoincrement())
+  address       String
+  ward_id       Int
+  district_id   Int
+  spot_type_id  Int
+  ads_type_id   Int
+  image         String?
+  latitude      Float       @db.Real
+  longtitude    Float       @db.Real
+  is_available  Boolean     @default(true)
+  max_ads_panel Int
+  is_deleted    Boolean     @default(false)
+  ads_panel     ads_panel[]
+  district      district    @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk")
+  ward          ward        @relation(fields: [ward_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_1")
+  spot_type     spot_type   @relation(fields: [spot_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_2")
+  ads_type      ads_type    @relation(fields: [ads_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_3")
+}
+
+model ads_type {
+  id         Int        @id(map: "ads_type_pk") @default(autoincrement())
+  name       String     @db.VarChar
+  is_deleted Boolean?
+  ads_spot   ads_spot[]
+}
+
+model district {
+  id            Int             @id(map: "district_pk") @default(autoincrement())
+  name          String          @db.VarChar
+  is_deleted    Boolean         @default(false)
+  ads_spot      ads_spot[]
+  user_district user_district[]
+  ward          ward[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model information_change_request {
+  id              Int    @id(map: "information_change_request_pk") @default(autoincrement())
+  type            Int
+  old_information String
+  new_information String
+  status          Int
+  user_id         Int
+  user            user   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "information_change_request_fk")
+}
+
+model report {
+  id             Int         @id(map: "report_pk") @default(autoincrement())
+  report_type_id Int
+  name           String      @db.VarChar
+  email          String      @db.VarChar
+  phone          String      @db.VarChar
+  content        String
+  image          String
+  status         Int
+  created_at     DateTime    @default(now()) @db.Timestamptz(6)
+  is_deleted     Boolean     @default(false)
+  ads_panel_id   Int
+  report_type    report_type @relation(fields: [report_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "report_fk")
+  ads_panel      ads_panel   @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "report_fk_1")
+}
+
+model report_type {
+  id         Int      @id(map: "report_type_pk") @default(autoincrement())
+  name       String   @db.VarChar
+  is_deleted Boolean  @default(false)
+  report     report[]
+}
+
+model spot_type {
+  id         Int        @id(map: "spot_type_pk") @default(autoincrement())
+  name       String     @db.VarChar
+  is_deleted Boolean    @default(false)
+  ads_spot   ads_spot[]
+}
+
+model user {
+  id                         Int                          @id(map: "user_pk") @default(autoincrement())
+  role                       Int
+  name                       String?                      @db.VarChar
+  dob                        String?                      @db.VarChar
+  email                      String?                      @db.VarChar
+  phone                      String?                      @db.VarChar
+  username                   String?                      @db.VarChar
+  password                   Bytes?
+  otp                        String?                      @db.VarChar
+  expire_date                DateTime?                    @db.Timestamptz(6)
+  is_deleted                 Boolean                      @default(false)
+  ads_license                ads_license[]
+  information_change_request information_change_request[]
+  user_district              user_district[]
+  user_ward                  user_ward[]
+}
+
+model user_district {
+  user_id     Int
+  district_id Int
+  user        user     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_district_fk")
+  district    district @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_district_fk_1")
+
+  @@id([user_id, district_id], map: "user_district_pk")
+}
+
+model user_ward {
+  user_id Int
+  ward_id Int
+  user    user @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_ward_fk")
+  ward    ward @relation(fields: [ward_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_ward_fk_1")
+
+  @@id([user_id, ward_id], map: "user_ward_pk")
+}
+
+model ward {
+  id          Int         @id(map: "ward_pk") @default(autoincrement())
+  name        String      @db.VarChar
+  district_id Int
+  is_deleted  Boolean     @default(false)
+  ads_spot    ads_spot[]
+  user_ward   user_ward[]
+  district    district    @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ward_fk")
+}
