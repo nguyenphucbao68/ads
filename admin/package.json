@@ -29,6 +29,11 @@
     "@coreui/react": "^4.9.0-rc.0",
     "@coreui/react-chartjs": "^2.1.3",
     "@coreui/utils": "^2.0.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.19",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.7",
+    "@mui/x-data-grid": "^6.18.3",
     "chart.js": "^3.9.1",
     "classnames": "^2.3.2",
     "core-js": "^3.31.0",
@@ -39,7 +44,8 @@
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.0",
     "redux": "4.2.1",
-    "simplebar-react": "^2.4.3"
+    "simplebar-react": "^2.4.3",
+    "styled-components": "^6.1.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

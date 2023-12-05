@@ -1,6 +1,8 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+
+const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -61,8 +63,8 @@ const routes = [
   { path: '/admin', name: 'Admin', exact: true },
   { path: '/admin/wards', name: 'Wards', element: Dashboard },
   { path: '/admin/districts', name: 'Districts', element: Dashboard },
-  { path: '/admin/types', name: 'Types', element: Dashboard },
-  { path: '/admin/ads_spots', name: 'Ads Spots', element: Dashboard },
+  { path: '/admin/types', name: 'Types', element: AdsSpotList },
+  { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
   { path: '/admin/ads_panels', name: 'Ads Panels', element: Dashboard },
   { path: '/admin/create_account', name: 'Create Account', element: Dashboard },
   { path: '/admin/assign_location', name: 'Assign Location', element: Dashboard },
