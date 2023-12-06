@@ -123,6 +123,77 @@ const fakeAdsSpots = [
     adsType: 'Bảng hiệu',
     isAvailable: true,
   },
+  {
+    id: 17,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+  {
+    id: 18,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+  {
+    id: 19,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
+    adsType: 'Bảng hiệu',
+    isAvailable: false,
+  },
+  {
+    id: 20,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đường bộ',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+  {
+    id: 21,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đường bộ',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+  {
+    id: 22,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đường bộ',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+  {
+    id: 23,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đường bộ',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+  {
+    id: 24,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đường bộ',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+
+  {
+    id: 25,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đường bộ',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
+  {
+    id: 26,
+    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
+    spotType: 'Đường bộ',
+    adsType: 'Bảng hiệu',
+    isAvailable: true,
+  },
 ]
 
 const AdsSpotList = () => {
