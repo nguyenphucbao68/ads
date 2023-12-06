@@ -224,16 +224,16 @@ const AdsSpotList = () => {
             columns={columns}
             rows={adsSpots}
             sx={{
+              [`& .${gridClasses.cell}`]: {
+                ':focus': {
+                  outline: 'none',
+                },
+              },
               [`& .${gridClasses.row}`]: {
                 bgcolor: (theme) => (theme.palette.mode === 'light' ? grey[200] : grey[900]),
-              },
-              // disable cell selection style
-              '.MuiDataGrid-cell:focus': {
-                outline: 'none',
-              },
-              // pointer cursor on ALL rows
-              '& .MuiDataGrid-row:hover': {
-                cursor: 'pointer',
+                ':hover': {
+                  cursor: 'pointer',
+                },
               },
             }}
             getRowHeight={() => 'auto'}
