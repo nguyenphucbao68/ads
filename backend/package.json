@@ -94,7 +94,6 @@
     "node-mocks-http": "^1.8.0",
     "nodemon": "^2.0.0",
     "prettier": "^2.0.5",
-    "prisma": "^3.14.0",
     "supertest": "^6.0.1"
   }
 }
