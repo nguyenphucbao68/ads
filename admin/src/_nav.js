@@ -18,6 +18,8 @@ import {
   cilUserPlus,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { Box } from '@mui/material'
+import { ReactComponent as AdministratorApprovalIcon } from 'src/assets/icons/administrative_approval.svg'
 
 const _nav = [
   {
@@ -50,6 +52,7 @@ const _nav = [
     name: 'Quản lý',
     to: '/admin',
     icon: <CIcon icon={cilPenAlt} customClassName="nav-icon" />,
+
     items: [
       {
         component: CNavItem,
@@ -82,7 +85,16 @@ const _nav = [
     component: CNavGroup,
     name: 'Xét duyệt',
     to: '/admin/approval',
-    icon: <CIcon icon={cilPenAlt} customClassName="nav-icon" />,
+    icon: (
+      <AdministratorApprovalIcon
+        style={{
+          color: '#ffffff',
+          height: '30px',
+          width: '30px',
+          marginRight: '15px',
+        }}
+      />
+    ),
     items: [
       {
         component: CNavItem,
