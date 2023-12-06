@@ -1,54 +1,45 @@
 import React from 'react'
 
 import PropTypes from 'prop-types'
-import { Button, Grid } from '@mui/material'
+import { Button, Grid, TextField } from '@mui/material'
 import {
   GridToolbarContainer,
   GridToolbarColumnsButton,
   GridToolbarFilterButton,
-  GridToolbarDensitySelector,
   GridToolbarExport,
 } from '@mui/x-data-grid'
 import AddIcon from '@mui/icons-material/Add'
 
-function CustomGridToolbar({ addNew }) {
+function CustomGridToolbar({ addNew, searchByKeyword }) {
   return (
     <GridToolbarContainer>
-      <Grid container item xs>
+      {/* Search Textfield here */}
+      <Grid container item xs justifyContent="flex-start" style={{ paddingRight: '10px' }}>
+        {/* <GridToolbarDensitySelector /> */}
+        <TextField
+          id="filled-basic"
+          label="Tìm kiếm"
+          variant="filled"
+          onChange={searchByKeyword}
+          sx={{ width: '300px' }}
+        />
+      </Grid>
+
+      <Grid container item xs justifyContent="flex-end">
         {/* default buttons */}
         <GridToolbarColumnsButton />
         <GridToolbarFilterButton />
-        <GridToolbarDensitySelector />
-        <GridToolbarExport />
-      </Grid>
-
-      <Grid>
         <Button
-          variant="contained"
+          variant="text"
           size="small"
           startIcon={<AddIcon />}
-          //   onClick={(event: MouseEvent<HTMLButtonElement>) => {
-          //     setAnchorElMenu(event.currentTarget)
-          //   }}
           onClick={(event) => {
             addNew && addNew()
           }}
         >
           Thêm
         </Button>
-
-        {/* <Menu
-          id="menu-options"
-          anchorEl={anchorElMenu}
-          open={openMenu}
-          onClose={() => {
-            setAnchorElMenu(null)
-          }}
-        >
-          <MenuItem /> //Clipped
-          <MenuItem /> //Clipped
-          <MenuItem /> //Clipped
-        </Menu> */}
+        <GridToolbarExport />
       </Grid>
     </GridToolbarContainer>
   )
@@ -56,6 +47,7 @@ function CustomGridToolbar({ addNew }) {
 
 CustomGridToolbar.propTypes = {
   addNew: PropTypes.func,
+  searchByKeyword: PropTypes.func,
 }
 
 export default CustomGridToolbar
