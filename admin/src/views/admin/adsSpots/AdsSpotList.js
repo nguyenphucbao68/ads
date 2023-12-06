@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Grid, Checkbox } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
 import { CCard, CCardBody } from '@coreui/react'
 import { grey } from '@mui/material/colors'
@@ -229,17 +229,10 @@ const AdsSpotList = () => {
       sortable: false,
       renderCell: (cellValues) => {
         return (
-          <Box
-            sx={{
-              bgcolor: cellValues.row.isAvailable ? 'success.main' : 'error.main',
-              borderRadius: '5px',
-              color: 'white',
-              textAlign: 'center',
-              padding: '5px',
-            }}
-          >
-            {cellValues.row.isAvailable ? 'Đã quy hoạch' : 'Chưa quy hoạch'}
-          </Box>
+          <Checkbox
+            checked={cellValues.row.isAvailable}
+            color={cellValues.row.isAvailable ? 'success' : 'error'}
+          />
         )
       },
     },

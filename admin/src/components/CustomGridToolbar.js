@@ -15,13 +15,13 @@ function CustomGridToolbar({ addNew, searchByKeyword }) {
     <GridToolbarContainer>
       {/* Search Textfield here */}
       <Grid container item xs justifyContent="flex-start">
-        {/* <GridToolbarDensitySelector /> */}
         <TextField
-          id="filled-basic"
+          id="outlined-basic"
           label="Tìm kiếm"
-          variant="filled"
+          variant="outlined"
+          size="small"
           onChange={searchByKeyword}
-          sx={{ width: '350px' }}
+          sx={{ width: '400px', margin: '5px 0' }}
         />
       </Grid>
 
