@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
-import { DataGrid, gridClasses, GridToolbar } from '@mui/x-data-grid'
+import { DataGrid, gridClasses } from '@mui/x-data-grid'
 import { CCard, CCardBody } from '@coreui/react'
 import { grey } from '@mui/material/colors'
 import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import { cilPen, cilTrash } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
+import CustomGridToolbar from 'src/components/CustomGridToolbar'
 
 const fakeAdsSpots = [
   {
@@ -251,7 +253,15 @@ const AdsSpotList = () => {
               top: params.isFirstVisible ? 0 : 5,
               bottom: params.isLastVisible ? 0 : 5,
             })}
-            slots={{ toolbar: GridToolbar }}
+            slots={{
+              toolbar: CustomGridToolbar,
+              noRowsOverlay: CustomNoRowsOverlay,
+            }}
+            slotProps={{
+              toolbar: {
+                addNew: () => console.log('add new'),
+              },
+            }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
           />
         </Box>

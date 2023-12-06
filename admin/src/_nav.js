@@ -18,7 +18,6 @@ import {
   cilUserPlus,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
-import { Box } from '@mui/material'
 import { ReactComponent as AdministratorApprovalIcon } from 'src/assets/icons/administrative_approval.svg'
 
 const _nav = [
