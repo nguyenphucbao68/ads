@@ -11,7 +11,7 @@ import {
 } from '@mui/x-data-grid'
 import AddIcon from '@mui/icons-material/Add'
 
-function CustomGridToolbar({ addNew, searchByKeyword }) {
+function CustomGridToolbar({ addNew }) {
   return (
     <GridToolbarContainer>
       {/* Search Textfield here */}
@@ -41,7 +41,6 @@ function CustomGridToolbar({ addNew, searchByKeyword }) {
 
 CustomGridToolbar.propTypes = {
   addNew: PropTypes.func,
-  searchByKeyword: PropTypes.func,
 }
 
 export default CustomGridToolbar
