@@ -21,9 +21,15 @@ const deleteAdsSpot = catchAsync(async (req, res) => {
   res.status(204).send();
 });
 
+const getAllAdsSpotByAdsPanelId = catchAsync(async (req, res) => {
+  const adsSpot = await adsSpotService.getAllAdsSpotByAdsPanelId(req.params.adsPanelId);
+  res.send(adsSpot);
+});
+
 module.exports = {
   getAdsSpots,
   createAdsSpot,
   updateAdsSpot,
   deleteAdsSpot,
+  getAllAdsSpotByAdsPanelId,
 };
