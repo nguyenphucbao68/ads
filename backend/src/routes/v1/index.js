@@ -3,6 +3,7 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const adsLicenseRoute = require('./ads-license.route');
 const reportRoute = require('./report.route');
+const vhttRoute = require('./vhtt.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -18,6 +19,7 @@ const defaultRoutes = [
   },
   { path: '/ads-licenses', route: adsLicenseRoute },
   { path: '/reports', route: reportRoute },
+  { path: '/vhtt', route: vhttRoute },
 ];
 
 const devRoutes = [

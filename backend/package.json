@@ -7,9 +7,6 @@
   "repository": "https://github.com/hagopj13/node-express-boilerplate.git",
   "author": "Hagop Jamkojian <hagopj13@gmail.com>",
   "license": "MIT",
-  "engines": {
-    "node": ">15 <=16"
-  },
   "scripts": {
     "db:schema": "prisma db push --accept-data-loss",
     "seed": "node prisma/seed/main.js",
