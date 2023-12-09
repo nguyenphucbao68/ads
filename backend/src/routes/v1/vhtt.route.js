@@ -28,7 +28,7 @@ router
 
 router
   .route('/ads-spots')
-  .get(auth('getAdsSpots'), adsSpotController.getAdsSpots)
+  .get(adsSpotController.getAdsSpots)
   .post(auth('createAdsSpot'), validate(adsSpotValidation.createAdsSpot), adsSpotController.createAdsSpot)
   .put(auth('updateAdsSpot'), validate(adsSpotValidation.updateAdsSpot), adsSpotController.updateAdsSpot)
   .delete(auth('deleteAdsSpot'), validate(adsSpotValidation.deleteAdsSpot), adsSpotController.deleteAdsSpot);
