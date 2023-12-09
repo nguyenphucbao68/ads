@@ -2,6 +2,8 @@ import React from 'react'
 import UserCreatePage from './pages/user/create'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+
+const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -54,7 +56,29 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/users/create', name: 'Create', element: UserCreatePage },
+
+  // Statistics
+  { path: '/statistics', name: 'Statistics', element: Dashboard },
+
+  // Admin
+  { path: '/admin', name: 'Admin', exact: true },
+  { path: '/admin/wards', name: 'Wards', element: Dashboard },
+  { path: '/admin/districts', name: 'Districts', element: Dashboard },
+  { path: '/admin/types', name: 'Types', element: AdsSpotList },
+  { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
+  { path: '/admin/ads_panels', name: 'Ads Panels', element: Dashboard },
+  { path: '/admin/create_account', name: 'Create Account', element: Dashboard },
+  { path: '/admin/assign_location', name: 'Assign Location', element: Dashboard },
+  { path: '/admin/approval', name: 'Approval', exact: true },
+  { path: '/admin/approval/edit_requests', name: 'Edit Requests Approval', element: Dashboard },
+  { path: '/admin/approval/ads_permissons', name: 'Ads Permissions Approval', element: Dashboard },
+
+  // Profile
+  { path: '/profile', name: 'Profile', exact: true },
+  { path: '/profile/info', name: 'Profile Info', element: Dashboard },
+  { path: '/profile/edit', name: 'Profile Edit', element: Dashboard },
+  { path: '/profile/change_password', name: 'Change Password', element: Dashboard },
+
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

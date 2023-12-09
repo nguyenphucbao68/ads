@@ -8,23 +8,143 @@ import {
   cilDescription,
   cilDrop,
   cilNotes,
+  cilPenAlt,
+  cilPenNib,
   cilPencil,
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilUser,
+  cilUserPlus,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { ReactComponent as AdministratorApprovalIcon } from 'src/assets/icons/administrative_approval.svg'
 
 const _nav = [
   {
     component: CNavItem,
-    name: 'Dashboard',
+    name: 'Trang chủ',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     badge: {
       color: 'info',
-      text: 'NEW',
+      // text: 'NEW',
     },
+  },
+
+  {
+    component: CNavTitle,
+    name: 'Thống kê',
+  },
+  {
+    component: CNavItem,
+    name: 'Thống kê',
+    to: '/statistics',
+    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Quản lý',
+  },
+  {
+    component: CNavGroup,
+    name: 'Quản lý',
+    to: '/admin',
+    icon: <CIcon icon={cilPenAlt} customClassName="nav-icon" />,
+
+    items: [
+      {
+        component: CNavItem,
+        name: 'Phường',
+        to: '/admin/wards',
+      },
+      {
+        component: CNavItem,
+        name: 'Quận',
+        to: '/admin/districts',
+      },
+      {
+        component: CNavItem,
+        name: 'Loại',
+        to: '/admin/types',
+      },
+      {
+        component: CNavItem,
+        name: 'Điểm đặt quảng cáo',
+        to: '/admin/ads_spots',
+      },
+      {
+        component: CNavItem,
+        name: 'Bảng quảng cáo',
+        to: '/admin/ads_panels',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Xét duyệt',
+    to: '/admin/approval',
+    icon: (
+      <AdministratorApprovalIcon
+        style={{
+          color: '#ffffff',
+          height: '30px',
+          width: '30px',
+          marginRight: '15px',
+        }}
+      />
+    ),
+    items: [
+      {
+        component: CNavItem,
+        name: 'Yêu cầu chỉnh sửa',
+        to: '/admin/approval/edit_requests',
+      },
+      {
+        component: CNavItem,
+        name: 'Cấp phép quảng cáo',
+        to: '/admin/approval/ads_permissons',
+      },
+    ],
+  },
+  {
+    component: CNavItem,
+    name: 'Tạo tài khoản',
+    to: '/admin/create_account',
+    icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Phân công khu vực',
+    to: '/admin/assign_location',
+    icon: <CIcon icon={cilPenNib} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Thông tin người dùng',
+  },
+  {
+    component: CNavGroup,
+    name: 'Cá nhân',
+    to: '/profile',
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Thông tin cá nhân',
+        to: '/profile/info',
+      },
+      {
+        component: CNavItem,
+        name: 'Cập nhật thông tin',
+        to: '/profile/edit',
+      },
+      {
+        component: CNavItem,
+        name: 'Đổi mật khẩu',
+        to: '/profile/change_password',
+      },
+    ],
   },
   {
     component: CNavTitle,

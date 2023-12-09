@@ -37,14 +37,23 @@ const AppHeader = () => {
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
             <CNavLink to="/dashboard" component={NavLink}>
-              Dashboard
+              Trang chủ
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">Users</CNavLink>
+            <CNavLink to="/statistics" component={NavLink}>
+              Thống kê
+            </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
+            <CNavLink to="/admin/wards" component={NavLink}>
+              Quản lý
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink to="/profile/info" component={NavLink}>
+              Cá nhân
+            </CNavLink>
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
