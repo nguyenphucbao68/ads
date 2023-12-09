@@ -28,6 +28,15 @@ const getReports = async (wid = 0, did = 0) => {
   };
 };
 
+const createReport = async (reportBody) => {
+  const report = await prisma.report.create({
+    data: reportBody,
+  });
+
+  return report;
+};
+
 module.exports = {
   getReports,
+  createReport,
 };

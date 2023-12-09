@@ -21,9 +21,15 @@ const deleteAdsPanel = catchAsync(async (req, res) => {
   res.status(204).send();
 });
 
+const getAdsPanelById = catchAsync(async (req, res) => {
+  const adsPanel = await adsPanelService.getAdsPanelById(req.params.adsPanelId);
+  res.send(adsPanel);
+});
+
 module.exports = {
   getAdsPanels,
   createAdsPanel,
   updateAdsPanel,
   deleteAdsPanel,
+  getAdsPanelById,
 };
