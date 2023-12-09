@@ -7,3 +7,7 @@ module.exports.ticketService = require('./ticket.service');
 module.exports.busService = require('./bus.service');
 module.exports.boService = require('./bo.service');
 module.exports.bsService = require('./bs.service');
+module.exports.districtService = require('./district.service');
+module.exports.wardService = require('./ward.service');
+module.exports.adsPanelService = require('./adsPanel.service');
+module.exports.adsSpotService = require('./adsSpot.service');

@@ -10,268 +10,112 @@ import CIcon from '@coreui/icons-react'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 
-const fakeAdsSpots = [
+const columns = [
+  { field: 'id', headerName: 'STT', width: 50 },
   {
-    id: 1,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
+    field: 'address',
+    headerName: 'Địa điểm',
+    width: 340,
   },
   {
-    id: 2,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
+    field: 'spot_type_name',
+    headerName: 'Loại vị trí',
+    width: 340,
+    renderCell: (cellValues) => {
+      const spotType = cellValues.row['spot_type']
+      return <span>{spotType.name}</span>
+    },
   },
   {
-    id: 3,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: false,
+    field: 'ads_type_name',
+    headerName: 'Hình thức quảng cáo',
+    width: 200,
+    renderCell: (cellValues) => {
+      const adsType = cellValues.row['ads_type']
+      return <span>{adsType.name}</span>
+    },
   },
   {
-    id: 4,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: false,
+    field: 'is_available',
+    headerName: 'Đã quy hoạch',
+    width: 150,
+    type: 'boolean',
+    sortable: false,
+    renderCell: (cellValues) => {
+      return (
+        <Checkbox
+          checked={cellValues.row.is_available}
+          color={cellValues.row.is_available ? 'success' : 'error'}
+        />
+      )
+    },
   },
   {
-    id: 5,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
-  },
-  {
-    id: 6,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
-  },
-  {
-    id: 7,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
-  },
-  {
-    id: 8,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
-  },
-  {
-    id: 9,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
-  },
-  {
-    id: 10,
-    address: 'Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), phường Bến Nghé, Quận 1',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Cổ động chính trị',
-    isAvailable: true,
-  },
-  {
-    id: 11,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 12,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 13,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 14,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 15,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 16,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 17,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 18,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 19,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đất công/Công viên/Hành lang an toàn giao thông',
-    adsType: 'Bảng hiệu',
-    isAvailable: false,
-  },
-  {
-    id: 20,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đường bộ',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 21,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đường bộ',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 22,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đường bộ',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 23,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đường bộ',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 24,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đường bộ',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-
-  {
-    id: 25,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đường bộ',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
-  },
-  {
-    id: 26,
-    address: 'Đường Nguyễn Văn Linh, phường Tân Thuận Tây, Quận 7',
-    spotType: 'Đường bộ',
-    adsType: 'Bảng hiệu',
-    isAvailable: true,
+    field: 'actions',
+    headerName: 'Thao tác',
+    type: 'actions',
+    flex: 1,
+    sortable: false,
+    renderCell: (params) => (
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            flex={1}
+            startIcon={<CIcon icon={cilPen} />}
+            onClick={() => console.log(params.row.id)}
+          >
+            Sửa
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            flex={1}
+            startIcon={<CIcon icon={cilTrash} />}
+            onClick={() => console.log(params.row.id)}
+          >
+            Xóa
+          </Button>
+        </Grid>
+      </Grid>
+    ),
   },
 ]
 
 const AdsSpotList = () => {
-  const [adsSpots, setAdsSpots] = useState(fakeAdsSpots)
+  const [data, setData] = useState({
+    loading: false,
+    rows: [],
+    totalRows: 0,
+    pageSize: 25,
+    page: 0,
+  })
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      setData((prevState) => ({ ...prevState, loading: true }))
+      fetch('http://localhost:4000/v1/vhtt/ads-spots')
+        .then((rawData) => rawData.json())
+        .then((data) => {
+          setData((prevState) => ({
+            ...prevState,
+            rows: data['data'],
+            loading: false,
+          }))
+        })
+        .catch((err) => {
+          console.log(err.message)
+          setData((prevState) => ({ ...prevState, loading: false }))
+        })
+    }
 
-  const [pageSize, setPageSize] = useState(25)
-  const [page, setPage] = useState(0)
-
-  const columns = [
-    { field: 'id', headerName: 'STT', width: 50 },
-    {
-      field: 'address',
-      headerName: 'Địa điểm',
-      width: 340,
-    },
-    {
-      field: 'spotType',
-      headerName: 'Loại vị trí',
-      width: 340,
-    },
-    {
-      field: 'adsType',
-      headerName: 'Hình thức quảng cáo',
-      width: 200,
-    },
-    {
-      field: 'isAvailable',
-      headerName: 'Đã quy hoạch',
-      width: 150,
-      type: 'boolean',
-      sortable: false,
-      renderCell: (cellValues) => {
-        return (
-          <Checkbox
-            checked={cellValues.row.isAvailable}
-            color={cellValues.row.isAvailable ? 'success' : 'error'}
-          />
-        )
-      },
-    },
-    {
-      field: 'actions',
-      headerName: 'Thao tác',
-      type: 'actions',
-      flex: 1,
-      sortable: false,
-      renderCell: (params) => (
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              flex={1}
-              startIcon={<CIcon icon={cilPen} />}
-              onClick={() => console.log(params.row.id)}
-            >
-              Sửa
-            </Button>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Button
-              variant="contained"
-              color="error"
-              size="small"
-              flex={1}
-              startIcon={<CIcon icon={cilTrash} />}
-              onClick={() => console.log(params.row.id)}
-            >
-              Xóa
-            </Button>
-          </Grid>
-        </Grid>
-      ),
-    },
-  ]
+    fetchData()
+  }, [])
 
   return (
     <CCard className="mb-4">
@@ -287,8 +131,6 @@ const AdsSpotList = () => {
           }}
         >
           <DataGrid
-            columns={columns}
-            rows={adsSpots}
             sx={{
               [`& .${gridClasses.cell}`]: {
                 ':focus': {
@@ -302,31 +144,39 @@ const AdsSpotList = () => {
                 },
               },
             }}
+            columns={columns}
+            rows={data.rows}
+            loading={data.loading}
             getRowHeight={() => 'auto'}
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
+              // TODO: handle row click
               console.log(params.row.id)
             }}
-            paginationModel={{ page, pageSize }}
+            paginationModel={{ page: data.page, pageSize: data.pageSize }}
             onPaginationModelChange={(params) => {
-              setPage(params.page)
-              setPageSize(params.pageSize)
+              setData((prevState) => ({
+                ...prevState,
+                page: params.page,
+                pageSize: params.pageSize,
+              }))
             }}
-            getRowSpacing={(params) => ({
-              top: params.isFirstVisible ? 0 : 5,
-              bottom: params.isLastVisible ? 0 : 5,
-            })}
             slots={{
               toolbar: CustomGridToolbar,
               noRowsOverlay: CustomNoRowsOverlay,
             }}
             slotProps={{
               toolbar: {
-                addNew: () => console.log('add new'),
+                // TODO: handle add new button click
+                addNew: () => console.log('GO TO ADD NEW PAGE'),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
+            getRowSpacing={(params) => ({
+              top: params.isFirstVisible ? 0 : 5,
+              bottom: params.isLastVisible ? 0 : 5,
+            })}
           />
         </Box>
       </CCardBody>

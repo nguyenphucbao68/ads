@@ -1,11 +1,7 @@
 const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
-const adminRoute = require('./admin.route');
-const ticketRoute = require('./ticket.route');
-const busRoute = require('./bus.route');
-const boRoute = require('./bo.route');
-const bsRoute = require('./bs.route');
+const vhttRoute = require('./vhtt.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -19,14 +15,7 @@ const defaultRoutes = [
     path: '/user',
     route: userRoute,
   },
-  {
-    path: '/bus',
-    route: busRoute,
-  },
-  { path: '/admin', route: adminRoute },
-  { path: '/ticket', route: ticketRoute },
-  { path: '/bus-operator', route: boRoute },
-  { path: '/bus-station', route: bsRoute },
+  { path: '/vhtt', route: vhttRoute },
 ];
 
 const devRoutes = [

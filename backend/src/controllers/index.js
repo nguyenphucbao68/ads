@@ -4,3 +4,7 @@ module.exports.busController = require('./bus.controller');
 module.exports.boController = require('./bo.controller');
 module.exports.ticketController = require('./ticket.controller');
 module.exports.bsController = require('./bs.controller');
+module.exports.districtController = require('./district.controller');
+module.exports.wardController = require('./ward.controller');
+module.exports.adsPanelController = require('./adsPanel.controller');
+module.exports.adsSpotController = require('./adsSpot.controller');
