@@ -1,12 +1,13 @@
 import React from 'react'
 
 import PropTypes from 'prop-types'
-import { Button, Grid, TextField } from '@mui/material'
+import { Button, Grid } from '@mui/material'
 import {
   GridToolbarContainer,
   GridToolbarColumnsButton,
   GridToolbarFilterButton,
   GridToolbarExport,
+  GridToolbarQuickFilter,
 } from '@mui/x-data-grid'
 import AddIcon from '@mui/icons-material/Add'
 
@@ -15,14 +16,7 @@ function CustomGridToolbar({ addNew, searchByKeyword }) {
     <GridToolbarContainer>
       {/* Search Textfield here */}
       <Grid container item xs justifyContent="flex-start">
-        <TextField
-          id="outlined-basic"
-          label="Tìm kiếm"
-          variant="outlined"
-          size="small"
-          onChange={searchByKeyword}
-          sx={{ width: '400px', margin: '5px 0' }}
-        />
+        <GridToolbarQuickFilter />
       </Grid>
 
       <Grid container item xs justifyContent="flex-end">
