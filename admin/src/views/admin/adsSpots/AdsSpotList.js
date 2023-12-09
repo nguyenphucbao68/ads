@@ -104,7 +104,7 @@ const AdsSpotList = () => {
         .then((data) => {
           setData((prevState) => ({
             ...prevState,
-            rows: data['data'],
+            rows: data['data'] || [],
             loading: false,
           }))
         })
