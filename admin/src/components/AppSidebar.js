@@ -14,6 +14,8 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import navigation from '../_nav'
+import { Box } from '@mui/material'
+import { ReactComponent as AdministratorIcon } from 'src/assets/icons/administrator.svg'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()
@@ -33,6 +35,29 @@ const AppSidebar = () => {
         <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
         <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} />
       </CSidebarBrand>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'start',
+          alignItems: 'center',
+          padding: '10px 0',
+          paddingLeft: '20px',
+        }}
+      >
+        {/* <CIcon icon={cilUser} height="20" /> */}
+        <AdministratorIcon
+          style={{
+            color: '#ffffff',
+            height: '40px',
+            width: '40px',
+            marginRight: '10px',
+          }}
+        />
+        <span className="mt-2 fw-bold" style={{ fontSize: '1.2rem' }}>
+          Cán bộ phường 11
+        </span>
+      </Box>
       <CSidebarNav>
         <SimpleBar>
           <AppSidebarNav items={navigation} />
