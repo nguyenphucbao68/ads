@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 const getAdsPanelById = async (id) => {
   const adsPanel = await prisma.adsPanel.findUnique({
     where: {
-      id,
+      id: parseInt(id, 10),
     },
   });
   return adsPanel;
@@ -44,9 +44,12 @@ const updateAdsPanel = async (id, adsPanelBody) => {
 
 // delete an existing adsPanel
 const deleteAdsPanel = async (id) => {
-  const adsPanel = await prisma.adsPanel.delete({
+  const adsPanel = await prisma.adsPanel.update({
     where: {
-      id,
+      id: parseInt(id, 10),
+    },
+    data: {
+      is_deleted: true,
     },
   });
 
