@@ -4,6 +4,9 @@ const prisma = new PrismaClient();
 
 const getAdsSpots = async () => {
   const data = await prisma.ads_spot.findMany({
+    where: {
+      is_deleted: false,
+    },
     include: {
       ward: true,
       district: true,
