@@ -9,6 +9,8 @@ const adsPanelValidation = require('../../validations/adsPanel.validation');
 const adsPanelController = require('../../controllers/adsPanel.controller');
 const adsSpotValidation = require('../../validations/adsSpot.validation');
 const adsSpotController = require('../../controllers/adsSpot.controller');
+const { adsLicenseValidation } = require('../../validations');
+const { adsLicenseController } = require('../../controllers');
 
 const router = express.Router();
 
@@ -56,5 +58,9 @@ router
   .route('/ads-panels')
   .get(auth('getAdsPanels'), adsPanelController.getAdsPanels)
   .post(auth('createAdsPanel'), validate(adsPanelValidation.createAdsPanel), adsPanelController.createAdsPanel);
+
+router.route('/ads-license/:id').get(validate(adsLicenseValidation.getAdsLicense), adsLicenseController.getAdsLicense);
+
+router.route('/ads-license').get(adsLicenseController.getAdsLicenses);
 
 module.exports = router;

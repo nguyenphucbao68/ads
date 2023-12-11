@@ -8,8 +8,8 @@ const getAdsLicense = catchAsync(async (req, res) => {
 });
 
 const getAdsLicenses = catchAsync(async (req, res) => {
-  await adsLicenseService.getAdsLicenses(req.params.busId);
-  res.send({ success: true });
+  const data = await adsLicenseService.getAdsLicenses();
+  res.send(data);
 });
 
 module.exports = {
