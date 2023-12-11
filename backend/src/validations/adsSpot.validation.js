@@ -8,7 +8,11 @@ const getAdsSpot = {
 
 const createAdsSpot = {};
 
-const updateAdsSpot = {};
+const updateAdsSpot = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+};
 
 const deleteAdsSpot = {
   params: Joi.object().keys({

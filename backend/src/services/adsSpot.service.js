@@ -36,7 +36,30 @@ const getAdsSpotById = async (id) => {
   return adsSpot;
 };
 
+const createAdsSpot = async (body) => {
+  return 0;
+};
+
+const updateAdsSpot = async (id, body) => {
+  return 0;
+};
+
+const deleteAdsSpot = async (id) => {
+  const data = await prisma.ads_spot.update({
+    where: {
+      id: parseInt(id, 10),
+    },
+    data: {
+      is_deleted: true,
+    },
+  });
+  return data;
+};
+
 module.exports = {
   getAdsSpots,
   getAdsSpotById,
+  createAdsSpot,
+  updateAdsSpot,
+  deleteAdsSpot,
 };

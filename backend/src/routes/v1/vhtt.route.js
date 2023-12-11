@@ -36,7 +36,7 @@ router
 
 router
   .route('/ads-spots/:id')
-  .get(validate(adsSpotValidation.getAdsSpot), adsSpotController.getAdsSpot)
+  .get(auth('getAdsSpot'), validate(adsSpotValidation.getAdsSpot), adsSpotController.getAdsSpot)
   .put(auth('updateAdsSpot'), validate(adsSpotValidation.updateAdsSpot), adsSpotController.updateAdsSpot)
   .delete(auth('deleteAdsSpot'), validate(adsSpotValidation.deleteAdsSpot), adsSpotController.deleteAdsSpot);
 
@@ -47,7 +47,7 @@ router
 
 router
   .route('/ads-panels/:id')
-  .get(validate(adsPanelValidation.getAdsPanel), adsPanelController.getAdsPanel)
+  .get(auth('getAdsPanel'), validate(adsPanelValidation.getAdsPanel), adsPanelController.getAdsPanel)
   .put(auth('updateAdsPanel'), validate(adsPanelValidation.updateAdsPanel), adsPanelController.updateAdsPanel)
   .delete(auth('deleteAdsPanel'), validate(adsPanelValidation.deleteAdsPanel), adsPanelController.deleteAdsPanel);
 

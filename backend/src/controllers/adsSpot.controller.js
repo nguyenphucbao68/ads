@@ -2,7 +2,7 @@ const catchAsync = require('../utils/catchAsync');
 const { adsSpotService } = require('../services');
 
 const getAdsSpots = catchAsync(async (req, res) => {
-  const adsSpots = await adsSpotService.getAdsSpots(req.body);
+  const adsSpots = await adsSpotService.getAdsSpots();
   res.send(adsSpots);
 });
 

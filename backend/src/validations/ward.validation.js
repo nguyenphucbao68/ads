@@ -1,12 +1,33 @@
 const Joi = require('joi');
 
-const getWard = {};
+const getWard = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+};
 
-const createWard = {};
+const createWard = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    district_id: Joi.number().required(),
+  }),
+};
 
-const updateWard = {};
+const updateWard = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    district_id: Joi.number().required(),
+  }),
+};
 
-const deleteWard = {};
+const deleteWard = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+};
 
 module.exports = {
   getWard,
