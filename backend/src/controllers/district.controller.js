@@ -6,6 +6,11 @@ const getDistricts = catchAsync(async (req, res) => {
   res.send(districts);
 });
 
+const getDistrict = catchAsync(async (req, res) => {
+  const district = await districtService.getDistrictById(req.params.id);
+  res.send(district);
+});
+
 const createDistrict = catchAsync(async (req, res) => {
   const district = await districtService.createDistrict(req.body);
   res.status(201).send(district);
@@ -22,6 +27,7 @@ const deleteDistrict = catchAsync(async (req, res) => {
 
 module.exports = {
   getDistricts,
+  getDistrict,
   createDistrict,
   updateDistrict,
   deleteDistrict,
