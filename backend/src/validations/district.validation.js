@@ -1,12 +1,34 @@
 const Joi = require('joi');
 
-const createDistrict = {};
+const getDistrict = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+};
 
-const updateDistrict = {};
+const createDistrict = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+  }),
+};
 
-const deleteDistrict = {};
+const updateDistrict = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+  }),
+};
+
+const deleteDistrict = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+};
 
 module.exports = {
+  getDistrict,
   createDistrict,
   updateDistrict,
   deleteDistrict,

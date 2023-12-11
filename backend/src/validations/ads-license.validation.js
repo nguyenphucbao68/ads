@@ -6,11 +6,7 @@ const getAdsLicense = {
   }),
 };
 
-const adsLicensesList = {
-  params: Joi.object().keys({
-    wid: Joi.number().required(),
-  }),
-};
+const adsLicensesList = {};
 
 module.exports = {
   getAdsLicense,
