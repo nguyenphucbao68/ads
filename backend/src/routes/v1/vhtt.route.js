@@ -49,13 +49,13 @@ router
 
 router
   .route('/ads-panels/:id')
-  .get(auth('getAdsPanel'), validate(adsPanelValidation.getAdsPanel), adsPanelController.getAdsPanel)
+  .get(validate(adsPanelValidation.getAdsPanel), adsPanelController.getAdsPanel)
   .put(auth('updateAdsPanel'), validate(adsPanelValidation.updateAdsPanel), adsPanelController.updateAdsPanel)
   .delete(auth('deleteAdsPanel'), validate(adsPanelValidation.deleteAdsPanel), adsPanelController.deleteAdsPanel);
 
 router
   .route('/ads-panels')
-  .get(auth('getAdsPanels'), adsPanelController.getAdsPanels)
+  .get(adsPanelController.getAdsPanels)
   .post(auth('createAdsPanel'), validate(adsPanelValidation.createAdsPanel), adsPanelController.createAdsPanel);
 
 router.route('/ads-license/:id').get(validate(adsLicenseValidation.getAdsLicense), adsLicenseController.getAdsLicense);
