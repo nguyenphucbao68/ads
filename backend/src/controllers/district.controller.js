@@ -1,7 +1,7 @@
 const catchAsync = require('../utils/catchAsync');
 const { districtService } = require('../services');
-import ApiError from "../utils/ApiError";
-import httpStatus from "http-status";
+const ApiError = require('../utils/ApiError');
+const httpStatus = require('http-status');
 
 
 const getDistricts = catchAsync(async (req, res) => {

@@ -9,3 +9,4 @@ const router = express.Router();
 
 router.route('/district').get(auth('getWards'), validate(district.getWards), districtController.getWards);
 
+module.exports = router;

@@ -7,15 +7,16 @@ const getAdsLicense = {
 };
 
 const postAdsLicense = {
-  body: Joi.object.key({
+  body: Joi.object().keys({
     ads_panel_id: Joi.number().integer().required(),
     content: Joi.string().required(),
     user_id: Joi.number().integer().required(),
-    // start_date: Joi.string().da
+    start_date: Joi.date().required(),
+    expire_date: Joi.date().greater(Joi.ref("start_date")).required(),
   })
 }
 const deleteAdsLicense = {
-  param: Joi.object.key({
+  params: Joi.object().keys({
     id: Joi.number().required()
   })
 }
