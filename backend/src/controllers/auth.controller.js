@@ -17,7 +17,7 @@ const sendEmail = catchAsync(async (req, res) => {
 });
 const login = catchAsync(async (req, res) => {
   const user = await authService.loginUserWithEmailAndPassword(req.body.email, req.body.password);
-  const tokens = await tokenService.generateAuthTokens(user);
+  const tokens = await tokenService.generateAuthTokens(user, true);
   delete user.password;
 
   res.send({ token: tokens.access, user });

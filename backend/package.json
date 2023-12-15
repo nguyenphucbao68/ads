@@ -9,6 +9,8 @@
   "license": "MIT",
   "scripts": {
     "db:schema": "prisma db push --accept-data-loss",
+    "db:pull": "prisma db pull",
+    "db:generate": "prisma generate",
     "seed": "node prisma/seed/main.js",
     "start": "pm2 start ecosystem.config.json --no-daemon",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
