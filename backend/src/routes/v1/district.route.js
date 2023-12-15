@@ -1,12 +1,12 @@
-import express from "express";
-import auth from '../../middlewares/auth';
-import validate from '../../middlewares/validate';
-import district from '../../validations/district.validation';
-import districtController from '../../controllers/district.controller' 
+const express = require('express');
+const validate = require('../../middlewares/validate');
+const auth = require('../../middlewares/auth');
+const district = require('../../validations/district.validation');
+const districtController = require('../../controllers/district.controller.js');
 
 const router = express.Router();
 
 
-router.route('/district').get(auth('getWards'), validate(district.getWards), districtController.getWards);
+router.route('/:id/wards').get(validate(district.getWards), districtController.getWards);
 
 module.exports = router;

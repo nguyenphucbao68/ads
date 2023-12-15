@@ -28,8 +28,15 @@ const createDistrict = async (body) => {
 const updateDistrict = async (id, body) => {
   return 0;
 };
-const getWards = async (limit, page)=>{
-  return 0;
+const getWards = async (district_id)=>{
+  const data = await prisma.ward.findMany({
+    where:{district_id},
+    select:{
+      id: true,
+      name: true
+    }
+  })
+  return data;
 }
 
 const deleteDistrict = async (id) => {

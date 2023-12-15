@@ -29,11 +29,9 @@ const deleteDistrict = catchAsync(async (req, res) => {
   res.status(204).send();
 });
 const getWards = catchAsync(async (req, res)=>{
-  const response = await districtService.getWards(req.query.limit, req.query.page);
-  if (!response) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Không tìm thấy phường nào');
-    }
-  res.send(adsLicenseData);
+  const response = await districtService.getWards(req.params.id);
+  
+  res.send(response);
 })
 
 module.exports = {

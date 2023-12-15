@@ -5,6 +5,7 @@ const vhttRoute = require('./vhtt.route');
 const reportRoute = require('./report.route');
 const officerRoute = require('./officer.route');
 const config = require('../../config/config');
+const districtRoute = require('./district.route');
 
 const router = express.Router();
 
@@ -26,6 +27,10 @@ const defaultRoutes = [
     path: '/report',
     route: reportRoute,
   },
+  {
+    path:'/districts',
+    route: districtRoute,
+  }
 ];
 
 const devRoutes = [
