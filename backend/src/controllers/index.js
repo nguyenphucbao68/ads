@@ -10,3 +10,6 @@ module.exports.districtController = require('./district.controller');
 module.exports.wardController = require('./ward.controller');
 module.exports.adsPanelController = require('./adsPanel.controller');
 module.exports.adsSpotController = require('./adsSpot.controller');
+module.exports.adsPanelTypeController = require('./adsPanelType.controller');
+module.exports.reportTypeController = require('./reportType.controller');
+module.exports.changeRequestController = require('./changeRequest.controller');

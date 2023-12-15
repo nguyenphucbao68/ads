@@ -16,6 +16,20 @@ const allRoles = {
   ],
 
   admin: ['getBOByID', 'viewBO', 'createBO', 'updateBO', 'deteleBO'],
+
+  vhtt: [
+    'createAdsPanelType',
+    'updateAdsPanelType',
+    'deleteAdsPanelType',
+    'createReportType',
+    'updateReportType',
+    'deleteReportType',
+    'updateAdsLicense',
+    'updateChangeRequest',
+    'createUser',
+    'updateUser',
+    'deleteUser',
+  ],
 };
 
 allRoles.bus_operator = [...allRoles.bus_operator, ...allRoles.user];

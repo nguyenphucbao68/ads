@@ -9,8 +9,20 @@ const adsPanelValidation = require('../../validations/adsPanel.validation');
 const adsPanelController = require('../../controllers/adsPanel.controller');
 const adsSpotValidation = require('../../validations/adsSpot.validation');
 const adsSpotController = require('../../controllers/adsSpot.controller');
-const { adsLicenseValidation } = require('../../validations');
-const { adsLicenseController } = require('../../controllers');
+const {
+  adsLicenseValidation,
+  adsPanelTypeValidation,
+  reportTypeValidation,
+  changeRequestValidation,
+  userValidation,
+} = require('../../validations');
+const {
+  adsLicenseController,
+  adsPanelTypeController,
+  reportTypeController,
+  changeRequestController,
+  userController,
+} = require('../../controllers');
 
 const router = express.Router();
 
@@ -58,8 +70,51 @@ router
   .get(adsPanelController.getAdsPanels)
   .post(auth('createAdsPanel'), validate(adsPanelValidation.createAdsPanel), adsPanelController.createAdsPanel);
 
-router.route('/ads-license/:id').get(validate(adsLicenseValidation.getAdsLicense), adsLicenseController.getAdsLicense);
+router
+  .route('/ads-license/:id')
+  .get(validate(adsLicenseValidation.getAdsLicense), adsLicenseController.getAdsLicense)
+  .put(auth('updateAdsLicense'), validate(adsLicenseValidation.updateAdsLicense), adsLicenseController.updateAdsLicense);
 
 router.route('/ads-license').get(adsLicenseController.getAdsLicenses);
 
+router
+  .route('/ads-panel-types')
+  .get(adsPanelTypeController.getAll)
+  .post(auth('createAdsPanelType'), validate(adsPanelTypeValidation.create), adsPanelTypeController.create);
+
+router
+  .route('/ads-panel-types/:id')
+  .get(validate(adsPanelTypeValidation.getById), adsPanelTypeController.getById)
+  .put(auth('updateAdsPanelType'), validate(adsPanelTypeValidation.update), adsPanelTypeController.update)
+  .delete(
+    auth('deleteAdsPanelType'),
+    validate(adsPanelTypeValidation.deleteAdsPanelType),
+    adsPanelTypeController.deleteAdsPanelType
+  );
+
+router
+  .route('/report-types')
+  .get(reportTypeController.getAll)
+  .post(auth('createReportType'), validate(reportTypeValidation.create), reportTypeController.create);
+
+router
+  .route('/report-types/:id')
+  .get(validate(reportTypeValidation.getById), reportTypeController.getById)
+  .put(auth('updateReportType'), validate(reportTypeValidation.update), reportTypeController.update)
+  .delete(auth('deleteReportType'), validate(reportTypeValidation.deleteReportType), reportTypeController.deleteReportType);
+
+router
+  .route('/edit-requests/:id')
+  .put(auth('updateChangeRequest'), validate(changeRequestValidation.update), changeRequestController.update);
+
+router
+  .route('/users')
+  .get(userController.getAll)
+  .post(auth('createUser'), validate(userValidation.create), userController.create);
+
+router
+  .route('/users/:id')
+  .get(validate(userValidation.getById), userController.getById)
+  .put(auth('updateUser'), validate(userValidation.update), userController.update)
+  .delete(auth('deleteUser'), validate(userValidation.deleteUser), userController.deleteUser);
 module.exports = router;

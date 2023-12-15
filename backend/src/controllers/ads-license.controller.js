@@ -12,7 +12,13 @@ const getAdsLicenses = catchAsync(async (req, res) => {
   res.send(data);
 });
 
+const updateAdsLicense = catchAsync(async (req, res) => {
+  const data = await adsLicenseService.updateAdsLicense(req.params.id, req.body);
+  res.send(data);
+});
+
 module.exports = {
   getAdsLicense,
   getAdsLicenses,
+  updateAdsLicense,
 };

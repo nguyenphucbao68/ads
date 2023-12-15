@@ -30,7 +30,21 @@ const getAdsLicenses = async () => {
   return { data };
 };
 
+const updateAdsLicense = async (id, body) => {
+  const data = await prisma.ads_license.update({
+    where: {
+      id,
+    },
+    data: {
+      status: body.status,
+    },
+  });
+
+  return { data };
+};
+
 module.exports = {
   getAdsLicenseById,
   getAdsLicenses,
+  updateAdsLicense,
 };

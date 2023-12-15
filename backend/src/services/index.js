@@ -14,3 +14,6 @@ module.exports.wardService = require('./ward.service');
 module.exports.adsPanelService = require('./adsPanel.service');
 module.exports.adsSpotService = require('./adsSpot.service');
 module.exports.officerService = require('./officer.service');
+module.exports.adsPanelTypeService = require('./adsPanelType.service');
+module.exports.reportTypeService = require('./reportType.service');
+module.exports.changeRequestService = require('./changeRequest.service');
