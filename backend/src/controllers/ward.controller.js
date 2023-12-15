@@ -2,7 +2,7 @@ const catchAsync = require('../utils/catchAsync');
 const { wardService } = require('../services');
 
 const getWards = catchAsync(async (req, res) => {
-  const wards = await wardService.getWards(req.body);
+  const wards = await wardService.getWards();
   res.send(wards);
 });
 
@@ -22,7 +22,7 @@ const updateWard = catchAsync(async (req, res) => {
 });
 
 const deleteWard = catchAsync(async (req, res) => {
-  await wardService.deleteWard(req.params.wardId);
+  await wardService.deleteWard(req.params.id);
   res.status(204).send();
 });
 

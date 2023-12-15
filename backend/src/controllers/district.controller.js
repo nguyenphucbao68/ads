@@ -17,12 +17,12 @@ const createDistrict = catchAsync(async (req, res) => {
 });
 
 const updateDistrict = catchAsync(async (req, res) => {
-  const district = await districtService.updateDistrict(req.params.districtId, req.body);
+  const district = await districtService.updateDistrict(req.params.id, req.body);
   res.send(district);
 });
 
 const deleteDistrict = catchAsync(async (req, res) => {
-  await districtService.deleteDistrict(req.params.districtId);
+  await districtService.deleteDistrict(req.params.id);
   res.status(204).send();
 });
 
