@@ -28,11 +28,26 @@ const getWardById = async (id) => {
 };
 
 const createWard = async (body) => {
-  return 0;
+  const data = await prisma.ward.create({
+    data: {
+      name: body.name,
+      district_id: body.district_id,
+    },
+  });
+  return data;
 };
 
 const updateWard = async (id, body) => {
-  return 0;
+  const data = await prisma.ward.update({
+    where: {
+      id: parseInt(id, 10),
+    },
+    data: {
+      name: body.name,
+      district_id: body.district_id,
+    },
+  });
+  return data;
 };
 
 const deleteWard = async (id) => {

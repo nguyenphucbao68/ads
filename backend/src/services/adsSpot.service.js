@@ -53,11 +53,42 @@ const getAllAdsSpotByAdsPanelId = async (id) => {
 };
 
 const createAdsSpot = async (body) => {
-  return 0;
+  const data = await prisma.ads_spot.create({
+    data: {
+      address: body.address,
+      ward_id: body.ward_id,
+      district_id: body.district_id,
+      spot_type_id: body.spot_type_id,
+      ads_type_id: body.ads_type_id,
+      image: body.image,
+      is_available: body.is_available,
+      max_ads_panels: body.max_ads_panels,
+      latitude: body.latitude,
+      longtitude: body.longtitude,
+    },
+  });
+  return data;
 };
 
 const updateAdsSpot = async (id, body) => {
-  return 0;
+  const data = await prisma.ads_spot.update({
+    where: {
+      id: parseInt(id, 10),
+    },
+    data: {
+      address: body.address,
+      ward_id: body.ward_id,
+      district_id: body.district_id,
+      spot_type_id: body.spot_type_id,
+      ads_type_id: body.ads_type_id,
+      image: body.image,
+      is_available: body.is_available,
+      max_ads_panels: body.max_ads_panels,
+      latitude: body.latitude,
+      longtitude: body.longtitude,
+    },
+  });
+  return data;
 };
 
 const deleteAdsSpot = async (id) => {

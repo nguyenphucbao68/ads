@@ -22,11 +22,24 @@ const getDistrictById = async (id) => {
 };
 
 const createDistrict = async (body) => {
-  return 0;
+  const data = await prisma.district.create({
+    data: {
+      name: body.name,
+    },
+  });
+  return data;
 };
 
 const updateDistrict = async (id, body) => {
-  return 0;
+  const data = await prisma.district.update({
+    where: {
+      id: parseInt(id, 10),
+    },
+    data: {
+      name: body.name,
+    },
+  });
+  return data;
 };
 
 const deleteDistrict = async (id) => {

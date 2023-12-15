@@ -2,12 +2,12 @@ const catchAsync = require('../utils/catchAsync');
 const { adsPanelService } = require('../services');
 
 const getAdsPanels = catchAsync(async (req, res) => {
-  const adsPanels = await adsPanelService.getAdsPanels(req.body);
+  const adsPanels = await adsPanelService.getAdsPanels();
   res.send(adsPanels);
 });
 
 const getAdsPanel = catchAsync(async (req, res) => {
-  const adsPanel = await adsPanelService.getAdsPanel(req.params.id);
+  const adsPanel = await adsPanelService.getAdsPanelById(req.params.id);
   res.send(adsPanel);
 });
 
@@ -26,16 +26,10 @@ const deleteAdsPanel = catchAsync(async (req, res) => {
   res.status(204).send();
 });
 
-const getAdsPanelById = catchAsync(async (req, res) => {
-  const adsPanel = await adsPanelService.getAdsPanelById(req.params.adsPanelId);
-  res.send(adsPanel);
-});
-
 module.exports = {
   getAdsPanels,
   getAdsPanel,
   createAdsPanel,
   updateAdsPanel,
   deleteAdsPanel,
-  getAdsPanelById,
 };
