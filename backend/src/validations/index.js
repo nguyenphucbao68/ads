@@ -9,3 +9,6 @@ module.exports.districtValidation = require('./district.validation');
 module.exports.wardValidation = require('./ward.validation');
 module.exports.adsPanelValidation = require('./adsPanel.validation');
 module.exports.adsSpotValidation = require('./adsSpot.validation');
+module.exports.adsPanelTypeValidation = require('./adsPanelType.validation');
+module.exports.reportTypeValidation = require('./reportType.validation');
+module.exports.changeRequestValidation = require('./changeRequest.validation');

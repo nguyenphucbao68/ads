@@ -1,23 +1,20 @@
 const { PrismaClient } = require('@prisma/client');
 const httpStatus = require('http-status');
 const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid');
 const { User } = require('../models');
 
 const prisma = new PrismaClient();
 
 const ApiError = require('../utils/ApiError');
-const { transformDocument } = require('@prisma/client/runtime');
+// const { transformDocument } = require('@prisma/client/runtime');
 
 /**
  * Create a user
  * @param {Object} userBody
  * @returns {Promise<User>}
  */
-const createUser = async (userBody) => {
-  if (userBody.password !== userBody.repassword) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Repassword is not identical to password');
-  }
-
+const create = async (userBody) => {
   const saltRounds = 10;
 
   // eslint-disable-next-line no-param-reassign
@@ -25,26 +22,19 @@ const createUser = async (userBody) => {
   // eslint-disable-next-line no-param-reassign
   userBody.password = Buffer.from(userBody.password);
 
-  const checkEmail = await prisma.users.findUnique({
-    where: {
-      email: userBody.email,
-    },
-  });
-
-  if (checkEmail && checkEmail.verification === true) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Username already taken');
-  } else if (checkEmail && checkEmail.verification === false) {
-    await prisma.users.delete({
-      where: {
-        email: userBody.email,
-      },
-    });
-  }
-
   // eslint-disable-next-line no-param-reassign
   delete userBody.repassword;
-  const user = prisma.users.create({
-    data: userBody,
+  const user = prisma.user.create({
+    data: {
+      role: userBody.role,
+      dob: userBody.dob,
+      email: userBody.email,
+      phone: userBody.phone,
+      username: userBody.username,
+      password: userBody.password,
+      otp: uuidv4(),
+      expire_date: userBody.expire_date,
+    },
   });
 
   return user;
@@ -64,8 +54,8 @@ const queryUsers = async (filter, options) => {
   return users;
 };
 
-const getUserById = async (id) => {
-  return prisma.users.findUnique({
+const getById = async (id) => {
+  return prisma.user.findUnique({
     where: {
       id,
     },
@@ -91,19 +81,19 @@ const getUserByEmail = async (email) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateUserById = async (userId, newPassword) => {
+const update = async (userId, newPassword) => {
   const saltRounds = 10;
   // eslint-disable-next-line no-param-reassign
   newPassword = await bcrypt.hash(newPassword, saltRounds);
   // eslint-disable-next-line no-param-reassign
   newPassword = Buffer.from(newPassword);
 
-  const checkUserExists = await getUserById(userId);
+  const checkUserExists = await getById(userId);
   if (!checkUserExists) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  const user = await prisma.users.update({
+  const user = await prisma.user.update({
     where: {
       id: userId,
     },
@@ -115,57 +105,29 @@ const updateUserById = async (userId, newPassword) => {
   return user;
 };
 
-const countMyQuestions = async (req) => {
-  const questions = await prisma.questions.findMany({
-    where: { uid: req.user.id },
-  });
-
-  return questions.length;
+const getAll = async () => {
+  const data = await prisma.user.findMany({});
+  return data;
 };
 
-const getMyQuestionsPagination = async (req) => {
-  const questions = await prisma.questions.findMany({
-    skip: req.params.page * req.params.limit,
-    take: req.params.limit,
+const deleteUser = async (id) => {
+  const data = await prisma.user.update({
     where: {
-      uid: req.user.id,
+      id,
+    },
+    data: {
+      is_deleted: true,
     },
   });
-
-  return questions;
-};
-const getHistoryByUId = async (req) => {
-  const historyList = await prisma.bus_tickets.findMany({
-    orderBy: {
-      buses: {
-        start_point: 'desc',
-      },
-    },
-    skip: req.params.page * req.params.limit,
-    take: req.params.limit,
-    where: {
-      user_id: req.user.id,
-    },
-    include: {
-      buses: {
-        include: {
-          bus_stations_bus_stationsTobuses_end_point: true,
-          bus_stations_bus_stationsTobuses_start_point: true,
-          bus_operators: true,
-        },
-      },
-    },
-  });
-  return historyList;
+  return data;
 };
 
 module.exports = {
-  getHistoryByUId,
-  createUser,
+  getAll,
+  create,
   queryUsers,
-  getUserById,
+  getById,
   getUserByEmail,
-  updateUserById,
-  countMyQuestions,
-  getMyQuestionsPagination,
+  update,
+  deleteUser,
 };

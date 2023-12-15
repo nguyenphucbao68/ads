@@ -12,14 +12,23 @@ const postAdsLicense = {
     content: Joi.string().required(),
     user_id: Joi.number().integer().required(),
     start_date: Joi.date().required(),
-    expire_date: Joi.date().greater(Joi.ref("start_date")).required(),
-  })
-}
+    expire_date: Joi.date().greater(Joi.ref('start_date')).required(),
+  }),
+};
 const deleteAdsLicense = {
   params: Joi.object().keys({
-    id: Joi.number().required()
-  })
-}
+    id: Joi.number().required(),
+  }),
+};
+
+const updateAdsLicense = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  }),
+  body: Joi.object().keys({
+    status: Joi.number().integer().required(),
+  }),
+};
 
 const adsLicensesList = {};
 
@@ -28,4 +37,5 @@ module.exports = {
   adsLicensesList,
   postAdsLicense,
   deleteAdsLicense,
+  updateAdsLicense,
 };
