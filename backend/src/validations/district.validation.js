@@ -27,7 +27,14 @@ const deleteDistrict = {
   }),
 };
 
+const getWards = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
+  })
+}
+
 module.exports = {
+  getWards,
   getDistrict,
   createDistrict,
   updateDistrict,

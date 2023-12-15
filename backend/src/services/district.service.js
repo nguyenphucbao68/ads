@@ -41,6 +41,16 @@ const updateDistrict = async (id, body) => {
   });
   return data;
 };
+const getWards = async (district_id)=>{
+  const data = await prisma.ward.findMany({
+    where:{district_id},
+    select:{
+      id: true,
+      name: true
+    }
+  })
+  return data;
+}
 
 const deleteDistrict = async (id) => {
   const data = await prisma.district.update({
@@ -60,4 +70,5 @@ module.exports = {
   createDistrict,
   updateDistrict,
   deleteDistrict,
+  getWards,
 };
