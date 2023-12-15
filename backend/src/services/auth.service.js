@@ -50,13 +50,16 @@ const logout = async (refreshToken) => {
  */
 const refreshAuth = async (refreshToken) => {
   try {
-    const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
-    const user = await userService.getUserById(refreshTokenDoc.user);
-    if (!user) {
-      throw new Error();
-    }
-    await refreshTokenDoc.remove();
-    return tokenService.generateAuthTokens(user);
+    // const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
+    // const user = await userService.getUserById(refreshTokenDoc.user);
+    // if (!user) {
+    //   throw new Error();
+    // }
+    // await refreshTokenDoc.remove();
+    // return tokenService.generateAuthTokens(user);
+    const user = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
+    if (!user) throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
+    return await tokenService.generateAuthTokens(user);
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
   }

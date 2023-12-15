@@ -134,6 +134,7 @@ model user {
   otp                        String?                      @db.VarChar
   expire_date                DateTime?                    @db.Timestamptz(6)
   is_deleted                 Boolean                      @default(false)
+  refresh_token              String?                      @db.VarChar(255)
   ads_license                ads_license[]
   information_change_request information_change_request[]
   report                     report[]
