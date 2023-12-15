@@ -2,17 +2,17 @@ const Joi = require('joi');
 
 const getAdsSpot = {
   params: Joi.object().keys({
-    id: Joi.number().required(),
+    id: Joi.number().integer().required(),
   }),
 };
 
 const createAdsSpot = {
   body: Joi.object().keys({
     address: Joi.string().required(),
-    ward_id: Joi.number().required(),
-    district_id: Joi.number().required(),
-    spot_type_id: Joi.number().required(),
-    ads_type_id: Joi.number().required(),
+    ward_id: Joi.number().integer().required(),
+    district_id: Joi.number().integer().required(),
+    spot_type_id: Joi.number().integer().required(),
+    ads_type_id: Joi.number().integer().required(),
     image: Joi.string().required(),
     is_available: Joi.boolean().required(),
     max_ads_panels: Joi.number().required(),
@@ -27,10 +27,10 @@ const updateAdsSpot = {
   }),
   body: Joi.object().keys({
     address: Joi.string().required(),
-    ward_id: Joi.number().required(),
-    district_id: Joi.number().required(),
-    spot_type_id: Joi.number().required(),
-    ads_type_id: Joi.number().required(),
+    ward_id: Joi.number().integer().required(),
+    district_id: Joi.number().integer().required(),
+    spot_type_id: Joi.number().integer().required(),
+    ads_type_id: Joi.number().integer().required(),
     image: Joi.string().required(),
     is_available: Joi.boolean().required(),
     max_ads_panels: Joi.number().required(),
@@ -41,7 +41,7 @@ const updateAdsSpot = {
 
 const deleteAdsSpot = {
   params: Joi.object().keys({
-    id: Joi.number().required(),
+    id: Joi.number().integer().required(),
   }),
 };
 
