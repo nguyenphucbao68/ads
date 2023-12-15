@@ -1,11 +1,11 @@
-import Joi from 'joi';
+const Joi = require('joi');
 
-const getAdsLicenses = {
-  query: Joi.object.key({
-    limit: Joi.number().integer().required(),
-    page: Joi.number().integer().required(),
+const getAdsLicense = {
+  params: Joi.object().keys({
+    id: Joi.number().required(),
   }),
 };
+
 const postAdsLicense = {
   body: Joi.object.key({
     ads_panel_id: Joi.number().integer().required(),
@@ -19,8 +19,12 @@ const deleteAdsLicense = {
     id: Joi.number().required()
   })
 }
-export {
-    getAdsLicenses,
-    postAdsLicense,
-    deleteAdsLicense,
-}
+
+const adsLicensesList = {};
+
+module.exports = {
+  getAdsLicense,
+  adsLicensesList,
+  postAdsLicense,
+  deleteAdsLicense,
+};
