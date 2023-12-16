@@ -70,6 +70,21 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'Loại đất',
+        to: '/admin/spot_types',
+      },
+      {
+        component: CNavItem,
+        name: 'Loại báo cáo',
+        to: '/admin/report_types',
+      },
+      {
+        component: CNavItem,
+        name: 'Loại hình quảng cáo',
+        to: '/admin/ads_types',
+      },
+      {
+        component: CNavItem,
         name: 'Loại bảng quảng cáo',
         to: '/admin/ads_panel_types',
       },

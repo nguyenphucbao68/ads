@@ -20,7 +20,7 @@ const columns = [
   },
 ]
 
-const AdsPanelList = () => {
+const SpotTypeList = () => {
   const [data, setData] = useState({
     loading: false,
     rows: [], // TODO: Fetch rows vào đây để render
@@ -127,4 +127,4 @@ const AdsPanelList = () => {
   )
 }
 
-export default AdsPanelList
+export default SpotTypeList
