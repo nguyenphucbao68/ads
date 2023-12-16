@@ -1,6 +1,5 @@
 const express = require('express');
 const authRoute = require('./auth.route');
-const userRoute = require('./user.route');
 const vhttRoute = require('./vhtt.route');
 const reportRoute = require('./report.route');
 const officerRoute = require('./officer.route');
@@ -17,15 +16,12 @@ const defaultRoutes = [
     path: '/auth',
     route: authRoute,
   },
-  {
-    path: '/user',
-    route: userRoute,
-  },
+
   { path: '/vhtt', route: vhttRoute },
   {
     path: '/report',
     route: reportRoute,
-  }
+  },
 ];
 
 const devRoutes = [
