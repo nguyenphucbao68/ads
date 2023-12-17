@@ -22,6 +22,14 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand"
   },
   "dependencies": {
+    "@goongmaps/goong-map-react": "^1.1.2",
+    "crypto-browserify": "^3.12.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.3.1",
+    "node-polyfill-webpack-plugin": "^3.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "react-map-gl-draw": "^1.0.4",
     "@coreui/chartjs": "^3.1.2",
     "@coreui/coreui": "^4.2.6",
     "@coreui/icons": "^3.0.1",
@@ -39,15 +47,18 @@
     "chart.js": "^3.9.1",
     "classnames": "^2.3.2",
     "core-js": "^3.31.0",
+    "photoswipe": "^5.4.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-app-polyfill": "^3.0.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
+    "react-photoswipe-gallery": "^3.0.0",
     "react-redux": "^8.1.1",
     "react-router-dom": "^6.14.0",
     "redux": "4.2.1",
     "simplebar-react": "^2.4.3",
+    "sonner": "^1.2.4",
     "styled-components": "^6.1.1"
   },
   "devDependencies": {

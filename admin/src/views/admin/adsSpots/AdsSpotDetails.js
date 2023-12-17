@@ -7,11 +7,18 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import { AdsTypeContext } from 'src/contexts/AdsTypeProvider'
 import { SpotTypeContext } from 'src/contexts/SpotTypeProvider'
+import { useForm } from 'react-hook-form'
+import { Gallery, Item } from 'react-photoswipe-gallery'
+import { useNavigate } from 'react-router-dom'
+import { Toaster, toast } from 'sonner'
+import ReactMapGL from '@goongmaps/goong-map-react'
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
 const AdsSpotDetails = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
   const { adsTypes, dispatchAdsTypes } = useContext(AdsTypeContext)
   const { spotTypes, dispatchSpotTypes } = useContext(SpotTypeContext)
   const [data, setData] = useState({
@@ -29,7 +36,52 @@ const AdsSpotDetails = () => {
       is_available: true,
       max_ads_panels: 1,
     },
+    fileSelected: [],
   })
+
+  const {
+    register,
+    handleSubmit,
+    formState,
+    formState: { errors },
+  } = useForm()
+
+  const [viewport, setViewport] = useState({
+    longitude: 105.85119,
+    latitude: 21.02727,
+    zoom: 8,
+  })
+
+  const uploadMultiFiles = (e) => {
+    const files = Array.from(e.target.files)
+    setData((pre) => ({
+      ...pre,
+      fileSelected: files,
+    }))
+  }
+
+  const onSubmit = async (data) => {
+    console.log(data)
+  }
+
+  const onDelete = async () => {
+    fetch(`${BACKEND_URL}/vhtt/ads-spots/${id}`, {
+      method: 'DELETE',
+    })
+      .then((rawData) => rawData.json())
+      .then((data) => {
+        console.log(data)
+        if (data.is_deleted) {
+          navigate('/admin/ads_spots')
+          toast.success('Xóa điểm đặt quảng cáo thành công')
+        } else {
+          toast.error('Xóa điểm đặt quảng cáo thất bại')
+        }
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,6 +120,7 @@ const AdsSpotDetails = () => {
         backgroundColor: '#fff',
       }}
     >
+      <Toaster position="top-right" reverseOrder={false} />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title">
           Chi tiết điểm đặt quảng cáo
@@ -80,19 +133,62 @@ const AdsSpotDetails = () => {
             overflowY: 'auto',
           }}
         >
-          <CForm>
+          <CForm onSubmit={handleSubmit(onSubmit)}>
             <CRow className="mb-3">
               <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label">
                 Địa chỉ
               </CFormLabel>
               <CCol sm={12}>
-                <Box
-                  sx={{
-                    height: '500px',
-                    backgroundColor: '#ccc',
-                    borderRadius: '8px',
-                  }}
-                ></Box>
+                <ReactMapGL
+                  {...viewport}
+                  width="100%"
+                  height="550px"
+                  mapStyle="https://tiles.goong.io/assets/goong_map_dark.json"
+                  onViewportChange={(e) => setViewport({ ...e })}
+                  goongApiAccessToken={API_MAP_KEY}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="imagesPicker" className="col-sm-12 col-form-label">
+                Hình ảnh điểm đặt quảng cáo
+              </CFormLabel>
+              <CCol sm={12}>
+                <Gallery>
+                  {data.fileSelected.map((file, index) => (
+                    <Item
+                      key={index}
+                      original={URL.createObjectURL(file)}
+                      thumbnail={URL.createObjectURL(file)}
+                      width="1024"
+                      height="768"
+                    >
+                      {({ ref, open }) => (
+                        <img
+                          ref={ref}
+                          onClick={open}
+                          src={URL.createObjectURL(file)}
+                          alt="..."
+                          style={{
+                            width: '200px',
+                            height: '200px',
+                            objectFit: 'cover',
+                            margin: '5px',
+                          }}
+                        />
+                      )}
+                    </Item>
+                  ))}
+                </Gallery>
+                <CFormInput
+                  type="file"
+                  id="imagesPicker"
+                  className="form-control"
+                  onChange={uploadMultiFiles}
+                  multiple
+                  {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
+                  feedback={errors.images?.message}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -100,9 +196,18 @@ const AdsSpotDetails = () => {
                 Loại vị trí
               </CFormLabel>
               <CCol sm={10}>
-                <select className="form-select" id="optSpotType" name="optSpotType">
+                <select
+                  className="form-select"
+                  id="optSpotType"
+                  name="optSpotType"
+                  {...register('spot_type_id', { required: 'Vui lòng chọn loại vị trí' })}
+                >
                   {spotTypes.rows.map((spotType) => (
-                    <option key={spotType.id} value={spotType.id}>
+                    <option
+                      key={spotType.id}
+                      value={spotType.id}
+                      selected={spotType.id === data.adsSpot.spot_type.id}
+                    >
                       {spotType.name}
                     </option>
                   ))}
@@ -114,9 +219,18 @@ const AdsSpotDetails = () => {
                 Hình thức quảng cáo
               </CFormLabel>
               <CCol sm={10}>
-                <select className="form-select" id="optAdsType" name="optAdsType">
+                <select
+                  className="form-select"
+                  id="optAdsType"
+                  name="optAdsType"
+                  {...register('ads_type_id', { required: 'Vui lòng chọn hình thức quảng cáo' })}
+                >
                   {adsTypes.rows.map((adsType) => (
-                    <option key={adsType.id} value={adsType.id}>
+                    <option
+                      key={adsType.id}
+                      value={adsType.id}
+                      selected={adsType.id === data.adsSpot.ads_type.id}
+                    >
                       {adsType.name}
                     </option>
                   ))}
@@ -125,7 +239,7 @@ const AdsSpotDetails = () => {
             </CRow>
             <CRow className="mb-3">
               <CFormLabel htmlFor="checkboxIsAvailable" className="col-sm-2 col-form-label">
-                Tình trạng quy hoach
+                Tình trạng quy hoạch
               </CFormLabel>
               <CCol sm={10}>
                 <div className="form-check">
@@ -134,6 +248,10 @@ const AdsSpotDetails = () => {
                     type="radio"
                     name="flexRadioIsAvailable"
                     id="flexRadioAvailable"
+                    {...register('is_available', {
+                      required: 'Vui lòng chọn tình trạng quy hoạch',
+                    })}
+                    value={true}
                     defaultChecked={data.adsSpot.is_available}
                   />
                   <label className="form-check-label" htmlFor="flexRadioAvailable">
@@ -146,6 +264,10 @@ const AdsSpotDetails = () => {
                     type="radio"
                     name="flexRadioIsAvailable"
                     id="flexRadioNotAvailable"
+                    {...register('is_available', {
+                      required: 'Vui lòng chọn tình trạng quy hoạch',
+                    })}
+                    value={false}
                     defaultChecked={!data.adsSpot.is_available}
                   />
                   <label className="form-check-label" htmlFor="flexRadioNotAvailable">
@@ -163,8 +285,11 @@ const AdsSpotDetails = () => {
                   type="number"
                   step="1"
                   min="1"
-                  max="5"
                   id="inputMaxAdsPanels"
+                  {...register('max_ads_panels', {
+                    valueAsNumber: 'Vui lòng nhập số nguyên dương',
+                  })}
+                  feedback={errors.max_ads_panels?.message}
                   defaultValue={1}
                 />
               </CCol>
@@ -191,7 +316,7 @@ const AdsSpotDetails = () => {
                 variant="contained"
                 startIcon={<SaveIcon />}
                 color="primary"
-                disabled
+                disabled={!formState.isDirty}
                 sx={{
                   borderRadius: '8px',
                 }}
@@ -208,7 +333,7 @@ const AdsSpotDetails = () => {
               alignItems="center"
             >
               <Button
-                onClick={() => console.log('Xóa')}
+                onClick={onDelete}
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"
