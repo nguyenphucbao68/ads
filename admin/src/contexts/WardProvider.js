@@ -1,19 +1,19 @@
 import React, { useReducer, createContext } from 'react'
 import PropTypes from 'prop-types'
 
-export const AdsSpotContext = createContext({
-  adsSpots: {
+export const WardContext = createContext({
+  wards: {
     loading: false,
     rows: [],
     pageSize: 25,
     page: 0,
   },
-  dispatchAdsSpots: () => {},
+  dispatchWards: () => {},
 })
 
-const adsSpotReducer = (state, action) => {
+const wardReducer = (state, action) => {
   switch (action.type) {
-    case 'INITIALIZE_ADS_SPOTS': {
+    case 'INITIALIZE_WARDS': {
       return {
         ...state,
         rows: action.payload,
@@ -47,23 +47,19 @@ const adsSpotReducer = (state, action) => {
   }
 }
 
-const initialAdsSpot = {
+const initialWard = {
   loading: false,
   rows: [],
   pageSize: 25,
   page: 0,
 }
 
-export const AdsSpotProvider = ({ children }) => {
-  const [adsSpots, dispatchAdsSpots] = useReducer(adsSpotReducer, initialAdsSpot)
+export const WardProvider = ({ children }) => {
+  const [wards, dispatchWards] = useReducer(wardReducer, initialWard)
 
-  return (
-    <AdsSpotContext.Provider value={{ adsSpots, dispatchAdsSpots }}>
-      {children}
-    </AdsSpotContext.Provider>
-  )
+  return <WardContext.Provider value={{ wards, dispatchWards }}>{children}</WardContext.Provider>
 }
 
-AdsSpotProvider.propTypes = {
+WardProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }

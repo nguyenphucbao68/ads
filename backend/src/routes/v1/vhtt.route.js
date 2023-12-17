@@ -1,27 +1,31 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const districtValidation = require('../../validations/district.validation');
-const districtController = require('../../controllers/district.controller');
-const wardValidation = require('../../validations/ward.validation');
-const wardController = require('../../controllers/ward.controller');
-const adsPanelValidation = require('../../validations/adsPanel.validation');
-const adsPanelController = require('../../controllers/adsPanel.controller');
-const adsSpotValidation = require('../../validations/adsSpot.validation');
-const adsSpotController = require('../../controllers/adsSpot.controller');
 const {
+  districtValidation,
+  wardValidation,
+  adsSpotValidation,
+  adsPanelValidation,
   adsLicenseValidation,
   adsPanelTypeValidation,
   reportTypeValidation,
   changeRequestValidation,
   userValidation,
+  adsTypeValidation,
+  spotTypeValidation,
 } = require('../../validations');
 const {
+  districtController,
+  wardController,
+  adsSpotController,
+  adsPanelController,
   adsLicenseController,
   adsPanelTypeController,
   reportTypeController,
   changeRequestController,
   userController,
+  adsTypeController,
+  spotTypeController,
 } = require('../../controllers');
 
 const router = express.Router();
@@ -102,6 +106,28 @@ router
   .get(validate(reportTypeValidation.getById), reportTypeController.getById)
   .put(auth('updateReportType'), validate(reportTypeValidation.update), reportTypeController.update)
   .delete(auth('deleteReportType'), validate(reportTypeValidation.deleteReportType), reportTypeController.deleteReportType);
+
+router
+  .route('/ads-types')
+  .get(adsTypeController.getAll)
+  .post(auth('createAdsType'), validate(adsTypeValidation.create), adsTypeController.create);
+
+router
+  .route('/ads-types/:id')
+  .get(validate(adsTypeValidation.getById), adsTypeController.getById)
+  .put(auth('updateAdsType'), validate(adsTypeValidation.update), adsTypeController.update)
+  .delete(auth('deleteAdsType'), validate(adsTypeValidation.deleteAdsType), adsTypeController.deleteAdsType);
+
+router
+  .route('/spot-types')
+  .get(spotTypeController.getAll)
+  .post(auth('createSpotType'), validate(spotTypeValidation.create), spotTypeController.create);
+
+router
+  .route('/spot-types/:id')
+  .get(validate(spotTypeValidation.getById), spotTypeController.getById)
+  .put(auth('updateSpotType'), validate(spotTypeValidation.update), spotTypeController.update)
+  .delete(auth('deleteSpotType'), validate(spotTypeValidation.deleteSpotType), spotTypeController.deleteSpotType);
 
 router
   .route('/edit-requests/:id')
