@@ -13,26 +13,15 @@ import {
 } from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import { useNavigate } from 'react-router-dom'
+import SaveIcon from '@mui/icons-material/Save'
 
-const ReportTypeDetail = () => {
+const ReportTypeUpdate = () => {
   const { id } = useParams()
-  const navigate = useNavigate()
-
   const URL = `http://localhost:4000/v1/vhtt/report-types/${id}`
   const [data, setData] = useState({})
 
   /**
    *
-   */
-  const navigationToUpdate = () => {
-    console.log('Alooo')
-    navigate(`/admin/report_types/${id}/update`, { replace: true })
-  }
-
-  /**
-   * Fetch data
    */
   const fetchData = async () => {
     let res = await fetch(URL, {
@@ -45,6 +34,11 @@ const ReportTypeDetail = () => {
     res = await res.json()
     setData(res)
   }
+
+  /**
+   *
+   */
+  const save = () => {}
 
   /**
    *
@@ -74,7 +68,7 @@ const ReportTypeDetail = () => {
                 Tên
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} disabled />
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} />
               </CCol>
             </CRow>
           </CForm>
@@ -94,17 +88,15 @@ const ReportTypeDetail = () => {
               alignItems="center"
             >
               <Button
-                onClick={() => {
-                  navigationToUpdate()
-                }}
+                onClick={() => save()}
                 variant="contained"
-                startIcon={<EditIcon />}
-                color="success"
+                startIcon={<SaveIcon />}
+                color="primary"
                 sx={{
                   borderRadius: '8px',
                 }}
               >
-                Sửa
+                Lưu
               </Button>
             </Grid>
             <Grid
@@ -134,4 +126,4 @@ const ReportTypeDetail = () => {
   )
 }
 
-export default ReportTypeDetail
+export default ReportTypeUpdate

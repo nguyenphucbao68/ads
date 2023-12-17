@@ -15,7 +15,7 @@ const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
   {
     field: 'name',
-    headerName: 'Tên loại bảng quảng cáo',
+    headerName: 'Tên loại hình quảng cáo',
     flex: 1,
   },
 ]

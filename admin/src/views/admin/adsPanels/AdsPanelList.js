@@ -9,13 +9,28 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 
-const URL = 'http://localhost:4000/v1/vhtt/ads-panel-types'
+const URL = 'http://localhost:4000/v1/vhtt/ads-panels'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
   {
-    field: 'name',
-    headerName: 'Tên loại bảng quảng cáo',
+    field: 'ads_type_id',
+    headerName: 'Loại',
+    width: 200,
+  },
+  {
+    field: 'height',
+    headerName: 'Chiều cao',
+    width: 200,
+  },
+  {
+    field: 'width',
+    headerName: 'Chiều rộng',
+    width: 200,
+  },
+  {
+    field: 'expire_date',
+    headerName: 'Ngày hết hạn',
     flex: 1,
   },
 ]
@@ -23,7 +38,7 @@ const columns = [
 const AdsPanelList = () => {
   const [data, setData] = useState({
     loading: false,
-    rows: [], // TODO: Fetch rows vào đây để render
+    rows: [],
     totalRows: 0,
     pageSize: 25,
     page: 0,
@@ -31,39 +46,42 @@ const AdsPanelList = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    // Hàm fetch
-    const fetchData = async () => {
-      setData((prevState) => ({ ...prevState, loading: true }))
+  const navigateToDetail = (params) => {
+    navigate(`/admin/ads_panels/${params.row.id}`)
+  }
+  // TODO. Map ads_panel_id với tên
+  const init = async () => {
+    setData((prevState) => ({ ...prevState, loading: true }))
 
-      try {
-        let rawData = await fetch(URL, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        rawData = await rawData.json()
-        global.console.log('rawData ', rawData)
-        setData((prevState) => ({
-          ...prevState,
-          rows: rawData || [],
-          loading: false,
-        }))
-      } catch (err) {
-        console.log(err.message)
-        setData((prevState) => ({ ...prevState, loading: false }))
-      }
+    try {
+      let rawData = await fetch(URL, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      rawData = await rawData.json()
+
+      setData((prevState) => ({
+        ...prevState,
+        rows: rawData || [],
+        loading: false,
+      }))
+    } catch (err) {
+      console.log(err.message)
+      setData((prevState) => ({ ...prevState, loading: false }))
     }
+  }
 
-    fetchData()
+  useEffect(() => {
+    init()
   }, [])
 
   return (
     <CCard className="mb-4">
       <CCardBody>
-        <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Quản lý loại bảng quảng cáo
+        <h4 id="ads-panel-title" className="card-title mb-0">
+          Quản lý bảng quảng cáo
         </h4>
         <Box
           sx={{
@@ -93,9 +111,7 @@ const AdsPanelList = () => {
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              // TODO: delete this
-
-              navigate(`/admin/ads_spots/${params.row.id}`)
+              navigateToDetail(params)
             }}
             paginationModel={{ page: data.page, pageSize: data.pageSize }}
             onPaginationModelChange={(params) => {

@@ -9,7 +9,6 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 
-const URL = 'http://localhost:4000/v1/vhtt/ads-panel-types'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
@@ -38,9 +37,11 @@ const columns = [
 ]
 
 const AdsPanelTypeList = () => {
+  const URL = 'http://localhost:4000/v1/vhtt/ads-panel-types'
+
   const [data, setData] = useState({
     loading: false,
-    rows: [], // TODO: Fetch rows vào đây để render
+    rows: [],
     totalRows: 0,
     pageSize: 25,
     page: 0,
@@ -48,31 +49,37 @@ const AdsPanelTypeList = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    // Hàm fetch
-    const fetchData = async () => {
-      setData((prevState) => ({ ...prevState, loading: true }))
+  const navigateToDetail = (params) => {
+    navigate(`/admin/ads_panel_types/${params.row.id}`)
+  }
 
-      try {
-        let rawData = await fetch(URL, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        rawData = await rawData.json()
-        global.console.log('rawData ', rawData)
-        setData((prevState) => ({
-          ...prevState,
-          rows: rawData || [],
-          loading: false,
-        }))
-      } catch (err) {
-        console.log(err.message)
-        setData((prevState) => ({ ...prevState, loading: false }))
-      }
+  const navigateToCreate = () => {
+    navigate(`/admin/ads_panel_types/create`)
+  }
+  // Hàm fetch
+  const fetchData = async () => {
+    setData((prevState) => ({ ...prevState, loading: true }))
+
+    try {
+      let rawData = await fetch(URL, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      rawData = await rawData.json()
+      setData((prevState) => ({
+        ...prevState,
+        rows: rawData || [],
+        loading: false,
+      }))
+    } catch (err) {
+      console.log(err.message)
+      setData((prevState) => ({ ...prevState, loading: false }))
     }
+  }
 
+  useEffect(() => {
     fetchData()
   }, [])
 
@@ -110,9 +117,7 @@ const AdsPanelTypeList = () => {
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              // TODO: delete this
-
-              navigate(`/admin/ads_spots/${params.row.id}`)
+              navigateToDetail(params)
             }}
             paginationModel={{ page: data.page, pageSize: data.pageSize }}
             onPaginationModelChange={(params) => {
@@ -128,8 +133,7 @@ const AdsPanelTypeList = () => {
             }}
             slotProps={{
               toolbar: {
-                // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: () => navigateToCreate(),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

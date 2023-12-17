@@ -4,21 +4,21 @@ import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
+import SaveIcon from '@mui/icons-material/Save'
 
 import { useNavigate } from 'react-router-dom'
 // TODO
-const AdsPanelTypeDetail = () => {
+const AdsPanelUpdate = () => {
   const { id } = useParams()
 
   const navigate = useNavigate()
 
-  const URL = `http://localhost:4000/v1/vhtt/ads-panel-types/${id}`
+  const URL = `http://localhost:4000/v1/vhtt/ads-panels/${id}`
 
   const [data, setData] = useState({})
 
   // Fetch data
-  const fetchData = async () => {
+  const init = async () => {
     let data = await fetch(URL, {
       method: 'GET',
       headers: {
@@ -34,14 +34,14 @@ const AdsPanelTypeDetail = () => {
   }
 
   useEffect(() => {
-    fetchData()
+    init()
   }, [])
 
   return (
     <CCard className="mb-4">
       <CCardBody>
         <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Chi tiết loại bảng quảng cáo
+          Chi tiết bảng quảng cáo
         </h4>
         <Box
           sx={{
@@ -53,10 +53,50 @@ const AdsPanelTypeDetail = () => {
           <CForm>
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
-                Tên
+                Loại
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} disabled />
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.ads_type_id} />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Chiều cao
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.height} />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Chiều rộng
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.width} />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Ngày hết hạn
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.expire_date} />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Hình ảnh
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.image} />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Điểm đặt tại đây
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.ads_spot_id} />
               </CCol>
             </CRow>
           </CForm>
@@ -78,13 +118,13 @@ const AdsPanelTypeDetail = () => {
               <Button
                 onClick={navigateToUpdate}
                 variant="contained"
-                startIcon={<EditIcon />}
-                color="success"
+                startIcon={<SaveIcon />}
+                color="primary"
                 sx={{
                   borderRadius: '8px',
                 }}
               >
-                Sửa
+                Lưu
               </Button>
             </Grid>
             <Grid
@@ -114,4 +154,4 @@ const AdsPanelTypeDetail = () => {
   )
 }
 
-export default AdsPanelTypeDetail
+export default AdsPanelUpdate

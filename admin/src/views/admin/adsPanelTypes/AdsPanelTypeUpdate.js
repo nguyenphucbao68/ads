@@ -13,43 +13,33 @@ import {
 } from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
-import EditIcon from '@mui/icons-material/Edit'
-import { useNavigate } from 'react-router-dom'
+import SaveIcon from '@mui/icons-material/Save'
 
-const ReportTypeDetail = () => {
+const AdsPanelTypeUpdate = () => {
   const { id } = useParams()
-  const navigate = useNavigate()
+  console.log(id) // TODO Delete this later
+  const URL = `http://localhost:4000/v1/vhtt/ads-panel-types/${id}`
 
-  const URL = `http://localhost:4000/v1/vhtt/report-types/${id}`
   const [data, setData] = useState({})
 
-  /**
-   *
-   */
-  const navigationToUpdate = () => {
-    console.log('Alooo')
-    navigate(`/admin/report_types/${id}/update`, { replace: true })
-  }
-
-  /**
-   * Fetch data
-   */
   const fetchData = async () => {
-    let res = await fetch(URL, {
+    let data = await fetch(URL, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-
-    res = await res.json()
-    setData(res)
+    data = await data.json()
+    setData(data)
   }
 
-  /**
-   *
-   */
-  const deleteReportType = () => {}
+  const save = async () => {
+    //TODO lưu cần phải có token
+  }
+
+  const deletePanelType = async () => {
+    //TODO xóa cần phải có token
+  }
 
   useEffect(() => {
     fetchData()
@@ -58,8 +48,8 @@ const ReportTypeDetail = () => {
   return (
     <CCard className="mb-4">
       <CCardBody>
-        <h4 id="report-type-title" className="card-title mb-0">
-          Chi tiết loại báo cáo
+        <h4 id="ads-panel-type-title" className="card-title mb-0">
+          Chỉnh sửa loại bảng quảng cáo
         </h4>
         <Box
           sx={{
@@ -74,7 +64,7 @@ const ReportTypeDetail = () => {
                 Tên
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} disabled />
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} />
               </CCol>
             </CRow>
           </CForm>
@@ -95,16 +85,16 @@ const ReportTypeDetail = () => {
             >
               <Button
                 onClick={() => {
-                  navigationToUpdate()
+                  save()
                 }}
                 variant="contained"
-                startIcon={<EditIcon />}
-                color="success"
+                startIcon={<SaveIcon />}
+                color="primary"
                 sx={{
                   borderRadius: '8px',
                 }}
               >
-                Sửa
+                Lưu
               </Button>
             </Grid>
             <Grid
@@ -116,7 +106,11 @@ const ReportTypeDetail = () => {
               alignItems="center"
             >
               <Button
-                onClick={() => deleteReportType()}
+                onClick={() => {
+                  // TODO: View confirm modal before deleting
+                  deletePanelType()
+                  // return <Modals />
+                }}
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"
@@ -134,4 +128,4 @@ const ReportTypeDetail = () => {
   )
 }
 
-export default ReportTypeDetail
+export default AdsPanelTypeUpdate

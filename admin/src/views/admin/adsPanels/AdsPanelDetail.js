@@ -8,17 +8,17 @@ import EditIcon from '@mui/icons-material/Edit'
 
 import { useNavigate } from 'react-router-dom'
 // TODO
-const AdsPanelTypeDetail = () => {
+const AdsPanelDetail = () => {
   const { id } = useParams()
 
   const navigate = useNavigate()
 
-  const URL = `http://localhost:4000/v1/vhtt/ads-panel-types/${id}`
+  const URL = `http://localhost:4000/v1/vhtt/ads-panels/${id}`
 
   const [data, setData] = useState({})
 
   // Fetch data
-  const fetchData = async () => {
+  const init = async () => {
     let data = await fetch(URL, {
       method: 'GET',
       headers: {
@@ -30,18 +30,18 @@ const AdsPanelTypeDetail = () => {
   }
 
   const navigateToUpdate = () => {
-    navigate(`/admin/ads_panel_types/${id}/update`)
+    navigate(`/admin/ads_panels/${id}/update`)
   }
 
   useEffect(() => {
-    fetchData()
+    init()
   }, [])
 
   return (
     <CCard className="mb-4">
       <CCardBody>
         <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Chi tiết loại bảng quảng cáo
+          Chi tiết bảng quảng cáo
         </h4>
         <Box
           sx={{
@@ -53,10 +53,65 @@ const AdsPanelTypeDetail = () => {
           <CForm>
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
-                Tên
+                Loại
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} disabled />
+                <CFormInput
+                  type="email"
+                  id="inputEmail3"
+                  defaultValue={data.ads_type_id}
+                  disabled
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Chiều cao
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.height} disabled />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Chiều rộng
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.width} disabled />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Ngày hết hạn
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="email"
+                  id="inputEmail3"
+                  defaultValue={data.expire_date}
+                  disabled
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Hình ảnh
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.image} disabled />
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+                Điểm đặt tại đây
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="email"
+                  id="inputEmail3"
+                  defaultValue={data.ads_spot_id}
+                  disabled
+                />
               </CCol>
             </CRow>
           </CForm>
@@ -114,4 +169,4 @@ const AdsPanelTypeDetail = () => {
   )
 }
 
-export default AdsPanelTypeDetail
+export default AdsPanelDetail
