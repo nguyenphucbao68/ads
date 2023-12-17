@@ -141,7 +141,7 @@ const AdsSpotDetails = () => {
               <CCol sm={12}>
                 <ReactMapGL
                   {...viewport}
-                  width={'100%'}
+                  width="100%"
                   height="550px"
                   mapStyle="https://tiles.goong.io/assets/goong_map_dark.json"
                   onViewportChange={(e) => setViewport({ ...e })}
@@ -203,7 +203,11 @@ const AdsSpotDetails = () => {
                   {...register('spot_type_id', { required: 'Vui lòng chọn loại vị trí' })}
                 >
                   {spotTypes.rows.map((spotType) => (
-                    <option key={spotType.id} value={spotType.id}>
+                    <option
+                      key={spotType.id}
+                      value={spotType.id}
+                      selected={spotType.id === data.adsSpot.spot_type.id}
+                    >
                       {spotType.name}
                     </option>
                   ))}
@@ -222,7 +226,11 @@ const AdsSpotDetails = () => {
                   {...register('ads_type_id', { required: 'Vui lòng chọn hình thức quảng cáo' })}
                 >
                   {adsTypes.rows.map((adsType) => (
-                    <option key={adsType.id} value={adsType.id}>
+                    <option
+                      key={adsType.id}
+                      value={adsType.id}
+                      selected={adsType.id === data.adsSpot.ads_type.id}
+                    >
                       {adsType.name}
                     </option>
                   ))}
