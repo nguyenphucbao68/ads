@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
-import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
+import {
+  CCard,
+  CCardBody,
+  CForm,
+  CCol,
+  CRow,
+  CFormLabel,
+  CFormInput,
+  CFormCheck,
+} from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
-import EditIcon from '@mui/icons-material/Edit'
+import Modals from 'src/views/notifications/modals/Modals'
 
-import { useNavigate } from 'react-router-dom'
-// TODO
-const AdsPanelTypeDetail = () => {
+const AdsPanelTypeUpdate = () => {
   const { id } = useParams()
-
-  const navigate = useNavigate()
-
+  console.log(id) // TODO Delete this later
   const URL = `http://localhost:4000/v1/vhtt/ads-panel-types/${id}`
 
   const [data, setData] = useState({})
 
-  // Fetch data
   const fetchData = async () => {
     let data = await fetch(URL, {
       method: 'GET',
@@ -30,8 +34,12 @@ const AdsPanelTypeDetail = () => {
     setData(data)
   }
 
-  const navigateToUpdate = () => {
-    navigate(`/admin/ads_panel_types/${id}/update`)
+  const save = async () => {
+    //TODO lưu cần phải có token
+  }
+
+  const deletePanelType = async () => {
+    //TODO xóa cần phải có token
   }
 
   useEffect(() => {
@@ -42,7 +50,7 @@ const AdsPanelTypeDetail = () => {
     <CCard className="mb-4">
       <CCardBody>
         <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Chi tiết loại bảng quảng cáo
+          Chỉnh sửa loại bảng quảng cáo
         </h4>
         <Box
           sx={{
@@ -57,7 +65,7 @@ const AdsPanelTypeDetail = () => {
                 Tên
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} disabled />
+                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} />
               </CCol>
             </CRow>
           </CForm>
@@ -77,15 +85,17 @@ const AdsPanelTypeDetail = () => {
               alignItems="center"
             >
               <Button
-                onClick={navigateToUpdate}
+                onClick={() => {
+                  save()
+                }}
                 variant="contained"
-                startIcon={<EditIcon />}
-                color="success"
+                startIcon={<SaveIcon />}
+                color="primary"
                 sx={{
                   borderRadius: '8px',
                 }}
               >
-                Sửa
+                Lưu
               </Button>
             </Grid>
             <Grid
@@ -97,7 +107,10 @@ const AdsPanelTypeDetail = () => {
               alignItems="center"
             >
               <Button
-                onClick={() => console.log('Xóa')}
+                onClick={() => {
+                  // deletePanelType()
+                  return <Modals />
+                }}
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"
@@ -115,4 +128,4 @@ const AdsPanelTypeDetail = () => {
   )
 }
 
-export default AdsPanelTypeDetail
+export default AdsPanelTypeUpdate

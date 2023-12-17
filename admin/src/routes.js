@@ -3,6 +3,12 @@ import UserCreatePage from './pages/user/create'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const AdsSpotDetails = React.lazy(() => import('./views/admin/adsSpots/AdsSpotDetails'))
+const AdsPanelTypeDetail = React.lazy(() =>
+  import('./views/admin/adsPanelTypes/AdsPanelTypeDetail'),
+)
+const AdsPanelTypeUpdate = React.lazy(() =>
+  import('./views/admin/adsPanelTypes/AdsPanelTypeUpdate'),
+)
 const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
 const AdsPanelTypeList = React.lazy(() => import('./views/admin/adsPanelTypes/AdsPanelTypeList'))
 const SpotTypeList = React.lazy(() => import('./views/admin/spotTypes/SpotTypeList'))
@@ -72,6 +78,21 @@ const routes = [
   { path: '/admin/types', name: 'Types', element: AdsSpotList },
   { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
   { path: '/admin/ads_spots/:id', name: 'Ads Spot Details', element: AdsSpotDetails },
+  {
+    path: '/admin/ads_panel_types/:id/update',
+    name: 'Ads Panel Types Update',
+    element: AdsPanelTypeUpdate,
+  },
+  {
+    path: '/admin/ads_panel_types/create',
+    name: 'Ads Panel Types Create',
+    element: AdsPanelTypeUpdate,
+  },
+  {
+    path: '/admin/ads_panel_types/:id',
+    name: 'Ads Panel Types Details',
+    element: AdsPanelTypeDetail,
+  },
   { path: '/admin/ads_panels', name: 'Ads Panels', element: AdsPanelList },
   { path: '/admin/spot_types', name: 'Ads Panel Types', element: SpotTypeList },
   { path: '/admin/report_types', name: 'Report Types', element: ReportTypeList },
