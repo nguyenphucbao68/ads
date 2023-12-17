@@ -14,7 +14,6 @@ import {
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
-import Modals from 'src/views/notifications/modals/Modals'
 
 const AdsPanelTypeUpdate = () => {
   const { id } = useParams()
@@ -108,8 +107,9 @@ const AdsPanelTypeUpdate = () => {
             >
               <Button
                 onClick={() => {
-                  // deletePanelType()
-                  return <Modals />
+                  // TODO: View confirm modal before deleting
+                  deletePanelType()
+                  // return <Modals />
                 }}
                 variant="text"
                 startIcon={<DeleteIcon />}

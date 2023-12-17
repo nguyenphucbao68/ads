@@ -9,18 +9,19 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 
-const URL = 'http://localhost:4000/v1/vhtt/ads-panel-types'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
   {
     field: 'name',
-    headerName: 'Tên loại bảng quảng cáo',
+    headerName: 'Tên loại báo cáo',
     flex: 1,
   },
 ]
 
 const ReportTypeList = () => {
+  const URL = 'http://localhost:4000/v1/vhtt/report-types'
+
   const [data, setData] = useState({
     loading: false,
     rows: [], // TODO: Fetch rows vào đây để render
@@ -31,6 +32,20 @@ const ReportTypeList = () => {
 
   const navigate = useNavigate()
 
+  /**
+   *
+   * @param {*} params
+   */
+  const navigationToDetail = (params) => {
+    navigate(`/admin/report_types/${params.row.id}`, { replace: true })
+  }
+
+  /**
+   *
+   */
+  const navigationToCreate = () => {
+    navigate(`/admin/report_types/create`, { replace: true })
+  }
   useEffect(() => {
     // Hàm fetch
     const fetchData = async () => {
@@ -62,8 +77,8 @@ const ReportTypeList = () => {
   return (
     <CCard className="mb-4">
       <CCardBody>
-        <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Quản lý loại bảng quảng cáo
+        <h4 id="report-type-title" className="card-title mb-0">
+          Quản lý loại báo cáo
         </h4>
         <Box
           sx={{
@@ -93,9 +108,7 @@ const ReportTypeList = () => {
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              // TODO: delete this
-
-              navigate(`/admin/ads_spots/${params.row.id}`)
+              navigationToDetail(params)
             }}
             paginationModel={{ page: data.page, pageSize: data.pageSize }}
             onPaginationModelChange={(params) => {
@@ -112,7 +125,7 @@ const ReportTypeList = () => {
             slotProps={{
               toolbar: {
                 // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: () => navigationToCreate(),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

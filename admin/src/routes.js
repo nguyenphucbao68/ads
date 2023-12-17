@@ -13,8 +13,12 @@ const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'
 const AdsPanelTypeList = React.lazy(() => import('./views/admin/adsPanelTypes/AdsPanelTypeList'))
 const SpotTypeList = React.lazy(() => import('./views/admin/spotTypes/SpotTypeList'))
 const ReportTypeList = React.lazy(() => import('./views/admin/reportTypes/ReportTypeList'))
+const ReportTypeDetail = React.lazy(() => import('./views/admin/reportTypes/ReportTypeDetail'))
+const ReportTypeUpdate = React.lazy(() => import('./views/admin/reportTypes/ReportTypeUpdate'))
 const AdsTypeList = React.lazy(() => import('./views/admin/adsTypes/AdsTypeList'))
 const AdsPanelList = React.lazy(() => import('./views/admin/adsPanels/AdsPanelList'))
+const AdsPanelDetail = React.lazy(() => import('./views/admin/adsPanels/AdsPanelDetail'))
+const AdsPanelUpdate = React.lazy(() => import('./views/admin/adsPanels/AdsPanelUpdate'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -94,8 +98,21 @@ const routes = [
     element: AdsPanelTypeDetail,
   },
   { path: '/admin/ads_panels', name: 'Ads Panels', element: AdsPanelList },
+  { path: '/admin/ads_panels/:id', name: 'Ads Panel Detail', element: AdsPanelDetail },
+  { path: '/admin/ads_panels/:id/update', name: 'Ads Panel Detail', element: AdsPanelUpdate },
   { path: '/admin/spot_types', name: 'Ads Panel Types', element: SpotTypeList },
   { path: '/admin/report_types', name: 'Report Types', element: ReportTypeList },
+  {
+    path: '/admin/report_types/:id',
+    name: 'Report Type Details',
+    element: ReportTypeDetail,
+  },
+  { path: '/admin/report_types/:id/update', name: 'Report Type Update', element: ReportTypeUpdate },
+  {
+    path: '/admin/report_types/create',
+    name: 'Report Type Create',
+    element: ReportTypeUpdate,
+  },
   { path: '/admin/ads_types', name: 'Ads Types', element: AdsTypeList },
   { path: '/admin/ads_panel_types', name: 'Ads Panel Types', element: AdsPanelTypeList },
   { path: '/admin/create_account', name: 'Create Account', element: Dashboard },
