@@ -38,6 +38,8 @@ const WardCreate = React.lazy(() => import('./views/admin/wards/WardCreate'))
 
 // Districts
 const DistrictList = React.lazy(() => import('./views/admin/districts/DistrictList'))
+const DistrictDetails = React.lazy(() => import('./views/admin/districts/DistrictDetails'))
+const DistrictCreate = React.lazy(() => import('./views/admin/districts/DistrictCreate'))
 
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -101,7 +103,8 @@ const routes = [
   { path: '/admin/wards/:id', name: 'Ward Details', element: WardDetails },
   { path: '/admin/wards/create', name: 'Ward Create', element: WardCreate },
   { path: '/admin/districts', name: 'Districts', element: DistrictList },
-  { path: '/admin/districts/:id', name: 'District Details', element: Dashboard },
+  { path: '/admin/districts/:id', name: 'District Details', element: DistrictDetails },
+  { path: '/admin/districts/create', name: 'District Details', element: DistrictCreate },
   { path: '/admin/types', name: 'Types', element: AdsSpotList },
   { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
   { path: '/admin/ads_spots/:id', name: 'Ads Spot Details', element: AdsSpotDetails },

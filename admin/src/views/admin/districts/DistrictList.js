@@ -81,7 +81,7 @@ const DistrictList = () => {
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              navigate(`/admin/wards/${params.row.id}`)
+              navigate(`/admin/districts/${params.row.id}`)
             }}
             paginationModel={{ page: districts.page, pageSize: districts.pageSize }}
             onPaginationModelChange={(params) => {
@@ -99,8 +99,7 @@ const DistrictList = () => {
             }}
             slotProps={{
               toolbar: {
-                // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: () => navigate('/admin/districts/create'),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
