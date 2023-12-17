@@ -11,8 +11,7 @@ const getWards = async () => {
       district: true,
     },
   });
-  const count = await prisma.ward.count();
-  return { count, data };
+  return data;
 };
 
 const getWardById = async (id) => {

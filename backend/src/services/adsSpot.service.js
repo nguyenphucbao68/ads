@@ -13,11 +13,12 @@ const getAdsSpots = async () => {
       ads_type: true,
       spot_type: true,
     },
+    orderBy: {
+      id: 'asc',
+    },
   });
 
-  const count = await prisma.ads_spot.count();
-
-  return { count, data };
+  return data;
 };
 
 const getAdsSpotById = async (id) => {
