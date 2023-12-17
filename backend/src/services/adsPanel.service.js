@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 // get all adsPanels
 const getAdsPanels = async (params) => {
-  const adsPanels = await prisma.adsPanel.findMany({
+  const adsPanels = await prisma.ads_panel.findMany({
     where: {
       ...params,
     },
@@ -14,7 +14,7 @@ const getAdsPanels = async (params) => {
 
 // get a adsPanel by id
 const getAdsPanelById = async (id) => {
-  const adsPanel = await prisma.adsPanel.findUnique({
+  const adsPanel = await prisma.ads_panel.findUnique({
     where: {
       id: parseInt(id, 10),
     },
@@ -24,7 +24,7 @@ const getAdsPanelById = async (id) => {
 
 // create a new adsPanel
 const createAdsPanel = async (adsPanelBody) => {
-  const adsPanel = await prisma.adsPanel.create({
+  const adsPanel = await prisma.ads_panel.create({
     data: adsPanelBody,
   });
 
@@ -33,7 +33,7 @@ const createAdsPanel = async (adsPanelBody) => {
 
 // update an existing adsPanel
 const updateAdsPanel = async (id, adsPanelBody) => {
-  const adsPanel = await prisma.adsPanel.update({
+  const adsPanel = await prisma.ads_panel.update({
     where: {
       id: parseInt(id, 10),
     },
@@ -45,7 +45,7 @@ const updateAdsPanel = async (id, adsPanelBody) => {
 
 // delete an existing adsPanel
 const deleteAdsPanel = async (id) => {
-  const adsPanel = await prisma.adsPanel.update({
+  const adsPanel = await prisma.ads_panel.update({
     where: {
       id: parseInt(id, 10),
     },
