@@ -52,11 +52,11 @@ const AdsSpotDetails = () => {
     }))
   }
 
-  const handleSubmitForm = async (data) => {
+  const onSubmit = async (data) => {
     console.log(data)
   }
 
-  const handleDelete = async () => {
+  const onDelete = async () => {
     fetch(`${BACKEND_URL}/vhtt/ads-spots/${id}`, {
       method: 'DELETE',
     })
@@ -125,7 +125,7 @@ const AdsSpotDetails = () => {
             overflowY: 'auto',
           }}
         >
-          <CForm onSubmit={handleSubmit(handleSubmitForm)}>
+          <CForm onSubmit={handleSubmit(onSubmit)}>
             <CRow className="mb-3">
               <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label">
                 Địa chỉ
@@ -318,7 +318,7 @@ const AdsSpotDetails = () => {
               alignItems="center"
             >
               <Button
-                onClick={handleDelete}
+                onClick={onDelete}
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"
