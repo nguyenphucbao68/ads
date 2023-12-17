@@ -8,8 +8,7 @@ const getDistricts = async () => {
       is_deleted: false,
     },
   });
-  const count = await prisma.district.count();
-  return { count, data };
+  return data;
 };
 
 const getDistrictById = async (id) => {
@@ -41,16 +40,16 @@ const updateDistrict = async (id, body) => {
   });
   return data;
 };
-const getWards = async (district_id)=>{
+const getWards = async (districtId) => {
   const data = await prisma.ward.findMany({
-    where:{district_id},
-    select:{
+    where: { district_id: districtId },
+    select: {
       id: true,
-      name: true
-    }
-  })
+      name: true,
+    },
+  });
   return data;
-}
+};
 
 const deleteDistrict = async (id) => {
   const data = await prisma.district.update({
