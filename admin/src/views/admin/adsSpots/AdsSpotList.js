@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 
 import { Box, Checkbox } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
@@ -8,6 +8,9 @@ import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
+import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
@@ -50,74 +53,33 @@ const columns = [
       )
     },
   },
-  // {
-  //   field: 'actions',
-  //   headerName: 'Thao tác',
-  //   type: 'actions',
-  //   flex: 1,
-  //   sortable: false,
-  //   renderCell: (params) => (
-  //     <Grid container spacing={2}>
-  //       <Grid item xs={12} md={6}>
-  //         <Button
-  //           variant="contained"
-  //           color="primary"
-  //           size="small"
-  //           flex={1}
-  //           startIcon={<CIcon icon={cilPen} />}
-  //           onClick={() => console.log(params.row.id)}
-  //         >
-  //           Sửa
-  //         </Button>
-  //       </Grid>
-  //       <Grid item xs={12} md={6}>
-  //         <Button
-  //           variant="contained"
-  //           color="error"
-  //           size="small"
-  //           flex={1}
-  //           startIcon={<CIcon icon={cilTrash} />}
-  //           onClick={() => console.log(params.row.id)}
-  //         >
-  //           Xóa
-  //         </Button>
-  //       </Grid>
-  //     </Grid>
-  //   ),
-  // },
 ]
 
 const AdsSpotList = () => {
-  const [data, setData] = useState({
-    loading: false,
-    rows: [],
-    totalRows: 0,
-    pageSize: 25,
-    page: 0,
-  })
+  const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
 
   const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
-      setData((prevState) => ({ ...prevState, loading: true }))
-      fetch('http://localhost:4000/v1/vhtt/ads-spots')
+      dispatchAdsSpots({ type: 'TURN_ON_LOADING' })
+      fetch(`${BACKEND_URL}/vhtt/ads-spots`)
         .then((rawData) => rawData.json())
         .then((data) => {
-          setData((prevState) => ({
-            ...prevState,
-            rows: data['data'] || [],
-            loading: false,
-          }))
+          dispatchAdsSpots({
+            type: 'INITIALIZE_ADS_SPOTS',
+            payload: data || [],
+          })
+          dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
         })
         .catch((err) => {
           console.log(err.message)
-          setData((prevState) => ({ ...prevState, loading: false }))
+          dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
         })
     }
 
     fetchData()
-  }, [])
+  }, [dispatchAdsSpots])
 
   return (
     <CCard className="mb-4">
@@ -147,23 +109,23 @@ const AdsSpotList = () => {
               },
             }}
             columns={columns}
-            rows={data.rows}
-            loading={data.loading}
+            rows={adsSpots.rows}
+            loading={adsSpots.loading}
             getRowHeight={() => 'auto'}
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              // TODO: handle row click
-              // console.log(params.row.id)
               navigate(`/admin/ads_spots/${params.row.id}`)
             }}
-            paginationModel={{ page: data.page, pageSize: data.pageSize }}
+            paginationModel={{ page: adsSpots.page, pageSize: adsSpots.pageSize }}
             onPaginationModelChange={(params) => {
-              setData((prevState) => ({
-                ...prevState,
-                page: params.page,
-                pageSize: params.pageSize,
-              }))
+              dispatchAdsSpots({
+                type: 'CHANGE_PAGINATION_MODEL',
+                payload: {
+                  page: params.page,
+                  pageSize: params.pageSize,
+                },
+              })
             }}
             slots={{
               toolbar: CustomGridToolbar,

@@ -55,7 +55,7 @@ const AppSidebar = () => {
           }}
         />
         <span className="mt-2 fw-bold" style={{ fontSize: '1.2rem' }}>
-          Cán bộ phường 11
+          Cán bộ Sở VH-TT
         </span>
       </Box>
       <CSidebarNav>

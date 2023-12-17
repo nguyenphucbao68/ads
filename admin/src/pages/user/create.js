@@ -5,10 +5,8 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
-  CForm,
   CFormInput,
   CFormLabel,
-  CFormTextarea,
   CRow,
 } from '@coreui/react'
 

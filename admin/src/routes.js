@@ -1,5 +1,4 @@
 import React from 'react'
-import UserCreatePage from './pages/user/create'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const AdsSpotDetails = React.lazy(() => import('./views/admin/adsSpots/AdsSpotDetails'))

@@ -12,3 +12,5 @@ module.exports.adsSpotValidation = require('./adsSpot.validation');
 module.exports.adsPanelTypeValidation = require('./adsPanelType.validation');
 module.exports.reportTypeValidation = require('./reportType.validation');
 module.exports.changeRequestValidation = require('./changeRequest.validation');
+module.exports.adsTypeValidation = require('./adsType.validation');
+module.exports.spotTypeValidation = require('./spotType.validation');

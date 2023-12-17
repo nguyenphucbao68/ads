@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Box, Checkbox } from '@mui/material'
+import { Box } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
 import { CCard, CCardBody } from '@coreui/react'
 import { grey } from '@mui/material/colors'
