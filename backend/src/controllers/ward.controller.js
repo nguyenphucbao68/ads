@@ -7,7 +7,7 @@ const getWards = catchAsync(async (req, res) => {
 });
 
 const getWard = catchAsync(async (req, res) => {
-  const ward = await wardService.getWard(req.params.id);
+  const ward = await wardService.getWardById(req.params.id);
   res.send(ward);
 });
 

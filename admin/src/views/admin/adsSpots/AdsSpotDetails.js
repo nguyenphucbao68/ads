@@ -11,8 +11,10 @@ import { useForm } from 'react-hook-form'
 import { Gallery, Item } from 'react-photoswipe-gallery'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
+import ReactMapGL from '@goongmaps/goong-map-react'
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
 const AdsSpotDetails = () => {
   const { id } = useParams()
@@ -44,6 +46,12 @@ const AdsSpotDetails = () => {
     formState: { errors },
   } = useForm()
 
+  const [viewport, setViewport] = useState({
+    longitude: 105.85119,
+    latitude: 21.02727,
+    zoom: 8,
+  })
+
   const uploadMultiFiles = (e) => {
     const files = Array.from(e.target.files)
     setData((pre) => ({
@@ -52,11 +60,11 @@ const AdsSpotDetails = () => {
     }))
   }
 
-  const handleSubmitForm = async (data) => {
+  const onSubmit = async (data) => {
     console.log(data)
   }
 
-  const handleDelete = async () => {
+  const onDelete = async () => {
     fetch(`${BACKEND_URL}/vhtt/ads-spots/${id}`, {
       method: 'DELETE',
     })
@@ -125,19 +133,20 @@ const AdsSpotDetails = () => {
             overflowY: 'auto',
           }}
         >
-          <CForm onSubmit={handleSubmit(handleSubmitForm)}>
+          <CForm onSubmit={handleSubmit(onSubmit)}>
             <CRow className="mb-3">
               <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label">
                 Địa chỉ
               </CFormLabel>
               <CCol sm={12}>
-                <Box
-                  sx={{
-                    height: '500px',
-                    backgroundColor: '#ccc',
-                    borderRadius: '8px',
-                  }}
-                ></Box>
+                <ReactMapGL
+                  {...viewport}
+                  width="100%"
+                  height="550px"
+                  mapStyle="https://tiles.goong.io/assets/goong_map_dark.json"
+                  onViewportChange={(e) => setViewport({ ...e })}
+                  goongApiAccessToken={API_MAP_KEY}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -171,17 +180,15 @@ const AdsSpotDetails = () => {
                     </Item>
                   ))}
                 </Gallery>
-                <div className="mb-3">
-                  <CFormInput
-                    type="file"
-                    id="imagesPicker"
-                    className="form-control"
-                    onChange={uploadMultiFiles}
-                    multiple
-                    {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
-                    feedback={errors.images?.message}
-                  />
-                </div>
+                <CFormInput
+                  type="file"
+                  id="imagesPicker"
+                  className="form-control"
+                  onChange={uploadMultiFiles}
+                  multiple
+                  {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
+                  feedback={errors.images?.message}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -196,7 +203,11 @@ const AdsSpotDetails = () => {
                   {...register('spot_type_id', { required: 'Vui lòng chọn loại vị trí' })}
                 >
                   {spotTypes.rows.map((spotType) => (
-                    <option key={spotType.id} value={spotType.id}>
+                    <option
+                      key={spotType.id}
+                      value={spotType.id}
+                      selected={spotType.id === data.adsSpot.spot_type.id}
+                    >
                       {spotType.name}
                     </option>
                   ))}
@@ -215,7 +226,11 @@ const AdsSpotDetails = () => {
                   {...register('ads_type_id', { required: 'Vui lòng chọn hình thức quảng cáo' })}
                 >
                   {adsTypes.rows.map((adsType) => (
-                    <option key={adsType.id} value={adsType.id}>
+                    <option
+                      key={adsType.id}
+                      value={adsType.id}
+                      selected={adsType.id === data.adsSpot.ads_type.id}
+                    >
                       {adsType.name}
                     </option>
                   ))}
@@ -318,7 +333,7 @@ const AdsSpotDetails = () => {
               alignItems="center"
             >
               <Button
-                onClick={handleDelete}
+                onClick={onDelete}
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"

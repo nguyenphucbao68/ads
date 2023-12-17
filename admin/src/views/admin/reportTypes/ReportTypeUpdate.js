@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
-import {
-  CCard,
-  CCardBody,
-  CForm,
-  CCol,
-  CRow,
-  CFormLabel,
-  CFormInput,
-  CFormCheck,
-} from '@coreui/react'
+import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'

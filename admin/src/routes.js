@@ -1,23 +1,46 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+
+// Ads Spot
+const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
 const AdsSpotDetails = React.lazy(() => import('./views/admin/adsSpots/AdsSpotDetails'))
+
+// Ads Panel
+const AdsPanelTypeList = React.lazy(() => import('./views/admin/adsPanelTypes/AdsPanelTypeList'))
 const AdsPanelTypeDetail = React.lazy(() =>
   import('./views/admin/adsPanelTypes/AdsPanelTypeDetail'),
 )
 const AdsPanelTypeUpdate = React.lazy(() =>
   import('./views/admin/adsPanelTypes/AdsPanelTypeUpdate'),
 )
-const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
-const AdsPanelTypeList = React.lazy(() => import('./views/admin/adsPanelTypes/AdsPanelTypeList'))
+
+// Spot Type
 const SpotTypeList = React.lazy(() => import('./views/admin/spotTypes/SpotTypeList'))
+
+// Report Type
 const ReportTypeList = React.lazy(() => import('./views/admin/reportTypes/ReportTypeList'))
 const ReportTypeDetail = React.lazy(() => import('./views/admin/reportTypes/ReportTypeDetail'))
 const ReportTypeUpdate = React.lazy(() => import('./views/admin/reportTypes/ReportTypeUpdate'))
+
+// Ads Type
 const AdsTypeList = React.lazy(() => import('./views/admin/adsTypes/AdsTypeList'))
+
+// Ads Panel
 const AdsPanelList = React.lazy(() => import('./views/admin/adsPanels/AdsPanelList'))
 const AdsPanelDetail = React.lazy(() => import('./views/admin/adsPanels/AdsPanelDetail'))
 const AdsPanelUpdate = React.lazy(() => import('./views/admin/adsPanels/AdsPanelUpdate'))
+
+// Wards
+const WardList = React.lazy(() => import('./views/admin/wards/WardList'))
+const WardDetails = React.lazy(() => import('./views/admin/wards/WardDetails'))
+const WardCreate = React.lazy(() => import('./views/admin/wards/WardCreate'))
+
+// Districts
+const DistrictList = React.lazy(() => import('./views/admin/districts/DistrictList'))
+const DistrictDetails = React.lazy(() => import('./views/admin/districts/DistrictDetails'))
+const DistrictCreate = React.lazy(() => import('./views/admin/districts/DistrictCreate'))
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -76,8 +99,12 @@ const routes = [
 
   // Admin
   { path: '/admin', name: 'Admin', exact: true },
-  { path: '/admin/wards', name: 'Wards', element: Dashboard },
-  { path: '/admin/districts', name: 'Districts', element: Dashboard },
+  { path: '/admin/wards', name: 'Wards', element: WardList },
+  { path: '/admin/wards/:id', name: 'Ward Details', element: WardDetails },
+  { path: '/admin/wards/create', name: 'Ward Create', element: WardCreate },
+  { path: '/admin/districts', name: 'Districts', element: DistrictList },
+  { path: '/admin/districts/:id', name: 'District Details', element: DistrictDetails },
+  { path: '/admin/districts/create', name: 'District Details', element: DistrictCreate },
   { path: '/admin/types', name: 'Types', element: AdsSpotList },
   { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
   { path: '/admin/ads_spots/:id', name: 'Ads Spot Details', element: AdsSpotDetails },
