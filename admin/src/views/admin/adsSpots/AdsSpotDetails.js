@@ -1,14 +1,65 @@
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
+import { AdsTypeContext } from 'src/contexts/AdsTypeProvider'
+import { SpotTypeContext } from 'src/contexts/SpotTypeProvider'
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 const AdsSpotDetails = () => {
   const { id } = useParams()
-  console.log(id)
+  const { adsTypes, dispatchAdsTypes } = useContext(AdsTypeContext)
+  const { spotTypes, dispatchSpotTypes } = useContext(SpotTypeContext)
+  const [data, setData] = useState({
+    adsSpot: {
+      id,
+      address: '',
+      spot_type: {
+        id: 1,
+        name: '',
+      },
+      ads_type: {
+        id: 1,
+        name: '',
+      },
+      is_available: true,
+      max_ads_panels: 1,
+    },
+  })
+
+  useEffect(() => {
+    const fetchData = async () => {
+      fetch(`${BACKEND_URL}/vhtt/ads-types`)
+        .then((rawData) => rawData.json())
+        .then((data) => {
+          dispatchAdsTypes({ type: 'INITIALIZE_ADS_TYPES', payload: data || [] })
+        })
+
+      fetch(`${BACKEND_URL}/vhtt/spot-types`)
+        .then((rawData) => rawData.json())
+        .then((data) => {
+          dispatchSpotTypes({ type: 'INITIALIZE_SPOT_TYPES', payload: data || [] })
+        })
+
+      fetch(`${BACKEND_URL}/vhtt/ads-spots/${id}`)
+        .then((rawData) => rawData.json())
+        .then((data) => {
+          setData((pre) => ({
+            ...pre,
+            adsSpot: data,
+          }))
+        })
+        .catch((err) => {
+          console.log(err.message)
+        })
+    }
+
+    fetchData()
+  }, [id, dispatchAdsTypes, dispatchSpotTypes])
 
   return (
     <CCard
@@ -50,10 +101,11 @@ const AdsSpotDetails = () => {
               </CFormLabel>
               <CCol sm={10}>
                 <select className="form-select" id="optSpotType" name="optSpotType">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
+                  {spotTypes.rows.map((spotType) => (
+                    <option key={spotType.id} value={spotType.id}>
+                      {spotType.name}
+                    </option>
+                  ))}
                 </select>
               </CCol>
             </CRow>
@@ -63,16 +115,17 @@ const AdsSpotDetails = () => {
               </CFormLabel>
               <CCol sm={10}>
                 <select className="form-select" id="optAdsType" name="optAdsType">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
+                  {adsTypes.rows.map((adsType) => (
+                    <option key={adsType.id} value={adsType.id}>
+                      {adsType.name}
+                    </option>
+                  ))}
                 </select>
               </CCol>
             </CRow>
             <CRow className="mb-3">
               <CFormLabel htmlFor="checkboxIsAvailable" className="col-sm-2 col-form-label">
-                Đã quy hoach
+                Tình trạng quy hoach
               </CFormLabel>
               <CCol sm={10}>
                 <div className="form-check">
@@ -81,6 +134,7 @@ const AdsSpotDetails = () => {
                     type="radio"
                     name="flexRadioIsAvailable"
                     id="flexRadioAvailable"
+                    defaultChecked={data.adsSpot.is_available}
                   />
                   <label className="form-check-label" htmlFor="flexRadioAvailable">
                     Đã quy hoạch
@@ -92,7 +146,7 @@ const AdsSpotDetails = () => {
                     type="radio"
                     name="flexRadioIsAvailable"
                     id="flexRadioNotAvailable"
-                    checked
+                    defaultChecked={!data.adsSpot.is_available}
                   />
                   <label className="form-check-label" htmlFor="flexRadioNotAvailable">
                     Chưa quy hoạch

@@ -2,6 +2,10 @@ import React, { Component, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
 import { AdsSpotProvider } from './contexts/AdsSpotProvider'
+import { WardProvider } from './contexts/WardProvider'
+import { DistrictProvider } from './contexts/DistrictProvider'
+import { SpotTypeProvider } from './contexts/SpotTypeProvider'
+import { AdsTypeProvider } from './contexts/AdsTypeProvider'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -32,9 +36,17 @@ class App extends Component {
               path="*"
               name="Home"
               element={
-                <AdsSpotProvider>
-                  <DefaultLayout />
-                </AdsSpotProvider>
+                <DistrictProvider>
+                  <WardProvider>
+                    <AdsTypeProvider>
+                      <SpotTypeProvider>
+                        <AdsSpotProvider>
+                          <DefaultLayout />
+                        </AdsSpotProvider>
+                      </SpotTypeProvider>
+                    </AdsTypeProvider>
+                  </WardProvider>
+                </DistrictProvider>
               }
             />
           </Routes>

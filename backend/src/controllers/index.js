@@ -13,3 +13,5 @@ module.exports.adsSpotController = require('./adsSpot.controller');
 module.exports.adsPanelTypeController = require('./adsPanelType.controller');
 module.exports.reportTypeController = require('./reportType.controller');
 module.exports.changeRequestController = require('./changeRequest.controller');
+module.exports.adsTypeController = require('./adsType.controller');
+module.exports.spotTypeController = require('./spotType.controller');

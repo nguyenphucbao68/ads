@@ -1,19 +1,19 @@
 import React, { useReducer, createContext } from 'react'
 import PropTypes from 'prop-types'
 
-export const AdsSpotContext = createContext({
-  adsSpots: {
+export const AdsTypeContext = createContext({
+  adsTypes: {
     loading: false,
     rows: [],
     pageSize: 25,
     page: 0,
   },
-  dispatchAdsSpots: () => {},
+  dispatchAdsTypes: () => {},
 })
 
-const adsSpotReducer = (state, action) => {
+const adsTypeReducer = (state, action) => {
   switch (action.type) {
-    case 'INITIALIZE_ADS_SPOTS': {
+    case 'INITIALIZE_ADS_TYPES': {
       return {
         ...state,
         rows: action.payload,
@@ -47,23 +47,23 @@ const adsSpotReducer = (state, action) => {
   }
 }
 
-const initialAdsSpot = {
+const initialAdsType = {
   loading: false,
   rows: [],
   pageSize: 25,
   page: 0,
 }
 
-export const AdsSpotProvider = ({ children }) => {
-  const [adsSpots, dispatchAdsSpots] = useReducer(adsSpotReducer, initialAdsSpot)
+export const AdsTypeProvider = ({ children }) => {
+  const [adsTypes, dispatchAdsTypes] = useReducer(adsTypeReducer, initialAdsType)
 
   return (
-    <AdsSpotContext.Provider value={{ adsSpots, dispatchAdsSpots }}>
+    <AdsTypeContext.Provider value={{ adsTypes, dispatchAdsTypes }}>
       {children}
-    </AdsSpotContext.Provider>
+    </AdsTypeContext.Provider>
   )
 }
 
-AdsSpotProvider.propTypes = {
+AdsTypeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 }
