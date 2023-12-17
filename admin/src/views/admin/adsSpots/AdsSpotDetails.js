@@ -11,8 +11,10 @@ import { useForm } from 'react-hook-form'
 import { Gallery, Item } from 'react-photoswipe-gallery'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
+import ReactMapGL from '@goongmaps/goong-map-react'
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
 const AdsSpotDetails = () => {
   const { id } = useParams()
@@ -43,6 +45,12 @@ const AdsSpotDetails = () => {
     formState,
     formState: { errors },
   } = useForm()
+
+  const [viewport, setViewport] = useState({
+    longitude: 105.85119,
+    latitude: 21.02727,
+    zoom: 8,
+  })
 
   const uploadMultiFiles = (e) => {
     const files = Array.from(e.target.files)
@@ -131,13 +139,14 @@ const AdsSpotDetails = () => {
                 Địa chỉ
               </CFormLabel>
               <CCol sm={12}>
-                <Box
-                  sx={{
-                    height: '500px',
-                    backgroundColor: '#ccc',
-                    borderRadius: '8px',
-                  }}
-                ></Box>
+                <ReactMapGL
+                  {...viewport}
+                  width={'100%'}
+                  height="550px"
+                  mapStyle="https://tiles.goong.io/assets/goong_map_dark.json"
+                  onViewportChange={(e) => setViewport({ ...e })}
+                  goongApiAccessToken={API_MAP_KEY}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -171,17 +180,15 @@ const AdsSpotDetails = () => {
                     </Item>
                   ))}
                 </Gallery>
-                <div className="mb-3">
-                  <CFormInput
-                    type="file"
-                    id="imagesPicker"
-                    className="form-control"
-                    onChange={uploadMultiFiles}
-                    multiple
-                    {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
-                    feedback={errors.images?.message}
-                  />
-                </div>
+                <CFormInput
+                  type="file"
+                  id="imagesPicker"
+                  className="form-control"
+                  onChange={uploadMultiFiles}
+                  multiple
+                  {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
+                  feedback={errors.images?.message}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
