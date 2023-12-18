@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useCallback } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
@@ -11,13 +11,24 @@ import { useForm } from 'react-hook-form'
 import { Gallery, Item } from 'react-photoswipe-gallery'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
-import ReactMapGL from '@goongmaps/goong-map-react'
 import * as adsSpotService from 'src/services/adsSpot'
 import * as adsTypeService from 'src/services/adsType'
 import * as spotTypeService from 'src/services/spotType'
 import ConfirmModal from 'src/modals/ConfirmModal'
+import MapGL, { Marker, NavigationControl } from '@goongmaps/goong-map-react'
+import './AdsSpotDetails.css'
+
+import ControlPanel from './ControlPanel'
+import Pin from './Pin'
 
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
+
+const navStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  padding: '10px',
+}
 
 const AdsSpotDetails = () => {
   const { id } = useParams()
@@ -43,18 +54,41 @@ const AdsSpotDetails = () => {
     fileSelected: [],
   })
 
+  const [viewport, setViewport] = useState({
+    latitude: 21.02727,
+    longitude: 105.85119,
+    zoom: 12,
+    bearing: 0,
+    pitch: 0,
+  })
+  const [marker, setMarker] = useState({
+    latitude: 21.02727,
+    longitude: 105.85119,
+  })
+  const [events, logEvents] = useState({})
+
+  const onMarkerDragStart = useCallback((event) => {
+    logEvents((_events) => ({ ..._events, onDragStart: event.lngLat }))
+  }, [])
+
+  const onMarkerDrag = useCallback((event) => {
+    logEvents((_events) => ({ ..._events, onDrag: event.lngLat }))
+  }, [])
+
+  const onMarkerDragEnd = useCallback((event) => {
+    logEvents((_events) => ({ ..._events, onDragEnd: event.lngLat }))
+    setMarker({
+      longitude: event.lngLat[0],
+      latitude: event.lngLat[1],
+    })
+  }, [])
+
   const {
     register,
     handleSubmit,
     formState,
     formState: { errors },
   } = useForm()
-
-  const [viewport, setViewport] = useState({
-    longitude: 105.85119,
-    latitude: 21.02727,
-    zoom: 8,
-  })
 
   const uploadMultiFiles = (e) => {
     const files = Array.from(e.target.files)
@@ -68,11 +102,15 @@ const AdsSpotDetails = () => {
     try {
       const formData = new FormData()
       formData.append('address', data.address)
-      formData.append('spot_type_id', data.spot_type_id)
-      formData.append('ads_type_id', data.ads_type_id)
-      formData.append('is_available', data.is_available)
-      formData.append('max_ads_panels', data.max_ads_panels)
+      formData.append('ward_id', 1)
+      formData.append('district_id', 1)
+      formData.append('spot_type_id', parseInt(data.spot_type_id, 10))
+      formData.append('ads_type_id', parseInt(data.ads_type_id, 10))
       formData.append('image', data.images.join(','))
+      formData.append('longtitude', viewport.longitude)
+      formData.append('latitude', viewport.latitude)
+      formData.append('is_available', Boolean(data.is_available))
+      formData.append('max_ads_panels', parseInt(data.max_ads_panels, 10))
       // const adsSpot = await adsSpotService.update(id, formData)
       // if (adsSpot) {
       //   toast.success('Cập nhật điểm đặt quảng cáo thành công')
@@ -141,27 +179,45 @@ const AdsSpotDetails = () => {
           Chi tiết điểm đặt quảng cáo
         </h4>
         <hr />
-        <Box
-          sx={{
-            height: 'calc(100vh - 350px)',
-            width: '100%',
-            overflowY: 'auto',
-          }}
-        >
-          <CForm onSubmit={handleSubmit(onSubmit)}>
+        <CForm onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              height: 'calc(100vh - 350px)',
+              width: '100%',
+              overflowY: 'auto',
+            }}
+          >
             <CRow className="mb-3">
               <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label">
                 Địa chỉ
               </CFormLabel>
               <CCol sm={12}>
-                <ReactMapGL
+                <MapGL
                   {...viewport}
                   width="100%"
                   height="550px"
-                  mapStyle="https://tiles.goong.io/assets/goong_map_dark.json"
-                  onViewportChange={(e) => setViewport({ ...e })}
+                  mapStyle="https://tiles.goong.io/assets/goong_map_web.json"
+                  onViewportChange={setViewport}
                   goongApiAccessToken={API_MAP_KEY}
-                />
+                >
+                  <Marker
+                    longitude={marker.longitude}
+                    latitude={marker.latitude}
+                    offsetTop={-20}
+                    offsetLeft={-10}
+                    draggable
+                    onDragStart={onMarkerDragStart}
+                    onDrag={onMarkerDrag}
+                    onDragEnd={onMarkerDragEnd}
+                  >
+                    <Pin size={20} />
+                  </Marker>
+
+                  <div className="nav" style={navStyle}>
+                    <NavigationControl />
+                  </div>
+                </MapGL>
+                <ControlPanel events={events} />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -309,65 +365,65 @@ const AdsSpotDetails = () => {
                 />
               </CCol>
             </CRow>
-          </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-            marginTop: '20px',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => console.log('Lưu')}
-                type="submit"
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                disabled={!formState.isDirty}
-                sx={{
-                  borderRadius: '8px',
-                }}
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              marginTop: '20px',
+            }}
+          >
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Lưu
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={() =>
-                  setData((pre) => ({
-                    ...pre,
-                    showConfirmModal: true,
-                  }))
-                }
-                type="button"
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
+                <Button
+                  onClick={() => console.log('Lưu')}
+                  type="submit"
+                  variant="contained"
+                  startIcon={<SaveIcon />}
+                  color="primary"
+                  disabled={!formState.isDirty}
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Lưu
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
               >
-                Xóa
-              </Button>
+                <Button
+                  onClick={() =>
+                    setData((pre) => ({
+                      ...pre,
+                      showConfirmModal: true,
+                    }))
+                  }
+                  type="button"
+                  variant="text"
+                  startIcon={<DeleteIcon />}
+                  color="error"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Xóa
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </CForm>
       </CCardBody>
     </CCard>
   )
