@@ -8,4 +8,16 @@ const login = (email, password) => {
   })
 }
 
-export { login }
+const changePassword = (currentPassword, newPassword, rePassword) => {
+  return api
+    .post('/auth/reset-password', {
+      currentPassword,
+      newPassword,
+      rePassword,
+    })
+    .then((res) => {
+      return res.data
+    })
+}
+
+export { login, changePassword }

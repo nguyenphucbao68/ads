@@ -43,21 +43,24 @@ instance.interceptors.response.use(
         })
         .then((res) => {
           if (res.status === 200) {
-            console.log('res', res.data)
             localStorage.setItem('token', res.data.access.token)
             localStorage.setItem('refreshToken', res.data.refresh.token)
 
-            console.log('Access token refreshed!')
             // return axios(originalRequest);
             return instance(originalRequest)
           }
         })
+        .catch((err) => {
+          // if status Please authenticate
+          if (err.response.status === 401 || err.response.status === 403) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('refreshToken')
+            window.location.href = '/#/login'
+          }
+        })
     }
-    localStorage.removeItem('token')
-    localStorage.removeItem('refreshToken')
-    window.location.href = '/#/login'
-    console.error('error', error)
-    return Promise.resolve(error)
+
+    return Promise.reject(error)
   },
 )
 

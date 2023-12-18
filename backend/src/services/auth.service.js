@@ -71,19 +71,31 @@ const refreshAuth = async (refreshToken) => {
  * @param {string} newPassword
  * @returns {Promise}
  */
-const resetPassword = async (email, newPassword, repassword) => {
+const resetPassword = async (userId, currentPassword, newPassword, rePassword) => {
   try {
-    if (newPassword !== repassword) {
+    if (newPassword !== rePassword) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Password is not matched with repassword');
     }
 
-    const user = await userService.getUserByEmail(email);
+    // check currentPassword
+    const user = await userService.getById(userId);
     if (!user) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'Can not find this email!');
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
-    await userService.updateUserById(user.id, newPassword);
+
+    if (!(await bcrypt.compare(currentPassword, user.password.toString()))) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Current password is incorrect');
+    }
+    const saltRounds = 10;
+
+    // eslint-disable-next-line no-param-reassign
+    const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+    const password = Buffer.from(passwordHash);
+    await userService.update(userId, {
+      password,
+    });
   } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Password reset failed');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Password reset failed');
   }
   return true;
 };
