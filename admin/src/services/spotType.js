@@ -19,13 +19,9 @@ const create = (data) => {
 }
 
 const update = (id, data) => {
-  return api
-    .put(`vhtt/spot-types/${id}`, {
-      data,
-    })
-    .then((res) => {
-      return res.data
-    })
+  return api.put(`vhtt/spot-types/${id}`, data).then((res) => {
+    return res.data
+  })
 }
 
 const deleteById = (id) => {

@@ -22,6 +22,10 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response && error.response.status === 400) {
+      console.error('error.response.data', error.response.data)
+      return Promise.resolve(error.response.data)
+    }
     const originalRequest = error.config
     const refreshToken = localStorage.getItem('refreshToken')
     console.log('refreshToken', refreshToken)
@@ -52,7 +56,8 @@ instance.interceptors.response.use(
     localStorage.removeItem('token')
     localStorage.removeItem('refreshToken')
     window.location.href = '/#/login'
-    return Promise.reject(error)
+    console.error('error', error)
+    return Promise.resolve(error)
   },
 )
 

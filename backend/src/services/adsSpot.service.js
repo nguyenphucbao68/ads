@@ -88,6 +88,12 @@ const updateAdsSpot = async (id, body) => {
       latitude: body.latitude,
       longtitude: body.longtitude,
     },
+    include: {
+      ward: true,
+      district: true,
+      ads_type: true,
+      spot_type: true,
+    },
   });
   return data;
 };

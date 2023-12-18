@@ -10,8 +10,8 @@ import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import { WardContext } from 'src/contexts/WardProvider'
 import * as wardService from 'src/services/ward'
-
-// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import { Toaster, toast } from 'sonner'
+import { useLocation } from 'react-router-dom'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
@@ -35,6 +35,17 @@ const WardList = () => {
   const { wards, dispatchWards } = useContext(WardContext)
 
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const showSuccesToast = (message) => {
+    toast.success(message)
+  }
+
+  useEffect(() => {
+    if (location.state?.type === 'success') {
+      showSuccesToast(location.state.message)
+    }
+  }, [location])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,6 +63,7 @@ const WardList = () => {
 
   return (
     <CCard className="mb-4">
+      <Toaster position="top-right" reverseOrder={false} />
       <CCardBody>
         <h4 className="card-title mb-0">Quản lý phường/xã</h4>
         <Box

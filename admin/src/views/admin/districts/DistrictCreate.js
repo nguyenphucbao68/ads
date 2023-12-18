@@ -15,13 +15,23 @@ const DistrictDetails = () => {
     handleSubmit,
     formState,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    values: {
+      district_name: '',
+    },
+  })
 
   const onSubmit = async (data) => {
-    const result = await districtService.create(data)
+    const result = await districtService.create({
+      name: data.district_name,
+    })
     if (result.id) {
-      navigate('/admin/districts')
-      toast.success('Thêm quận/huyện thành công')
+      navigate('/admin/districts', {
+        state: {
+          type: 'success',
+          message: 'Thêm quận/huyện thành công',
+        },
+      })
     } else {
       toast.error('Thêm quận/huyện thất bại')
     }
@@ -40,7 +50,6 @@ const DistrictDetails = () => {
           Thêm quận/huyện
         </h4>
         <hr />
-
         <CForm onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{

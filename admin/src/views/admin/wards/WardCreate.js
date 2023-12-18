@@ -31,8 +31,12 @@ const WardCreate = () => {
       district_id: parseInt(data.district_id, 10),
     })
     if (result.id) {
-      navigate('/admin/wards')
-      toast.success('Thêm phường/xã thành công')
+      navigate('/admin/wards', {
+        state: {
+          type: 'success',
+          message: 'Thêm phường/xã thành công',
+        },
+      })
     } else {
       toast.error('Thêm phường/xã thất bại')
     }
@@ -63,14 +67,14 @@ const WardCreate = () => {
           Thêm phường/xã
         </h4>
         <hr />
-        <Box
-          sx={{
-            height: 'calc(100vh - 350px)',
-            width: '100%',
-            overflowY: 'auto',
-          }}
-        >
-          <CForm onSubmit={handleSubmit(onSubmit)}>
+        <CForm onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              height: 'calc(100vh - 350px)',
+              width: '100%',
+              overflowY: 'auto',
+            }}
+          >
             <CRow className="mt-2 mb-3">
               <CFormLabel htmlFor="inputWardName" className="col-sm-2 col-form-label">
                 Tên phường/xã
@@ -106,38 +110,38 @@ const WardCreate = () => {
                 </select>
               </CCol>
             </CRow>
-          </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-            marginTop: '20px',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                type="submit"
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                disabled={!formState.isDirty}
-                sx={{
-                  borderRadius: '8px',
-                }}
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              marginTop: '20px',
+            }}
+          >
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Thêm
-              </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  startIcon={<SaveIcon />}
+                  color="primary"
+                  disabled={!formState.isDirty}
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Thêm
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </CForm>
       </CCardBody>
     </CCard>
   )

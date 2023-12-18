@@ -8,6 +8,9 @@ const getAdsPanels = async (params) => {
     where: {
       ...params,
     },
+    orderBy: {
+      id: 'asc',
+    },
   });
   return adsPanels;
 };
