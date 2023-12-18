@@ -22,6 +22,8 @@ const AppSidebar = () => {
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
+  const user = JSON.parse(localStorage.getItem('user'))
+
   return (
     <CSidebar
       position="fixed"
@@ -45,7 +47,6 @@ const AppSidebar = () => {
           paddingLeft: '20px',
         }}
       >
-        {/* <CIcon icon={cilUser} height="20" /> */}
         <AdministratorIcon
           style={{
             color: '#ffffff',
@@ -55,7 +56,11 @@ const AppSidebar = () => {
           }}
         />
         <span className="mt-2 fw-bold" style={{ fontSize: '1.2rem' }}>
-          Cán bộ Sở VH-TT
+          {user.role === 0
+            ? 'Cán bộ Sở VH-TT'
+            : user.role === 1
+            ? `Cán bộ ${user?.district?.name || 'Quận'}`
+            : `Cán bộ ${user?.ward?.name || 'Phường'}`}
         </span>
       </Box>
       <CSidebarNav>

@@ -17,8 +17,11 @@ model ads_license {
   expire_date  DateTime  @db.Timestamptz(6)
   status       Int       @default(1)
   is_deleted   Boolean   @default(false)
-  ads_panel    ads_panel @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk_1")
+  email        String?
+  phone        String?
+  address      String?
   user         user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk")
+  ads_panel    ads_panel @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk_1")
 }
 
 model ads_panel {
@@ -30,9 +33,9 @@ model ads_panel {
   image          String
   ads_spot_id    Int
   is_deleted     Boolean        @default(false)
-  ads_spot       ads_spot       @relation(fields: [ads_spot_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_panel_fk_1")
-  ads_panel_type ads_panel_type @relation(fields: [ads_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_panel_fk")
   ads_license    ads_license[]
+  ads_panel_type ads_panel_type @relation(fields: [ads_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_panel_fk")
+  ads_spot       ads_spot       @relation(fields: [ads_spot_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_panel_fk_1")
   report         report[]
 }
 
@@ -56,11 +59,11 @@ model ads_spot {
   is_available  Boolean     @default(true)
   max_ads_panel Int
   is_deleted    Boolean     @default(false)
-  ads_type      ads_type    @relation(fields: [ads_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_3")
-  district      district    @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk")
-  spot_type     spot_type   @relation(fields: [spot_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_2")
-  ward          ward        @relation(fields: [ward_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_1")
   ads_panel     ads_panel[]
+  district      district    @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk")
+  ward          ward        @relation(fields: [ward_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_1")
+  spot_type     spot_type   @relation(fields: [spot_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_2")
+  ads_type      ads_type    @relation(fields: [ads_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_spot_fk_3")
 }
 
 model ads_type {
@@ -103,9 +106,9 @@ model report {
   is_deleted      Boolean     @default(false)
   ads_panel_id    Int
   handled_user_id Int?
+  report_type     report_type @relation(fields: [report_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "report_fk")
   ads_panel       ads_panel   @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "report_fk_1")
   user            user?       @relation(fields: [handled_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "report_fk_2")
-  report_type     report_type @relation(fields: [report_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "report_fk")
 }
 
 model report_type {
@@ -126,7 +129,7 @@ model user {
   id                         Int                          @id(map: "user_pk") @default(autoincrement())
   role                       Int
   name                       String?                      @db.VarChar
-  dob                        DateTime?                    
+  dob                        String?                      @db.VarChar
   email                      String?                      @db.VarChar
   phone                      String?                      @db.VarChar
   username                   String?                      @db.VarChar
@@ -145,8 +148,8 @@ model user {
 model user_district {
   user_id     Int
   district_id Int
-  district    district @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_district_fk_1")
   user        user     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_district_fk")
+  district    district @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "user_district_fk_1")
 
   @@id([user_id, district_id], map: "user_district_pk")
 }
@@ -165,7 +168,7 @@ model ward {
   name        String      @db.VarChar
   district_id Int
   is_deleted  Boolean     @default(false)
-  district    district    @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ward_fk")
   ads_spot    ads_spot[]
   user_ward   user_ward[]
+  district    district    @relation(fields: [district_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ward_fk")
 }

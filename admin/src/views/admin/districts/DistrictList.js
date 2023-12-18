@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 
-import { Box, Checkbox } from '@mui/material'
+import { Box } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
 import { CCard, CCardBody } from '@coreui/react'
 import { grey } from '@mui/material/colors'
@@ -8,80 +8,57 @@ import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
-import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
-import * as adsSpotService from 'src/services/adsSpot'
+import { DistrictContext } from 'src/contexts/DistrictProvider'
+import * as districtService from 'src/services/district'
+import { Toaster, toast } from 'sonner'
+import { useLocation } from 'react-router-dom'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
   {
-    field: 'address',
-    headerName: 'Địa điểm',
-    width: 400,
-  },
-  {
-    field: 'spot_type_name',
-    headerName: 'Loại vị trí',
-    width: 400,
-    renderCell: (cellValues) => {
-      const spotType = cellValues.row['spot_type']
-      return <span>{spotType.name}</span>
-    },
-  },
-  {
-    field: 'ads_type_name',
-    headerName: 'Hình thức quảng cáo',
-    width: 200,
-    renderCell: (cellValues) => {
-      const adsType = cellValues.row['ads_type']
-      return <span>{adsType.name}</span>
-    },
-  },
-  {
-    field: 'is_available',
-    headerName: 'Đã quy hoạch',
+    field: 'name',
+    headerName: 'Tên quận/huyện',
     flex: 1,
-    type: 'boolean',
-    sortable: false,
-    renderCell: (cellValues) => {
-      return (
-        <Checkbox
-          checked={cellValues.row.is_available}
-          color={cellValues.row.is_available ? 'success' : 'error'}
-        />
-      )
-    },
   },
 ]
 
-const AdsSpotList = () => {
-  const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
+const DistrictList = () => {
+  const { districts, dispatchDistricts } = useContext(DistrictContext)
+
+  const showSuccesToast = (message) => {
+    toast.success(message)
+  }
+
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.state?.type === 'success') {
+      showSuccesToast(location.state.message)
+    }
+  }, [location])
 
   const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatchAdsSpots({ type: 'TURN_ON_LOADING' })
-      try {
-        const data = await adsSpotService.getAll()
-        dispatchAdsSpots({
-          type: 'INITIALIZE_ADS_SPOTS',
-          payload: data || [],
-        })
-        dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
-      } catch (err) {
-        console.log(err.message)
-        dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
-      }
+      dispatchDistricts({ type: 'TURN_ON_LOADING' })
+      const districtsResponse = await districtService.getAll()
+      dispatchDistricts({
+        type: 'INITIALIZE_DISTRICTS',
+        payload: districtsResponse || [],
+      })
+      dispatchDistricts({ type: 'TURN_OFF_LOADING' })
     }
 
     fetchData()
-  }, [dispatchAdsSpots])
+  }, [dispatchDistricts])
 
   return (
     <CCard className="mb-4">
+      <Toaster position="top-right" reverseOrder={false} />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title mb-0">
-          Quản lý điểm đặt quảng cáo
+          Quản lý quận/huyện
         </h4>
         <Box
           sx={{
@@ -105,17 +82,17 @@ const AdsSpotList = () => {
               },
             }}
             columns={columns}
-            rows={adsSpots.rows}
-            loading={adsSpots.loading}
+            rows={districts.rows}
+            loading={districts.loading}
             getRowHeight={() => 'auto'}
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              navigate(`/admin/ads_spots/${params.row.id}`)
+              navigate(`/admin/districts/${params.row.id}`)
             }}
-            paginationModel={{ page: adsSpots.page, pageSize: adsSpots.pageSize }}
+            paginationModel={{ page: districts.page, pageSize: districts.pageSize }}
             onPaginationModelChange={(params) => {
-              dispatchAdsSpots({
+              dispatchDistricts({
                 type: 'CHANGE_PAGINATION_MODEL',
                 payload: {
                   page: params.page,
@@ -129,8 +106,7 @@ const AdsSpotList = () => {
             }}
             slotProps={{
               toolbar: {
-                // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: () => navigate('/admin/districts/create'),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
@@ -145,4 +121,4 @@ const AdsSpotList = () => {
   )
 }
 
-export default AdsSpotList
+export default DistrictList

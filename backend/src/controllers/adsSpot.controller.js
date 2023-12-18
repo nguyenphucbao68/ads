@@ -22,8 +22,8 @@ const updateAdsSpot = catchAsync(async (req, res) => {
 });
 
 const deleteAdsSpot = catchAsync(async (req, res) => {
-  await adsSpotService.deleteAdsSpot(req.params.id);
-  res.status(204).send();
+  const adsSpot = await adsSpotService.deleteAdsSpot(req.params.id);
+  res.send(adsSpot);
 });
 
 const getAllAdsSpotByAdsPanelId = catchAsync(async (req, res) => {

@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const httpStatus = require('http-status');
 const bcrypt = require('bcrypt');
+const { PrismaClient } = require('@prisma/client');
 const tokenService = require('./token.service');
 const userService = require('./user.service');
 const Token = require('../models/token.model');
@@ -8,7 +9,6 @@ const ApiError = require('../utils/ApiError');
 
 const { tokenTypes } = require('../config/tokens');
 
-const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 /**

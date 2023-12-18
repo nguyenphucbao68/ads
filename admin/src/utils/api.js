@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:4000/v1/'
+const API_URL = process.env.REACT_APP_API_URL
 
 const instance = axios.create({
   baseURL: API_URL,
@@ -22,6 +22,10 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response && error.response.status === 400) {
+      console.error('error.response.data', error.response.data)
+      return Promise.resolve(error.response.data)
+    }
     const originalRequest = error.config
     const refreshToken = localStorage.getItem('refreshToken')
     console.log('refreshToken', refreshToken)
