@@ -68,7 +68,7 @@ const getById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return prisma.users.findUnique({
+  return prisma.user.findFirst({
     where: {
       email,
     },
