@@ -10,6 +10,8 @@ import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import { DistrictContext } from 'src/contexts/DistrictProvider'
 import * as districtService from 'src/services/district'
+import { Toaster, toast } from 'sonner'
+import { useLocation } from 'react-router-dom'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
@@ -22,6 +24,18 @@ const columns = [
 
 const DistrictList = () => {
   const { districts, dispatchDistricts } = useContext(DistrictContext)
+
+  const showSuccesToast = (message) => {
+    toast.success(message)
+  }
+
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.state?.type === 'success') {
+      showSuccesToast(location.state.message)
+    }
+  }, [location])
 
   const navigate = useNavigate()
 
@@ -41,6 +55,7 @@ const DistrictList = () => {
 
   return (
     <CCard className="mb-4">
+      <Toaster position="top-right" reverseOrder={false} />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title mb-0">
           Quản lý quận/huyện

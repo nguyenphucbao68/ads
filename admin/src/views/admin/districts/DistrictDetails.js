@@ -27,11 +27,21 @@ const DistrictDetails = () => {
     handleSubmit,
     formState,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    values: {
+      district_name: data.district.name,
+    },
+  })
 
   const onSubmit = async (data) => {
-    const result = await districtService.update(id, data)
+    const result = await districtService.update(id, {
+      name: data.district_name,
+    })
     if (result.id) {
+      setData((pre) => ({
+        ...pre,
+        district: result,
+      }))
       toast.success('Cập nhật quận/huyện thành công')
     } else {
       toast.error('Cập nhật quận/huyện thất bại')
@@ -41,8 +51,12 @@ const DistrictDetails = () => {
   const onDelete = async () => {
     const result = await districtService.deleteById(id)
     if (result.is_deleted) {
-      navigate('/admin/districts')
-      toast.success('Xóa quận/huyện thành công')
+      navigate('/admin/districts', {
+        state: {
+          type: 'success',
+          message: 'Xóa quận/huyện thành công',
+        },
+      })
     } else {
       toast.error('Xóa quận/huyện thất bại')
     }
@@ -82,14 +96,14 @@ const DistrictDetails = () => {
           Chi tiết quận/huyện
         </h4>
         <hr />
-        <Box
-          sx={{
-            height: 'calc(100vh - 350px)',
-            width: '100%',
-            overflowY: 'auto',
-          }}
-        >
-          <CForm onSubmit={handleSubmit(onSubmit)}>
+        <CForm onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              height: 'calc(100vh - 350px)',
+              width: '100%',
+              overflowY: 'auto',
+            }}
+          >
             <CRow className="mt-2 mb-3">
               <CFormLabel htmlFor="inputDistrictName" className="col-sm-2 col-form-label">
                 Tên quận/huyện
@@ -107,58 +121,58 @@ const DistrictDetails = () => {
                 />
               </CCol>
             </CRow>
-          </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-            marginTop: '20px',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                variant="contained"
-                type="submit"
-                startIcon={<SaveIcon />}
-                color="primary"
-                disabled={!formState.isDirty}
-                sx={{
-                  borderRadius: '8px',
-                }}
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              marginTop: '20px',
+            }}
+          >
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Lưu
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => setData((pre) => ({ ...pre, showConfirmModal: true }))}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
+                <Button
+                  variant="contained"
+                  type="submit"
+                  startIcon={<SaveIcon />}
+                  color="primary"
+                  disabled={!formState.isDirty}
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Lưu
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
               >
-                Xóa
-              </Button>
+                <Button
+                  onClick={() => setData((pre) => ({ ...pre, showConfirmModal: true }))}
+                  variant="text"
+                  startIcon={<DeleteIcon />}
+                  color="error"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Xóa
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </CForm>
       </CCardBody>
     </CCard>
   )

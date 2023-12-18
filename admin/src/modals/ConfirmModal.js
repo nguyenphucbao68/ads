@@ -27,7 +27,9 @@ const ConfirmModal = ({
         <CButton color="secondary" onClick={onCancel}>
           {cancelText || 'Hủy'}
         </CButton>
-        <CButton color="primary">{confirmText || 'Xác nhận'}</CButton>
+        <CButton color="primary" onClick={onConfirm}>
+          {confirmText || 'Xác nhận'}
+        </CButton>
       </CModalFooter>
     </CModal>
   )

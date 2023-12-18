@@ -22,8 +22,8 @@ const updateWard = catchAsync(async (req, res) => {
 });
 
 const deleteWard = catchAsync(async (req, res) => {
-  await wardService.deleteWard(req.params.id);
-  res.status(204).send();
+  const ward = await wardService.deleteWard(req.params.id);
+  res.send(ward);
 });
 
 module.exports = {

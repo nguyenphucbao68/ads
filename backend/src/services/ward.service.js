@@ -10,6 +10,9 @@ const getWards = async () => {
     include: {
       district: true,
     },
+    orderBy: {
+      id: 'asc',
+    },
   });
   return data;
 };
@@ -44,6 +47,9 @@ const updateWard = async (id, body) => {
     data: {
       name: body.name,
       district_id: body.district_id,
+    },
+    include: {
+      district: true,
     },
   });
   return data;

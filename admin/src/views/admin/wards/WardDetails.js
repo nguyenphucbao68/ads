@@ -34,7 +34,12 @@ const WardDetails = () => {
     handleSubmit,
     formState,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    values: {
+      ward_name: data.ward.name,
+      district_id: data.ward.district.id,
+    },
+  })
 
   const onSubmit = async (data) => {
     const result = await wardService.update(id, {
@@ -42,6 +47,10 @@ const WardDetails = () => {
       district_id: parseInt(data.district_id, 10),
     })
     if (result.id) {
+      setData((pre) => ({
+        ...pre,
+        ward: result,
+      }))
       toast.success('Cập nhật phường/xã thành công')
     } else {
       toast.error('Cập nhật phường/xã thất bại')
@@ -51,8 +60,12 @@ const WardDetails = () => {
   const onDelete = async () => {
     const result = await wardService.deleteById(id)
     if (result.is_deleted) {
-      navigate('/admin/wards')
-      toast.success('Xóa phường/xã thành công')
+      navigate('/admin/wards', {
+        state: {
+          type: 'success',
+          message: 'Xóa phường/xã thành công',
+        },
+      })
     } else {
       toast.error('Xóa phường/xã thất bại')
     }
@@ -98,14 +111,14 @@ const WardDetails = () => {
           Chi tiết phường/xã
         </h4>
         <hr />
-        <Box
-          sx={{
-            height: 'calc(100vh - 350px)',
-            width: '100%',
-            overflowY: 'auto',
-          }}
-        >
-          <CForm onSubmit={handleSubmit(onSubmit)}>
+        <CForm onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              height: 'calc(100vh - 350px)',
+              width: '100%',
+              overflowY: 'auto',
+            }}
+          >
             <CRow className="mt-2 mb-3">
               <CFormLabel htmlFor="inputWardName" className="col-sm-2 col-form-label">
                 Tên phường/xã
@@ -137,7 +150,7 @@ const WardDetails = () => {
                   {districts.rows.map((district) => (
                     <option
                       key={district.id}
-                      defaultValue={district.id}
+                      value={district.id}
                       selected={district.id === data.ward.district.id}
                     >
                       {district.name}
@@ -146,59 +159,58 @@ const WardDetails = () => {
                 </select>
               </CCol>
             </CRow>
-          </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-            marginTop: '20px',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => console.log('Lưu')}
-                type="submit"
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                disabled={!formState.isDirty}
-                sx={{
-                  borderRadius: '8px',
-                }}
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              marginTop: '20px',
+            }}
+          >
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Lưu
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => setData((pre) => ({ ...pre, showConfirmModal: true }))}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  startIcon={<SaveIcon />}
+                  color="primary"
+                  disabled={!formState.isDirty}
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Lưu
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
               >
-                Xóa
-              </Button>
+                <Button
+                  onClick={() => setData((pre) => ({ ...pre, showConfirmModal: true }))}
+                  variant="text"
+                  startIcon={<DeleteIcon />}
+                  color="error"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Xóa
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </CForm>
       </CCardBody>
     </CCard>
   )
