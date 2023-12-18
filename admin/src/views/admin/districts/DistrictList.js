@@ -9,8 +9,7 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import { DistrictContext } from 'src/contexts/DistrictProvider'
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import * as districtService from 'src/services/district'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
@@ -29,19 +28,12 @@ const DistrictList = () => {
   useEffect(() => {
     const fetchData = async () => {
       dispatchDistricts({ type: 'TURN_ON_LOADING' })
-      fetch(`${BACKEND_URL}/vhtt/districts`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          dispatchDistricts({
-            type: 'INITIALIZE_DISTRICTS',
-            payload: data || [],
-          })
-          dispatchDistricts({ type: 'TURN_OFF_LOADING' })
-        })
-        .catch((err) => {
-          console.log(err.message)
-          dispatchDistricts({ type: 'TURN_OFF_LOADING' })
-        })
+      const districtsResponse = await districtService.getAll()
+      dispatchDistricts({
+        type: 'INITIALIZE_DISTRICTS',
+        payload: districtsResponse || [],
+      })
+      dispatchDistricts({ type: 'TURN_OFF_LOADING' })
     }
 
     fetchData()

@@ -4,9 +4,12 @@ import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import SaveIcon from '@mui/icons-material/Save'
 import { useForm } from 'react-hook-form'
-import { Toaster } from 'sonner'
+import { Toaster, toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
+import * as districtService from 'src/services/district'
 
 const DistrictDetails = () => {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -15,7 +18,13 @@ const DistrictDetails = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
-    console.log(data)
+    const result = await districtService.create(data)
+    if (result.id) {
+      navigate('/admin/districts')
+      toast.success('Thêm quận/huyện thành công')
+    } else {
+      toast.error('Thêm quận/huyện thất bại')
+    }
   }
 
   return (
@@ -31,14 +40,15 @@ const DistrictDetails = () => {
           Thêm quận/huyện
         </h4>
         <hr />
-        <Box
-          sx={{
-            height: 'calc(100vh - 350px)',
-            width: '100%',
-            overflowY: 'auto',
-          }}
-        >
-          <CForm onSubmit={handleSubmit(onSubmit)}>
+
+        <CForm onSubmit={handleSubmit(onSubmit)}>
+          <Box
+            sx={{
+              height: 'calc(100vh - 350px)',
+              width: '100%',
+              overflowY: 'auto',
+            }}
+          >
             <CRow className="mt-2 mb-3">
               <CFormLabel htmlFor="inputDistrictName" className="col-sm-2 col-form-label">
                 Tên quận/huyện
@@ -55,58 +65,38 @@ const DistrictDetails = () => {
                 />
               </CCol>
             </CRow>
-          </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-            marginTop: '20px',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => console.log('Lưu')}
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                disabled={!formState.isDirty}
-                sx={{
-                  borderRadius: '8px',
-                }}
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              marginTop: '20px',
+            }}
+          >
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Thêm
-              </Button>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  startIcon={<SaveIcon />}
+                  color="primary"
+                  disabled={!formState.isDirty}
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Thêm
+                </Button>
+              </Grid>
             </Grid>
-            {/* <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={onDelete}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
-              >
-                Xóa
-              </Button>
-            </Grid> */}
-          </Grid>
-        </Box>
+          </Box>
+        </CForm>
       </CCardBody>
     </CCard>
   )

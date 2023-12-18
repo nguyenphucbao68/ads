@@ -8,13 +8,14 @@ import SaveIcon from '@mui/icons-material/Save'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import * as districtService from 'src/services/district'
+import ConfirmModal from 'src/modals/ConfirmModal'
 
 const DistrictDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [data, setData] = useState({
+    showConfirmModal: false,
     district: {
       id,
       name: '',
@@ -29,41 +30,31 @@ const DistrictDetails = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
-    console.log(data)
+    const result = await districtService.update(id, data)
+    if (result.id) {
+      toast.success('Cập nhật quận/huyện thành công')
+    } else {
+      toast.error('Cập nhật quận/huyện thất bại')
+    }
   }
 
   const onDelete = async () => {
-    fetch(`${BACKEND_URL}/vhtt/districts/${id}`, {
-      method: 'DELETE',
-    })
-      .then((rawData) => rawData.json())
-      .then((data) => {
-        if (data.is_deleted) {
-          navigate('/admin/districts')
-          toast.success('Xóa quận/huyện thành công')
-        } else {
-          toast.error('Xóa quận/huyện thất bại')
-        }
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
+    const result = await districtService.deleteById(id)
+    if (result.is_deleted) {
+      navigate('/admin/districts')
+      toast.success('Xóa quận/huyện thành công')
+    } else {
+      toast.error('Xóa quận/huyện thất bại')
+    }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      fetch(`${BACKEND_URL}/vhtt/districts/${id}`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          console.log(data)
-          setData((pre) => ({
-            ...pre,
-            district: data,
-          }))
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
+      const districtResponse = await districtService.getById(id)
+      setData((pre) => ({
+        ...pre,
+        district: districtResponse,
+      }))
     }
 
     fetchData()
@@ -77,6 +68,15 @@ const DistrictDetails = () => {
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
+      <ConfirmModal
+        visible={data.showConfirmModal}
+        title="Xác nhận"
+        content="Bạn có chắc chắn muốn thực hiện hành động này không? Hành động này không thể hoàn tác!"
+        confirmText="Xác nhận"
+        cancelText="Hủy"
+        onConfirm={onDelete}
+        onCancel={() => setData((pre) => ({ ...pre, showConfirmModal: false }))}
+      />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title">
           Chi tiết quận/huyện
@@ -125,8 +125,8 @@ const DistrictDetails = () => {
               alignItems="center"
             >
               <Button
-                onClick={() => console.log('Lưu')}
                 variant="contained"
+                type="submit"
                 startIcon={<SaveIcon />}
                 color="primary"
                 disabled={!formState.isDirty}
@@ -146,7 +146,7 @@ const DistrictDetails = () => {
               alignItems="center"
             >
               <Button
-                onClick={onDelete}
+                onClick={() => setData((pre) => ({ ...pre, showConfirmModal: true }))}
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"
