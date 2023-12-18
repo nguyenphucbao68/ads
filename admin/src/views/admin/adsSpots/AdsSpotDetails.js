@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react'
+import React, { useState, useEffect, useContext, useCallback, useRef } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
@@ -15,18 +15,45 @@ import * as adsSpotService from 'src/services/adsSpot'
 import * as adsTypeService from 'src/services/adsType'
 import * as spotTypeService from 'src/services/spotType'
 import ConfirmModal from 'src/modals/ConfirmModal'
-import MapGL, { Marker, NavigationControl } from '@goongmaps/goong-map-react'
+import MapGL, {
+  Popup,
+  GeolocateControl,
+  Marker,
+  Layer,
+  Source,
+  NavigationControl,
+  FullscreenControl,
+  ScaleControl,
+} from '@goongmaps/goong-map-react'
 import './AdsSpotDetails.css'
 
 import ControlPanel from './ControlPanel'
 import Pin from './Pin'
+import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers'
 
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
-const navStyle = {
-  position: 'absolute',
+const fullscreenControlStyle = {
   top: 0,
-  left: 0,
+  right: 0,
+  padding: '10px',
+}
+
+const navStyle = {
+  top: 36,
+  right: 0,
+  padding: '10px',
+}
+
+const geolocateStyle = {
+  top: 130,
+  right: 0,
+  padding: '10px',
+}
+
+const scaleControlStyle = {
+  bottom: 36,
+  right: 0,
   padding: '10px',
 }
 
@@ -57,10 +84,32 @@ const AdsSpotDetails = () => {
   const [viewport, setViewport] = useState({
     latitude: 21.02727,
     longitude: 105.85119,
-    zoom: 12,
+    zoom: 18,
     bearing: 0,
     pitch: 0,
   })
+  const mapRef = useRef(null)
+
+  const onClick = (event) => {
+    const feature = event.features[0]
+    const clusterId = feature.properties.cluster_id
+
+    const mapboxSource = mapRef.current.getMap().getSource('earthquakes')
+
+    mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+      if (err) {
+        return
+      }
+
+      setViewport({
+        ...viewport,
+        longitude: feature.geometry.coordinates[0],
+        latitude: feature.geometry.coordinates[1],
+        zoom,
+        transitionDuration: 500,
+      })
+    })
+  }
   const [marker, setMarker] = useState({
     latitude: 21.02727,
     longitude: 105.85119,
@@ -199,6 +248,9 @@ const AdsSpotDetails = () => {
                   mapStyle="https://tiles.goong.io/assets/goong_map_web.json"
                   onViewportChange={setViewport}
                   goongApiAccessToken={API_MAP_KEY}
+                  // interactiveLayerIds={[clusterLayer.id]}
+                  // onClick={onClick}
+                  // ref={mapRef}
                 >
                   <Marker
                     longitude={marker.longitude}
@@ -214,10 +266,26 @@ const AdsSpotDetails = () => {
                   </Marker>
 
                   <div className="nav" style={navStyle}>
-                    <NavigationControl />
+                    <GeolocateControl style={geolocateStyle} />
+                    <FullscreenControl style={fullscreenControlStyle} />
+                    <NavigationControl style={navStyle} />
+                    <ScaleControl style={scaleControlStyle} />
                   </div>
+
+                  {/* <Source
+                    id="earthquakes"
+                    type="geojson"
+                    data="https://docs.goong.io/assets/earthquakes.geojson"
+                    cluster={true}
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
+                  >
+                    <Layer {...clusterLayer} />
+                    <Layer {...clusterCountLayer} />
+                    <Layer {...unclusteredPointLayer} />
+                  </Source> */}
                 </MapGL>
-                <ControlPanel events={events} />
+                {/* <ControlPanel events={events} /> */}
               </CCol>
             </CRow>
             <CRow className="mb-3">
