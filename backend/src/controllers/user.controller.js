@@ -18,6 +18,13 @@ const getById = catchAsync(async (req, res) => {
   res.send(user);
 });
 
+const getProfile = catchAsync(async (req, res) => {
+  console.log('req.user.id', req.user.id);
+  const user = await userService.getById(req.user.id);
+  delete user.password;
+  res.send(user);
+});
+
 const create = catchAsync(async (req, res) => {
   const user = await userService.create(req.body);
   res.status(httpStatus.CREATED).send(user);
@@ -40,4 +47,5 @@ module.exports = {
   getById,
   update,
   deleteUser,
+  getProfile,
 };

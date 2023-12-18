@@ -81,25 +81,12 @@ const getUserByEmail = async (email) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const update = async (userId, newPassword) => {
-  const saltRounds = 10;
-  // eslint-disable-next-line no-param-reassign
-  newPassword = await bcrypt.hash(newPassword, saltRounds);
-  // eslint-disable-next-line no-param-reassign
-  newPassword = Buffer.from(newPassword);
-
-  const checkUserExists = await getById(userId);
-  if (!checkUserExists) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-
+const update = async (userId, data) => {
   const user = await prisma.user.update({
     where: {
       id: userId,
     },
-    data: {
-      password: newPassword,
-    },
+    data,
   });
 
   return user;

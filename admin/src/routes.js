@@ -1,4 +1,5 @@
 import React from 'react'
+import AccountUpdatePage from './pages/account/update'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
@@ -93,6 +94,12 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+
+  {
+    path: 'account/update',
+    name: 'Account Update',
+    element: AccountUpdatePage,
+  },
 
   // Statistics
   { path: '/statistics', name: 'Statistics', element: Dashboard },
