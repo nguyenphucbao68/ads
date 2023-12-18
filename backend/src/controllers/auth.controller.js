@@ -20,7 +20,7 @@ const login = catchAsync(async (req, res) => {
   const tokens = await tokenService.generateAuthTokens(user, true);
   delete user.password;
 
-  res.send({ token: tokens.access, user });
+  res.send({ access: tokens.access, refreshToken: tokens.refresh, user });
 });
 
 const logout = catchAsync(async (req, res) => {

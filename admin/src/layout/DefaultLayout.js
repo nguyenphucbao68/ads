@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
+import { Navigate } from 'react-router-dom'
 
 const DefaultLayout = () => {
-  return (
+  const [authenticated, setAuthenticated] = useState(undefined)
+
+  useEffect(() => {
+    setAuthenticated(localStorage.getItem('token'))
+  }, [])
+  if (authenticated === undefined) return null
+
+  return authenticated ? (
     <div>
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
@@ -13,6 +21,8 @@ const DefaultLayout = () => {
         <AppFooter />
       </div>
     </div>
+  ) : (
+    <Navigate exact to={`/login`} />
   )
 }
 

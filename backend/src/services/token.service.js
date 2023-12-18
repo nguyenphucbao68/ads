@@ -56,7 +56,7 @@ const saveToken = async (token, userId, expires, type, blacklisted = false) => {
   //   type,
   //   blacklisted,
   // });
-  const tokenDoc = await prisma.users.update({
+  const tokenDoc = await prisma.user.update({
     where: {
       id: userId,
     },
@@ -104,6 +104,7 @@ const generateAuthTokens = async (user, generateNewRefreshToken = false) => {
   if (generateNewRefreshToken) {
     const refreshTokenExpires = moment().add(config.jwt.refreshExpirationDays, 'days');
     refreshToken = generateToken(user.id, refreshTokenExpires, tokenTypes.REFRESH);
+    saveToken(refreshToken, user.id, refreshTokenExpires, tokenTypes.REFRESH);
   }
 
   return {

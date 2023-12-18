@@ -1,11 +1,11 @@
 import React, { Component, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
-import './scss/style.scss'
 import { AdsSpotProvider } from './contexts/AdsSpotProvider'
-import { WardProvider } from './contexts/WardProvider'
+import { AdsTypeProvider } from './contexts/AdsTypeProvider'
 import { DistrictProvider } from './contexts/DistrictProvider'
 import { SpotTypeProvider } from './contexts/SpotTypeProvider'
-import { AdsTypeProvider } from './contexts/AdsTypeProvider'
+import { WardProvider } from './contexts/WardProvider'
+import './scss/style.scss'
 
 const loading = (
   <div className="pt-3 text-center">
