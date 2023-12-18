@@ -97,7 +97,7 @@ const verifyEmail = async (req) => {
   try {
     const email = req.body.email;
     const otp = req.body.otp;
-    const user = await prisma.users.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         email,
       },
@@ -112,7 +112,7 @@ const verifyEmail = async (req) => {
     console.log('verification.code', verification.code);
     if (!verification || verification.code !== otp) return false;
 
-    await prisma.users.update({
+    await prisma.user.update({
       where: {
         id: user.id,
       },
@@ -128,7 +128,7 @@ const verifyEmail = async (req) => {
 const sendEmail = async (req) => {
   const email = req.body.email;
 
-  const user = await prisma.users.findFirst({
+  const user = await prisma.user.findFirst({
     where: {
       email,
     },

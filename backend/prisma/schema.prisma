@@ -126,7 +126,7 @@ model user {
   id                         Int                          @id(map: "user_pk") @default(autoincrement())
   role                       Int
   name                       String?                      @db.VarChar
-  dob                        String?                      @db.VarChar
+  dob                        DateTime?                    
   email                      String?                      @db.VarChar
   phone                      String?                      @db.VarChar
   username                   String?                      @db.VarChar

@@ -5,4 +5,10 @@ const getProfile = () => {
   })
 }
 
-export { getProfile }
+const updateProfile = (data) => {
+  return api.put('/user', data).then((res) => {
+    return res.data
+  })
+}
+
+export { getProfile, updateProfile }

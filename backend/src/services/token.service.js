@@ -75,11 +75,12 @@ const saveToken = async (token, userId, expires, type, blacklisted = false) => {
  */
 const verifyToken = async (token, type) => {
   const payload = jwt.verify(token, config.jwt.secret);
-  if (payload.exp < moment().unix()) {
-    throw new Error('Refresh Token expired');
-  }
+  // if (payload.exp < moment().unix()) {
+  //   throw new Error('Refresh Token expired');
+  // }
+  console.log('token', token);
 
-  const checkToken = await prisma.users.findFirst({
+  const checkToken = await prisma.user.findFirst({
     where: {
       refresh_token: token.trim(),
     },

@@ -11,7 +11,6 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token')
-    console.log('tokentoken', token)
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
@@ -25,13 +24,16 @@ instance.interceptors.response.use(
   (error) => {
     const originalRequest = error.config
     const refreshToken = localStorage.getItem('refreshToken')
+    console.log('refreshToken', refreshToken)
     if (
+      error.response &&
       error.response.status === 401 &&
       originalRequest &&
       !originalRequest._retry &&
       refreshToken
     ) {
       originalRequest._retry = true
+      console.log('test')
       return axios
         .post(API_URL + 'auth/refresh-tokens', {
           refreshToken,
@@ -48,6 +50,9 @@ instance.interceptors.response.use(
           }
         })
     }
+    // localStorage.removeItem('token')
+    // localStorage.removeItem('refreshToken')
+    // window.location.href = '/#/login'
     return Promise.reject(error)
   },
 )
