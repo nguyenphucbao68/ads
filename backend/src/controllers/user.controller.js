@@ -19,7 +19,6 @@ const getById = catchAsync(async (req, res) => {
 });
 
 const getProfile = catchAsync(async (req, res) => {
-  console.log('req.user.id', req.user.id);
   const user = await userService.getById(req.user.id);
   delete user.password;
   res.send(user);

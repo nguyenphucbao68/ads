@@ -22,7 +22,7 @@ const getById = {
 const update = {
   body: Joi.object().keys({
     name: Joi.string(),
-    dob: Joi.string(),
+    dob: Joi.date(),
     email: Joi.string().email(),
     phone: Joi.string(),
   }),
