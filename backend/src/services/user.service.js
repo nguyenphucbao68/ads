@@ -68,11 +68,39 @@ const getById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return prisma.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: {
       email,
     },
   });
+
+  if (user.role === 1) {
+    const userDistrict = await prisma.user_district.findFirst({
+      where: {
+        user_id: user.id,
+      },
+    });
+    const district = await prisma.district.findFirst({
+      where: {
+        id: userDistrict.district_id,
+      },
+    });
+    user.district = district;
+  } else if (user.role === 2) {
+    const userWard = await prisma.user_ward.findFirst({
+      where: {
+        user_id: user.id,
+      },
+    });
+    const ward = await prisma.ward.findFirst({
+      where: {
+        id: userWard.ward_id,
+      },
+    });
+    user.ward = ward;
+  }
+
+  return user;
 };
 
 /**

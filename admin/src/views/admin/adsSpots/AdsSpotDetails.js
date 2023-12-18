@@ -12,8 +12,10 @@ import { Gallery, Item } from 'react-photoswipe-gallery'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
 import ReactMapGL from '@goongmaps/goong-map-react'
+import * as adsSpotService from 'src/services/adsSpot'
+import * as adsTypeService from 'src/services/adsType'
+import * as spotTypeService from 'src/services/spotType'
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
 const AdsSpotDetails = () => {
@@ -61,53 +63,55 @@ const AdsSpotDetails = () => {
   }
 
   const onSubmit = async (data) => {
-    console.log(data)
+    try {
+      const formData = new FormData()
+      formData.append('address', data.address)
+      formData.append('spot_type_id', data.spot_type_id)
+      formData.append('ads_type_id', data.ads_type_id)
+      formData.append('is_available', data.is_available)
+      formData.append('max_ads_panels', data.max_ads_panels)
+      formData.append('image', data.images.join(','))
+      // const adsSpot = await adsSpotService.update(id, formData)
+      // if (adsSpot) {
+      //   toast.success('Cập nhật điểm đặt quảng cáo thành công')
+      // } else {
+      //   toast.error('Cập nhật điểm đặt quảng cáo thất bại')
+      // }
+      console.log('formData', formData)
+    } catch (err) {
+      console.log(err.message)
+      toast.error('Cập nhật điểm đặt quảng cáo thất bại')
+    }
   }
 
   const onDelete = async () => {
-    fetch(`${BACKEND_URL}/vhtt/ads-spots/${id}`, {
-      method: 'DELETE',
-    })
-      .then((rawData) => rawData.json())
-      .then((data) => {
-        console.log(data)
-        if (data.is_deleted) {
-          navigate('/admin/ads_spots')
-          toast.success('Xóa điểm đặt quảng cáo thành công')
-        } else {
-          toast.error('Xóa điểm đặt quảng cáo thất bại')
-        }
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
+    try {
+      const data = await adsSpotService.deleteById(id)
+      if (data.is_deleted) {
+        navigate('/admin/ads_spots')
+        toast.success('Xóa điểm đặt quảng cáo thành công')
+      } else {
+        toast.error('Xóa điểm đặt quảng cáo thất bại')
+      }
+    } catch (err) {
+      console.log(err.message)
+      toast.error('Xóa điểm đặt quảng cáo thất bại')
+    }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      fetch(`${BACKEND_URL}/vhtt/ads-types`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          dispatchAdsTypes({ type: 'INITIALIZE_ADS_TYPES', payload: data || [] })
-        })
+      const adsTypes = await adsTypeService.getAll()
+      dispatchAdsTypes({ type: 'INITIALIZE_ADS_TYPES', payload: adsTypes || [] })
 
-      fetch(`${BACKEND_URL}/vhtt/spot-types`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          dispatchSpotTypes({ type: 'INITIALIZE_SPOT_TYPES', payload: data || [] })
-        })
+      const spotTypes = await spotTypeService.getAll()
+      dispatchSpotTypes({ type: 'INITIALIZE_SPOT_TYPES', payload: spotTypes || [] })
 
-      fetch(`${BACKEND_URL}/vhtt/ads-spots/${id}`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          setData((pre) => ({
-            ...pre,
-            adsSpot: data,
-          }))
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
+      const adsSpot = await adsSpotService.getById(id)
+      setData((pre) => ({
+        ...pre,
+        adsSpot,
+      }))
     }
 
     fetchData()
