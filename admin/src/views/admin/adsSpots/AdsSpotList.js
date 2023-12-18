@@ -9,8 +9,7 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import * as adsSpotService from 'src/services/adsSpot'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
@@ -63,19 +62,17 @@ const AdsSpotList = () => {
   useEffect(() => {
     const fetchData = async () => {
       dispatchAdsSpots({ type: 'TURN_ON_LOADING' })
-      fetch(`${BACKEND_URL}/vhtt/ads-spots`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          dispatchAdsSpots({
-            type: 'INITIALIZE_ADS_SPOTS',
-            payload: data || [],
-          })
-          dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
+      try {
+        const data = await adsSpotService.getAll()
+        dispatchAdsSpots({
+          type: 'INITIALIZE_ADS_SPOTS',
+          payload: data || [],
         })
-        .catch((err) => {
-          console.log(err.message)
-          dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
-        })
+        dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
+      } catch (err) {
+        console.log(err.message)
+        dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
+      }
     }
 
     fetchData()
