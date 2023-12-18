@@ -9,14 +9,16 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
 import { DistrictContext } from 'src/contexts/DistrictProvider'
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import * as wardService from 'src/services/ward'
+import * as districtService from 'src/services/district'
+import ConfirmModal from 'src/modals/ConfirmModal'
 
 const WardDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const { districts, dispatchDistricts } = useContext(DistrictContext)
   const [data, setData] = useState({
+    showConfirmModal: false,
     ward: {
       id,
       district: {
@@ -35,53 +37,40 @@ const WardDetails = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
-    console.log(data)
+    const result = await wardService.update(id, {
+      name: data.ward_name,
+      district_id: parseInt(data.district_id, 10),
+    })
+    if (result.id) {
+      toast.success('Cập nhật phường/xã thành công')
+    } else {
+      toast.error('Cập nhật phường/xã thất bại')
+    }
   }
 
   const onDelete = async () => {
-    fetch(`${BACKEND_URL}/vhtt/wards/${id}`, {
-      method: 'DELETE',
-    })
-      .then((rawData) => rawData.json())
-      .then((data) => {
-        if (data.is_deleted) {
-          navigate('/admin/wards')
-          toast.success('Xóa phường/xã thành công')
-        } else {
-          toast.error('Xóa phường/xã thất bại')
-        }
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
+    const result = await wardService.deleteById(id)
+    if (result.is_deleted) {
+      navigate('/admin/wards')
+      toast.success('Xóa phường/xã thành công')
+    } else {
+      toast.error('Xóa phường/xã thất bại')
+    }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      fetch(`${BACKEND_URL}/vhtt/districts`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          dispatchDistricts({
-            type: 'INITIALIZE_DISTRICTS',
-            payload: data || [],
-          })
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
+      const districtsResponse = await districtService.getAll()
+      dispatchDistricts({
+        type: 'INITIALIZE_DISTRICTS',
+        payload: districtsResponse || [],
+      })
 
-      fetch(`${BACKEND_URL}/vhtt/wards/${id}`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          console.log(data)
-          setData((pre) => ({
-            ...pre,
-            ward: data,
-          }))
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
+      const wardResponse = await wardService.getById(id)
+      setData((pre) => ({
+        ...pre,
+        ward: wardResponse,
+      }))
     }
 
     fetchData()
@@ -95,6 +84,15 @@ const WardDetails = () => {
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
+      <ConfirmModal
+        visible={data.showConfirmModal}
+        title="Xác nhận"
+        content="Bạn có chắc chắn muốn thực hiện hành động này không? Hành động này không thể hoàn tác!"
+        confirmText="Xác nhận"
+        cancelText="Hủy"
+        onConfirm={onDelete}
+        onCancel={() => setData((pre) => ({ ...pre, showConfirmModal: false }))}
+      />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title">
           Chi tiết phường/xã
@@ -167,6 +165,7 @@ const WardDetails = () => {
             >
               <Button
                 onClick={() => console.log('Lưu')}
+                type="submit"
                 variant="contained"
                 startIcon={<SaveIcon />}
                 color="primary"
@@ -187,7 +186,7 @@ const WardDetails = () => {
               alignItems="center"
             >
               <Button
-                onClick={onDelete}
+                onClick={() => setData((pre) => ({ ...pre, showConfirmModal: true }))}
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"

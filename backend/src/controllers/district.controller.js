@@ -1,8 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
 const { districtService } = require('../services');
-const ApiError = require('../utils/ApiError');
-const httpStatus = require('http-status');
-
 
 const getDistricts = catchAsync(async (req, res) => {
   const districts = await districtService.getDistricts();
@@ -28,12 +25,12 @@ const deleteDistrict = catchAsync(async (req, res) => {
   await districtService.deleteDistrict(req.params.id);
   res.status(204).send();
 });
-const getWards = catchAsync(async (req, res)=>{
+const getWards = catchAsync(async (req, res) => {
   const districtid = 1;
   const response = await districtService.getWards(districtid);
-  
+
   res.send(response);
-})
+});
 
 module.exports = {
   getDistricts,
@@ -41,5 +38,5 @@ module.exports = {
   createDistrict,
   updateDistrict,
   deleteDistrict,
-  getWards
+  getWards,
 };

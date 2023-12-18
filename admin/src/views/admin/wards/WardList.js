@@ -9,8 +9,9 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import { WardContext } from 'src/contexts/WardProvider'
+import * as wardService from 'src/services/ward'
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
@@ -38,19 +39,12 @@ const WardList = () => {
   useEffect(() => {
     const fetchData = async () => {
       dispatchWards({ type: 'TURN_ON_LOADING' })
-      fetch(`${BACKEND_URL}/vhtt/wards`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          dispatchWards({
-            type: 'INITIALIZE_WARDS',
-            payload: data || [],
-          })
-          dispatchWards({ type: 'TURN_OFF_LOADING' })
-        })
-        .catch((err) => {
-          console.log(err.message)
-          dispatchWards({ type: 'TURN_OFF_LOADING' })
-        })
+      const data = await wardService.getAll()
+      dispatchWards({
+        type: 'INITIALIZE_WARDS',
+        payload: data || [],
+      })
+      dispatchWards({ type: 'TURN_OFF_LOADING' })
     }
 
     fetchData()

@@ -4,14 +4,15 @@ import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import SaveIcon from '@mui/icons-material/Save'
 import { useForm } from 'react-hook-form'
-import { Toaster } from 'sonner'
+import { Toaster, toast } from 'sonner'
 import { DistrictContext } from 'src/contexts/DistrictProvider'
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import * as wardService from 'src/services/ward'
+import * as districtService from 'src/services/district'
+import { useNavigate } from 'react-router-dom'
 
 const WardCreate = () => {
   const { districts, dispatchDistricts } = useContext(DistrictContext)
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -25,22 +26,25 @@ const WardCreate = () => {
   })
 
   const onSubmit = async (data) => {
-    console.log(data)
+    const result = await wardService.create({
+      name: data.ward_name,
+      district_id: parseInt(data.district_id, 10),
+    })
+    if (result.id) {
+      navigate('/admin/wards')
+      toast.success('Thêm phường/xã thành công')
+    } else {
+      toast.error('Thêm phường/xã thất bại')
+    }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      fetch(`${BACKEND_URL}/vhtt/districts`)
-        .then((rawData) => rawData.json())
-        .then((data) => {
-          dispatchDistricts({
-            type: 'INITIALIZE_DISTRICTS',
-            payload: data || [],
-          })
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
+      const districtsResponse = await districtService.getAll()
+      dispatchDistricts({
+        type: 'INITIALIZE_DISTRICTS',
+        payload: districtsResponse || [],
+      })
     }
 
     fetchData()
@@ -120,7 +124,7 @@ const WardCreate = () => {
               alignItems="center"
             >
               <Button
-                onClick={() => console.log('Lưu')}
+                type="submit"
                 variant="contained"
                 startIcon={<SaveIcon />}
                 color="primary"
@@ -132,26 +136,6 @@ const WardCreate = () => {
                 Thêm
               </Button>
             </Grid>
-            {/* <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={onDelete}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
-              >
-                Xóa
-              </Button>
-            </Grid> */}
           </Grid>
         </Box>
       </CCardBody>

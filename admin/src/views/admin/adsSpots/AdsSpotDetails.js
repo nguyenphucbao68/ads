@@ -15,6 +15,7 @@ import ReactMapGL from '@goongmaps/goong-map-react'
 import * as adsSpotService from 'src/services/adsSpot'
 import * as adsTypeService from 'src/services/adsType'
 import * as spotTypeService from 'src/services/spotType'
+import ConfirmModal from 'src/modals/ConfirmModal'
 
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
@@ -24,6 +25,7 @@ const AdsSpotDetails = () => {
   const { adsTypes, dispatchAdsTypes } = useContext(AdsTypeContext)
   const { spotTypes, dispatchSpotTypes } = useContext(SpotTypeContext)
   const [data, setData] = useState({
+    showConfirmModal: false,
     adsSpot: {
       id,
       address: '',
@@ -125,6 +127,15 @@ const AdsSpotDetails = () => {
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
+      <ConfirmModal
+        visible={data.showConfirmModal}
+        title="Xác nhận"
+        content="Bạn có chắc chắn muốn thực hiện hành động này không? Hành động này không thể hoàn tác!"
+        confirmText="Xác nhận"
+        cancelText="Hủy"
+        onConfirm={onDelete}
+        onCancel={() => setData((pre) => ({ ...pre, showConfirmModal: false }))}
+      />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title">
           Chi tiết điểm đặt quảng cáo
@@ -317,6 +328,7 @@ const AdsSpotDetails = () => {
             >
               <Button
                 onClick={() => console.log('Lưu')}
+                type="submit"
                 variant="contained"
                 startIcon={<SaveIcon />}
                 color="primary"
@@ -337,7 +349,13 @@ const AdsSpotDetails = () => {
               alignItems="center"
             >
               <Button
-                onClick={onDelete}
+                onClick={() =>
+                  setData((pre) => ({
+                    ...pre,
+                    showConfirmModal: true,
+                  }))
+                }
+                type="button"
                 variant="text"
                 startIcon={<DeleteIcon />}
                 color="error"

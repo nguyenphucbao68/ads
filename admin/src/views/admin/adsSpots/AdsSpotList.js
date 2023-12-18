@@ -39,7 +39,6 @@ const columns = [
   {
     field: 'is_available',
     headerName: 'Đã quy hoạch',
-    // width: 150,
     flex: 1,
     type: 'boolean',
     sortable: false,
