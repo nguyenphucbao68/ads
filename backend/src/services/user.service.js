@@ -75,6 +75,14 @@ const getUserByEmail = async (email) => {
   });
 };
 
+const getUserById = async (id) => {
+  return prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+};
+
 /**
  * Update user by id
  * @param {ObjectId} userId

@@ -40,7 +40,12 @@ const forgotPassword = catchAsync(async (req, res) => {
 });
 
 const resetPassword = catchAsync(async (req, res) => {
-  const result = await authService.resetPassword(req.body.email, req.body.newPassword, req.body.repassword);
+  const result = await authService.resetPassword(
+    req.user.id,
+    req.body.currentPassword,
+    req.body.newPassword,
+    req.body.rePassword
+  );
   res.send({ success: result });
 });
 
