@@ -24,11 +24,17 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     const originalRequest = error.config
-    if (error.response.status === 401 && originalRequest && !originalRequest._retry) {
+    const refreshToken = localStorage.getItem('refreshToken')
+    if (
+      error.response.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry &&
+      refreshToken
+    ) {
       originalRequest._retry = true
       return axios
         .post(API_URL + 'auth/refresh-tokens', {
-          refreshToken: localStorage.getItem('refreshToken'),
+          refreshToken,
         })
         .then((res) => {
           if (res.status === 200) {
