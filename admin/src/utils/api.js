@@ -33,7 +33,6 @@ instance.interceptors.response.use(
       refreshToken
     ) {
       originalRequest._retry = true
-      console.log('test')
       return axios
         .post(API_URL + 'auth/refresh-tokens', {
           refreshToken,
@@ -50,9 +49,9 @@ instance.interceptors.response.use(
           }
         })
     }
-    // localStorage.removeItem('token')
-    // localStorage.removeItem('refreshToken')
-    // window.location.href = '/#/login'
+    localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
+    window.location.href = '/#/login'
     return Promise.reject(error)
   },
 )
