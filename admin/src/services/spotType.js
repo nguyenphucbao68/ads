@@ -7,15 +7,9 @@ const getAll = () => {
 }
 
 const getById = (id) => {
-  return api
-    .get('vhtt/spot-types/', {
-      params: {
-        id: parseInt(id, 10),
-      },
-    })
-    .then((res) => {
-      return res.data
-    })
+  return api.get(`vhtt/spot-types/${id}`).then((res) => {
+    return res.data
+  })
 }
 
 const create = (data) => {
@@ -26,10 +20,7 @@ const create = (data) => {
 
 const update = (id, data) => {
   return api
-    .put('vhtt/spot-types/', {
-      params: {
-        id: parseInt(id, 10),
-      },
+    .put(`vhtt/spot-types/${id}`, {
       data,
     })
     .then((res) => {
@@ -38,15 +29,9 @@ const update = (id, data) => {
 }
 
 const deleteById = (id) => {
-  return api
-    .delete('vhtt/spot-types/', {
-      params: {
-        id: parseInt(id, 10),
-      },
-    })
-    .then((res) => {
-      return res.data
-    })
+  return api.delete(`vhtt/spot-types/${id}`).then((res) => {
+    return res.data
+  })
 }
 
 export { getAll, getById, create, update, deleteById }

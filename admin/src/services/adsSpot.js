@@ -7,15 +7,9 @@ const getAll = () => {
 }
 
 const getById = (id) => {
-  return api
-    .get('vhtt/ads-spots/', {
-      params: {
-        id: parseInt(id, 10),
-      },
-    })
-    .then((res) => {
-      return res.data
-    })
+  return api.get(`vhtt/ads-spots/${id}`).then((res) => {
+    return res.data
+  })
 }
 
 const create = (data) => {
@@ -26,10 +20,7 @@ const create = (data) => {
 
 const update = (id, data) => {
   return api
-    .put('vhtt/ads-spots/', {
-      params: {
-        id: parseInt(id, 10),
-      },
+    .put(`vhtt/ads-spots/${id}`, {
       data,
     })
     .then((res) => {
@@ -38,15 +29,9 @@ const update = (id, data) => {
 }
 
 const deleteById = (id) => {
-  return api
-    .delete('vhtt/ads-spots/', {
-      params: {
-        id: parseInt(id, 10),
-      },
-    })
-    .then((res) => {
-      return res.data
-    })
+  return api.delete(`vhtt/ads-spots/${id}`).then((res) => {
+    return res.data
+  })
 }
 
 export { getAll, getById, create, update, deleteById }
