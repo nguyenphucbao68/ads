@@ -153,7 +153,7 @@ const update = async (userId, data) => {
       },
     });
     if (userDistrict) {
-      await prisma.user_district.update({
+      await prisma.user_district.updateMany({
         where: {
           user_id: userId,
         },
