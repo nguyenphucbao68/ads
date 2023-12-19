@@ -65,11 +65,6 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Loại',
-        to: '/admin/types',
-      },
-      {
-        component: CNavItem,
         name: 'Loại đất',
         to: '/admin/spot_types',
       },
