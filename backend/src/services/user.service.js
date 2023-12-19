@@ -1,12 +1,9 @@
 const { PrismaClient } = require('@prisma/client');
-const httpStatus = require('http-status');
 const bcrypt = require('bcrypt');
-const { v4: uuidv4 } = require('uuid');
 const { User } = require('../models');
 
 const prisma = new PrismaClient();
 
-const ApiError = require('../utils/ApiError');
 // const { transformDocument } = require('@prisma/client/runtime');
 
 /**
@@ -15,6 +12,16 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const create = async (userBody) => {
+  const checkEmail = await prisma.user.findFirst({
+    where: {
+      email: userBody.email,
+    },
+  });
+
+  if (checkEmail) {
+    throw new Error('Email already exists');
+  }
+
   const saltRounds = 10;
 
   // eslint-disable-next-line no-param-reassign
@@ -23,8 +30,7 @@ const create = async (userBody) => {
   userBody.password = Buffer.from(userBody.password);
 
   // eslint-disable-next-line no-param-reassign
-  delete userBody.repassword;
-  const user = prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       role: userBody.role,
       dob: userBody.dob,
@@ -32,10 +38,24 @@ const create = async (userBody) => {
       phone: userBody.phone,
       username: userBody.username,
       password: userBody.password,
-      otp: uuidv4(),
-      expire_date: userBody.expire_date,
     },
   });
+
+  if (userBody.role === 1) {
+    await prisma.user_district.create({
+      data: {
+        user_id: user.id,
+        district_id: userBody.district_id,
+      },
+    });
+  } else if (userBody.role === 2) {
+    await prisma.user_ward.create({
+      data: {
+        user_id: user.id,
+        ward_id: userBody.ward_id,
+      },
+    });
+  }
 
   return user;
 };

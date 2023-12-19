@@ -11,4 +11,10 @@ const updateProfile = (data) => {
   })
 }
 
-export { getProfile, updateProfile }
+const createUser = (data) => {
+  return api.post('vhtt/users', data).then((res) => {
+    return res.data
+  })
+}
+
+export { getProfile, updateProfile, createUser }
