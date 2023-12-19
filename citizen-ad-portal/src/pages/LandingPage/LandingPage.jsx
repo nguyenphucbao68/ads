@@ -81,17 +81,6 @@ function LandingPage() {
       </ReactMapGL>
     </React.Fragment>
   );
-
-  return (
-    <ReactMapGL
-      {...viewport}
-      width='100vw'
-      height='100vh'
-      mapStyle='https://tiles.goong.io/assets/goong_map_dark.json'
-      onViewportChange={(e) => setViewport({ ...e })}
-      goongApiAccessToken={API_MAP_KEY}
-    />
-  );
 }
 
 export default LandingPage;
