@@ -4,6 +4,8 @@ import ViewReports from './views/admin/reports/ViewReports'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
+const ReportStatistics = React.lazy(() => import('./views/admin/statistics/ReportsStatistics'))
+
 // Ads Spot
 const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
 const AdsSpotDetails = React.lazy(() => import('./views/admin/adsSpots/AdsSpotDetails'))
@@ -109,7 +111,7 @@ const routes = [
   },
 
   // Statistics
-  { path: '/statistics', name: 'Statistics', element: Dashboard },
+  { path: '/statistics', name: 'Statistics', element: ReportStatistics },
 
   // Admin
   { path: '/admin', name: 'Admin', exact: true },
