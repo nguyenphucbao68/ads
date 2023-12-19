@@ -14,3 +14,4 @@ module.exports.reportTypeService = require('./reportType.service');
 module.exports.changeRequestService = require('./changeRequest.service');
 module.exports.adsTypeService = require('./adsType.service');
 module.exports.spotTypeService = require('./spotType.service');
+module.exports.statisticService = require('./statistic.service');
