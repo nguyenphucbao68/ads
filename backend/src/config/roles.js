@@ -6,6 +6,7 @@ const allRoles = {
     'viewAdsLicenses',
     'postAdsLicense',
     'deleteAdsLicense',
+    'getReports',
   ],
   district: ['getWardsFromDistrict'],
   vhtt: [
