@@ -14,42 +14,36 @@ import * as adsSpotService from 'src/services/adsSpot'
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
   {
+    field: 'name',
+    headerName: 'Tên công ty',
+    width: 150,
+  },
+  {
+    field: 'email',
+    headerName: 'Email',
+    width: 150,
+  },
+  {
+    field: 'phone',
+    headerName: 'Số điện thoại',
+    width: 100,
+  },
+  {
     field: 'address',
-    headerName: 'Địa điểm',
-    width: 400,
+    headerName: 'Địa chỉ',
+    width: 150,
   },
   {
-    field: 'spot_type_name',
-    headerName: 'Loại vị trí',
-    width: 400,
-    renderCell: (cellValues) => {
-      const spotType = cellValues.row['spot_type']
-      return <span>{spotType.name}</span>
-    },
+    field: 'ads_panel',
+    headerName: 'Bảng quảng cáo',
+    // flex: 1,
+    width: 150,
   },
   {
-    field: 'ads_type_name',
-    headerName: 'Hình thức quảng cáo',
-    width: 200,
-    renderCell: (cellValues) => {
-      const adsType = cellValues.row['ads_type']
-      return <span>{adsType.name}</span>
-    },
-  },
-  {
-    field: 'is_available',
-    headerName: 'Đã quy hoạch',
-    flex: 1,
-    type: 'boolean',
-    sortable: false,
-    renderCell: (cellValues) => {
-      return (
-        <Checkbox
-          checked={cellValues.row.is_available}
-          color={cellValues.row.is_available ? 'success' : 'error'}
-        />
-      )
-    },
+    field: 'status',
+    headerName: 'Trạng thái',
+    // flex: 1,
+    width: 150,
   },
 ]
 
@@ -81,7 +75,7 @@ const AdsLicenseList = () => {
     <CCard className="mb-4">
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title mb-0">
-          Quản lý điểm đặt quảng cáo
+          Danh sách cấp phép quảng cáo
         </h4>
         <Box
           sx={{
@@ -105,7 +99,7 @@ const AdsLicenseList = () => {
               },
             }}
             columns={columns}
-            rows={adsSpots.rows}
+            rows={[]}
             loading={adsSpots.loading}
             getRowHeight={() => 'auto'}
             getRowId={(row) => row.id}

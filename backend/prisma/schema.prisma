@@ -12,7 +12,7 @@ model ads_license {
   id           Int       @id(map: "ads_license_pk") @default(autoincrement())
   ads_panel_id Int
   content      String
-  user_id      Int
+  user_id      Int?
   start_date   DateTime  @db.Timestamptz(6)
   expire_date  DateTime  @db.Timestamptz(6)
   status       Int       @default(1)
@@ -23,7 +23,7 @@ model ads_license {
   created_at   DateTime? @default(now()) @db.Timestamp(6)
   updated_at   DateTime? @default(now()) @db.Timestamp(6)
   name         String?
-  user         user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk")
+  user         user?     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk")
   ads_panel    ads_panel @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk_1")
 }
 
@@ -78,7 +78,7 @@ model ads_spot {
 model ads_type {
   id         Int        @id(map: "ads_type_pk") @default(autoincrement())
   name       String     @db.VarChar
-  is_deleted Boolean    @default(false)
+  is_deleted Boolean?
   created_at DateTime?  @default(now()) @db.Timestamp(6)
   updated_at DateTime?  @default(now()) @db.Timestamp(6)
   ads_spot   ads_spot[]
