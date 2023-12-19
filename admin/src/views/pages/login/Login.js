@@ -65,18 +65,12 @@ const Login = () => {
                         })}
                       />
                     </CInputGroup>
-                    {
-                      // required
-                      errors.email?.type === 'required' && (
-                        <p className="text-danger">Email is required</p>
-                      )
-                    }
-                    {
-                      // pattern
-                      errors.email?.type === 'pattern' && (
-                        <p className="text-danger">Email is invalid</p>
-                      )
-                    }
+                    {errors.email?.type === 'required' && (
+                      <p className="text-danger">Email is required</p>
+                    )}
+                    {errors.email?.type === 'pattern' && (
+                      <p className="text-danger">Email is invalid</p>
+                    )}
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />

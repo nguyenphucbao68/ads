@@ -5707,9 +5707,15 @@ pretty-format@^26.6.2:
     react-is "^17.0.1"
 
 prisma@^5.7.0:
+<<<<<<< HEAD
   version "5.7.1"
   resolved "https://registry.npmjs.org/prisma/-/prisma-5.7.1.tgz"
   integrity sha512-ekho7ziH0WEJvC4AxuJz+ewRTMskrebPcrKuBwcNzVDniYxx+dXOGcorNeIb9VEMO5vrKzwNYvhD271Ui2jnNw==
+=======
+  version "5.7.0"
+  resolved "https://registry.npmjs.org/prisma/-/prisma-5.7.0.tgz"
+  integrity sha512-0rcfXO2ErmGAtxnuTNHQT9ztL0zZheQjOI/VNJzdq87C3TlGPQtMqtM+KCwU6XtmkoEr7vbCQqA7HF9IY0ST+Q==
+>>>>>>> ddab9afb4a3f3cfcf90fd7071aa55667d2ff837b
   dependencies:
     "@prisma/engines" "5.7.1"
 

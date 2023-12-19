@@ -26,8 +26,7 @@ const deleteDistrict = catchAsync(async (req, res) => {
   res.send(district);
 });
 const getWards = catchAsync(async (req, res) => {
-  const districtid = 1;
-  const response = await districtService.getWards(districtid);
+  const response = await districtService.getWards(req.user.id);
 
   res.send(response);
 });

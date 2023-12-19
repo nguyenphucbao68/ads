@@ -86,9 +86,11 @@ const WardCreate = () => {
                   placeholder="Nhập tên phường/xã"
                   {...register('ward_name', {
                     required: 'Vui lòng nhập tên phường/xã',
+                    validate: (value) => value.trim() !== '' || 'Vui lòng nhập tên phường/xã',
                   })}
                   feedback={errors.ward_name?.message}
                 />
+                <span className="text-danger">{errors.ward_name?.message}</span>
               </CCol>
             </CRow>
             <CRow className="mb-3">

@@ -8,7 +8,7 @@ const getDistricts = async () => {
       is_deleted: false,
     },
     orderBy: {
-      id: 'asc',
+      updated_at: 'desc',
     },
   });
   return data;
@@ -39,13 +39,19 @@ const updateDistrict = async (id, body) => {
     },
     data: {
       name: body.name,
+      updated_at: new Date(),
     },
   });
   return data;
 };
-const getWards = async (districtId) => {
+const getWards = async (district_user_Id) => {
+  const u_d = await prisma.user_district.findFirst({
+    where: {
+      user_id: district_user_Id
+    }
+  })
   const data = await prisma.ward.findMany({
-    where: { district_id: districtId },
+    where: { district_id: u_d.district_id },
     select: {
       id: true,
       name: true,
@@ -61,6 +67,7 @@ const deleteDistrict = async (id) => {
     },
     data: {
       is_deleted: true,
+      updated_at: new Date(),
     },
   });
   return data;

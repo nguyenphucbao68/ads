@@ -4,7 +4,9 @@ const httpStatus = require('http-status');
 
 const prisma = new PrismaClient();
 
-const getAdsLicenses = async (user_id) => {
+const getAdsLicenses = async (user_id, role) => {
+  if(role !== 'ward' && role !== 'district')
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Không có quyền truy cập')
   const data = await prisma.ads_license.findMany({
     where: { user_id, is_deleted: false },
     select:{
