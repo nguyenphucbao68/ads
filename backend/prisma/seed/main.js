@@ -837,18 +837,6 @@ const user = [
     expire_date: '2022-08-27T14:43:55.772Z',
     is_deleted: false,
   },
-  {
-    // id: 4,
-    email: 'user@gmail.com',
-    role: 3, // anonymous
-    name: 'user',
-    dob: '10/10/2002',
-    username: 'user',
-    password: Buffer.from('$2a$10$uR5S.P86tXoBfCHl0a03bePKyN/1yE/1oCW5oRNs/IYfbDeL.WY9O'),
-    otp: 'af34baf6-63a7-4851-bccf-7fceb62352f6',
-    expire_date: '2022-08-27T14:43:55.772Z',
-    is_deleted: false,
-  },
 ];
 
 const ads_license = [
