@@ -860,6 +860,9 @@ const ads_license = [
     expire_date: getDateNextMoth(),
     status: Math.floor(Math.random() * 3) + 1,
     is_deleted: false,
+    email: 'cba@gmail.com',
+    phone: '0123456789',
+    address: '123 abc',
   },
 ];
 

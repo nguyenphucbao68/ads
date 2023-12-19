@@ -8,7 +8,7 @@ import { Toaster, toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import * as districtService from 'src/services/district'
 
-const DistrictDetails = () => {
+const DistrictCreate = () => {
   const navigate = useNavigate()
   const {
     register,
@@ -69,9 +69,11 @@ const DistrictDetails = () => {
                   placeholder="Nhập tên quận/huyện"
                   {...register('district_name', {
                     required: 'Vui lòng nhập tên quận/huyện',
+                    validate: (value) => value.trim() !== '' || 'Vui lòng nhập tên quận/huyện',
                   })}
                   feedback={errors.district_name?.message}
                 />
+                <span className="text-danger">{errors.district_name?.message}</span>
               </CCol>
             </CRow>
           </Box>
@@ -111,4 +113,4 @@ const DistrictDetails = () => {
   )
 }
 
-export default DistrictDetails
+export default DistrictCreate

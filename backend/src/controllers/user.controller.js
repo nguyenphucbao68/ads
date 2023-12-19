@@ -1,5 +1,4 @@
 const httpStatus = require('http-status');
-const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
@@ -30,7 +29,7 @@ const create = catchAsync(async (req, res) => {
 });
 
 const update = catchAsync(async (req, res) => {
-  const user = await userService.update(req.user.id, req.body);
+  const user = await userService.update(req.params.id, req.body);
   delete user.password;
   res.send(user);
 });
