@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const httpStatus = require('http-status');
+const moment = require('moment');
 const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const tokenService = require('./token.service');
@@ -8,6 +9,8 @@ const Token = require('../models/token.model');
 const ApiError = require('../utils/ApiError');
 
 const { tokenTypes } = require('../config/tokens');
+const SMTPTransport = require('nodemailer/lib/smtp-transport');
+const myOAuth2Client = require('../utils/email');
 
 const prisma = new PrismaClient();
 
@@ -100,36 +103,60 @@ const resetPassword = async (userId, currentPassword, newPassword, rePassword) =
   return true;
 };
 
+const resetPasswordByEmail = async (email, newPassword, rePassword) => {
+  try {
+    if (newPassword !== rePassword) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Password is not matched with repassword');
+    }
+
+    // check currentPassword
+    const user = await userService.getUserByEmail(email);
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    }
+
+    const saltRounds = 10;
+
+    // eslint-disable-next-line no-param-reassign
+    const passwordHash = await bcrypt.hash(newPassword, saltRounds);
+    const password = Buffer.from(passwordHash);
+    await userService.update(user.id, {
+      password,
+    });
+  } catch (error) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Password reset failed');
+  }
+  return true;
+};
+
 /**
  * Verify email
  * @param {string} verifyEmailToken
  * @returns {Promise}
  */
-const verifyEmail = async (req) => {
+const verifyEmail = async (email, otp) => {
   try {
-    const email = req.body.email;
-    const otp = req.body.otp;
     const user = await prisma.user.findFirst({
       where: {
         email,
       },
     });
 
-    const verification = await prisma.user_verification.findFirst({
-      where: {
-        uid: user.id,
-      },
-    });
-    console.log('otp', otp);
-    console.log('verification.code', verification.code);
-    if (!verification || verification.code !== otp) return false;
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    }
+
+    if (user.otp !== otp) {
+      throw new ApiError(httpStatus.NOT_ACCEPTABLE, 'OTP is incorrect');
+    }
 
     await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
-        verification: true,
+        otp: null,
+        expire_date: null,
       },
     });
     return true;
@@ -137,58 +164,66 @@ const verifyEmail = async (req) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Email verification failed');
   }
 };
-const sendEmail = async (req) => {
-  const email = req.body.email;
+const sendEmail = async (email, otp) => {
+  try {
+    const myAccessTokenObject = await myOAuth2Client.getAccessToken();
+    const myAccessToken = myAccessTokenObject.token;
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: process.env.ADMIN_EMAIL_ADDRESS,
+        clientId: process.env.GOOGLE_MAILER_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_MAILER_CLIENT_SECRET,
+        refresh_token: process.env.GOOGLE_MAILER_REFRESH_TOKEN,
+        accessToken: myAccessToken,
+      },
+    });
+    const content = `Please enter this code ${otp}`;
+    const mailOptions = {
+      from: 'Web-HCMUS <group9notification@gmail.com>',
+      to: email,
+      subject: 'Verify email',
+      text: content,
+    };
 
+    const info = await transporter.sendMail(mailOptions);
+  } catch (error) {
+    return false;
+  }
+  return true;
+};
+
+const generateOTP = async (email) => {
+  // check email exist
   const user = await prisma.user.findFirst({
     where: {
       email,
     },
   });
 
-  let user_verification = await prisma.user_verification.findFirst({
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Email not found');
+  }
+
+  //  OTP: 6 digits
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // expire in 5 minutes
+  const expires = moment().add(5, 'minutes');
+
+  // save to db
+  await prisma.user.update({
     where: {
-      uid: user.id,
+      id: user.id,
+    },
+    data: {
+      otp,
+      expire_date: expires.toDate(),
     },
   });
 
-  if (!user_verification || user_verification === {}) {
-    user_verification = await prisma.user_verification.create({
-      data: {
-        uid: user.id,
-      },
-    });
-  }
-  console.log(user_verification);
-
-  try {
-    console.log('test 1');
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.sendgrid.net',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'apikey',
-        pass: '',
-      },
-    });
-    console.log('test 2');
-
-    const mailOptions = {
-      from: 'Web-HCMUS <group9notification@gmail.com>',
-      to: email,
-      subject: 'Verify email',
-      text: '\nPlease enter your code ' + user_verification.code,
-    };
-    console.log('test 3');
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log('test 4', info.response);
-  } catch (error) {
-    console.log('email not sent', error);
-    return false;
-  }
-  return true;
+  return otp;
 };
 module.exports = {
   loginUserWithEmailAndPassword,
@@ -197,4 +232,6 @@ module.exports = {
   resetPassword,
   verifyEmail,
   sendEmail,
+  generateOTP,
+  resetPasswordByEmail,
 };
