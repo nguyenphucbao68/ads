@@ -109,7 +109,7 @@ const AccountLocationAssign = () => {
     }
 
     fetchData()
-  }, [dispatchUsers])
+  }, [dispatchUsers, selectedUser])
 
   return (
     <CCard className="mb-4">
@@ -123,9 +123,6 @@ const AccountLocationAssign = () => {
             user={selectedUser}
             onClose={() => {
               setSelectedUser(null)
-            }}
-            onSave={() => {
-              console.log('save')
             }}
           />
         )}

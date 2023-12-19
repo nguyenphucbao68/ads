@@ -18,14 +18,14 @@ import {
 } from '@coreui/react'
 import SaveIcon from '@mui/icons-material/Save'
 import { useForm } from 'react-hook-form'
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
 import { WardContext } from 'src/contexts/WardProvider'
 import { DistrictContext } from 'src/contexts/DistrictProvider'
 import * as wardService from 'src/services/ward'
 import * as districtService from 'src/services/district'
 import * as userService from 'src/services/user'
 
-const AccountAssignModal = ({ user, onClose, onSave }) => {
+const AccountAssignModal = ({ user, onClose }) => {
   const { wards, dispatchWards } = useContext(WardContext)
   const { districts, dispatchDistricts } = useContext(DistrictContext)
 
@@ -58,9 +58,9 @@ const AccountAssignModal = ({ user, onClose, onSave }) => {
       formatData.district_id = parseInt(data.district_id, 10)
     }
     const result = await userService.assignUserRoleAndLocation(parseInt(user.id, 10), formatData)
-    console.log(result)
     if (result && result.id) {
       toast.success('Phân công khu vực quản lý thành công')
+      onClose()
     } else {
       toast.error('Phân công khu vực quản lý thất bại')
     }
@@ -269,7 +269,6 @@ const AccountAssignModal = ({ user, onClose, onSave }) => {
 AccountAssignModal.propTypes = {
   user: PropTypes.object,
   onClose: PropTypes.func,
-  onSave: PropTypes.func,
 }
 
 export default AccountAssignModal
