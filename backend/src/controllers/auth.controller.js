@@ -6,15 +6,14 @@ const { authService, userService, tokenService, emailService } = require('../ser
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
   const tokens = await tokenService.generateAuthTokens(user);
-  // const email = await sendEmail(user, 'Verify email', 'Please check your email');
-  // Check otp
   delete user.password;
   res.status(httpStatus.CREATED).send({ user, token: tokens.access });
 });
 const sendEmail = catchAsync(async (req, res) => {
-  const result = await authService.sendEmail(req);
+  const result = await authService.sendEmail(req.body.email, req.body.otp);
   res.send({ success: result });
 });
+
 const login = catchAsync(async (req, res) => {
   const user = await authService.loginUserWithEmailAndPassword(req.body.email, req.body.password);
   const tokens = await tokenService.generateAuthTokens(user, true);
@@ -33,12 +32,6 @@ const refreshTokens = catchAsync(async (req, res) => {
   res.send({ ...tokens });
 });
 
-const forgotPassword = catchAsync(async (req, res) => {
-  const resetPasswordToken = await tokenService.generateResetPasswordToken(req.body.email);
-  await emailService.sendResetPasswordEmail(req.body.email, resetPasswordToken);
-  res.status(httpStatus.NO_CONTENT).send();
-});
-
 const resetPassword = catchAsync(async (req, res) => {
   const result = await authService.resetPassword(
     req.user.id,
@@ -50,13 +43,18 @@ const resetPassword = catchAsync(async (req, res) => {
 });
 
 const sendVerificationEmail = catchAsync(async (req, res) => {
-  const verifyEmailToken = await tokenService.generateVerifyEmailToken(req.user);
-  await emailService.sendVerificationEmail(req.user.email, verifyEmailToken);
+  const otp = await authService.generateOTP(req.body.email);
+  await authService.sendEmail(req.body.email, otp);
   res.status(httpStatus.NO_CONTENT).send();
 });
 
 const verifyEmail = catchAsync(async (req, res) => {
-  const result = await authService.verifyEmail(req);
+  const result = await authService.verifyEmail(req.body.email, req.body.otp);
+  res.send({ success: result });
+});
+
+const resetPasswordByEmail = catchAsync(async (req, res) => {
+  const result = await authService.resetPasswordByEmail(req.body.email, req.body.newPassword, req.body.rePassword);
   res.send({ success: result });
 });
 
@@ -65,9 +63,9 @@ module.exports = {
   login,
   logout,
   refreshTokens,
-  forgotPassword,
   resetPassword,
   sendVerificationEmail,
+  resetPasswordByEmail,
   verifyEmail,
   sendEmail,
 };

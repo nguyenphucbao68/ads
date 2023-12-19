@@ -6,6 +6,7 @@ import { DistrictProvider } from './contexts/DistrictProvider'
 import { SpotTypeProvider } from './contexts/SpotTypeProvider'
 import { WardProvider } from './contexts/WardProvider'
 import './scss/style.scss'
+import ForgotPassword from './pages/forgot-password'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -29,6 +30,13 @@ class App extends Component {
         <Suspense fallback={loading}>
           <Routes>
             <Route exact path="/login" name="Login Page" element={<Login />} />
+            <Route
+              exact
+              path="/forgot-password"
+              name="Forgot Password"
+              element={<ForgotPassword />}
+            />
+
             <Route exact path="/register" name="Register Page" element={<Register />} />
             <Route exact path="/404" name="Page 404" element={<Page404 />} />
             <Route exact path="/500" name="Page 500" element={<Page500 />} />
