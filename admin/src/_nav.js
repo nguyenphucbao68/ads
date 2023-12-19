@@ -124,6 +124,12 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Báo cáo của người dân',
+    to: '/admin/report',
+    icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Tạo tài khoản',
     to: '/admin/create_account',
     icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,

@@ -1,5 +1,6 @@
 import React from 'react'
 import AccountUpdatePage from './pages/account/update'
+import ViewReports from './views/admin/reports/ViewReports'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
@@ -147,6 +148,7 @@ const routes = [
   },
   { path: '/admin/ads_types', name: 'Ads Types', element: AdsTypeList },
   { path: '/admin/ads_panel_types', name: 'Ads Panel Types', element: AdsPanelTypeList },
+  { path: '/admin/report', name: 'Report', element: ViewReports },
   { path: '/admin/create_account', name: 'Create Account', element: AccountCreate },
   { path: '/admin/assign_location', name: 'Account List', element: AccountLocationAssign },
   { path: '/admin/approval', name: 'Approval', exact: true },
