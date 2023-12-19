@@ -37,9 +37,16 @@ const deleteAdsPanel = {
   }),
 };
 
+const getAdsPanelByWard = {
+  params: Joi.object().keys({
+    id: Joi.number().integer().required(),
+  }),
+};
+
 module.exports = {
   getAdsPanel,
   createAdsPanel,
   updateAdsPanel,
   deleteAdsPanel,
+  getAdsPanelByWard,
 };

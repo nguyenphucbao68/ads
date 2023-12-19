@@ -4,6 +4,7 @@ const vhttRoute = require('./vhtt.route');
 const reportRoute = require('./report.route');
 const officerRoute = require('./officer.route');
 const userRoute = require('./user.route');
+const wardRoute = require('./ward.route');
 
 const config = require('../../config/config');
 
@@ -27,6 +28,10 @@ const defaultRoutes = [
   {
     path: '/user',
     route: userRoute,
+  },
+  {
+    path: '/ward',
+    route: wardRoute,
   },
 ];
 

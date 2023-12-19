@@ -60,10 +60,18 @@ const deleteAdsPanel = async (id) => {
   return adsPanel;
 };
 
+// Get ads panel by wards
+const getAdsPanelByWard = async (wardId) => {
+  return await prisma.$queryRaw`select * from ads_panel ap 
+      join ads_spot as on ap.ads_spot_id = as.id
+      where as.ward_id = ${wardId}`;
+};
+
 module.exports = {
   getAdsPanels,
   getAdsPanelById,
   createAdsPanel,
   updateAdsPanel,
   deleteAdsPanel,
+  getAdsPanelByWard,
 };
