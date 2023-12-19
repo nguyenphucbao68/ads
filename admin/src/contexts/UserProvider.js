@@ -1,7 +1,15 @@
 import React, { useReducer, createContext } from 'react'
 import PropTypes from 'prop-types'
 
-export const UserContext = createContext()
+export const UserContext = createContext({
+  users: {
+    loading: false,
+    rows: [],
+    pageSize: 25,
+    page: 0,
+  },
+  dispatchUsers: () => {},
+})
 
 const userReducer = (state, action) => {
   switch (action.type) {

@@ -8,7 +8,7 @@ const getDistricts = async () => {
       is_deleted: false,
     },
     orderBy: {
-      id: 'asc',
+      updated_at: 'desc',
     },
   });
   return data;
@@ -39,6 +39,7 @@ const updateDistrict = async (id, body) => {
     },
     data: {
       name: body.name,
+      updated_at: new Date(),
     },
   });
   return data;
@@ -61,6 +62,7 @@ const deleteDistrict = async (id) => {
     },
     data: {
       is_deleted: true,
+      updated_at: new Date(),
     },
   });
   return data;
