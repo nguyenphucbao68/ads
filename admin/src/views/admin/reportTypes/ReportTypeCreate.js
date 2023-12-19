@@ -6,65 +6,26 @@ import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from 'react-router-dom'
-import { Toaster, toast } from 'sonner'
-import * as reportTypeService from 'src/services/reportType'
 import { useForm } from 'react-hook-form'
-import ConfirmModal from 'src/modals/ConfirmModal'
+import * as reportTypeService from 'src/services/reportType'
 
-const ReportTypeDetail = () => {
-  const { id } = useParams()
-  const [data, setData] = useState({})
-  const [isModalDisplay, setIsModalDisplay] = useState(false)
+const ReportTypeCreate = () => {
   const navigate = useNavigate()
 
   const { register, handleSubmit, formState, getValues } = useForm()
 
   /**
-   * Fetch data
+   *
    */
-  const init = async () => {
-    let res = await reportTypeService.getById(id)
-    setData(res)
-  }
-
   const onSave = async () => {
-    try {
-      const name = getValues('name')
-      await reportTypeService.update(id, { name })
+    const name = getValues('name')
+    await reportTypeService.create({ name })
 
-      // Hiển thị thông báo thành công rồi chuyển hướng
-      toast.success('Cập nhật loại báo cáo thành công')
-      setTimeout(() => navigate(`/admin/report_types`), 1000)
-    } catch (err) {
-      toast.error('Cập nhật loại báo cáo thất bại')
-    }
+    navigate('/admin/report_types')
   }
-
-  const onDelete = async () => {
-    try {
-      await reportTypeService.deleteById(id)
-      navigate(`/admin/report_types`)
-    } catch (err) {
-      toast.error('Cập nhật loại báo cáo thất bại')
-    }
-  }
-
-  useEffect(() => {
-    init()
-  }, [])
 
   return (
     <CCard className="mb-4">
-      <Toaster position="top-right" reverseOrder={false} />
-      <ConfirmModal
-        visible={isModalDisplay}
-        title="Xác nhận"
-        content="Bạn có chắc chắn muốn xoá loại báo cáo này?"
-        confirmText="Xác nhận"
-        cancelText="Hủy"
-        onConfirm={onDelete}
-        onCancel={() => setIsModalDisplay(false)}
-      />
       <CCardBody>
         <h4 id="report-type-title" className="card-title mb-0">
           Chi tiết loại báo cáo
@@ -83,9 +44,8 @@ const ReportTypeDetail = () => {
               </CFormLabel>
               <CCol sm={10}>
                 <CFormInput
-                  type="name"
+                  type="text"
                   id="reportTypeName"
-                  defaultValue={data.name}
                   {...register('name', {
                     required: 'Vui lòng nhập tên của loại cảnh báo',
                   })}
@@ -126,19 +86,7 @@ const ReportTypeDetail = () => {
                   direction="row"
                   justifyContent="flex-end"
                   alignItems="center"
-                >
-                  <Button
-                    onClick={() => setIsModalDisplay(true)}
-                    variant="text"
-                    startIcon={<DeleteIcon />}
-                    color="error"
-                    sx={{
-                      borderRadius: '8px',
-                    }}
-                  >
-                    Xóa
-                  </Button>
-                </Grid>
+                ></Grid>
               </Grid>
             </Box>
           </CForm>
@@ -148,4 +96,4 @@ const ReportTypeDetail = () => {
   )
 }
 
-export default ReportTypeDetail
+export default ReportTypeCreate

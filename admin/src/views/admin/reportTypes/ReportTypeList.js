@@ -8,7 +8,7 @@ import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
-
+import * as reportTypeService from 'src/services/reportType'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
@@ -20,8 +20,6 @@ const columns = [
 ]
 
 const ReportTypeList = () => {
-  const URL = 'http://localhost:4000/v1/vhtt/report-types'
-
   const [data, setData] = useState({
     loading: false,
     rows: [], // TODO: Fetch rows vào đây để render
@@ -46,32 +44,27 @@ const ReportTypeList = () => {
   const navigationToCreate = () => {
     navigate(`/admin/report_types/create`, { replace: true })
   }
-  useEffect(() => {
-    // Hàm fetch
-    const fetchData = async () => {
-      setData((prevState) => ({ ...prevState, loading: true }))
 
-      try {
-        let rawData = await fetch(URL, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        rawData = await rawData.json()
-        global.console.log('rawData ', rawData)
-        setData((prevState) => ({
-          ...prevState,
-          rows: rawData || [],
-          loading: false,
-        }))
-      } catch (err) {
-        console.log(err.message)
-        setData((prevState) => ({ ...prevState, loading: false }))
-      }
+  // Hàm fetch
+  const init = async () => {
+    setData((prevState) => ({ ...prevState, loading: true }))
+
+    try {
+      let rawData = await reportTypeService.getAll()
+
+      setData((prevState) => ({
+        ...prevState,
+        rows: rawData || [],
+        loading: false,
+      }))
+    } catch (err) {
+      console.log(err.message)
+      setData((prevState) => ({ ...prevState, loading: false }))
     }
+  }
 
-    fetchData()
+  useEffect(() => {
+    init()
   }, [])
 
   return (
