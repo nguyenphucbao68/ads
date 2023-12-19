@@ -4,6 +4,8 @@ import ViewReports from './views/admin/reports/ViewReports'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
+const ReportStatistics = React.lazy(() => import('./views/admin/statistics/ReportsStatistics'))
+
 // Ads Spot
 const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
 const AdsSpotDetails = React.lazy(() => import('./views/admin/adsSpots/AdsSpotDetails'))
@@ -19,6 +21,8 @@ const AdsPanelTypeCreate = React.lazy(() =>
 
 // Spot Type
 const SpotTypeList = React.lazy(() => import('./views/admin/spotTypes/SpotTypeList'))
+const SpotTypeDetail = React.lazy(() => import('./views/admin/spotTypes/SpotTypeDetail'))
+const SpotTypeCreate = React.lazy(() => import('./views/admin/spotTypes/SpotTypeCreate'))
 
 // Report Type
 const ReportTypeList = React.lazy(() => import('./views/admin/reportTypes/ReportTypeList'))
@@ -27,6 +31,8 @@ const ReportTypeCreate = React.lazy(() => import('./views/admin/reportTypes/Repo
 
 // Ads Type
 const AdsTypeList = React.lazy(() => import('./views/admin/adsTypes/AdsTypeList'))
+const AdsTypeDetail = React.lazy(() => import('./views/admin/adsTypes/AdsTypeDetail'))
+const AdsTypeCreate = React.lazy(() => import('./views/admin/adsTypes/AdsTypeCreate'))
 
 // Ads Panel
 const AdsPanelList = React.lazy(() => import('./views/admin/adsPanels/AdsPanelList'))
@@ -109,32 +115,38 @@ const routes = [
   },
 
   // Statistics
-  { path: '/statistics', name: 'Statistics', element: Dashboard },
+  { path: '/statistics', name: 'Statistics', element: ReportStatistics },
 
   // Admin
   { path: '/admin', name: 'Admin', exact: true },
+
+  // Wards
   { path: '/admin/wards', name: 'Wards', element: WardList },
   { path: '/admin/wards/:id', name: 'Ward Details', element: WardDetails },
   { path: '/admin/wards/create', name: 'Ward Create', element: WardCreate },
+
+  // Districts
   { path: '/admin/districts', name: 'Districts', element: DistrictList },
   { path: '/admin/districts/:id', name: 'District Details', element: DistrictDetails },
   { path: '/admin/districts/create', name: 'District Details', element: DistrictCreate },
+
+  // Types
   { path: '/admin/types', name: 'Types', element: AdsSpotList },
+
+  // Ads spots
   { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
   { path: '/admin/ads_spots/:id', name: 'Ads Spot Details', element: AdsSpotDetails },
-  {
-    path: '/admin/ads_panel_types/create',
-    name: 'Ads Panel Types Create',
-    element: AdsPanelTypeCreate,
-  },
-  {
-    path: '/admin/ads_panel_types/:id',
-    name: 'Ads Panel Types Details',
-    element: AdsPanelTypeDetail,
-  },
+
+  // Ads Panels
   { path: '/admin/ads_panels', name: 'Ads Panels', element: AdsPanelList },
   { path: '/admin/ads_panels/:id', name: 'Ads Panel Detail', element: AdsPanelDetail },
-  { path: '/admin/spot_types', name: 'Ads Panel Types', element: SpotTypeList },
+
+  // Ads spot types
+  { path: '/admin/spot_types', name: 'Spot Types', element: SpotTypeList },
+  { path: '/admin/spot_types/:id', name: 'Spot Detail', element: SpotTypeDetail },
+  { path: '/admin/spot_types/create', name: 'Spot Types Create', element: SpotTypeCreate },
+
+  // Report types
   { path: '/admin/report_types', name: 'Report Types', element: ReportTypeList },
   {
     path: '/admin/report_types/:id',
@@ -146,8 +158,25 @@ const routes = [
     name: 'Report Type Create',
     element: ReportTypeCreate,
   },
+
+  // Ads types
   { path: '/admin/ads_types', name: 'Ads Types', element: AdsTypeList },
+  { path: '/admin/ads_types/:id', name: 'Ads Type Detail', element: AdsTypeDetail },
+  { path: '/admin/ads_types/create', name: 'Ads Type Create', element: AdsTypeCreate },
+
+  // Ads panel types
   { path: '/admin/ads_panel_types', name: 'Ads Panel Types', element: AdsPanelTypeList },
+  {
+    path: '/admin/ads_panel_types/create',
+    name: 'Ads Panel Types Create',
+    element: AdsPanelTypeCreate,
+  },
+  {
+    path: '/admin/ads_panel_types/:id',
+    name: 'Ads Panel Types Details',
+    element: AdsPanelTypeDetail,
+  },
+
   { path: '/admin/report', name: 'Report', element: ViewReports },
   { path: '/admin/create_account', name: 'Create Account', element: AccountCreate },
   { path: '/admin/assign_location', name: 'Account List', element: AccountLocationAssign },

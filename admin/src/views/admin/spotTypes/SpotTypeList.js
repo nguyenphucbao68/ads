@@ -8,14 +8,14 @@ import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
+import * as spotTypeService from 'src/services/spotType'
 
-const URL = 'http://localhost:4000/v1/vhtt/ads-panel-types'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
   {
     field: 'name',
-    headerName: 'Tên loại bảng quảng cáo',
+    headerName: 'Tên loại đất',
     flex: 1,
   },
 ]
@@ -31,39 +31,40 @@ const SpotTypeList = () => {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    // Hàm fetch
-    const fetchData = async () => {
-      setData((prevState) => ({ ...prevState, loading: true }))
+  const navigateToDetail = (params) => {
+    navigate(`/admin/spot_types/${params.row.id}`)
+  }
 
-      try {
-        let rawData = await fetch(URL, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        rawData = await rawData.json()
-        global.console.log('rawData ', rawData)
-        setData((prevState) => ({
-          ...prevState,
-          rows: rawData || [],
-          loading: false,
-        }))
-      } catch (err) {
-        console.log(err.message)
-        setData((prevState) => ({ ...prevState, loading: false }))
-      }
+  const navigateToCreate = () => {
+    navigate(`/admin/spot_types/create`)
+  }
+
+  // Hàm fetch
+  const init = async () => {
+    setData((prevState) => ({ ...prevState, loading: true }))
+
+    try {
+      let rawData = await spotTypeService.getAll()
+      setData((prevState) => ({
+        ...prevState,
+        rows: rawData || [],
+        loading: false,
+      }))
+    } catch (err) {
+      console.log(err.message)
+      setData((prevState) => ({ ...prevState, loading: false }))
     }
+  }
 
-    fetchData()
+  useEffect(() => {
+    init()
   }, [])
 
   return (
     <CCard className="mb-4">
       <CCardBody>
         <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Quản lý loại bảng quảng cáo
+          Quản lý loại đất
         </h4>
         <Box
           sx={{
@@ -93,9 +94,7 @@ const SpotTypeList = () => {
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              // TODO: delete this
-
-              navigate(`/admin/ads_spots/${params.row.id}`)
+              navigateToDetail(params)
             }}
             paginationModel={{ page: data.page, pageSize: data.pageSize }}
             onPaginationModelChange={(params) => {
@@ -111,8 +110,7 @@ const SpotTypeList = () => {
             }}
             slotProps={{
               toolbar: {
-                // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: () => navigateToCreate(),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
