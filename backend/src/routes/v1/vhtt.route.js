@@ -13,6 +13,7 @@ const {
   userValidation,
   adsTypeValidation,
   spotTypeValidation,
+  statisticValidation,
 } = require('../../validations');
 const {
   districtController,
@@ -26,6 +27,7 @@ const {
   userController,
   adsTypeController,
   spotTypeController,
+  statisticController,
 } = require('../../controllers');
 
 const router = express.Router();
@@ -143,4 +145,8 @@ router
   .get(validate(userValidation.getById), userController.getById)
   .put(auth('updateUser'), validate(userValidation.update), userController.update)
   .delete(auth('deleteUser'), validate(userValidation.deleteUser), userController.deleteUser);
+
+router
+  .route('/statistics/reports')
+  .get(validate(statisticValidation.getReportsStatistics), statisticController.getReportsStatistics);
 module.exports = router;

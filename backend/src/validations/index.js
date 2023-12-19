@@ -15,3 +15,4 @@ module.exports.changeRequestValidation = require('./changeRequest.validation');
 module.exports.adsTypeValidation = require('./adsType.validation');
 module.exports.spotTypeValidation = require('./spotType.validation');
 module.exports.officerValidation = require('./officer.validation');
+module.exports.statisticValidation = require('./statistic.validation');
