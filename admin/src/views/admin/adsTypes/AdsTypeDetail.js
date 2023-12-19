@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
 import {
@@ -14,15 +14,66 @@ import {
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
+import { useForm } from 'react-hook-form'
+import { Toaster, toast } from 'sonner'
+import ConfirmModal from 'src/modals/ConfirmModal'
+import { useNavigate } from 'react-router-dom'
+import * as adsTypeService from 'src/services/adsType'
 
-// TODO
-// This file is not in need. Delete later
 const AdsTypeDetail = () => {
   const { id } = useParams()
-  console.log(id)
+  const [data, setData] = useState({})
+  const navigate = useNavigate()
+  const [isModalDisplay, setIsModalDisplay] = useState(false)
+
+  const { register, handleSubmit, formState, getValues } = useForm()
+
+  // TODO sử dụng reducer
+  const init = async () => {
+    let data = await adsTypeService.getById(id)
+    setData(data)
+  }
+
+  // Hàm thay đổi
+  const onSave = async () => {
+    try {
+      const name = getValues('name')
+      await adsTypeService.update(id, { name })
+
+      // Hiển thị thông báo thành công rồi chuyển hướng
+      toast.success('Cập nhật loại hình quảng cáo thành công')
+      setTimeout(() => navigate(`/admin/ads_types`), 1000)
+    } catch (err) {
+      toast.error('Cập nhật loại hình quảng cáo thất bại')
+    }
+  }
+
+  // Hàm xóa
+  const onDelete = async () => {
+    try {
+      await adsTypeService.deleteById(id)
+      navigate(`/admin/ads_types`)
+    } catch (err) {
+      toast.error('Cập nhật loại bảng quảng cáo thất bại')
+    }
+  }
+
+  useEffect(() => {
+    init()
+  }, [])
 
   return (
     <CCard className="mb-4">
+      <Toaster position="top-right" reverseOrder={false} />
+      <ConfirmModal
+        visible={isModalDisplay}
+        title="Xác nhận"
+        content="Bạn có chắc chắn muốn xoá loại hình quảng cáo này?"
+        confirmText="Xác nhận"
+        cancelText="Hủy"
+        onConfirm={onDelete}
+        onCancel={() => setIsModalDisplay(false)}
+      />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title mb-0">
           Chi tiết điểm đặt quảng cáo
@@ -34,105 +85,73 @@ const AdsTypeDetail = () => {
             marginTop: '15px',
           }}
         >
-          <CForm>
+          <CForm onSubmit={handleSubmit(onSave)}>
             <CRow className="mb-3">
-              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
-                Email
+              <CFormLabel htmlFor="adsTypeName" className="col-sm-2 col-form-label">
+                Tên
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="email" id="inputEmail3" />
-              </CCol>
-            </CRow>
-            <CRow className="mb-3">
-              <CFormLabel htmlFor="inputPassword3" className="col-sm-2 col-form-label">
-                Password
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput type="password" id="inputPassword3" />
-              </CCol>
-            </CRow>
-            <fieldset className="row mb-3">
-              <legend className="col-form-label col-sm-2 pt-0">Radios</legend>
-              <CCol sm={10}>
-                <CFormCheck
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios1"
-                  value="option1"
-                  label="First radio"
-                  defaultChecked
-                />
-                <CFormCheck
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios2"
-                  value="option2"
-                  label="Second radio"
-                />
-                <CFormCheck
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios3"
-                  value="option3"
-                  label="Third disabled radio"
-                  disabled
+                <CFormInput
+                  type="text"
+                  id="adsTypeName"
+                  defaultValue={data.name}
+                  {...register('name', {
+                    required: 'Vui lòng nhập tên loại hình quảng cáo',
+                    minLength: 1,
+                  })}
                 />
               </CCol>
-            </fieldset>
-            <CRow className="mb-3">
-              <div className="col-sm-10 offset-sm-2">
-                <CFormCheck type="checkbox" id="gridCheck1" label="Example checkbox" />
-              </div>
             </CRow>
+            <Box
+              sx={{
+                width: '100%',
+              }}
+            >
+              <Grid container>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  xs={6}
+                  justifyContent="flex-start"
+                  alignItems="center"
+                >
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                    color="primary"
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                    disabled={!formState.isDirty}
+                  >
+                    Lưu
+                  </Button>
+                </Grid>
+                <Grid
+                  item
+                  xs={6}
+                  container
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                >
+                  <Button
+                    onClick={() => setIsModalDisplay(true)}
+                    variant="text"
+                    startIcon={<DeleteIcon />}
+                    color="error"
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                  >
+                    Xóa
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => console.log('Lưu')}
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                sx={{
-                  borderRadius: '8px',
-                }}
-              >
-                Lưu
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => console.log('Xóa')}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
-              >
-                Xóa
-              </Button>
-            </Grid>
-          </Grid>
         </Box>
       </CCardBody>
     </CCard>
