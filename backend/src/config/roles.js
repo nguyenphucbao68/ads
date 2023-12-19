@@ -24,6 +24,9 @@ const allRoles = {
     'updateAdsType',
     'deleteAdsType',
     'createAdsType',
+    'createSpotType',
+    'updateSpotType',
+    'deleteSpotType',
   ],
 };
 
