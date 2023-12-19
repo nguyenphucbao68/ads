@@ -11,7 +11,6 @@ const allRoles = {
     'updateAdsLicense',
     'updateChangeRequest',
     'createUser',
-    'updateUser',
     'deleteUser',
     'createDistrict',
     'updateDistrict',
