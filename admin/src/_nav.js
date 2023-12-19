@@ -118,7 +118,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Cấp phép quảng cáo',
-        to: '/admin/approval/ads_permissons',
+        to: '/admin/approval/ads_licenses',
       },
     ],
   },
