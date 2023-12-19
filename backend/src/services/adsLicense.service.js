@@ -24,8 +24,16 @@ const getAdsLicenseById = async (id) => {
   return data;
 };
 
-const getAdsLicenses = async () => {
-  const data = await prisma.ads_license.findMany({});
+const getAdsLicenses = async (userId, role) => {
+  var option = {};
+  console.log(role);
+  if (role != 0)
+    option = {
+      where: {
+        user_id: userId,
+      },
+    };
+  const data = await prisma.ads_license.findMany(option);
 
   return { data };
 };

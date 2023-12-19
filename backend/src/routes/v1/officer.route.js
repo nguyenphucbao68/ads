@@ -10,9 +10,9 @@ const router = express.Router();
 
 
 // 4 api need to be auth
-router.route('/ads-licenses').get(officerController.getAdsLicenses);//when login is finish, use the code above
-router.route('/ads-license').post(validate(adsLicense.postAdsLicense), officerController.postAdsLicense);
-router.route('/ads-license/:id').delete(validate(adsLicense.deleteAdsLicense), officerController.deleteAdsLicense);
-router.route('/district/wards').get(districtController.getWards)
+router.route('/ads-licenses').get(auth('viewAdsLicenses'), officerController.getAdsLicenses);//when login is finish, use the code above
+router.route('/ads-license').post(auth('postAdsLicense'), validate(adsLicense.postAdsLicense), officerController.postAdsLicense);
+router.route('/ads-license/:id').delete(auth('deleteAdsLicense'), validate(adsLicense.deleteAdsLicense), officerController.deleteAdsLicense);
+router.route('/district/wards').get(auth('getWardsFromDistrict'), districtController.getWards)
 
 module.exports = router;

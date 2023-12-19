@@ -1,6 +1,13 @@
 const allRoles = {
-  ward: ['getProfile', 'updateUser', 'resetPassword'],
-  district: [],
+  ward: [
+    'getProfile', 
+    'updateUser', 
+    'resetPassword', 
+    'viewAdsLicenses',
+    'postAdsLicense',
+    'deleteAdsLicense',
+  ],
+  district: ['getWardsFromDistrict'],
   vhtt: [
     'createAdsPanelType',
     'updateAdsPanelType',
