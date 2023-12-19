@@ -8,7 +8,7 @@ import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
-
+import * as adsPanelTypeService from 'src/services/adsPanelType'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
@@ -37,8 +37,6 @@ const columns = [
 ]
 
 const AdsPanelTypeList = () => {
-  const URL = 'http://localhost:4000/v1/vhtt/ads-panel-types'
-
   const [data, setData] = useState({
     loading: false,
     rows: [],
@@ -56,18 +54,12 @@ const AdsPanelTypeList = () => {
   const navigateToCreate = () => {
     navigate(`/admin/ads_panel_types/create`)
   }
-  // Hàm fetch
-  const fetchData = async () => {
+
+  const init = async () => {
     setData((prevState) => ({ ...prevState, loading: true }))
 
     try {
-      let rawData = await fetch(URL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      rawData = await rawData.json()
+      let rawData = await adsPanelTypeService.getAll()
       setData((prevState) => ({
         ...prevState,
         rows: rawData || [],
@@ -80,7 +72,7 @@ const AdsPanelTypeList = () => {
   }
 
   useEffect(() => {
-    fetchData()
+    init()
   }, [])
 
   return (

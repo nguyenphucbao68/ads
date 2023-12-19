@@ -6,6 +6,7 @@ import { DistrictProvider } from './contexts/DistrictProvider'
 import { SpotTypeProvider } from './contexts/SpotTypeProvider'
 import { WardProvider } from './contexts/WardProvider'
 import './scss/style.scss'
+import { UserProvider } from './contexts/UserProvider'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -41,7 +42,9 @@ class App extends Component {
                     <AdsTypeProvider>
                       <SpotTypeProvider>
                         <AdsSpotProvider>
-                          <DefaultLayout />
+                          <UserProvider>
+                            <DefaultLayout />
+                          </UserProvider>
                         </AdsSpotProvider>
                       </SpotTypeProvider>
                     </AdsTypeProvider>

@@ -29,7 +29,7 @@ const create = catchAsync(async (req, res) => {
 });
 
 const update = catchAsync(async (req, res) => {
-  const user = await userService.update(req.user.id, req.body);
+  const user = await userService.update(req.params.id, req.body);
   delete user.password;
   res.send(user);
 });

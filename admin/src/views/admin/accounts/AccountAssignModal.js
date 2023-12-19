@@ -1,17 +1,31 @@
+/* eslint-disable eqeqeq */
 import React, { useContext, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
-import { Box, Button, Grid } from '@mui/material'
-import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
+import { Box, Button } from '@mui/material'
+import {
+  CForm,
+  CCol,
+  CRow,
+  CFormLabel,
+  CFormInput,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CButton,
+  CModalFooter,
+} from '@coreui/react'
 import SaveIcon from '@mui/icons-material/Save'
 import { useForm } from 'react-hook-form'
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
 import { WardContext } from 'src/contexts/WardProvider'
 import { DistrictContext } from 'src/contexts/DistrictProvider'
 import * as wardService from 'src/services/ward'
 import * as districtService from 'src/services/district'
 import * as userService from 'src/services/user'
 
-const AccountCreate = () => {
+const AccountAssignModal = ({ user, onClose }) => {
   const { wards, dispatchWards } = useContext(WardContext)
   const { districts, dispatchDistricts } = useContext(DistrictContext)
 
@@ -20,41 +34,35 @@ const AccountCreate = () => {
     handleSubmit,
     watch,
     formState,
-    reset,
     formState: { errors },
   } = useForm({
     values: {
-      email: '',
-      name: '',
-      password: '',
-      phone: '',
-      role: 0,
-      ward_id: 1,
-      district_id: 1,
+      email: user.email,
+      name: user.name,
+      dob: new Date(user.dob).toISOString().slice(0, 10),
+      phone: user.phone,
+      role: user.role,
+      ward_id: user.user_ward.length > 0 ? user.user_ward[0].ward_id : 1,
+      district_id: user.user_district.length > 0 ? user.user_district[0].district_id : 1,
     },
   })
   const role = watch('role')
 
   const onSubmit = async (data) => {
     const formatData = {
-      email: data.email,
-      name: data.name,
-      dob: data.dob,
-      password: data.password,
-      phone: data.phone,
       role: parseInt(data.role, 10),
     }
-    if (role === '2') {
+    if (role == '2') {
       formatData.ward_id = parseInt(data.ward_id, 10)
-    } else if (role === '1') {
+    } else if (role == '1') {
       formatData.district_id = parseInt(data.district_id, 10)
     }
-    const result = await userService.createUser(formatData)
+    const result = await userService.assignUserRoleAndLocation(parseInt(user.id, 10), formatData)
     if (result && result.id) {
-      toast.success('Thêm tài khoản cán bộ thành công')
-      reset()
+      toast.success('Phân công khu vực quản lý thành công')
+      onClose()
     } else {
-      toast.error('Thêm tài khoản cán bộ thất bại')
+      toast.error('Phân công khu vực quản lý thất bại')
     }
   }
 
@@ -77,22 +85,20 @@ const AccountCreate = () => {
   }, [dispatchDistricts, dispatchWards])
 
   return (
-    <CCard
-      className="mb-4"
-      sx={{
-        backgroundColor: '#fff',
-      }}
+    <CModal
+      size="lg"
+      visible={user !== null}
+      onClose={onClose}
+      aria-labelledby="LiveDemoExampleLabel"
     >
-      <Toaster position="top-right" reverseOrder={false} />
-      <CCardBody>
-        <h4 id="ads-spots-title" className="card-title">
-          Tạo tài khoản cán bộ
-        </h4>
-        <hr />
-        <CForm onSubmit={handleSubmit(onSubmit)}>
+      <CForm onSubmit={handleSubmit(onSubmit)}>
+        <CModalHeader onClose={onClose}>
+          <CModalTitle id="LiveDemoExampleLabel">Phân công khu vực quản lý</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
           <Box
             sx={{
-              height: 'calc(100vh - 350px)',
+              height: 'calc(450px)',
               width: '100%',
               overflowY: 'auto',
             }}
@@ -106,19 +112,11 @@ const AccountCreate = () => {
                   type="text"
                   id="inputEmail"
                   placeholder="Email"
+                  disabled
                   autoComplete="email"
-                  {...register('email', {
-                    required: 'Vui lòng nhập email',
-                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  })}
+                  {...register('email', {})}
                   feedback={errors.email?.message}
-                />{' '}
-                {errors.email?.type === 'required' && (
-                  <p className="text-danger">Email là bắt buộc</p>
-                )}
-                {errors.email?.type === 'pattern' && (
-                  <p className="text-danger">Email không hợp lệ</p>
-                )}
+                />
               </CCol>
             </CRow>
 
@@ -131,12 +129,11 @@ const AccountCreate = () => {
                   type="text"
                   id="inputName"
                   placeholder="Họ và tên"
+                  disabled
                   autoComplete="name"
-                  {...register('name', {
-                    required: 'Vui lòng nhập họ và tên',
-                  })}
+                  {...register('name', {})}
                   feedback={errors.name?.message}
-                />{' '}
+                />
                 {errors.name?.type === 'required' && (
                   <p className="text-danger">Họ và tên là bắt buộc</p>
                 )}
@@ -152,10 +149,9 @@ const AccountCreate = () => {
                   type="date"
                   id="inputDOB"
                   placeholder="Ngày sinh"
+                  disabled
                   autoComplete="dob"
-                  {...register('dob', {
-                    required: 'Vui lòng nhập ngày sinh',
-                  })}
+                  {...register('dob', {})}
                   feedback={errors.dob?.message}
                 />
                 {errors.dob?.type === 'required' && (
@@ -163,63 +159,6 @@ const AccountCreate = () => {
                 )}
               </CCol>
             </CRow>
-
-            <CRow className="mt-2 mb-3">
-              <CFormLabel htmlFor="inputName" className="col-sm-2 col-form-label">
-                Mật khẩu
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  type="password"
-                  id="inputPassword"
-                  placeholder="Mật khẩu"
-                  autoComplete="password"
-                  {...register('password', {
-                    required: 'Vui lòng nhập mật khẩu',
-                    validate: (value) => {
-                      if (value.length < 8) {
-                        return false
-                      }
-                      if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
-                        return false
-                      }
-                      return true
-                    },
-                  })}
-                  feedback={errors.password?.message}
-                />{' '}
-                {errors.password && (
-                  <p className="text-danger">
-                    Mật khẩu phải có ít nhất 8 ký tự, ít nhất một chữ cái và một số, và một ký tự
-                    đặc biệt
-                  </p>
-                )}
-              </CCol>
-            </CRow>
-
-            {/* <CRow className="mt-2 mb-3">
-              <CFormLabel htmlFor="inputName" className="col-sm-2 col-form-label">
-                Nhập lại mật khẩu
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  type="text"
-                  id="inputRepassword"
-                  placeholder="Nhập lại mật khẩu"
-                  autoComplete="current-password"
-                  {...register('rePassword', {
-                    required: 'Vui lòng nhập lại mật khẩu',
-                    validate: (value) => {
-                      if (value !== formState.values.password) {
-                        return false
-                      }
-                    },
-                  })}
-                  feedback={errors.password?.message}
-                />{' '}
-                {errors.rePassword && <p className="text-danger">Nhập lại mật khẩu không khớp</p>}
-              </CCol>
-            </CRow> */}
 
             <CRow className="mt-2 mb-3">
               <CFormLabel htmlFor="inputPhone" className="col-sm-2 col-form-label">
@@ -230,11 +169,9 @@ const AccountCreate = () => {
                   type="phone"
                   id="inputPhone"
                   placeholder="Số điện thoại"
+                  disabled
                   autoComplete="phone"
-                  {...register('phone', {
-                    required: 'Vui lòng nhập họ và tên',
-                    pattern: /((^(\+84|84|0|0084){1})(3|5|7|8|9))+([0-9]{8})$/,
-                  })}
+                  {...register('phone', {})}
                   feedback={errors.phone?.message}
                 />
                 {errors.phone?.type === 'required' && (
@@ -263,7 +200,7 @@ const AccountCreate = () => {
                 </select>
               </CCol>
             </CRow>
-            {role === '2' && (
+            {role == '2' && (
               <CRow className="mb-3">
                 <CFormLabel htmlFor="optWard" className="col-sm-2 col-form-label">
                   Phường
@@ -284,7 +221,7 @@ const AccountCreate = () => {
                 </CCol>
               </CRow>
             )}
-            {role === '1' && (
+            {role == '1' && (
               <CRow className="mb-3">
                 <CFormLabel htmlFor="optDistrict" className="col-sm-2 col-form-label">
                   Quận
@@ -306,40 +243,32 @@ const AccountCreate = () => {
               </CRow>
             )}
           </Box>
-          <Box
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={onClose}>
+            Đóng
+          </CButton>
+          <Button
+            variant="contained"
+            type="submit"
+            startIcon={<SaveIcon />}
+            color="primary"
+            disabled={!formState.isDirty}
             sx={{
-              width: '100%',
-              marginTop: '20px',
+              borderRadius: '8px',
             }}
           >
-            <Grid container>
-              <Grid
-                item
-                container
-                direction="row"
-                xs={6}
-                justifyContent="flex-start"
-                alignItems="center"
-              >
-                <Button
-                  variant="contained"
-                  type="submit"
-                  startIcon={<SaveIcon />}
-                  color="primary"
-                  disabled={!formState.isDirty}
-                  sx={{
-                    borderRadius: '8px',
-                  }}
-                >
-                  Thêm
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </CForm>
-      </CCardBody>
-    </CCard>
+            Lưu
+          </Button>
+        </CModalFooter>
+      </CForm>
+    </CModal>
   )
 }
 
-export default AccountCreate
+AccountAssignModal.propTypes = {
+  user: PropTypes.object,
+  onClose: PropTypes.func,
+}
+
+export default AccountAssignModal

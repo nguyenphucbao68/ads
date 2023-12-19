@@ -11,7 +11,7 @@ const getWards = async () => {
       district: true,
     },
     orderBy: {
-      id: 'asc',
+      updated_at: 'desc',
     },
   });
   return data;
@@ -47,6 +47,7 @@ const updateWard = async (id, body) => {
     data: {
       name: body.name,
       district_id: body.district_id,
+      updated_at: new Date(),
     },
     include: {
       district: true,
@@ -62,6 +63,7 @@ const deleteWard = async (id) => {
     },
     data: {
       is_deleted: true,
+      updated_at: new Date(),
     },
   });
   return data;

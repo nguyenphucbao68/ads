@@ -1,4 +1,11 @@
 import api from '../utils/api'
+
+const getAll = () => {
+  return api.get('vhtt/users').then((res) => {
+    return res.data
+  })
+}
+
 const getProfile = () => {
   return api.get('/user').then((res) => {
     return res.data
@@ -17,4 +24,10 @@ const createUser = (data) => {
   })
 }
 
-export { getProfile, updateProfile, createUser }
+const assignUserRoleAndLocation = (id, data) => {
+  return api.put(`vhtt/users/${id}`, data).then((res) => {
+    return res.data
+  })
+}
+
+export { getAll, getProfile, updateProfile, createUser, assignUserRoleAndLocation }
