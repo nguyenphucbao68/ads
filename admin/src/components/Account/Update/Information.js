@@ -8,7 +8,7 @@ import {
   CFormLabel,
   CRow,
 } from '@coreui/react'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { getProfile, updateProfile } from 'src/services/user'
 
@@ -45,6 +45,23 @@ const AccountUpdateInformation = () => {
         setError(err.response.data.message)
       })
   }
+
+  const cloudinaryRef = useRef()
+  const widgetRef = useRef()
+  useEffect(() => {
+    cloudinaryRef.current = window.cloudinary
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: 'dzjaj79nw',
+        uploadPreset: 'u4mszkqu',
+      },
+      (error, result) => {
+        if (result.event === 'success') {
+          alert('Upload success with the link: ' + result.info.url)
+        }
+      },
+    )
+  }, [])
 
   return (
     <CCard className="mb-4">
@@ -143,6 +160,17 @@ const AccountUpdateInformation = () => {
             </div>
           </CRow>
         </CForm>
+
+        {/* Button Upload Image */}
+        <CRow className="mb-3 mt-3">
+          <CFormLabel htmlFor="inputPassword" className="col-sm-2 col-form-label">
+            Test Upload Image (Remove later)
+          </CFormLabel>
+          <div className="col-sm-10">
+            {/* <CFormInput type="file" id="inputPassword" onChange={() => widgetRef.current.open()} /> */}
+            <CButton onClick={() => widgetRef.current.open()}>Upload Image</CButton>
+          </div>
+        </CRow>
       </CCardBody>
     </CCard>
   )

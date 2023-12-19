@@ -23,7 +23,7 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   const user = JSON.parse(localStorage.getItem('user'))
-
+  if (!user) return null
   return (
     <CSidebar
       position="fixed"
