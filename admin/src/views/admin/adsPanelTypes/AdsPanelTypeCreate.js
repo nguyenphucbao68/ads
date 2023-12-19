@@ -6,12 +6,12 @@ import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from 'react-router-dom'
 import * as adsPanelTypeService from 'src/services/adsPanelType'
 
-const AdsPanelTypeUpdate = () => {
+const AdsPanelTypeCreate = () => {
   const navigate = useNavigate()
 
   const { register, handleSubmit, formState, getValues } = useForm()
 
-  const save = async () => {
+  const onSave = async () => {
     const name = getValues('name')
     await adsPanelTypeService.create({ name })
 
@@ -31,7 +31,7 @@ const AdsPanelTypeUpdate = () => {
             marginTop: '15px',
           }}
         >
-          <CForm onSubmit={handleSubmit(save)}>
+          <CForm onSubmit={handleSubmit(onSave)}>
             <CRow className="mb-3">
               <CFormLabel htmlFor="name" className="col-sm-2 col-form-label">
                 Tên
@@ -62,9 +62,7 @@ const AdsPanelTypeUpdate = () => {
                   alignItems="center"
                 >
                   <Button
-                    onClick={() => {
-                      save()
-                    }}
+                    type="submit"
                     disabled={!formState.isDirty}
                     variant="contained"
                     startIcon={<SaveIcon />}
@@ -93,4 +91,4 @@ const AdsPanelTypeUpdate = () => {
   )
 }
 
-export default AdsPanelTypeUpdate
+export default AdsPanelTypeCreate

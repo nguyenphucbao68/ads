@@ -12,8 +12,8 @@ const AdsPanelTypeList = React.lazy(() => import('./views/admin/adsPanelTypes/Ad
 const AdsPanelTypeDetail = React.lazy(() =>
   import('./views/admin/adsPanelTypes/AdsPanelTypeDetail'),
 )
-const AdsPanelTypeUpdate = React.lazy(() =>
-  import('./views/admin/adsPanelTypes/AdsPanelTypeUpdate'),
+const AdsPanelTypeCreate = React.lazy(() =>
+  import('./views/admin/adsPanelTypes/AdsPanelTypeCreate'),
 )
 
 // Spot Type
@@ -22,7 +22,7 @@ const SpotTypeList = React.lazy(() => import('./views/admin/spotTypes/SpotTypeLi
 // Report Type
 const ReportTypeList = React.lazy(() => import('./views/admin/reportTypes/ReportTypeList'))
 const ReportTypeDetail = React.lazy(() => import('./views/admin/reportTypes/ReportTypeDetail'))
-const ReportTypeUpdate = React.lazy(() => import('./views/admin/reportTypes/ReportTypeUpdate'))
+const ReportTypeCreate = React.lazy(() => import('./views/admin/reportTypes/ReportTypeCreate'))
 
 // Ads Type
 const AdsTypeList = React.lazy(() => import('./views/admin/adsTypes/AdsTypeList'))
@@ -116,14 +116,9 @@ const routes = [
   { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
   { path: '/admin/ads_spots/:id', name: 'Ads Spot Details', element: AdsSpotDetails },
   {
-    path: '/admin/ads_panel_types/:id/update',
-    name: 'Ads Panel Types Update',
-    element: AdsPanelTypeUpdate,
-  },
-  {
     path: '/admin/ads_panel_types/create',
     name: 'Ads Panel Types Create',
-    element: AdsPanelTypeUpdate,
+    element: AdsPanelTypeCreate,
   },
   {
     path: '/admin/ads_panel_types/:id',
@@ -132,7 +127,6 @@ const routes = [
   },
   { path: '/admin/ads_panels', name: 'Ads Panels', element: AdsPanelList },
   { path: '/admin/ads_panels/:id', name: 'Ads Panel Detail', element: AdsPanelDetail },
-  { path: '/admin/ads_panels/:id/update', name: 'Ads Panel Detail', element: AdsPanelUpdate },
   { path: '/admin/spot_types', name: 'Ads Panel Types', element: SpotTypeList },
   { path: '/admin/report_types', name: 'Report Types', element: ReportTypeList },
   {
@@ -140,11 +134,10 @@ const routes = [
     name: 'Report Type Details',
     element: ReportTypeDetail,
   },
-  { path: '/admin/report_types/:id/update', name: 'Report Type Update', element: ReportTypeUpdate },
   {
     path: '/admin/report_types/create',
     name: 'Report Type Create',
-    element: ReportTypeUpdate,
+    element: ReportTypeCreate,
   },
   { path: '/admin/ads_types', name: 'Ads Types', element: AdsTypeList },
   { path: '/admin/ads_panel_types', name: 'Ads Panel Types', element: AdsPanelTypeList },

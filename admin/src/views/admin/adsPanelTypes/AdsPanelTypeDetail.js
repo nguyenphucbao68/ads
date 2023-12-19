@@ -29,7 +29,7 @@ const AdsPanelTypeDetail = () => {
   }
 
   // Hàm thay đổi
-  const onSubmit = async () => {
+  const onSave = async () => {
     try {
       const name = getValues('name')
       await adsPanelTypeService.update(id, { name })
@@ -79,7 +79,7 @@ const AdsPanelTypeDetail = () => {
             marginTop: '15px',
           }}
         >
-          <CForm onSubmit={handleSubmit(onSubmit)}>
+          <CForm onSubmit={handleSubmit(onSave)}>
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputName" className="col-sm-2 col-form-label">
                 Tên
