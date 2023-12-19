@@ -10,6 +10,7 @@ import ReactMapGL, {
 import Pin from '../../components/Pin/Pin';
 
 import CITIES from '../../mock/cities.json';
+import PinInfo from '../../components/PinInfo/PinInfo';
 
 const geolocateStyle = {
   top: 0,
@@ -68,7 +69,9 @@ function LandingPage() {
             latitude={popupInfo.latitude}
             closeOnClick={false}
             onClose={setPopupInfo}
-          ></Popup>
+          >
+            <PinInfo info={popupInfo} />
+          </Popup>
         )}
 
         <GeolocateControl style={geolocateStyle} />
