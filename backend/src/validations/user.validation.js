@@ -20,11 +20,17 @@ const getById = {
 };
 
 const update = {
+  params: Joi.object().keys({
+    id: Joi.number().integer().required(),
+  }),
   body: Joi.object().keys({
     name: Joi.string(),
     dob: Joi.date(),
     email: Joi.string().email(),
     phone: Joi.string(),
+    role: Joi.number().integer(),
+    ward_id: Joi.number().integer(),
+    district_id: Joi.number().integer(),
   }),
 };
 

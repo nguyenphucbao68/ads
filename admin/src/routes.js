@@ -44,6 +44,9 @@ const DistrictCreate = React.lazy(() => import('./views/admin/districts/District
 
 // Accounts
 const AccountCreate = React.lazy(() => import('./views/admin/accounts/AccountCreate'))
+const AccountLocationAssign = React.lazy(() =>
+  import('./views/admin/accounts/AccountLocationAssign'),
+)
 
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -151,9 +154,8 @@ const routes = [
   },
   { path: '/admin/ads_types', name: 'Ads Types', element: AdsTypeList },
   { path: '/admin/ads_panel_types', name: 'Ads Panel Types', element: AdsPanelTypeList },
-  { path: '/admin/accounts', name: 'Accounts', element: Dashboard },
   { path: '/admin/create_account', name: 'Create Account', element: AccountCreate },
-  { path: '/admin/assign_location', name: 'Assign Location', element: Dashboard },
+  { path: '/admin/assign_location', name: 'Account List', element: AccountLocationAssign },
   { path: '/admin/approval', name: 'Approval', exact: true },
   { path: '/admin/approval/edit_requests', name: 'Edit Requests Approval', element: Dashboard },
   { path: '/admin/approval/ads_permissons', name: 'Ads Permissions Approval', element: Dashboard },

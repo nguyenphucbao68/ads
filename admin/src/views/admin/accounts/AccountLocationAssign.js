@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 
 import { Box } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
@@ -9,16 +9,17 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import { UserContext } from 'src/contexts/UserProvider'
-import * as districtService from 'src/services/district'
+import * as userService from 'src/services/user'
 import { Toaster, toast } from 'sonner'
 import { useLocation } from 'react-router-dom'
+import AccountAssignModal from './AccountAssignModal'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
   {
     field: 'name',
     headerName: 'Họ và tên',
-    width: 150,
+    width: 200,
   },
   {
     field: 'dob',
@@ -28,7 +29,7 @@ const columns = [
   {
     field: 'email',
     headerName: 'Email',
-    width: 150,
+    width: 200,
   },
   {
     field: 'phone',
@@ -36,19 +37,46 @@ const columns = [
     width: 150,
   },
   {
+    field: 'role',
+    headerName: 'Vai trò',
+    width: 140,
+    renderCell: (params) => {
+      if (params.value === 2) {
+        return <span>Cán bộ Phường</span>
+      }
+      if (params.value === 1) {
+        return <span>Cán bộ Quận</span>
+      }
+      return <span>Cán bộ Sở VH-TT</span>
+    },
+  },
+  {
+    field: 'location',
+    headerName: 'Khu vực quản lý',
+    width: 200,
+  },
+  {
     field: 'action',
     headerName: 'Thao tác',
     width: 150,
-    renderCell: () => (
+    renderCell: (params) => (
       <div>
-        <button className="btn btn-primary">Sửa</button>
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            params.value()
+          }}
+        >
+          Phân công
+        </button>
       </div>
     ),
   },
 ]
 
-const AccountList = () => {
+const AccountLocationAssign = () => {
   const { users, dispatchUsers } = useContext(UserContext)
+  const [selectedUser, setSelectedUser] = useState(null)
 
   const showSuccesToast = (message) => {
     toast.success(message)
@@ -67,11 +95,16 @@ const AccountList = () => {
   useEffect(() => {
     const fetchData = async () => {
       dispatchUsers({ type: 'TURN_ON_LOADING' })
-      //   const districtsResponse = await districtService.getAll()
-      //   dispatchUsers({
-      //     type: 'INITIALIZE_DISTRICTS',
-      //     payload: districtsResponse || [],
-      //   })
+      const usersResponse = await userService.getAll()
+      for (let i = 0; i < usersResponse.length; i += 1) {
+        usersResponse[i].action = () => {
+          setSelectedUser(usersResponse[i])
+        }
+      }
+      dispatchUsers({
+        type: 'INITIALIZE_USERS',
+        payload: usersResponse || [],
+      })
       dispatchUsers({ type: 'TURN_OFF_LOADING' })
     }
 
@@ -85,6 +118,17 @@ const AccountList = () => {
         <h4 id="ads-spots-title" className="card-title mb-0">
           Phân công khu vực quản lý
         </h4>
+        {selectedUser !== null && (
+          <AccountAssignModal
+            user={selectedUser}
+            onClose={() => {
+              setSelectedUser(null)
+            }}
+            onSave={() => {
+              console.log('save')
+            }}
+          />
+        )}
         <Box
           sx={{
             height: 'calc(100vh - 300px)',
@@ -131,7 +175,7 @@ const AccountList = () => {
             }}
             slotProps={{
               toolbar: {
-                addNew: () => navigate('/admin/create_acount'),
+                addNew: () => navigate('/admin/create_account'),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
@@ -146,4 +190,4 @@ const AccountList = () => {
   )
 }
 
-export default AccountList
+export default AccountLocationAssign
