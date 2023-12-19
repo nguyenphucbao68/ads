@@ -5,8 +5,8 @@ import LandingPagePolygon from './pages/LandingPagePolygon/LandingPagePolygon';
 function App() {
   return (
     <div className='App'>
-      {/* <LandingPage /> */}
-      <LandingPagePolygon />
+      <LandingPage />
+      {/* <LandingPagePolygon /> */}
     </div>
   );
 }
