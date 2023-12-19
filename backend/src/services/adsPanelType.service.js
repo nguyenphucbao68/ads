@@ -4,7 +4,11 @@ const prisma = new PrismaClient();
 
 // get all
 const getAll = async () => {
-  const data = await prisma.ads_panel_type.findMany({});
+  const data = await prisma.ads_panel_type.findMany({
+    where: {
+      is_deleted: false,
+    },
+  });
   return data;
 };
 

@@ -1,55 +1,28 @@
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import { Box, Button, Grid } from '@mui/material'
-import {
-  CCard,
-  CCardBody,
-  CForm,
-  CCol,
-  CRow,
-  CFormLabel,
-  CFormInput,
-  CFormCheck,
-} from '@coreui/react'
-import { useParams } from 'react-router-dom'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import SaveIcon from '@mui/icons-material/Save'
+import { useNavigate } from 'react-router-dom'
+import * as adsPanelTypeService from 'src/services/adsPanelType'
 
 const AdsPanelTypeUpdate = () => {
-  const { id } = useParams()
-  console.log(id) // TODO Delete this later
-  const URL = `http://localhost:4000/v1/vhtt/ads-panel-types/${id}`
+  const navigate = useNavigate()
 
-  const [data, setData] = useState({})
-
-  const fetchData = async () => {
-    let data = await fetch(URL, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    data = await data.json()
-    setData(data)
-  }
+  const { register, handleSubmit, formState, getValues } = useForm()
 
   const save = async () => {
-    //TODO lưu cần phải có token
-  }
+    const name = getValues('name')
+    await adsPanelTypeService.create({ name })
 
-  const deletePanelType = async () => {
-    //TODO xóa cần phải có token
+    navigate('/admin/ads_panel_types')
   }
-
-  useEffect(() => {
-    fetchData()
-  }, [])
 
   return (
     <CCard className="mb-4">
       <CCardBody>
         <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Chỉnh sửa loại bảng quảng cáo
+          Tạo mới loại bảng quảng cáo
         </h4>
         <Box
           sx={{
@@ -58,70 +31,62 @@ const AdsPanelTypeUpdate = () => {
             marginTop: '15px',
           }}
         >
-          <CForm>
+          <CForm onSubmit={handleSubmit(save)}>
             <CRow className="mb-3">
-              <CFormLabel htmlFor="inputEmail3" className="col-sm-2 col-form-label">
+              <CFormLabel htmlFor="name" className="col-sm-2 col-form-label">
                 Tên
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="email" id="inputEmail3" defaultValue={data.name} />
+                <CFormInput
+                  type="text"
+                  id="name"
+                  {...register('name', {
+                    required: 'Vui lòng nhập tên loại bảng quảng cáo',
+                    minLength: 1,
+                  })}
+                />
               </CCol>
             </CRow>
+            <Box
+              sx={{
+                width: '100%',
+              }}
+            >
+              <Grid container>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  xs={6}
+                  justifyContent="flex-start"
+                  alignItems="center"
+                >
+                  <Button
+                    onClick={() => {
+                      save()
+                    }}
+                    disabled={!formState.isDirty}
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                    color="primary"
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                  >
+                    Lưu
+                  </Button>
+                </Grid>
+                <Grid
+                  item
+                  xs={6}
+                  container
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                ></Grid>
+              </Grid>
+            </Box>
           </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => {
-                  save()
-                }}
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                sx={{
-                  borderRadius: '8px',
-                }}
-              >
-                Lưu
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => {
-                  // TODO: View confirm modal before deleting
-                  deletePanelType()
-                  // return <Modals />
-                }}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
-              >
-                Xóa
-              </Button>
-            </Grid>
-          </Grid>
         </Box>
       </CCardBody>
     </CCard>
