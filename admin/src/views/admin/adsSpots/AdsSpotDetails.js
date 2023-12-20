@@ -336,7 +336,12 @@ const AdsSpotDetails = () => {
               <CCol sm={2} className="mt-2">
                 <Button component="label" variant="outlined" startIcon={<CloudUpload />}>
                   Thêm ảnh
-                  <VisuallyHiddenInput type="file" onChange={uploadMultiFiles} multiple />
+                  <VisuallyHiddenInput
+                    type="file"
+                    multiple
+                    {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
+                    onChange={uploadMultiFiles}
+                  />
                 </Button>
               </CCol>
             </CRow>
