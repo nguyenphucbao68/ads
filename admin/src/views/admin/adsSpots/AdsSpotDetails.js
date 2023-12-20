@@ -153,13 +153,13 @@ const AdsSpotDetails = () => {
     })
   }, [])
 
-  const uploadMultiFiles = (e) => {
-    const files = Array.from(e.target.files)
-    setData((pre) => ({
-      ...pre,
-      fileSelected: [...pre.fileSelected, ...files],
-    }))
-  }
+  // const uploadMultiFiles = (e) => {
+  //   const files = Array.from(e.target.files)
+  //   setData((pre) => ({
+  //     ...pre,
+  //     fileSelected: [...pre.fileSelected, ...files],
+  //   }))
+  // }
 
   const cloudinaryRef = useRef()
   const widgetRef = useRef()
@@ -190,7 +190,7 @@ const AdsSpotDetails = () => {
       formData.append('district_id', 1)
       formData.append('spot_type_id', parseInt(data.spot_type_id, 10))
       formData.append('ads_type_id', parseInt(data.ads_type_id, 10))
-      formData.append('image', data.images.join(','))
+      formData.append('images', data.images.join(','))
       formData.append('longtitude', viewport.longitude)
       formData.append('latitude', viewport.latitude)
       formData.append('is_available', Boolean(data.is_available))
@@ -329,13 +329,7 @@ const AdsSpotDetails = () => {
               <CCol sm={12}>
                 <Gallery>
                   {data.fileSelected.map((file, index) => (
-                    <Item
-                      key={index}
-                      original={URL.createObjectURL(file)}
-                      thumbnail={URL.createObjectURL(file)}
-                      width="1024"
-                      height="768"
-                    >
+                    <Item key={index} original={file} thumbnail={file} width="1024" height="768">
                       {({ ref, open }) => (
                         <div
                           style={{
@@ -367,7 +361,7 @@ const AdsSpotDetails = () => {
                           <img
                             ref={ref}
                             onClick={open}
-                            src={URL.createObjectURL(file)}
+                            src={file}
                             alt="..."
                             style={{
                               width: '200px',
@@ -386,15 +380,15 @@ const AdsSpotDetails = () => {
                   component="label"
                   variant="outlined"
                   startIcon={<CloudUpload />}
-                  // onClick={() => widgetRef.current.open()}
+                  onClick={() => widgetRef.current.open()}
                 >
                   Thêm ảnh
                   <VisuallyHiddenInput
                     type="file"
-                    // disabled
-                    multiple
+                    disabled
+                    // multiple
                     {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
-                    onChange={uploadMultiFiles}
+                    // onChange={uploadMultiFiles}
                   />
                 </Button>
               </CCol>
