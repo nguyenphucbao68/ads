@@ -23,16 +23,18 @@ function CustomGridToolbar({ addNew }) {
         {/* default buttons */}
         <GridToolbarColumnsButton />
         <GridToolbarFilterButton />
-        <Button
-          variant="text"
-          size="small"
-          startIcon={<AddIcon />}
-          onClick={(event) => {
-            addNew && addNew()
-          }}
-        >
-          Thêm
-        </Button>
+        {addNew !== null && (
+          <Button
+            variant="text"
+            size="small"
+            startIcon={<AddIcon />}
+            onClick={(event) => {
+              addNew && addNew()
+            }}
+          >
+            Thêm
+          </Button>
+        )}
         <GridToolbarExport />
       </Grid>
     </GridToolbarContainer>
@@ -40,7 +42,7 @@ function CustomGridToolbar({ addNew }) {
 }
 
 CustomGridToolbar.propTypes = {
-  addNew: PropTypes.func,
+  addNew: PropTypes.func || null,
 }
 
 export default CustomGridToolbar

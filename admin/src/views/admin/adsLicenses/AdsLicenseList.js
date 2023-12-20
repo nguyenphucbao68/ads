@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 
-import { Box, Checkbox } from '@mui/material'
+import { Box, IconButton, Stack } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
 import { CCard, CCardBody } from '@coreui/react'
 import { grey } from '@mui/material/colors'
@@ -8,15 +8,17 @@ import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
-import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
-import * as adsSpotService from 'src/services/adsSpot'
+import * as adsLicenseService from 'src/services/adsLicense'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import { AdsLicenseContext } from 'src/contexts/AdsLicenseProvider'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
   {
     field: 'name',
     headerName: 'Tên công ty',
-    width: 150,
+    width: 200,
   },
   {
     field: 'email',
@@ -26,56 +28,107 @@ const columns = [
   {
     field: 'phone',
     headerName: 'Số điện thoại',
-    width: 100,
+    width: 120,
   },
   {
     field: 'address',
     headerName: 'Địa chỉ',
-    width: 150,
+    width: 200,
   },
   {
     field: 'ads_panel',
     headerName: 'Bảng quảng cáo',
-    // flex: 1,
-    width: 150,
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {params.value.ads_panel_type?.name}
+          </div>
+          <div>{params.value.ads_spot?.address}</div>
+        </div>
+      )
+    },
   },
   {
     field: 'status',
     headerName: 'Trạng thái',
-    // flex: 1,
     width: 150,
+    renderCell: (params) => {
+      return (
+        <Box
+          sx={{
+            borderRadius: '8px',
+            backgroundColor:
+              params.value === 0
+                ? 'warning.main'
+                : params.value === 1
+                ? 'success.main'
+                : 'error.main',
+            color: 'white',
+            p: '7px',
+            textAlign: 'center',
+          }}
+        >
+          {params.value === 0 ? 'Chờ duyệt' : params.value === 1 ? 'Đã duyệt' : 'Không phê duyệt'}
+        </Box>
+      )
+    },
+  },
+  {
+    field: 'actions',
+    headerName: 'Hành động',
+    flex: 1,
+    renderCell: (params) => (
+      <Stack direction="row" spacing={0}>
+        <IconButton aria-label="approve" color="success" size="large">
+          <CheckCircleIcon />
+        </IconButton>
+        <IconButton aria-label="decline" color="warning" size="large">
+          <HighlightOffIcon />
+        </IconButton>
+      </Stack>
+    ),
   },
 ]
 
 const AdsLicenseList = () => {
-  const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
+  const { adsLicences, dispatchAdsLicenses } = useContext(AdsLicenseContext)
 
   const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
-      dispatchAdsSpots({ type: 'TURN_ON_LOADING' })
+      dispatchAdsLicenses({ type: 'TURN_ON_LOADING' })
       try {
-        const data = await adsSpotService.getAll()
-        dispatchAdsSpots({
-          type: 'INITIALIZE_ADS_SPOTS',
+        const currentUser = JSON.parse(localStorage.getItem('user'))
+        const query = `?user_id=${currentUser.id}`
+        const data = await adsLicenseService.getAll(query)
+        dispatchAdsLicenses({
+          type: 'INITIALIZE_ADS_LICENSES',
           payload: data || [],
         })
-        dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
+        dispatchAdsLicenses({ type: 'TURN_OFF_LOADING' })
       } catch (err) {
         console.log(err.message)
-        dispatchAdsSpots({ type: 'TURN_OFF_LOADING' })
+        dispatchAdsLicenses({ type: 'TURN_OFF_LOADING' })
       }
     }
 
     fetchData()
-  }, [dispatchAdsSpots])
+  }, [dispatchAdsLicenses])
 
   return (
     <CCard className="mb-4">
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title mb-0">
-          Danh sách cấp phép quảng cáo
+          Xét duyệt cấp phép quảng cáo
         </h4>
         <Box
           sx={{
@@ -99,17 +152,17 @@ const AdsLicenseList = () => {
               },
             }}
             columns={columns}
-            rows={[]}
-            loading={adsSpots.loading}
+            rows={adsLicences.rows}
+            loading={adsLicences.loading}
             getRowHeight={() => 'auto'}
             getRowId={(row) => row.id}
             rowSelection={false}
             onRowClick={(params) => {
-              navigate(`/admin/ads_spots/${params.row.id}`)
+              navigate(`/admin/approval/ads_licenses/${params.row.id}`)
             }}
-            paginationModel={{ page: adsSpots.page, pageSize: adsSpots.pageSize }}
+            paginationModel={{ page: adsLicences.page, pageSize: adsLicences.pageSize }}
             onPaginationModelChange={(params) => {
-              dispatchAdsSpots({
+              dispatchAdsLicenses({
                 type: 'CHANGE_PAGINATION_MODEL',
                 payload: {
                   page: params.page,
@@ -123,8 +176,7 @@ const AdsLicenseList = () => {
             }}
             slotProps={{
               toolbar: {
-                // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: null,
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

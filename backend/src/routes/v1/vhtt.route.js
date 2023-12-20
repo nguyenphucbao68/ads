@@ -77,11 +77,11 @@ router
   .post(auth('createAdsPanel'), validate(adsPanelValidation.createAdsPanel), adsPanelController.createAdsPanel);
 
 router
-  .route('/ads-license/:id')
+  .route('/ads-licenses/:id')
   .get(validate(adsLicenseValidation.getAdsLicense), adsLicenseController.getAdsLicense)
   .put(auth('updateAdsLicense'), validate(adsLicenseValidation.updateAdsLicense), adsLicenseController.updateAdsLicense);
 
-router.route('/ads-license').get(adsLicenseController.getAdsLicenses);
+router.route('/ads-licenses').get(adsLicenseController.getAdsLicenses);
 
 router
   .route('/ads-panel-types')

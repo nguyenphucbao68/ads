@@ -8,6 +8,7 @@ import { WardProvider } from './contexts/WardProvider'
 import './scss/style.scss'
 import ForgotPassword from './pages/forgot-password'
 import { UserProvider } from './contexts/UserProvider'
+import { AdsLicenseProvider } from './contexts/AdsLicenseProvider'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -45,19 +46,21 @@ class App extends Component {
               path="*"
               name="Home"
               element={
-                <DistrictProvider>
-                  <WardProvider>
-                    <AdsTypeProvider>
-                      <SpotTypeProvider>
-                        <AdsSpotProvider>
-                          <UserProvider>
-                            <DefaultLayout />
-                          </UserProvider>
-                        </AdsSpotProvider>
-                      </SpotTypeProvider>
-                    </AdsTypeProvider>
-                  </WardProvider>
-                </DistrictProvider>
+                <AdsLicenseProvider>
+                  <DistrictProvider>
+                    <WardProvider>
+                      <AdsTypeProvider>
+                        <SpotTypeProvider>
+                          <AdsSpotProvider>
+                            <UserProvider>
+                              <DefaultLayout />
+                            </UserProvider>
+                          </AdsSpotProvider>
+                        </SpotTypeProvider>
+                      </AdsTypeProvider>
+                    </WardProvider>
+                  </DistrictProvider>
+                </AdsLicenseProvider>
               }
             />
           </Routes>
