@@ -5,12 +5,24 @@ const prisma = new PrismaClient();
 const getAdsLicenseById = async (id) => {
   const data = await prisma.ads_license.findUnique({
     where: {
-      id,
+      id: parseInt(id, 10),
     },
     include: {
       ads_panel: {
         select: {
-          image: true,
+          id: true,
+          ads_panel_type: true,
+          height: true,
+          width: true,
+          ads_spot: {
+            select: {
+              id: true,
+              address: true,
+              spot_type: true,
+              ads_type: true,
+              max_ads_panel: true,
+            },
+          },
         },
       },
       user: {

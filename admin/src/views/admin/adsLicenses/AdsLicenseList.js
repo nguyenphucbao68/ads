@@ -9,14 +9,35 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import * as adsLicenseService from 'src/services/adsLicense'
-import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { AdsLicenseContext } from 'src/contexts/AdsLicenseProvider'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ConfirmModal from 'src/modals/ConfirmModal'
 import { Toaster, toast } from 'sonner'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
+  {
+    field: 'ads_panel',
+    headerName: 'Bảng quảng cáo & điểm đặt',
+    width: 220,
+    renderCell: (params) => {
+      return (
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {params.value.ads_panel_type?.name}
+          </div>
+          <div>{params.value.ads_spot?.address}</div>
+        </div>
+      )
+    },
+  },
   {
     field: 'name',
     headerName: 'Tên công ty',
@@ -37,27 +58,7 @@ const columns = [
     headerName: 'Địa chỉ',
     width: 200,
   },
-  {
-    field: 'ads_panel',
-    headerName: 'Bảng quảng cáo',
-    width: 200,
-    renderCell: (params) => {
-      return (
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            {params.value.ads_panel_type?.name}
-          </div>
-          <div>{params.value.ads_spot?.address}</div>
-        </div>
-      )
-    },
-  },
+
   {
     field: 'status',
     headerName: 'Trạng thái',
@@ -85,10 +86,9 @@ const columns = [
   },
   {
     field: 'actions',
-    headerName: 'Hành động',
+    headerName: 'Phê duyệt',
     flex: 1,
     renderCell: (params) => {
-      console.log('params.value.status', params.value.status)
       return (
         <Stack
           direction="row"

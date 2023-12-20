@@ -8,17 +8,54 @@ import SaveIcon from '@mui/icons-material/Save'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
-import * as districtService from 'src/services/district'
-import ConfirmModal from 'src/modals/ConfirmModal'
+import * as adsLicenseService from 'src/services/adsLicense'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 const AdsLicenseDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [data, setData] = useState({
     showConfirmModal: false,
-    district: {
+    adsLicense: {
       id,
+      ads_panel_id: '',
+      ads_panel: {
+        id: 1,
+        width: 0.0,
+        height: 0.0,
+        ads_panel_type: {
+          id: 1,
+          name: '',
+        },
+        ads_spot: {
+          id: 1,
+          address: '',
+          spot_type: {
+            id: 1,
+            name: '',
+          },
+          ads_type: {
+            id: 1,
+            name: '',
+          },
+          max_ads_panel: 0,
+        },
+      },
+      content: '',
+      user_id: 1,
+      user: {
+        id: 1,
+        name: '',
+      },
+      start_date: '',
+      expire_date: '',
+      status: 0,
       name: '',
+      email: '',
+      address: '',
+      phone: '',
     },
   })
 
@@ -27,47 +64,31 @@ const AdsLicenseDetails = () => {
     handleSubmit,
     formState,
     formState: { errors },
-  } = useForm({
-    values: {
-      district_name: data.district.name,
-    },
-  })
+  } = useForm()
 
   const onSubmit = async (data) => {
-    const result = await districtService.update(id, {
-      name: data.district_name,
-    })
-    if (result.id) {
-      setData((pre) => ({
-        ...pre,
-        district: result,
-      }))
-      toast.success('Cập nhật quận/huyện thành công')
-    } else {
-      toast.error('Cập nhật quận/huyện thất bại')
-    }
-  }
-
-  const onDelete = async () => {
-    const result = await districtService.deleteById(id)
-    if (result.is_deleted) {
-      navigate('/admin/districts', {
-        state: {
-          type: 'success',
-          message: 'Xóa quận/huyện thành công',
-        },
-      })
-    } else {
-      toast.error('Xóa quận/huyện thất bại')
-    }
+    console.log(data)
+    // const result = await districtService.update(id, {
+    //   name: data.district_name,
+    // })
+    // if (result.id) {
+    //   setData((pre) => ({
+    //     ...pre,
+    //     district: result,
+    //   }))
+    //   toast.success('Cập nhật quận/huyện thành công')
+    // } else {
+    //   toast.error('Cập nhật quận/huyện thất bại')
+    // }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const districtResponse = await districtService.getById(id)
+      const adsLicenseRes = await adsLicenseService.getById(id)
+      console.log('adsLicenseRes.ads_panel.width :>> ', adsLicenseRes.ads_panel.width)
       setData((pre) => ({
         ...pre,
-        district: districtResponse,
+        adsLicense: adsLicenseRes,
       }))
     }
 
@@ -82,18 +103,9 @@ const AdsLicenseDetails = () => {
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
-      <ConfirmModal
-        visible={data.showConfirmModal}
-        title="Xác nhận"
-        content="Bạn có chắc chắn muốn thực hiện hành động này không? Hành động này không thể hoàn tác!"
-        confirmText="Xác nhận"
-        cancelText="Hủy"
-        onConfirm={onDelete}
-        onCancel={() => setData((pre) => ({ ...pre, showConfirmModal: false }))}
-      />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title">
-          Chi tiết quận/huyện
+          Chi tiết cấp phép quảng cáo
         </h4>
         <hr />
         <CForm onSubmit={handleSubmit(onSubmit)}>
@@ -104,20 +116,229 @@ const AdsLicenseDetails = () => {
               overflowY: 'auto',
             }}
           >
-            <CRow className="mt-2 mb-3">
-              <CFormLabel htmlFor="inputDistrictName" className="col-sm-2 col-form-label">
-                Tên quận/huyện
+            <CRow className="mb-2">
+              <CFormLabel
+                className="col-sm-6 col-form-label"
+                style={{
+                  fontWeight: 'bold',
+                }}
+              >
+                Thông tin điểm đặt quảng cáo
               </CFormLabel>
-              <CCol sm={10} className="pt-2">
+              <CCol
+                sm={6}
+                className="pt-2"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <Button
+                  variant="text"
+                  color="primary"
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={() =>
+                    navigate(`/admin/ads_spots/${data.adsLicense.ads_panel.ads_spot.id}`)
+                  }
+                >
+                  Xem chi tiết
+                </Button>
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsPanelAddress" className="col-sm-2 col-form-label">
+                Địa chỉ
+              </CFormLabel>
+              <CCol sm={10}>
                 <CFormInput
                   type="text"
-                  id="inputDistrictName"
-                  placeholder="Nhập tên quận/huyện"
-                  defaultValue={data.district.name}
-                  {...register('district_name', {
-                    required: 'Vui lòng nhập tên quận/huyện',
-                  })}
-                  feedback={errors.district_name?.message}
+                  id="inputAdsPanelAddress"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.ads_panel.ads_spot.address}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsType" className="col-sm-2 col-form-label">
+                Số lượng bảng quảng cáo tối đa
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsType"
+                  readOnly
+                  plainText
+                  value={`${data.adsLicense.ads_panel.ads_spot.max_ads_panel} bảng / điểm`}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsSpotType" className="col-sm-2 col-form-label">
+                Loại vị trí
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsSpotType"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.ads_panel.ads_spot.spot_type.name}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsType" className="col-sm-2 col-form-label">
+                Hình thức quảng cáo
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsType"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.ads_panel.ads_spot.ads_type.name}
+                />
+              </CCol>
+            </CRow>
+            <hr />
+            <CRow className="mt-3 mb-2">
+              <CFormLabel
+                className="col-sm-6 col-form-label"
+                style={{
+                  fontWeight: 'bold',
+                }}
+              >
+                Thông tin bảng quảng cáo
+              </CFormLabel>
+              <CCol
+                sm={6}
+                className="pt-2"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <Button
+                  variant="text"
+                  color="primary"
+                  endIcon={<ArrowForwardIosIcon />}
+                  onClick={() =>
+                    navigate(`/admin/ads_panels/${data.adsLicense.ads_panel.ads_spot.id}`)
+                  }
+                >
+                  Xem chi tiết
+                </Button>
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsPanelSize" className="col-sm-2 col-form-label">
+                Kích thước
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsPanelSize"
+                  readOnly
+                  plainText
+                  value={`${data.adsLicense.ads_panel.width.toFixed(
+                    2,
+                  )}m x ${data.adsLicense.ads_panel.height.toFixed(2)}m`}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsPanelType" className="col-sm-2 col-form-label">
+                Loại bảng quảng cáo
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsPanelType"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.ads_panel.ads_panel_type.name}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsType" className="col-sm-2 col-form-label">
+                Hình thức quảng cáo
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsType"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.ads_panel.ads_spot.ads_type.name}
+                />
+              </CCol>
+            </CRow>
+            <hr />
+            <CRow className="mt-3 mb-2">
+              <CFormLabel
+                className="col-sm-6 col-form-label"
+                style={{
+                  fontWeight: 'bold',
+                }}
+              >
+                Thông tin công ty đặt quảng cáo
+              </CFormLabel>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputCompanyName" className="col-sm-2 col-form-label">
+                Tên công ty
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputCompanyName"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.name}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputCompanyEmail" className="col-sm-2 col-form-label">
+                Email công ty
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputCompanyEmail"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.email}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputCompanyPhone" className="col-sm-2 col-form-label">
+                Số điện thoại công ty
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputCompanyPhone"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.phone}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAddressPhone" className="col-sm-2 col-form-label">
+                Địa chỉ công ty
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAddressPhone"
+                  readOnly
+                  plainText
+                  value={data.adsLicense.address}
                 />
               </CCol>
             </CRow>
@@ -137,39 +358,65 @@ const AdsLicenseDetails = () => {
                 justifyContent="flex-start"
                 alignItems="center"
               >
-                <Button
-                  variant="contained"
-                  type="submit"
-                  startIcon={<SaveIcon />}
-                  color="primary"
-                  disabled={!formState.isDirty}
-                  sx={{
-                    borderRadius: '8px',
+                <span
+                  style={{
+                    marginRight: '10px',
                   }}
                 >
-                  Lưu
-                </Button>
-              </Grid>
-              <Grid
-                item
-                xs={6}
-                container
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="center"
-              >
-                <Button
-                  onClick={() => setData((pre) => ({ ...pre, showConfirmModal: true }))}
-                  variant="text"
-                  startIcon={<DeleteIcon />}
-                  color="error"
+                  Trạng thái:
+                </span>
+                <Box
                   sx={{
                     borderRadius: '8px',
+                    backgroundColor:
+                      data.adsLicense.status === 0
+                        ? 'warning.main'
+                        : data.adsLicense.status === 1
+                        ? 'success.main'
+                        : 'error.main',
+                    color: 'white',
+                    p: '7px',
+                    textAlign: 'center',
                   }}
                 >
-                  Xóa
-                </Button>
+                  {data.adsLicense.status === 0
+                    ? 'Chờ duyệt'
+                    : data.adsLicense.status === 1
+                    ? 'Đã duyệt'
+                    : 'Không phê duyệt'}
+                </Box>
               </Grid>
+              {data.adsLicense.status === 0 && (
+                <Grid
+                  item
+                  xs={6}
+                  container
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                >
+                  <Button
+                    variant="text"
+                    startIcon={<CheckCircleIcon />}
+                    color="success"
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                  >
+                    Phê duyệt
+                  </Button>
+                  <Button
+                    variant="text"
+                    startIcon={<HighlightOffIcon />}
+                    color="error"
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                  >
+                    Không phê duyệt
+                  </Button>
+                </Grid>
+              )}
             </Grid>
           </Box>
         </CForm>
