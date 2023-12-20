@@ -20,7 +20,7 @@ import * as districtService from 'src/services/district'
 function CustomGridToolbar({ addNew, filterByWardOrDistrict }) {
   const { register, watch } = useForm({
     defaultValues: {
-      type: 'ward',
+      type: '',
       district_id: 1,
       ward_id: 1,
     },
@@ -51,21 +51,38 @@ function CustomGridToolbar({ addNew, filterByWardOrDistrict }) {
   }, [dispatchDistricts, dispatchWards])
 
   useEffect(() => {
-    console.log('type', type)
-    console.log('wardId', wardId)
-    console.log('districtId', districtId)
-  }, [type, wardId, districtId])
+    filterByWardOrDistrict && filterByWardOrDistrict(type, wardId, districtId)
+  }, [filterByWardOrDistrict, type, wardId, districtId])
 
   return (
     <GridToolbarContainer>
       {/* Search Textfield here */}
-      <Grid container item xs justifyContent="flex-start">
+      <Grid container item xs={8} justifyContent="flex-start">
         <GridToolbarQuickFilter />
+
+        {filterByWardOrDistrict && (
+          <Box
+            sx={{
+              direction: 'row',
+              marginLeft: '20px',
+              marginTop: '10px',
+            }}
+          >
+            <span
+              style={{
+                fontWeight: 'bold',
+              }}
+            >
+              Lọc theo:
+            </span>
+          </Box>
+        )}
+
         {filterByWardOrDistrict && (
           <Box
             sx={{
               direction: 'column',
-              marginLeft: '20px',
+              marginLeft: '10px',
             }}
           >
             <CFormCheck
