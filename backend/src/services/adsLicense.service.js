@@ -36,7 +36,7 @@ const getAdsLicenseById = async (id) => {
   return data;
 };
 
-const getAdsLicenses = async (userId) => {
+const getAdsLicenses = async (userId, type, wardId, districtId) => {
   const user = await prisma.user.findUnique({
     where: {
       id: parseInt(userId, 10),
@@ -44,12 +44,73 @@ const getAdsLicenses = async (userId) => {
   });
   var option = {};
   const role = user.role;
-  if (role != 0)
+  if (role != 0) {
     option = {
       where: {
         user_id: userId,
       },
     };
+  } else {
+    if (type === 'ward') {
+      const getAllUsersByWardId = await prisma.user_ward.findMany({
+        where: {
+          ward_id: parseInt(wardId, 10),
+        },
+        select: {
+          user_id: true,
+        },
+      });
+
+      option = {
+        where: {
+          user_id: {
+            in: getAllUsersByWardId.map((user) => parseInt(user.user_id, 10)),
+          },
+        },
+      };
+    } else if (type === 'district') {
+      const getAllUsersByDistrictId = await prisma.user_district.findMany({
+        where: {
+          district_id: parseInt(districtId, 10),
+        },
+        select: {
+          user_id: true,
+        },
+      });
+
+      const getAllWardsBelongToDistrict = await prisma.ward.findMany({
+        where: {
+          district_id: parseInt(districtId, 10),
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const getAllUsersFromWardBelongToDistrict = await prisma.user_ward.findMany({
+        where: {
+          ward_id: {
+            in: getAllWardsBelongToDistrict.map((ward) => parseInt(ward.id, 10)),
+          },
+        },
+        select: {
+          user_id: true,
+        },
+      });
+
+      option = {
+        where: {
+          user_id: {
+            in: [
+              ...getAllUsersByDistrictId.map((user) => parseInt(user.user_id, 10)),
+              ...getAllUsersFromWardBelongToDistrict.map((user) => parseInt(user.user_id, 10)),
+            ],
+          },
+        },
+      };
+    }
+  }
+
   const data = await prisma.ads_license.findMany({
     ...option,
     select: {
