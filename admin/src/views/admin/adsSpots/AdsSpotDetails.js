@@ -152,13 +152,26 @@ const AdsSpotDetails = () => {
     })
   }, [])
 
-  const uploadMultiFiles = (e) => {
-    const files = Array.from(e.target.files)
-    setData((pre) => ({
-      ...pre,
-      fileSelected: files,
-    }))
-  }
+  const cloudinaryRef = useRef()
+  const widgetRef = useRef()
+  useEffect(() => {
+    cloudinaryRef.current = window.cloudinary
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: 'dzjaj79nw',
+        uploadPreset: 'u4mszkqu',
+      },
+      (error, result) => {
+        if (result.event === 'success') {
+          console.log('Upload success with the link: ' + result.info.url)
+          setData((pre) => ({
+            ...pre,
+            fileSelected: [...pre.fileSelected, result.info.url],
+          }))
+        } else console.error(error)
+      },
+    )
+  }, [])
 
   const onSubmit = async (data) => {
     try {
@@ -298,7 +311,6 @@ const AdsSpotDetails = () => {
                     <Layer {...unclusteredPointLayer} />
                   </Source> */}
                 </MapGL>
-                {/* <ControlPanel events={events} /> */}
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -308,18 +320,12 @@ const AdsSpotDetails = () => {
               <CCol sm={12}>
                 <Gallery>
                   {data.fileSelected.map((file, index) => (
-                    <Item
-                      key={index}
-                      original={URL.createObjectURL(file)}
-                      thumbnail={URL.createObjectURL(file)}
-                      width="1024"
-                      height="768"
-                    >
+                    <Item key={index} original={file} thumbnail={file} width="1024" height="768">
                       {({ ref, open }) => (
                         <img
                           ref={ref}
                           onClick={open}
-                          src={URL.createObjectURL(file)}
+                          src={file}
                           alt="..."
                           style={{
                             width: '200px',
@@ -334,13 +340,18 @@ const AdsSpotDetails = () => {
                 </Gallery>
               </CCol>
               <CCol sm={2} className="mt-2">
-                <Button component="label" variant="outlined" startIcon={<CloudUpload />}>
+                <Button
+                  component="label"
+                  variant="outlined"
+                  startIcon={<CloudUpload />}
+                  onClick={() => widgetRef.current.open()}
+                >
                   Thêm ảnh
                   <VisuallyHiddenInput
                     type="file"
-                    multiple
+                    disabled
                     {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
-                    onChange={uploadMultiFiles}
+                    // onChange={uploadMultiFiles}
                   />
                 </Button>
               </CCol>
