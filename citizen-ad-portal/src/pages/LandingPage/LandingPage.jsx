@@ -11,28 +11,29 @@ import Pin from '../../components/Pin/Pin';
 
 import CITIES from '../../mock/cities.json';
 import PinInfo from '../../components/PinInfo/PinInfo';
+import AdsPanel from '../../components/AdsPanel/AdsPanel';
 
 const geolocateStyle = {
   top: 0,
-  left: 0,
+  right: 0,
   padding: '10px',
 };
 
 const fullscreenControlStyle = {
   top: 36,
-  left: 0,
+  right: 0,
   padding: '10px',
 };
 
 const navStyle = {
   top: 72,
-  left: 0,
+  right: 0,
   padding: '10px',
 };
 
 const scaleControlStyle = {
   bottom: 36,
-  left: 0,
+  right: 0,
   padding: '10px',
 };
 
@@ -62,16 +63,19 @@ function LandingPage() {
         <Pin data={CITIES} onClick={setPopupInfo} />
 
         {popupInfo && (
-          <Popup
-            tipSize={5}
-            anchor='top'
-            longitude={popupInfo.longitude}
-            latitude={popupInfo.latitude}
-            closeOnClick={false}
-            onClose={setPopupInfo}
-          >
-            <PinInfo info={popupInfo} />
-          </Popup>
+          <React.Fragment>
+            <Popup
+              tipSize={5}
+              anchor='top'
+              longitude={popupInfo.longitude}
+              latitude={popupInfo.latitude}
+              closeOnClick={false}
+              onClose={setPopupInfo}
+            >
+              <PinInfo info={popupInfo} />
+            </Popup>
+            <AdsPanel />
+          </React.Fragment>
         )}
 
         <GeolocateControl style={geolocateStyle} />
