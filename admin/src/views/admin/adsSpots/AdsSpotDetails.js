@@ -31,6 +31,7 @@ import ControlPanel from './ControlPanel'
 import Pin from './Pin'
 import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers'
 import { CloudUpload } from '@mui/icons-material'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
@@ -151,6 +152,14 @@ const AdsSpotDetails = () => {
       latitude: event.lngLat[1],
     })
   }, [])
+
+  const uploadMultiFiles = (e) => {
+    const files = Array.from(e.target.files)
+    setData((pre) => ({
+      ...pre,
+      fileSelected: [...pre.fileSelected, ...files],
+    }))
+  }
 
   const cloudinaryRef = useRef()
   const widgetRef = useRef()
@@ -320,20 +329,53 @@ const AdsSpotDetails = () => {
               <CCol sm={12}>
                 <Gallery>
                   {data.fileSelected.map((file, index) => (
-                    <Item key={index} original={file} thumbnail={file} width="1024" height="768">
+                    <Item
+                      key={index}
+                      original={URL.createObjectURL(file)}
+                      thumbnail={URL.createObjectURL(file)}
+                      width="1024"
+                      height="768"
+                    >
                       {({ ref, open }) => (
-                        <img
-                          ref={ref}
-                          onClick={open}
-                          src={file}
-                          alt="..."
+                        <div
                           style={{
+                            position: 'relative',
+                            display: 'inline-block',
+                            cursor: 'pointer',
                             width: '200px',
-                            height: '200px',
-                            objectFit: 'cover',
-                            margin: '5px',
+                            marginRight: '10px',
+                            marginTop: '5px',
+                            marginBottom: '5px',
                           }}
-                        />
+                        >
+                          <CancelIcon
+                            onClick={() => {
+                              setData((pre) => ({
+                                ...pre,
+                                fileSelected: pre.fileSelected.filter((_, i) => i !== index),
+                              }))
+                            }}
+                            style={{
+                              position: 'absolute',
+                              top: '-10px',
+                              right: '-15px',
+                              cursor: 'pointer',
+                              zIndex: 999,
+                            }}
+                            color="error"
+                          />
+                          <img
+                            ref={ref}
+                            onClick={open}
+                            src={URL.createObjectURL(file)}
+                            alt="..."
+                            style={{
+                              width: '200px',
+                              height: '200px',
+                              objectFit: 'cover',
+                            }}
+                          />
+                        </div>
                       )}
                     </Item>
                   ))}
@@ -344,14 +386,15 @@ const AdsSpotDetails = () => {
                   component="label"
                   variant="outlined"
                   startIcon={<CloudUpload />}
-                  onClick={() => widgetRef.current.open()}
+                  // onClick={() => widgetRef.current.open()}
                 >
                   Thêm ảnh
                   <VisuallyHiddenInput
                     type="file"
-                    disabled
+                    // disabled
+                    multiple
                     {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
-                    // onChange={uploadMultiFiles}
+                    onChange={uploadMultiFiles}
                   />
                 </Button>
               </CCol>
