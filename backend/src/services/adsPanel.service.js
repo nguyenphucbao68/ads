@@ -8,6 +8,13 @@ const getAdsPanels = async (params) => {
     where: {
       ...params,
     },
+    include: {
+      ads_panel_type: {
+        select: {
+          name: true,
+        },
+      },
+    },
     orderBy: {
       id: 'asc',
     },
