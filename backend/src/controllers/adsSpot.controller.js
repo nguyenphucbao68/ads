@@ -31,6 +31,11 @@ const getAllAdsSpotByAdsPanelId = catchAsync(async (req, res) => {
   res.send(adsSpot);
 });
 
+const getAllAdsPanelByAdsSpotId = catchAsync(async (req, res) => {
+  const adsPanel = await adsSpotService.getAllAdsPanelByAdsSpotId(req.params.adsSpotId);
+  res.send(adsPanel);
+});
+
 module.exports = {
   getAdsSpots,
   getAdsSpot,
@@ -38,4 +43,5 @@ module.exports = {
   updateAdsSpot,
   deleteAdsSpot,
   getAllAdsSpotByAdsPanelId,
+  getAllAdsPanelByAdsSpotId,
 };

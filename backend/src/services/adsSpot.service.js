@@ -37,6 +37,20 @@ const getAdsSpotById = async (id) => {
   return adsSpot;
 };
 
+const getAllAdsPanelByAdsSpotId = async (id) => {
+  const adsPanel = await prisma.ads_panel.findMany({
+    where: {
+      ads_spot_id: parseInt(id, 10),
+    },
+    include: {
+      ads_spot: true,
+      ads_type: true,
+    },
+  });
+
+  return adsPanel;
+};
+
 const getAllAdsSpotByAdsPanelId = async (id) => {
   const adsSpot = await prisma.ads_spot.findMany({
     where: {
@@ -114,6 +128,7 @@ module.exports = {
   getAdsSpots,
   getAdsSpotById,
   getAllAdsSpotByAdsPanelId,
+  getAllAdsPanelByAdsSpotId,
   createAdsSpot,
   updateAdsSpot,
   deleteAdsSpot,
