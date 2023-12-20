@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback, useRef } from 'react'
 
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Grid, styled } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -30,6 +30,7 @@ import './AdsSpotDetails.css'
 import ControlPanel from './ControlPanel'
 import Pin from './Pin'
 import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers'
+import { CloudUpload } from '@mui/icons-material'
 
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 
@@ -57,6 +58,18 @@ const scaleControlStyle = {
   padding: '10px',
 }
 
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+})
+
 const AdsSpotDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -80,6 +93,13 @@ const AdsSpotDetails = () => {
     },
     fileSelected: [],
   })
+
+  const {
+    register,
+    handleSubmit,
+    formState,
+    formState: { errors },
+  } = useForm()
 
   const [viewport, setViewport] = useState({
     latitude: 21.02727,
@@ -131,13 +151,6 @@ const AdsSpotDetails = () => {
       latitude: event.lngLat[1],
     })
   }, [])
-
-  const {
-    register,
-    handleSubmit,
-    formState,
-    formState: { errors },
-  } = useForm()
 
   const uploadMultiFiles = (e) => {
     const files = Array.from(e.target.files)
@@ -319,15 +332,12 @@ const AdsSpotDetails = () => {
                     </Item>
                   ))}
                 </Gallery>
-                <CFormInput
-                  type="file"
-                  id="imagesPicker"
-                  className="form-control"
-                  onChange={uploadMultiFiles}
-                  multiple
-                  {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
-                  feedback={errors.images?.message}
-                />
+              </CCol>
+              <CCol sm={2} className="mt-2">
+                <Button component="label" variant="outlined" startIcon={<CloudUpload />}>
+                  Thêm ảnh
+                  <VisuallyHiddenInput type="file" onChange={uploadMultiFiles} multiple />
+                </Button>
               </CCol>
             </CRow>
             <CRow className="mb-3">

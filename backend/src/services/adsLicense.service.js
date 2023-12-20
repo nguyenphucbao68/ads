@@ -24,18 +24,53 @@ const getAdsLicenseById = async (id) => {
   return data;
 };
 
-const getAdsLicenses = async (userId, role) => {
+const getAdsLicenses = async (userId) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: parseInt(userId, 10),
+    },
+  });
   var option = {};
-  console.log(role);
+  const role = user.role;
   if (role != 0)
     option = {
       where: {
         user_id: userId,
       },
     };
-  const data = await prisma.ads_license.findMany(option);
+  const data = await prisma.ads_license.findMany({
+    ...option,
+    select: {
+      id: true,
+      ads_panel_id: true,
+      ads_panel: {
+        select: {
+          ads_panel_type: true,
+          ads_spot: true,
+        },
+      },
+      content: true,
+      user_id: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+      start_date: true,
+      expire_date: true,
+      status: true,
+      name: true,
+      email: true,
+      address: true,
+      phone: true,
+    },
+    orderBy: {
+      updated_at: 'desc',
+    },
+  });
 
-  return { data };
+  return data;
 };
 
 const updateAdsLicense = async (id, body) => {
@@ -48,7 +83,7 @@ const updateAdsLicense = async (id, body) => {
     },
   });
 
-  return { data };
+  return data;
 };
 
 module.exports = {

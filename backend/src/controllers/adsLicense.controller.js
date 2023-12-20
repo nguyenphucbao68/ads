@@ -8,7 +8,7 @@ const getAdsLicense = catchAsync(async (req, res) => {
 });
 
 const getAdsLicenses = catchAsync(async (req, res) => {
-  const data = await adsLicenseService.getAdsLicenses();
+  const data = await adsLicenseService.getAdsLicenses(req.query.user_id);
   res.send(data);
 });
 
