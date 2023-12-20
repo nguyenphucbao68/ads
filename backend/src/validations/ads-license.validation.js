@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const getAdsLicense = {
   params: Joi.object().keys({
-    id: Joi.number().required(),
+    id: Joi.number().integer().required(),
   }),
 };
 

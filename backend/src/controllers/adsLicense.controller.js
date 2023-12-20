@@ -2,9 +2,8 @@ const catchAsync = require('../utils/catchAsync');
 const { adsLicenseService } = require('../services');
 
 const getAdsLicense = catchAsync(async (req, res) => {
-  const bus = await adsLicenseService.getAdsLicenseById(req.params.id);
-
-  res.send(bus);
+  const data = await adsLicenseService.getAdsLicenseById(req.params.id);
+  res.send(data);
 });
 
 const getAdsLicenses = catchAsync(async (req, res) => {

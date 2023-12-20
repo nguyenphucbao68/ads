@@ -843,7 +843,7 @@ const ads_license = [
   {
     ads_panel_id: Math.floor(Math.random() * 10) + 1,
     content: 'Cấp phép cho công ty này',
-    user_id: Math.floor(Math.random() * 4) + 1,
+    user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
     status: 0,
@@ -856,7 +856,7 @@ const ads_license = [
   {
     ads_panel_id: Math.floor(Math.random() * 10) + 1,
     content: 'Cấp phép cho công ty này',
-    user_id: Math.floor(Math.random() * 4) + 1,
+    user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
     status: 1,
@@ -869,7 +869,7 @@ const ads_license = [
   {
     ads_panel_id: Math.floor(Math.random() * 10) + 1,
     content: 'Cấp phép cho công ty này',
-    user_id: Math.floor(Math.random() * 4) + 1,
+    user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
     status: 2,

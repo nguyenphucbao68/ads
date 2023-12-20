@@ -112,7 +112,8 @@ const AccountAssignModal = ({ user, onClose }) => {
                   type="text"
                   id="inputEmail"
                   placeholder="Email"
-                  disabled
+                  readOnly
+                  plainText
                   autoComplete="email"
                   {...register('email', {})}
                   feedback={errors.email?.message}
@@ -129,7 +130,8 @@ const AccountAssignModal = ({ user, onClose }) => {
                   type="text"
                   id="inputName"
                   placeholder="Họ và tên"
-                  disabled
+                  readOnly
+                  plainText
                   autoComplete="name"
                   {...register('name', {})}
                   feedback={errors.name?.message}
@@ -149,7 +151,8 @@ const AccountAssignModal = ({ user, onClose }) => {
                   type="date"
                   id="inputDOB"
                   placeholder="Ngày sinh"
-                  disabled
+                  readOnly
+                  plainText
                   autoComplete="dob"
                   {...register('dob', {})}
                   feedback={errors.dob?.message}
@@ -169,7 +172,8 @@ const AccountAssignModal = ({ user, onClose }) => {
                   type="phone"
                   id="inputPhone"
                   placeholder="Số điện thoại"
-                  disabled
+                  readOnly
+                  plainText
                   autoComplete="phone"
                   {...register('phone', {})}
                   feedback={errors.phone?.message}
@@ -253,7 +257,8 @@ const AccountAssignModal = ({ user, onClose }) => {
             type="submit"
             startIcon={<SaveIcon />}
             color="primary"
-            disabled={!formState.isDirty}
+            readOnly
+            plainText={!formState.isDirty}
             sx={{
               borderRadius: '8px',
             }}
