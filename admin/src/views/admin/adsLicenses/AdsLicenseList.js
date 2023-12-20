@@ -195,7 +195,7 @@ const AdsLicenseList = () => {
     fetchData()
   }, [dispatchAdsLicenses, data.showConfirmModal])
 
-  console.log('adsLicences.rows', adsLicences.rows)
+  // const handleFilterByWardOrDistrict = (type, districtId, wardId) => {
 
   return (
     <CCard className="mb-4">
@@ -260,6 +260,7 @@ const AdsLicenseList = () => {
             slotProps={{
               toolbar: {
                 addNew: null,
+                filterByWardOrDistrict: () => {},
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

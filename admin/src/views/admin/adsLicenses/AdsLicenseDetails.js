@@ -3,21 +3,22 @@ import React, { useState, useEffect } from 'react'
 import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import { useParams } from 'react-router-dom'
-import DeleteIcon from '@mui/icons-material/Delete'
-import SaveIcon from '@mui/icons-material/Save'
-import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
 import * as adsLicenseService from 'src/services/adsLicense'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import ConfirmModal from 'src/modals/ConfirmModal'
 
 const AdsLicenseDetails = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const [data, setData] = useState({
     showConfirmModal: false,
+    title: '',
+    content: '',
+    onConfirm: () => {},
     adsLicense: {
       id,
       ads_panel_id: '',
@@ -59,33 +60,9 @@ const AdsLicenseDetails = () => {
     },
   })
 
-  const {
-    register,
-    handleSubmit,
-    formState,
-    formState: { errors },
-  } = useForm()
-
-  const onSubmit = async (data) => {
-    console.log(data)
-    // const result = await districtService.update(id, {
-    //   name: data.district_name,
-    // })
-    // if (result.id) {
-    //   setData((pre) => ({
-    //     ...pre,
-    //     district: result,
-    //   }))
-    //   toast.success('Cập nhật quận/huyện thành công')
-    // } else {
-    //   toast.error('Cập nhật quận/huyện thất bại')
-    // }
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       const adsLicenseRes = await adsLicenseService.getById(id)
-      console.log('adsLicenseRes.ads_panel.width :>> ', adsLicenseRes.ads_panel.width)
       setData((pre) => ({
         ...pre,
         adsLicense: adsLicenseRes,
@@ -103,12 +80,21 @@ const AdsLicenseDetails = () => {
       }}
     >
       <Toaster position="top-right" reverseOrder={false} />
+      <ConfirmModal
+        visible={data.showConfirmModal}
+        title={data.title}
+        content={data.content}
+        confirmText="Xác nhận"
+        cancelText="Hủy"
+        onConfirm={data.onConfirm}
+        onCancel={() => setData((pre) => ({ ...pre, showConfirmModal: false }))}
+      />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title">
           Chi tiết cấp phép quảng cáo
         </h4>
         <hr />
-        <CForm onSubmit={handleSubmit(onSubmit)}>
+        <CForm>
           <Box
             sx={{
               height: 'calc(100vh - 350px)',
@@ -402,6 +388,30 @@ const AdsLicenseDetails = () => {
                     sx={{
                       borderRadius: '8px',
                     }}
+                    onClick={() => {
+                      setData((pre) => ({
+                        ...pre,
+                        showConfirmModal: true,
+                        title: 'Xác nhận phê duyệt',
+                        content: 'Bạn có chắc chắn muốn phê duyệt cấp phép quảng cáo này?',
+                        onConfirm: async () => {
+                          const result = await adsLicenseService.update(id, { status: 1 })
+                          setData((pre) => ({
+                            ...pre,
+                            showConfirmModal: false,
+                            adsLicense: {
+                              ...pre.adsLicense,
+                              status: 1,
+                            },
+                          }))
+                          if (result.id) {
+                            toast.success('Phê duyệt cấp phép quảng cáo thành công')
+                          } else {
+                            toast.error('Phê duyệt cấp phép quảng cáo thất bại')
+                          }
+                        },
+                      }))
+                    }}
                   >
                     Phê duyệt
                   </Button>
@@ -411,6 +421,30 @@ const AdsLicenseDetails = () => {
                     color="error"
                     sx={{
                       borderRadius: '8px',
+                    }}
+                    onClick={() => {
+                      setData((pre) => ({
+                        ...pre,
+                        showConfirmModal: true,
+                        title: 'Xác nhận từ chối',
+                        content: 'Bạn có chắc chắn muốn từ chối cấp phép quảng cáo này?',
+                        onConfirm: async () => {
+                          const result = await adsLicenseService.update(id, { status: 2 })
+                          setData((pre) => ({
+                            ...pre,
+                            showConfirmModal: false,
+                            adsLicense: {
+                              ...pre.adsLicense,
+                              status: 2,
+                            },
+                          }))
+                          if (result.id) {
+                            toast.success('Từ chối cấp phép quảng cáo thành công')
+                          } else {
+                            toast.error('Từ chối cấp phép quảng cáo thất bại')
+                          }
+                        },
+                      }))
                     }}
                   >
                     Không phê duyệt
