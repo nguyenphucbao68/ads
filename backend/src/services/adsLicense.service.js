@@ -76,10 +76,11 @@ const getAdsLicenses = async (userId) => {
 const updateAdsLicense = async (id, body) => {
   const data = await prisma.ads_license.update({
     where: {
-      id,
+      id: parseInt(id, 10),
     },
     data: {
-      status: body.status,
+      status: parseInt(body.status, 10),
+      updated_at: new Date(),
     },
   });
 
