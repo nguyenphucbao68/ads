@@ -7,6 +7,7 @@ const getAdsPanels = async (params) => {
   const adsPanels = await prisma.ads_panel.findMany({
     where: {
       ...params,
+      is_deleted: false,
     },
     include: {
       ads_panel_type: {
@@ -55,6 +56,7 @@ const updateAdsPanel = async (id, adsPanelBody) => {
 
 // delete an existing adsPanel
 const deleteAdsPanel = async (id) => {
+  console.log('id ', id);
   const adsPanel = await prisma.ads_panel.update({
     where: {
       id: parseInt(id, 10),

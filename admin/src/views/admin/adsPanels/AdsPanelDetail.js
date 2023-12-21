@@ -1,7 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-import { Box, Button, Grid } from '@mui/material'
-import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
+import { Box, Button, Grid, styled } from '@mui/material'
+import {
+  CCard,
+  CCardBody,
+  CForm,
+  CCol,
+  CRow,
+  CFormLabel,
+  CFormInput,
+  CFormSelect,
+} from '@coreui/react'
 import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
@@ -9,11 +18,32 @@ import { Toaster, toast } from 'sonner'
 import ConfirmModal from 'src/modals/ConfirmModal'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { Gallery, Item } from 'react-photoswipe-gallery'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { CloudUpload } from '@mui/icons-material'
 import * as adsPanelService from 'src/services/adsPanel'
+import * as adsPanelTypeService from 'src/services/adsPanelType'
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+})
 // TODO
 const AdsPanelDetail = () => {
   const { id } = useParams()
-  const [data, setData] = useState({})
+
+  const [data, setData] = useState({
+    adsPanelType: [],
+    adsPanelDetail: [],
+    fileSelected: [],
+  })
   const [isModalDisplay, setIsModalDisplay] = useState(false)
   const navigate = useNavigate()
 
@@ -21,13 +51,24 @@ const AdsPanelDetail = () => {
 
   // Fetch data
   const init = async () => {
-    let data = await adsPanelService.getById(id)
-    setData(data)
+    const adsPanelData = await adsPanelService.getById(id)
+    const adsPanelTypeData = await adsPanelTypeService.getAll()
+    setData((prev) => ({ ...prev, adsPanelDetail: adsPanelData, adsPanelType: adsPanelTypeData }))
+  }
+
+  const formatDate = (dateString) => {
+    // Assuming dateString is in YYYY-MM-DD format
+    const date = new Date(dateString)
+    const formattedDate = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+    return formattedDate
   }
 
   // Hàm thay đổi
   // TODO viết lại
-
   const onSave = async () => {
     try {
       const name = getValues('name')
@@ -45,14 +86,34 @@ const AdsPanelDetail = () => {
   const onDelete = async () => {
     try {
       await adsPanelService.deleteById(id)
-      navigate(`/admin/ads-panels`)
+      navigate(`/admin/ads_panels`)
     } catch (err) {
       toast.error('Cập nhật bảng quảng cáo thất bại')
     }
   }
 
+  const cloudinaryRef = useRef()
+  const widgetRef = useRef()
+
   useEffect(() => {
     init()
+
+    cloudinaryRef.current = window.cloudinary
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: 'dzjaj79nw',
+        uploadPreset: 'u4mszkqu',
+      },
+      (error, result) => {
+        if (result.event === 'success') {
+          console.log('Upload success with the link: ' + result.info.url)
+          setData((pre) => ({
+            ...pre,
+            fileSelected: [...pre.fileSelected, result.info.url],
+          }))
+        } else console.error(error)
+      },
+    )
   }, [])
 
   return (
@@ -84,23 +145,39 @@ const AdsPanelDetail = () => {
                 Loại
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="number" id="inputEmail3" defaultValue={data.ads_type_id} />
+                <CFormSelect
+                  aria-label="Default select example"
+                  options={data.adsPanelType.map((option) => ({
+                    label: option.name,
+                    value: option.id,
+                  }))}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
               <CFormLabel htmlFor="height" className="col-sm-2 col-form-label">
-                Chiều cao
+                Chiều cao (m)
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="text" id="height" defaultValue={data.height} />
+                <CFormInput
+                  type="number"
+                  id="height"
+                  defaultValue={data.adsPanelDetail.height}
+                  {...register('height', { required: 'Vui lòng nhập chiều cao' })}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
               <CFormLabel htmlFor="width" className="col-sm-2 col-form-label">
-                Chiều rộng
+                Chiều rộng (m)
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="text" id="width" defaultValue={data.width} />
+                <CFormInput
+                  type="number"
+                  id="width"
+                  defaultValue={data.adsPanelDetail.width}
+                  {...register('width', { required: 'Vui lòng nhập chiều rộng' })}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -108,15 +185,83 @@ const AdsPanelDetail = () => {
                 Ngày hết hạn
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="text" id="expire_date" defaultValue={data.expire_date} />
+                <CFormInput
+                  type="text"
+                  id="expire_date"
+                  defaultValue={formatDate(data.adsPanelDetail.expire_date)}
+                  {...register('expire_date', { required: 'Vui lòng nhập ngày hết hạn' })}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
               <CFormLabel htmlFor="image" className="col-sm-2 col-form-label">
                 Hình ảnh
               </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput type="text" id="image" defaultValue={data.image} />
+              <CCol sm={12}>
+                <Gallery>
+                  {data.fileSelected.map((file, index) => (
+                    <Item key={index} original={file} thumbnail={file} width="1024" height="768">
+                      {({ ref, open }) => (
+                        <div
+                          style={{
+                            position: 'relative',
+                            display: 'inline-block',
+                            cursor: 'pointer',
+                            width: '200px',
+                            marginRight: '10px',
+                            marginTop: '5px',
+                            marginBottom: '5px',
+                          }}
+                        >
+                          <CancelIcon
+                            onClick={() => {
+                              setData((pre) => ({
+                                ...pre,
+                                fileSelected: pre.fileSelected.filter((_, i) => i !== index),
+                              }))
+                            }}
+                            style={{
+                              position: 'absolute',
+                              top: '-10px',
+                              right: '-15px',
+                              cursor: 'pointer',
+                              zIndex: 999,
+                            }}
+                            color="error"
+                          />
+                          <img
+                            ref={ref}
+                            onClick={open}
+                            src={file}
+                            alt="..."
+                            style={{
+                              width: '200px',
+                              height: '200px',
+                              objectFit: 'cover',
+                            }}
+                          />
+                        </div>
+                      )}
+                    </Item>
+                  ))}
+                </Gallery>
+              </CCol>
+              <CCol sm={2} className="mt-2">
+                <Button
+                  component="label"
+                  variant="outlined"
+                  startIcon={<CloudUpload />}
+                  onClick={() => widgetRef.current.open()}
+                >
+                  Thêm ảnh
+                  <VisuallyHiddenInput
+                    type="file"
+                    disabled
+                    // multiple
+                    {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
+                    // onChange={uploadMultiFiles}
+                  />
+                </Button>
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -124,7 +269,11 @@ const AdsPanelDetail = () => {
                 Điểm đặt tại đây
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput type="text" id="spot_id" defaultValue={data.ads_spot_id} />
+                <CFormInput
+                  type="text"
+                  id="spot_id"
+                  defaultValue={data.adsPanelDetail.ads_spot_id}
+                />
               </CCol>
             </CRow>
             <Box
