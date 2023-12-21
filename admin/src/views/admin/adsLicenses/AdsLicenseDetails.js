@@ -10,6 +10,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ConfirmModal from 'src/modals/ConfirmModal'
+import { Parser } from 'html-to-react'
 
 const AdsLicenseDetails = () => {
   const { id } = useParams()
@@ -103,6 +104,88 @@ const AdsLicenseDetails = () => {
               overflowY: 'auto',
             }}
           >
+            <CRow className="mb-2">
+              <CFormLabel
+                className="col-sm-6 col-form-label"
+                style={{
+                  fontWeight: 'bold',
+                }}
+              >
+                Thông tin hợp đồng
+              </CFormLabel>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsLicenseContent" className="col-sm-12 col-form-label">
+                Nội dung quảng cáo
+              </CFormLabel>
+              <CCol
+                sm={12}
+                style={{
+                  overflowY: 'auto',
+                  maxHeight: '150px',
+                  backgroundColor: '#f5f5f5',
+                  padding: '10px',
+                  margin: '10px',
+                  borderRadius: '8px',
+                }}
+              >
+                {/* TODO: Render html here */}
+                {Parser().parse(`<h1>${data.adsLicense.content}</h1>`)}
+
+                {/* <CFormInput
+                  type="text"
+                  id="inputAdsLicenseContent"
+                  readOnly
+                  plainText
+                  value={`<p>${data.adsLicense.content}</p>`}
+                /> */}
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsLicenseStartDate" className="col-sm-2 col-form-label">
+                Ngày bắt đầu hợp đồng
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsLicenseStartDate"
+                  readOnly
+                  plainText
+                  value={
+                    data.adsLicense.start_date
+                      ? new Date(data.adsLicense.start_date)
+                          .toISOString()
+                          .replace(/T/, ' ') // replace T with a space
+                          .replace(/\..+/, '')
+                          .split(' ')[0]
+                      : ''
+                  }
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsLicenseExpireDate" className="col-sm-2 col-form-label">
+                Ngày kết thúc hợp đồng
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsLicenseExpireDate"
+                  readOnly
+                  plainText
+                  value={
+                    data.adsLicense.expire_date
+                      ? new Date(data.adsLicense.expire_date)
+                          .toISOString()
+                          .replace(/T/, ' ') // replace T with a space
+                          .replace(/\..+/, '')
+                          .split(' ')[0]
+                      : ''
+                  }
+                />
+              </CCol>
+            </CRow>
+            <hr />
             <CRow className="mb-2">
               <CFormLabel
                 className="col-sm-6 col-form-label"
