@@ -788,9 +788,510 @@ const report = [
     phone: faker.phone.number(), // TODO đổi lại sau
     content: 'Chỗ này không được đặt quảng cáo',
     image: faker.image.city(), // TODO đổi lại sau
-    status: Math.round(Math.random()), // 0: Đang xử lý, 1: Đã xử lý xong
+    status: Math.round(Math.random()), //0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
     created_at: CURRENT_DATE,
-    ads_panel_id: Math.floor(Math.random() * 10) + 1,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },
+  {
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
+  },{
+    report_type_id: Math.floor(Math.random() * 4) + 1,
+    name: faker.finance.accountName(), // TODO đổi lại sau
+    email: 'user@gmail.com',
+    phone: faker.phone.number(), // TODO đổi lại sau
+    content: 'Chỗ này không được đặt quảng cáo',
+    image: faker.image.city(), // TODO đổi lại sau
+    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    created_at: CURRENT_DATE,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
   },
 ];
 
@@ -843,7 +1344,7 @@ const ads_license = [
   {
     ads_panel_id: Math.floor(Math.random() * 10) + 1,
     content: 'Cấp phép cho công ty này',
-    user_id: Math.floor(Math.random() * 4) + 1,
+    user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
     status: 0,
@@ -856,7 +1357,7 @@ const ads_license = [
   {
     ads_panel_id: Math.floor(Math.random() * 10) + 1,
     content: 'Cấp phép cho công ty này',
-    user_id: Math.floor(Math.random() * 4) + 1,
+    user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
     status: 1,
@@ -869,7 +1370,7 @@ const ads_license = [
   {
     ads_panel_id: Math.floor(Math.random() * 10) + 1,
     content: 'Cấp phép cho công ty này',
-    user_id: Math.floor(Math.random() * 4) + 1,
+    user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
     status: 2,

@@ -57,6 +57,7 @@ const AccountLocationAssign = React.lazy(() =>
 
 // Ads License
 const AdsLicenseList = React.lazy(() => import('./views/admin/adsLicenses/AdsLicenseList'))
+const AdsLicenseDetails = React.lazy(() => import('./views/admin/adsLicenses/AdsLicenseDetails'))
 
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -187,6 +188,11 @@ const routes = [
   { path: '/admin/approval', name: 'Approval', exact: true },
   { path: '/admin/approval/edit_requests', name: 'Edit Requests Approval', element: Dashboard },
   { path: '/admin/approval/ads_licenses', name: 'Ads Licenses Approval', element: AdsLicenseList },
+  {
+    path: '/admin/approval/ads_licenses/:id',
+    name: 'Ads License Details',
+    element: AdsLicenseDetails,
+  },
 
   // Profile
   { path: '/profile', name: 'Profile', exact: true },

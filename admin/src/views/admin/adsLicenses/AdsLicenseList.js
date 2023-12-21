@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useCallback } from 'react'
 
 import { Box, IconButton, Stack } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
@@ -9,14 +9,35 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import * as adsLicenseService from 'src/services/adsLicense'
-import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { AdsLicenseContext } from 'src/contexts/AdsLicenseProvider'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ConfirmModal from 'src/modals/ConfirmModal'
 import { Toaster, toast } from 'sonner'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
+  {
+    field: 'ads_panel',
+    headerName: 'Bảng quảng cáo & điểm đặt',
+    width: 220,
+    renderCell: (params) => {
+      return (
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              fontWeight: 'bold',
+            }}
+          >
+            {params.value.ads_panel_type?.name}
+          </div>
+          <div>{params.value.ads_spot?.address}</div>
+        </div>
+      )
+    },
+  },
   {
     field: 'name',
     headerName: 'Tên công ty',
@@ -37,27 +58,7 @@ const columns = [
     headerName: 'Địa chỉ',
     width: 200,
   },
-  {
-    field: 'ads_panel',
-    headerName: 'Bảng quảng cáo',
-    width: 200,
-    renderCell: (params) => {
-      return (
-        <div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              fontWeight: 'bold',
-            }}
-          >
-            {params.value.ads_panel_type?.name}
-          </div>
-          <div>{params.value.ads_spot?.address}</div>
-        </div>
-      )
-    },
-  },
+
   {
     field: 'status',
     headerName: 'Trạng thái',
@@ -85,10 +86,9 @@ const columns = [
   },
   {
     field: 'actions',
-    headerName: 'Hành động',
+    headerName: 'Phê duyệt',
     flex: 1,
     renderCell: (params) => {
-      console.log('params.value.status', params.value.status)
       return (
         <Stack
           direction="row"
@@ -195,7 +195,69 @@ const AdsLicenseList = () => {
     fetchData()
   }, [dispatchAdsLicenses, data.showConfirmModal])
 
-  console.log('adsLicences.rows', adsLicences.rows)
+  const handleFilterByWardOrDistrict = useCallback(
+    async (type, districtId, wardId) => {
+      dispatchAdsLicenses({ type: 'TURN_ON_LOADING' })
+      try {
+        const currentUser = JSON.parse(localStorage.getItem('user'))
+        let query = `?user_id=${currentUser.id}&type=${type}`
+        if (type === 'ward') {
+          query += `&ward_id=${wardId}`
+        } else if (type === 'district') {
+          query += `&district_id=${districtId}`
+        }
+        const data = await adsLicenseService.getAll(query)
+        for (let i = 0; i < data.length; i++) {
+          data[i].actions = {
+            status: data[i].status,
+            approveFunc: () => {
+              setData((pre) => ({
+                ...pre,
+                showConfirmModal: true,
+                title: 'Xác nhận phê duyệt',
+                content: 'Bạn có chắc chắn muốn phê duyệt cấp phép quảng cáo này?',
+                onConfirm: async () => {
+                  const result = await adsLicenseService.update(data[i].id, { status: 1 })
+                  if (result.id) {
+                    setData((pre) => ({ ...pre, showConfirmModal: false }))
+                    toast.success('Phê duyệt cấp phép quảng cáo thành công')
+                  } else {
+                    toast.error('Phê duyệt cấp phép quảng cáo thất bại')
+                  }
+                },
+              }))
+            },
+            declineFunc: () => {
+              setData((pre) => ({
+                ...pre,
+                showConfirmModal: true,
+                title: 'Xác nhận từ chối',
+                content: 'Bạn có chắc chắn muốn từ chối cấp phép quảng cáo này?',
+                onConfirm: async () => {
+                  const result = await adsLicenseService.update(data[i].id, { status: 2 })
+                  if (result.id) {
+                    setData((pre) => ({ ...pre, showConfirmModal: false }))
+                    toast.success('Từ chối cấp phép quảng cáo thành công')
+                  } else {
+                    toast.error('Từ chối cấp phép quảng cáo thất bại')
+                  }
+                },
+              }))
+            },
+          }
+        }
+        dispatchAdsLicenses({
+          type: 'INITIALIZE_ADS_LICENSES',
+          payload: data || [],
+        })
+        dispatchAdsLicenses({ type: 'TURN_OFF_LOADING' })
+      } catch (err) {
+        console.log(err.message)
+        dispatchAdsLicenses({ type: 'TURN_OFF_LOADING' })
+      }
+    },
+    [dispatchAdsLicenses],
+  )
 
   return (
     <CCard className="mb-4">
@@ -260,6 +322,7 @@ const AdsLicenseList = () => {
             slotProps={{
               toolbar: {
                 addNew: null,
+                filterByWardOrDistrict: handleFilterByWardOrDistrict,
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
