@@ -10,6 +10,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ConfirmModal from 'src/modals/ConfirmModal'
+import { Parser } from 'html-to-react'
 
 const AdsLicenseDetails = () => {
   const { id } = useParams()
@@ -117,19 +118,27 @@ const AdsLicenseDetails = () => {
               <CFormLabel htmlFor="inputAdsLicenseContent" className="col-sm-12 col-form-label">
                 Nội dung quảng cáo
               </CFormLabel>
-              <CCol sm={12}>
+              <CCol
+                sm={12}
+                style={{
+                  overflowY: 'auto',
+                  maxHeight: '150px',
+                  backgroundColor: '#f5f5f5',
+                  padding: '10px',
+                  margin: '10px',
+                  borderRadius: '8px',
+                }}
+              >
                 {/* TODO: Render html here */}
-                <CFormInput
+                {Parser().parse(`<h1>${data.adsLicense.content}</h1>`)}
+
+                {/* <CFormInput
                   type="text"
                   id="inputAdsLicenseContent"
                   readOnly
                   plainText
-                  value={
-                    data.adsLicense.content
-                      ? data.adsLicense.content
-                      : 'Không có nội dung quảng cáo'
-                  }
-                />
+                  value={`<p>${data.adsLicense.content}</p>`}
+                /> */}
               </CCol>
             </CRow>
             <CRow className="mb-1">
