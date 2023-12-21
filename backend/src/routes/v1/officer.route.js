@@ -10,7 +10,8 @@ const { changeRequestController } = require('../../controllers/index.js');
 const router = express.Router();
 
 // 4 api need to be auth
-router.route('/ads-licenses').get(auth('viewAdsLicenses'), officerController.getAdsLicenses); //when login is finish, use the code above
+router.route('/ads-licenses').get(auth('viewAdsLicenses'), officerController.getAdsLicenses);
+
 router
   .route('/ads-license')
   .post(auth('postAdsLicense'), validate(adsLicense.postAdsLicense), officerController.postAdsLicense);
