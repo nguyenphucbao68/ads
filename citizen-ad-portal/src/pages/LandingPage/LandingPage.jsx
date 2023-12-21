@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import ReactMapGL, {
   Popup,
@@ -11,7 +11,7 @@ import Pin from '../../components/Pin/Pin';
 
 import CITIES from '../../mock/cities.json';
 import PinInfo from '../../components/PinInfo/PinInfo';
-import AdsPanel from '../../components/AdsPanel/AdsPanel';
+import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
 
 const geolocateStyle = {
   top: 0,
@@ -40,6 +40,7 @@ const scaleControlStyle = {
 function LandingPage() {
   const API_MAP_KEY = 'm4PoRqbbe7SM6IzkpPqSstyQqTPKUrj8EHKEJHGL';
 
+  const items = [1, 2, 3];
   const [viewport, setViewport] = useState({
     latitude: 40,
     longitude: -100,
@@ -50,6 +51,12 @@ function LandingPage() {
 
   const [popupInfo, setPopupInfo] = useState(null);
 
+  const onClick = useCallback((event) => {
+    const feature = event.features && event.features[0];
+
+    console.log({ feature });
+  }, []);
+
   return (
     <React.Fragment>
       <ReactMapGL
@@ -59,6 +66,7 @@ function LandingPage() {
         onViewportChange={setViewport}
         goongApiAccessToken={API_MAP_KEY}
         mapStyle={'https://tiles.goong.io/assets/goong_map_web.json'}
+        onClick={onClick}
       >
         <Pin data={CITIES} onClick={setPopupInfo} />
 
@@ -74,7 +82,7 @@ function LandingPage() {
             >
               <PinInfo info={popupInfo} />
             </Popup>
-            <AdsPanel />
+            <AdsPanelList items={items} />
           </React.Fragment>
         )}
 

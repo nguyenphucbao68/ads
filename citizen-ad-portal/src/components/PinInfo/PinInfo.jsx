@@ -3,7 +3,6 @@ import { Card, Typography } from 'antd';
 import styled from 'styled-components';
 
 const { Title, Paragraph } = Typography;
-const { Meta } = Card;
 
 const StyledCard = styled(Card)`
   .ant-card-body {
@@ -13,8 +12,6 @@ const StyledCard = styled(Card)`
 `;
 
 function PinInfo({ info }) {
-  const displayCityName = `${info.city}, ${info.state}`;
-
   return (
     <StyledCard style={{ width: 300, padding: 0 }} bordered={false}>
       <Title level={5}>Cổ động chính trị</Title>
