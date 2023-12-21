@@ -21,6 +21,7 @@ const getAdsLicenseById = async (id) => {
               spot_type: true,
               ads_type: true,
               max_ads_panel: true,
+              is_available: true,
             },
           },
         },
