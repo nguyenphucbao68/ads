@@ -171,7 +171,6 @@ const AccountAssignModal = ({ user, onClose }) => {
                 <CFormInput
                   type="phone"
                   id="inputPhone"
-                  placeholder="Số điện thoại"
                   readOnly
                   plainText
                   autoComplete="phone"
