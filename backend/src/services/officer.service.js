@@ -60,7 +60,7 @@ const getReportsByRole = async (role, userId) => {
 
     data = await prisma.$queryRaw`select r.* from report r 
       join ads_panel ap on r.ads_panel_id = ap.id
-      join ads_spot adspot on ap.ads_spot_id = adspot.id
+      join ads_spot aspt on ap.ads_spot_id = aspt.id
       where ward_id = ${userWard.ward_id}`;
   } else {
     const userDistrict = await prisma.user_district.findUnique({
@@ -70,8 +70,8 @@ const getReportsByRole = async (role, userId) => {
     });
 
     data = await prisma.$queryRaw`select r.* from report r 
-      join ads_panel adp on r.ads_panel_id = ap.id
-      join ads_spot adspot on ap.ads_spot_id = adspot.id
+      join ads_panel ap on r.ads_panel_id = ap.id
+      join ads_spot aspt on ap.ads_spot_id = aspt.id
       where district_id = ${userDistrict.district_id}`;
   }
 
