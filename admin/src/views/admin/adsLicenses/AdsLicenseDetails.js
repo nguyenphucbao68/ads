@@ -42,6 +42,7 @@ const AdsLicenseDetails = () => {
             name: '',
           },
           max_ads_panel: 0,
+          is_available: false,
         },
       },
       content: '',
@@ -185,6 +186,29 @@ const AdsLicenseDetails = () => {
                   plainText
                   value={data.adsLicense.ads_panel.ads_spot.ads_type.name}
                 />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputIsAvailable" className="col-sm-2 col-form-label">
+                Tình trạng quy hoạch
+              </CFormLabel>
+              <CCol sm={10}>
+                <Box
+                  sx={{
+                    borderRadius: '8px',
+                    backgroundColor: data.adsLicense.ads_panel.ads_spot.is_available
+                      ? 'success.main'
+                      : 'error.main',
+                    color: 'white',
+                    p: '7px',
+                    width: 'fit-content',
+                    textAlign: 'center',
+                  }}
+                >
+                  {data.adsLicense.ads_panel.ads_spot.is_available
+                    ? 'Đã quy hoạch'
+                    : 'Chưa quy hoạch'}
+                </Box>
               </CCol>
             </CRow>
             <hr />
