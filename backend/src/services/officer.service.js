@@ -58,9 +58,10 @@ const getReportsByRole = async (role, userId) => {
       },
     });
 
-    data = await prisma.$queryRaw`select r.* from report r 
+    data = await prisma.$queryRaw`select r.*, aspt.address, rt.name as report_type_name from report r 
       join ads_panel ap on r.ads_panel_id = ap.id
       join ads_spot aspt on ap.ads_spot_id = aspt.id
+      join report_type rt on rt.id = r.report_type_id
       where ward_id = ${userWard.ward_id}`;
   } else {
     const userDistrict = await prisma.user_district.findFirst({
@@ -69,9 +70,10 @@ const getReportsByRole = async (role, userId) => {
       },
     });
 
-    data = await prisma.$queryRaw`select r.* from report r 
+    data = await prisma.$queryRaw`select r.*, aspt.address, rt.name as report_type_name from report r 
       join ads_panel ap on r.ads_panel_id = ap.id
       join ads_spot aspt on ap.ads_spot_id = aspt.id
+      join report_type rt on rt.id = r.report_type_id
       where district_id = ${userDistrict.district_id}`;
   }
 

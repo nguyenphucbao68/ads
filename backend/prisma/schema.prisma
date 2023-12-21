@@ -117,6 +117,7 @@ model report {
   content         String
   image           String
   status          Int
+  view_status     Int         @default(0)
   created_at      DateTime    @default(now()) @db.Timestamptz(6)
   is_deleted      Boolean     @default(false)
   ads_panel_id    Int?

@@ -1,7 +1,7 @@
 import api from '../utils/api'
 
 const getAll = () => {
-  return api.get('vhtt/wards').then((res) => {
+  return api.get('officer/reports').then((res) => {
     return res.data
   })
 }

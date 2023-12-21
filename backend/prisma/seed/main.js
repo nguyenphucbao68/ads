@@ -788,7 +788,7 @@ const report = [
     phone: faker.phone.number(), // TODO đổi lại sau
     content: 'Chỗ này không được đặt quảng cáo',
     image: faker.image.city(), // TODO đổi lại sau
-    status: Math.round(Math.random()), // 0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
+    status: Math.round(Math.random()), //0: chưa xử lý, 1: đang xử lý, 2: Đã xử lý xong
     created_at: CURRENT_DATE,
     ads_panel_id: Math.floor(Math.random() * 9) + 1,
   },
