@@ -27,6 +27,9 @@ const allRoles = {
     'createSpotType',
     'updateSpotType',
     'deleteSpotType',
+    'deleteAdsPanel',
+    'updateAdsPanel',
+    'createAdsPanel',
   ],
 };
 

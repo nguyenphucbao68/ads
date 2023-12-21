@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import { format } from 'date-fns'
 import { Box } from '@mui/material'
 import { DataGrid, gridClasses } from '@mui/x-data-grid'
 import { CCard, CCardBody } from '@coreui/react'
@@ -8,15 +8,16 @@ import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
+import * as adsPanelService from 'src/services/adsPanel'
 
-const URL = 'http://localhost:4000/v1/vhtt/ads-panels'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
   {
-    field: 'ads_type_id',
+    field: 'ads_panel_type',
     headerName: 'Loại',
     width: 200,
+    valueGetter: (params) => params.row.ads_panel_type.name,
   },
   {
     field: 'height',
@@ -32,6 +33,10 @@ const columns = [
     field: 'expire_date',
     headerName: 'Ngày hết hạn',
     flex: 1,
+    valueFormatter: (params) => {
+      const formattedDate = format(new Date(params.value), 'dd/MM/yyyy') // Format the date using date-fns
+      return formattedDate
+    },
   },
 ]
 
@@ -49,18 +54,16 @@ const AdsPanelList = () => {
   const navigateToDetail = (params) => {
     navigate(`/admin/ads_panels/${params.row.id}`)
   }
-  // TODO. Map ads_panel_id với tên
+
+  const navigateToCreate = () => {
+    navigate(`/admin/ads_panels/create`)
+  }
+
   const init = async () => {
     setData((prevState) => ({ ...prevState, loading: true }))
 
     try {
-      let rawData = await fetch(URL, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      rawData = await rawData.json()
+      let rawData = await adsPanelService.getAll()
 
       setData((prevState) => ({
         ...prevState,
@@ -127,8 +130,7 @@ const AdsPanelList = () => {
             }}
             slotProps={{
               toolbar: {
-                // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: () => navigateToCreate(),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

@@ -8,7 +8,7 @@ import SaveIcon from '@mui/icons-material/Save'
 
 import { useNavigate } from 'react-router-dom'
 // TODO
-const AdsPanelUpdate = () => {
+const AdsPanelCreate = () => {
   const { id } = useParams()
 
   const navigate = useNavigate()
@@ -154,4 +154,4 @@ const AdsPanelUpdate = () => {
   )
 }
 
-export default AdsPanelUpdate
+export default AdsPanelCreate

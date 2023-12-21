@@ -22,7 +22,7 @@ const updateAdsPanel = catchAsync(async (req, res) => {
 });
 
 const deleteAdsPanel = catchAsync(async (req, res) => {
-  await adsPanelService.deleteAdsPanel(req.params.adsPanelId);
+  await adsPanelService.deleteAdsPanel(req.params.id);
   res.status(204).send();
 });
 

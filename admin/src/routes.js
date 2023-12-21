@@ -37,7 +37,7 @@ const AdsTypeCreate = React.lazy(() => import('./views/admin/adsTypes/AdsTypeCre
 // Ads Panel
 const AdsPanelList = React.lazy(() => import('./views/admin/adsPanels/AdsPanelList'))
 const AdsPanelDetail = React.lazy(() => import('./views/admin/adsPanels/AdsPanelDetail'))
-const AdsPanelUpdate = React.lazy(() => import('./views/admin/adsPanels/AdsPanelUpdate'))
+const AdsPanelCreate = React.lazy(() => import('./views/admin/adsPanels/AdsPanelCreate'))
 
 // Wards
 const WardList = React.lazy(() => import('./views/admin/wards/WardList'))
@@ -144,6 +144,7 @@ const routes = [
   // Ads Panels
   { path: '/admin/ads_panels', name: 'Ads Panels', element: AdsPanelList },
   { path: '/admin/ads_panels/:id', name: 'Ads Panel Detail', element: AdsPanelDetail },
+  { path: '/admin/ads_panels/create', name: 'Ads Panels Create', element: AdsPanelCreate },
 
   // Ads spot types
   { path: '/admin/spot_types', name: 'Spot Types', element: SpotTypeList },
