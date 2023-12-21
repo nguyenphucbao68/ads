@@ -110,6 +110,80 @@ const AdsLicenseDetails = () => {
                   fontWeight: 'bold',
                 }}
               >
+                Thông tin hợp đồng
+              </CFormLabel>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsLicenseContent" className="col-sm-12 col-form-label">
+                Nội dung quảng cáo
+              </CFormLabel>
+              <CCol sm={12}>
+                {/* TODO: Render html here */}
+                <CFormInput
+                  type="text"
+                  id="inputAdsLicenseContent"
+                  readOnly
+                  plainText
+                  value={
+                    data.adsLicense.content
+                      ? data.adsLicense.content
+                      : 'Không có nội dung quảng cáo'
+                  }
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsLicenseStartDate" className="col-sm-2 col-form-label">
+                Ngày bắt đầu hợp đồng
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsLicenseStartDate"
+                  readOnly
+                  plainText
+                  value={
+                    data.adsLicense.start_date
+                      ? new Date(data.adsLicense.start_date)
+                          .toISOString()
+                          .replace(/T/, ' ') // replace T with a space
+                          .replace(/\..+/, '')
+                          .split(' ')[0]
+                      : ''
+                  }
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mb-1">
+              <CFormLabel htmlFor="inputAdsLicenseExpireDate" className="col-sm-2 col-form-label">
+                Ngày kết thúc hợp đồng
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAdsLicenseExpireDate"
+                  readOnly
+                  plainText
+                  value={
+                    data.adsLicense.expire_date
+                      ? new Date(data.adsLicense.expire_date)
+                          .toISOString()
+                          .replace(/T/, ' ') // replace T with a space
+                          .replace(/\..+/, '')
+                          .split(' ')[0]
+                      : ''
+                  }
+                />
+              </CCol>
+            </CRow>
+            <hr />
+            <CRow className="mb-2">
+              <CFormLabel
+                className="col-sm-6 col-form-label"
+                style={{
+                  fontWeight: 'bold',
+                }}
+              >
                 Thông tin điểm đặt quảng cáo
               </CFormLabel>
               <CCol
