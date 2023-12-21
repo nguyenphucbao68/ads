@@ -5,7 +5,7 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 
 function AdsPanel() {
   return (
-    <StyledCard style={{ width: 300 }} onClick={(e) => e.stopPropagation()}>
+    <StyledCard style={{ width: 300 }}>
       <p>Trụ, cụm pano</p>
       <p>
         Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1

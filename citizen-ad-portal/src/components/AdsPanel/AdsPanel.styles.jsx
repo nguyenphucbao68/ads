@@ -5,4 +5,5 @@ export const StyledCard = styled(Card)`
   width: 300px;
   z-index: 0;
   text-align: left;
+  background-color: '#bd4848';
 `;
