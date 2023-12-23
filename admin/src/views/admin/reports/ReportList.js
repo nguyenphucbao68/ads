@@ -20,6 +20,15 @@ const columns = [
   { field: 'report_type_name', headerName: 'Loại hình báo cáo', flex: 13 },
   { field: 'id', headerName: 'id' },
   {
+    field: 'status',
+    headerName: 'Trạng thái',
+    renderCell: (cellValues) => {
+      const status = cellValues.value
+      return status == 0 ? <span>Chưa xử lý</span> : <span>Đã xử lý</span>
+    },
+  },
+
+  {
     field: 'view_status',
     headerName: '',
     flex: 2,

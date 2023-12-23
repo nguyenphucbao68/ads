@@ -12,6 +12,7 @@ import * as adsLicenseService from 'src/services/adsLicense'
 import { AdsLicenseContext } from 'src/contexts/AdsLicenseProvider'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import DeleteIcon from '@mui/icons-material/Delete'
 import ConfirmModal from 'src/modals/ConfirmModal'
 import { Toaster, toast } from 'sonner'
 
@@ -117,6 +118,15 @@ const columns = [
           >
             <HighlightOffIcon />
           </IconButton>
+          <IconButton
+            aria-label="delete"
+            color="error"
+            size="large"
+            disabled={params.value.status !== 0}
+            onClick={params.value.deleteFunc}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Stack>
       )
     },
@@ -175,6 +185,23 @@ const AdsLicenseList = () => {
                     toast.success('Từ chối cấp phép quảng cáo thành công')
                   } else {
                     toast.error('Từ chối cấp phép quảng cáo thất bại')
+                  }
+                },
+              }))
+            },
+            deleteFunc: () => {
+              setData((pre) => ({
+                ...pre,
+                showConfirmModal: true,
+                title: 'Xóa xin cấp phép',
+                content: 'Bạn có chắc chắn muốn xóa xin cấp phép quảng cáo này?',
+                onConfirm: async () => {
+                  const result = await adsLicenseService.deleteById(data[i].id)
+                  if (result.id) {
+                    setData((pre) => ({ ...pre, showConfirmModal: false }))
+                    toast.success('Xóa xin cấp phép quảng cáo thành công')
+                  } else {
+                    toast.error('Xóa xin cấp phép quảng cáo thất bại')
                   }
                 },
               }))

@@ -18,4 +18,10 @@ const update = (id, data) => {
   })
 }
 
-export { getAll, getById, update }
+const deleteById = (id) => {
+  return api.delete(`vhtt/ads-licenses/${id}`).then((res) => {
+    return res.data
+  })
+}
+
+export { getAll, getById, update, deleteById }
