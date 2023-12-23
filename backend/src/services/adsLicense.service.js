@@ -38,17 +38,20 @@ const getAdsLicenseById = async (id) => {
 };
 
 const getAdsLicenses = async (userId, type, wardId, districtId) => {
+  const id = parseInt(userId);
+
   const user = await prisma.user.findUnique({
     where: {
-      id: parseInt(userId, 10),
+      id: id,
     },
   });
-  var option = {};
+
   const role = user.role;
   if (role != 0) {
     option = {
       where: {
-        user_id: userId,
+        user_id: id,
+        is_deleted: false,
       },
     };
   } else {
@@ -161,8 +164,23 @@ const updateAdsLicense = async (id, body) => {
   return data;
 };
 
+const deleteAdsLicense = async (id) => {
+  console.log('Ads License ID', id);
+  const data = await prisma.ads_license.update({
+    where: {
+      id: parseInt(id, 10),
+    },
+    data: {
+      is_deleted: true,
+    },
+  });
+
+  return data;
+};
+
 module.exports = {
   getAdsLicenseById,
   getAdsLicenses,
   updateAdsLicense,
+  deleteAdsLicense,
 };

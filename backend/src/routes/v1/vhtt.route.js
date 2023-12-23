@@ -79,7 +79,8 @@ router
 router
   .route('/ads-licenses/:id')
   .get(validate(adsLicenseValidation.getAdsLicense), adsLicenseController.getAdsLicense)
-  .put(auth('updateAdsLicense'), validate(adsLicenseValidation.updateAdsLicense), adsLicenseController.updateAdsLicense);
+  .put(auth('updateAdsLicense'), validate(adsLicenseValidation.updateAdsLicense), adsLicenseController.updateAdsLicense)
+  .delete(auth('deleteAdsLicense'), validate(adsLicenseValidation.deleteAdsLicense), adsLicenseController.deleteAdsLicense);
 
 router.route('/ads-licenses').get(adsLicenseController.getAdsLicenses);
 
