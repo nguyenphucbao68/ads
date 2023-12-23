@@ -25,7 +25,7 @@ const columns = [
     flex: 2,
     renderCell: (cellValues) => {
       const dot = cellValues.value
-      return dot == 0 ? <FiberManualRecordIcon color="primary" fontSize="small" /> : <span />
+      return dot == 0 ? <FiberManualRecordIcon color="info" fontSize="small" /> : <span />
     },
   },
 ]
@@ -43,6 +43,7 @@ const ReportList = () => {
           .toISOString()
           .replace(/T/, ' ') // replace T with a space
           .replace(/\..+/, '') // delete the dot and everything after
+        element.image = element.image.split(',')
       })
       dispatchReports({
         type: 'INITIALIZE_REPORTS',
@@ -83,7 +84,7 @@ const ReportList = () => {
       getRowId={(row) => row.id}
       rowSelection={false}
       onRowClick={(params) => {
-        navigate(`/admin/wards/${params.row.id}`)
+        navigate(`/admin/report/${params.row.id}`)
       }}
       paginationModel={{ page: reports.page, pageSize: reports.pageSize }}
       onPaginationModelChange={(params) => {
@@ -98,6 +99,11 @@ const ReportList = () => {
       slots={{
         toolbar: CustomGridToolbar,
         noRowsOverlay: CustomNoRowsOverlay,
+      }}
+      slotProps={{
+        toolbar: {
+          addNew: null,
+        },
       }}
       localeText={GRID_DEFAULT_LOCALE_TEXT}
       getRowSpacing={(params) => ({

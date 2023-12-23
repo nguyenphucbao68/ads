@@ -20,6 +20,10 @@ const reportReducer = (state, action) => {
       }
     }
 
+    case 'UPDATE_REPORTS': {
+      return action.payload
+    }
+
     case 'TURN_ON_LOADING': {
       return {
         ...state,
