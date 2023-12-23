@@ -24,4 +24,10 @@ const deleteById = (id) => {
   })
 }
 
-export { getAll, getById, update, deleteById }
+const create = (data) => {
+  return api.post(`vhtt/ads-licenses`, data).then((res) => {
+    return res.data
+  })
+}
+
+export { getAll, getById, update, deleteById, create }

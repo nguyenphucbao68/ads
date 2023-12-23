@@ -286,6 +286,10 @@ const AdsLicenseList = () => {
     [dispatchAdsLicenses],
   )
 
+  const navigateToCreate = () => {
+    navigate(`/admin/approval/ads_licenses/create`)
+  }
+
   return (
     <CCard className="mb-4">
       <ConfirmModal
@@ -348,7 +352,7 @@ const AdsLicenseList = () => {
             }}
             slotProps={{
               toolbar: {
-                addNew: null,
+                addNew: () => navigateToCreate(),
                 filterByWardOrDistrict: handleFilterByWardOrDistrict,
               },
             }}

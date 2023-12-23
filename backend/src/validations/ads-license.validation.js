@@ -1,5 +1,19 @@
 const Joi = require('joi');
 
+const createAdsLicense = {
+  body: Joi.object().keys({
+    ads_panel_id: Joi.number().integer().required(),
+    content: Joi.string().required(),
+    start_date: Joi.date().required(),
+    expire_date: Joi.date().greater(Joi.ref('start_date')).required(),
+    user_id: Joi.number().integer().required(),
+    name: Joi.string().required(),
+    email: Joi.string().email().required(),
+    address: Joi.string().required(),
+    phone: Joi.string().required(),
+  }),
+};
+
 const getAdsLicense = {
   params: Joi.object().keys({
     id: Joi.number().integer().required(),
@@ -40,4 +54,5 @@ module.exports = {
   postAdsLicense,
   deleteAdsLicense,
   updateAdsLicense,
+  createAdsLicense,
 };

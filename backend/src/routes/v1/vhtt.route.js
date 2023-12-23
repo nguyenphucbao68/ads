@@ -82,7 +82,10 @@ router
   .put(auth('updateAdsLicense'), validate(adsLicenseValidation.updateAdsLicense), adsLicenseController.updateAdsLicense)
   .delete(auth('deleteAdsLicense'), validate(adsLicenseValidation.deleteAdsLicense), adsLicenseController.deleteAdsLicense);
 
-router.route('/ads-licenses').get(adsLicenseController.getAdsLicenses);
+router
+  .route('/ads-licenses')
+  .get(adsLicenseController.getAdsLicenses)
+  .post(validate(adsLicenseValidation.createAdsLicense), adsLicenseController.createAdsLicense);
 
 router
   .route('/ads-panel-types')
