@@ -2,5 +2,5 @@ import { Card } from 'antd';
 import styled from 'styled-components';
 
 export const StyledCard = styled(Card)`
-  /* width: 320px; */
+  width: 320px;
 `;

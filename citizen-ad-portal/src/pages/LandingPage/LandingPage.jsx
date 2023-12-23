@@ -9,7 +9,7 @@ import ReactMapGL, {
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
 
-import CITIES from '../../mock/cities.json';
+import PANELS from '../../mock/panels.json';
 import PinInfo from '../../components/PinInfo/PinInfo';
 import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
 
@@ -38,13 +38,14 @@ const scaleControlStyle = {
 };
 
 function LandingPage() {
-  const API_MAP_KEY = 'm4PoRqbbe7SM6IzkpPqSstyQqTPKUrj8EHKEJHGL';
+  const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY;
+  console.log({ API_MAP_KEY });
 
   const items = [1, 2, 3];
   const [viewport, setViewport] = useState({
-    latitude: 40,
-    longitude: -100,
-    zoom: 3.5,
+    latitude: 10.7769,
+    longitude: 106.7009,
+    zoom: 16,
     bearing: 0,
     pitch: 0,
   });
@@ -67,8 +68,11 @@ function LandingPage() {
         goongApiAccessToken={API_MAP_KEY}
         mapStyle={'https://tiles.goong.io/assets/goong_map_web.json'}
         onClick={onClick}
+        style={{
+          zIndex: 1,
+        }}
       >
-        <Pin data={CITIES} onClick={setPopupInfo} />
+        <Pin data={PANELS} onClick={setPopupInfo} />
 
         {popupInfo && (
           <React.Fragment>
@@ -82,7 +86,7 @@ function LandingPage() {
             >
               <PinInfo info={popupInfo} />
             </Popup>
-            <AdsPanelList items={items} />
+            <AdsPanelList items={items} isVisible={popupInfo} />
           </React.Fragment>
         )}
 

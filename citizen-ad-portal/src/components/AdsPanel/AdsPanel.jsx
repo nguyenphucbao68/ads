@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'antd';
 import { StyledCard } from './AdsPanel.styles';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import AdsPanelDetail from '../AdsPanelDetail/AdsPanelDetail';
+import { WarningFilled } from '@ant-design/icons';
 
 function AdsPanel() {
+  const [viewAdsPanelDetail, setViewAdsPanelDetail] = useState(false);
+
+  const onViewAdsPanelDetail = () => {
+    setViewAdsPanelDetail(!viewAdsPanelDetail);
+  };
+
   return (
     <StyledCard
       style={{ width: 300 }}
@@ -18,9 +26,17 @@ function AdsPanel() {
       <p>Hình thức: Cổ động chính trị</p>
       <p>Phân loại: Đất công/công viên/Hành lang an toàn</p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <InfoCircleOutlined twoToneColor='#eb2f96' onClick={(e) => {}} />
-        <Button danger>BÁO CÁO VI PHẠM</Button>
+        <InfoCircleOutlined
+          twoToneColor='#eb2f96'
+          onClick={onViewAdsPanelDetail}
+        />
+        <Button danger>
+          <WarningFilled />
+          BÁO CÁO VI PHẠM
+        </Button>
       </div>
+
+      {viewAdsPanelDetail && <AdsPanelDetail />}
     </StyledCard>
   );
 }

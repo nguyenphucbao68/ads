@@ -1,23 +1,26 @@
-import { Card } from 'antd'
-import React from 'react'
+import { Card, Typography, Flex } from 'antd';
+import React from 'react';
+import { WarningFilled } from '@ant-design/icons';
+const { Title, Text } = Typography;
 
 function LocationDetail() {
   return (
-    <Card cover={'https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png'}>
-      <p>Trụ, cụm pano</p>
-      <p>
-        Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1
-      </p>
-      <p>Kích thước: 2.5m x 10m</p>
-      <p>Số lượng: 1 trụ/bảng</p>
-      <p>Hình thức: Cổ động chính trị</p>
-      <p>Phân loại: Đất công/công viên/Hành lang an toàn</p>
-      <p>Ngày hết hạn hợp đồng: 25/12/2023</p>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button danger>BÁO CÁO VI PHẠM</Button>
-      </div>
+    <Card>
+      <Title level={5}>Thông tin địa điểm</Title>
+      <Text level={5}>
+        Quân chủng hải quân - trung tâm văn phòng thương mai hải quân
+      </Text>
+      <Text level={5}>
+        15, đường Lê Thánh Tôn, Phường Bến Nghé, quận 1, Thành phố Hồ Chí Minh
+      </Text>
+      <Flex justify='flex-end' align='center'>
+        <Button danger>
+          <WarningFilled />
+          BÁO CÁO VI PHẠM
+        </Button>
+      </Flex>
     </Card>
   );
 }
 
-export default LocationDetail
+export default LocationDetail;
