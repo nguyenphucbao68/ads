@@ -165,7 +165,6 @@ const updateAdsLicense = async (id, body) => {
 };
 
 const deleteAdsLicense = async (id) => {
-  console.log('Ads License ID', id);
   const data = await prisma.ads_license.update({
     where: {
       id: parseInt(id, 10),
@@ -178,9 +177,29 @@ const deleteAdsLicense = async (id) => {
   return data;
 };
 
+const createAdsLicense = async (body) => {
+  const data = await prisma.ads_license.create({
+    data: {
+      ads_panel_id: parseInt(body.ads_panel_id, 10),
+      content: body.content,
+      user_id: parseInt(body.user_id, 10),
+      start_date: new Date(body.start_date),
+      expire_date: new Date(body.expire_date),
+      status: 0,
+      name: body.name,
+      email: body.email,
+      address: body.address,
+      phone: body.phone,
+    },
+  });
+
+  return data;
+};
+
 module.exports = {
   getAdsLicenseById,
   getAdsLicenses,
   updateAdsLicense,
   deleteAdsLicense,
+  createAdsLicense,
 };
