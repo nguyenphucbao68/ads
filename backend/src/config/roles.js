@@ -30,6 +30,9 @@ const allRoles = {
     'deleteAdsPanel',
     'updateAdsPanel',
     'createAdsPanel',
+    'getAdsPanel',
+    'getAdsSpot',
+    'deleteAdsLicense',
   ],
 };
 
