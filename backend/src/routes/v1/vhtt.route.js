@@ -62,7 +62,7 @@ router
 
 router
   .route('/ads-spots')
-  .get(adsSpotController.getAdsSpots)
+  .get(auth('getAdsPanel'), adsSpotController.getAdsSpots)
   .post(auth('createAdsSpot'), validate(adsSpotValidation.createAdsSpot), adsSpotController.createAdsSpot);
 
 router
@@ -73,7 +73,7 @@ router
 
 router
   .route('/ads-panels')
-  .get(adsPanelController.getAdsPanels)
+  .get(auth('getAdsPanel'), adsPanelController.getAdsPanels)
   .post(auth('createAdsPanel'), validate(adsPanelValidation.createAdsPanel), adsPanelController.createAdsPanel);
 
 router
