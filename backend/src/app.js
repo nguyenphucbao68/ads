@@ -13,8 +13,17 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const http = require('http');
+const { Server } = require("socket.io");
 
 const app = express();
+//socket server
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -45,6 +54,12 @@ app.options('*', cors());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
+// add socket io
+app.use((req, res, next)=>{
+  req.io = io
+  next();
+})
+
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
@@ -64,4 +79,5 @@ app.use(errorConverter);
 // handle error
 app.use(errorHandler);
 
-module.exports = app;
+
+module.exports = server;
