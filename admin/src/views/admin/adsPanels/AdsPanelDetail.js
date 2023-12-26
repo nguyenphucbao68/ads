@@ -23,7 +23,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import { CloudUpload } from '@mui/icons-material'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as adsPanelTypeService from 'src/services/adsPanelType'
-
+import * as adsSpotService from 'src/services/adsSpot'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -41,7 +41,8 @@ const AdsPanelDetail = () => {
 
   const [data, setData] = useState({
     adsPanelType: [],
-    adsPanelDetail: [],
+    adsPanelDetail: {},
+    adsSpotList: [],
     fileSelected: [],
   })
   const [isModalDisplay, setIsModalDisplay] = useState(false)
@@ -53,7 +54,13 @@ const AdsPanelDetail = () => {
   const init = async () => {
     const adsPanelData = await adsPanelService.getById(id)
     const adsPanelTypeData = await adsPanelTypeService.getAll()
-    setData((prev) => ({ ...prev, adsPanelDetail: adsPanelData, adsPanelType: adsPanelTypeData }))
+    const adsSpotList = await adsSpotService.getAll()
+    setData((prev) => ({
+      ...prev,
+      adsPanelDetail: adsPanelData,
+      adsPanelType: adsPanelTypeData,
+      adsSpotList: adsSpotList,
+    }))
   }
 
   const formatDate = (dateString) => {
@@ -71,12 +78,39 @@ const AdsPanelDetail = () => {
   // TODO viết lại
   const onSave = async () => {
     try {
-      const name = getValues('name')
-      await adsPanelService.update(id, { name })
+      console.log('Alooo')
+      // TODO Lấy data từ màn hình để gọi update nè
+      const width = getValues('width')
+      const height = getValues('height')
+      const expire_date = getValues('expire_date')
+      const images = getValues('images')
+      const type = getValues('type')
+      const spot_id = getValues('spot_id')
 
+      // await adsPanelService.update(id, { name })
+      const data = {
+        ads_type_id: type,
+        ads_spot_id: spot_id,
+        height: height,
+        width: width,
+        // expire_date: expire_date,
+        expire_date: '2023-12-10',
+        // image: images,
+        image: 'aaa',
+      }
+      adsPanelService.update(id, data)
+
+      console.log('data', {
+        width,
+        height,
+        expire_date,
+        images,
+        type,
+        spot_id,
+      })
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
-      setTimeout(() => navigate(`/admin/ads-panels`), 1000)
+      setTimeout(() => navigate(`/admin/ads_panels`), 1000)
     } catch (err) {
       toast.error('Cập nhật bảng quảng cáo thất bại')
     }
@@ -98,22 +132,22 @@ const AdsPanelDetail = () => {
   useEffect(() => {
     init()
 
-    cloudinaryRef.current = window.cloudinary
-    widgetRef.current = cloudinaryRef.current.createUploadWidget(
-      {
-        cloudName: 'dzjaj79nw',
-        uploadPreset: 'u4mszkqu',
-      },
-      (error, result) => {
-        if (result.event === 'success') {
-          console.log('Upload success with the link: ' + result.info.url)
-          setData((pre) => ({
-            ...pre,
-            fileSelected: [...pre.fileSelected, result.info.url],
-          }))
-        } else console.error(error)
-      },
-    )
+    // cloudinaryRef.current = window.cloudinary
+    // widgetRef.current = cloudinaryRef.current.createUploadWidget(
+    //   {
+    //     cloudName: 'dzjaj79nw',
+    //     uploadPreset: 'u4mszkqu',
+    //   },
+    //   (error, result) => {
+    //     if (result.event === 'success') {
+    //       console.log('Upload success with the link: ' + result.info.url)
+    //       setData((pre) => ({
+    //         ...pre,
+    //         fileSelected: [...pre.fileSelected, result.info.url],
+    //       }))
+    //     } else console.error(error)
+    //   },
+    // )
   }, [])
 
   return (
@@ -151,6 +185,7 @@ const AdsPanelDetail = () => {
                     label: option.name,
                     value: option.id,
                   }))}
+                  {...register('type', { required: 'Vui lòng chọn kiểu' })}
                 />
               </CCol>
             </CRow>
@@ -193,7 +228,7 @@ const AdsPanelDetail = () => {
                 />
               </CCol>
             </CRow>
-            <CRow className="mb-3">
+            {/* <CRow className="mb-3">
               <CFormLabel htmlFor="image" className="col-sm-2 col-form-label">
                 Hình ảnh
               </CFormLabel>
@@ -263,16 +298,19 @@ const AdsPanelDetail = () => {
                   />
                 </Button>
               </CCol>
-            </CRow>
+            </CRow> */}
             <CRow className="mb-3">
               <CFormLabel htmlFor="spot_id" className="col-sm-2 col-form-label">
                 Điểm đặt tại đây
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput
-                  type="text"
-                  id="spot_id"
-                  defaultValue={data.adsPanelDetail.ads_spot_id}
+                <CFormSelect
+                  aria-label="Default select example"
+                  options={data.adsSpotList.map((option) => ({
+                    label: option.address + ', ' + option.ward.name + ', ' + option.district.name,
+                    value: option.id,
+                  }))}
+                  {...register('spot_id', { required: 'Vui lòng chọn kiểu' })}
                 />
               </CCol>
             </CRow>
@@ -298,7 +336,7 @@ const AdsPanelDetail = () => {
                     sx={{
                       borderRadius: '8px',
                     }}
-                    disabled={!formState.isDirty}
+                    // disabled={!formState.isDirty}
                   >
                     Lưu
                   </Button>
