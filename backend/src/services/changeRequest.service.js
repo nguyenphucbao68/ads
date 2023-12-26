@@ -19,10 +19,10 @@ const update = async (id, body) => {
 const create = async (body, userId) => {
   const data = await prisma.information_change_request.create({
     data: {
-      type: parseInt(body.type),
+      type: 0,
       old_information: body.old_information,
       new_information: body.new_information,
-      status: body.status,
+      status: 0,
       user_id: userId,
     },
   });

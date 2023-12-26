@@ -136,6 +136,10 @@ router
   .delete(auth('deleteSpotType'), validate(spotTypeValidation.deleteSpotType), spotTypeController.deleteSpotType);
 
 router
+  .route('/edit-requests')
+  .post(auth('createChangeRequest'), validate(changeRequestValidation.create), changeRequestController.create);
+
+router
   .route('/edit-requests/:id')
   .put(auth('updateChangeRequest'), validate(changeRequestValidation.update), changeRequestController.update);
 
