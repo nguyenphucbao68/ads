@@ -100,6 +100,7 @@ const AdsSpotDetails = () => {
     handleSubmit,
     formState,
     formState: { errors },
+    getValues,
   } = useForm()
 
   const [viewport, setViewport] = useState({
@@ -184,6 +185,8 @@ const AdsSpotDetails = () => {
 
   const onSubmit = async (data) => {
     try {
+      const images = getValues('images')
+      console.log('images ', images)
       const formData = new FormData()
       formData.append('address', data.address)
       formData.append('ward_id', 1)
@@ -513,7 +516,7 @@ const AdsSpotDetails = () => {
                 alignItems="center"
               >
                 <Button
-                  onClick={() => console.log('Lưu')}
+                  onClick={() => onSubmit()}
                   type="submit"
                   variant="contained"
                   startIcon={<SaveIcon />}

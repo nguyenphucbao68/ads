@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-
+import { format } from 'date-fns'
 import { Box, Button, Grid, styled } from '@mui/material'
 import {
   CCard,
@@ -64,6 +64,7 @@ const AdsPanelDetail = () => {
   }
 
   const formatDate = (dateString) => {
+    console.log('dateString ', dateString)
     // Assuming dateString is in YYYY-MM-DD format
     const date = new Date(dateString)
     const formattedDate = date.toLocaleDateString('en-US', {
@@ -71,46 +72,41 @@ const AdsPanelDetail = () => {
       month: 'short',
       day: 'numeric',
     })
+
+    console.log('formattedDate: ', formattedDate)
     return formattedDate
   }
 
   // Hàm thay đổi
-  // TODO viết lại
   const onSave = async () => {
     try {
-      console.log('Alooo')
-      // TODO Lấy data từ màn hình để gọi update nè
       const width = getValues('width')
       const height = getValues('height')
       const expire_date = getValues('expire_date')
-      const images = getValues('images')
       const type = getValues('type')
       const spot_id = getValues('spot_id')
 
-      // await adsPanelService.update(id, { name })
-      const data = {
-        ads_type_id: type,
-        ads_spot_id: spot_id,
-        height: height,
-        width: width,
-        // expire_date: expire_date,
-        expire_date: '2023-12-10',
-        // image: images,
-        image: 'aaa',
-      }
-      adsPanelService.update(id, data)
+      setData((prev) => ({
+        ...prev,
+        adsPanelDetail: {
+          ads_type_id: type,
+          ads_spot_id: spot_id,
+          height: height,
+          width: width,
+          // expire_date: expire_date,
+          expire_date: '2023-12-10',
+          image: data.fileSelected.join(','),
+        },
+      }))
 
-      console.log('data', {
-        width,
-        height,
-        expire_date,
-        images,
-        type,
-        spot_id,
-      })
+      console.log(data.adsPanelDetail)
+
+      // Uncomment later
+      // await adsPanelService.update(id, data)
+
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
-      setTimeout(() => navigate(`/admin/ads_panels`), 1000)
+      // setTimeout(() => navigate(`/admin/ads_panels`), 1000)
     } catch (err) {
       toast.error('Cập nhật bảng quảng cáo thất bại')
     }
@@ -131,23 +127,25 @@ const AdsPanelDetail = () => {
 
   useEffect(() => {
     init()
+  }, [id])
 
-    // cloudinaryRef.current = window.cloudinary
-    // widgetRef.current = cloudinaryRef.current.createUploadWidget(
-    //   {
-    //     cloudName: 'dzjaj79nw',
-    //     uploadPreset: 'u4mszkqu',
-    //   },
-    //   (error, result) => {
-    //     if (result.event === 'success') {
-    //       console.log('Upload success with the link: ' + result.info.url)
-    //       setData((pre) => ({
-    //         ...pre,
-    //         fileSelected: [...pre.fileSelected, result.info.url],
-    //       }))
-    //     } else console.error(error)
-    //   },
-    // )
+  useEffect(() => {
+    cloudinaryRef.current = window.cloudinary
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: 'dzjaj79nw',
+        uploadPreset: 'u4mszkqu',
+      },
+      (error, result) => {
+        if (result.event === 'success') {
+          console.log('Upload success with the link: ' + result.info.url)
+          setData((pre) => ({
+            ...pre,
+            fileSelected: [...pre.fileSelected, result.info.url],
+          }))
+        } else console.error(error)
+      },
+    )
   }, [])
 
   return (
@@ -220,15 +218,19 @@ const AdsPanelDetail = () => {
                 Ngày hết hạn
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput
-                  type="text"
-                  id="expire_date"
-                  defaultValue={formatDate(data.adsPanelDetail.expire_date)}
-                  {...register('expire_date', { required: 'Vui lòng nhập ngày hết hạn' })}
-                />
+                {data.adsPanelDetail.expire_date ? (
+                  <CFormInput
+                    type="text"
+                    id="expire_date"
+                    defaultValue={formatDate(data.adsPanelDetail.expire_date)}
+                    // defaultValue={format(new Date(data.adsPanelDetail.expire_date), 'dd/MM/yyyy')}
+                    // defaultValue="alllo"
+                    {...register('expire_date', { required: 'Vui lòng nhập ngày hết hạn' })}
+                  />
+                ) : null}
               </CCol>
             </CRow>
-            {/* <CRow className="mb-3">
+            <CRow className="mb-3">
               <CFormLabel htmlFor="image" className="col-sm-2 col-form-label">
                 Hình ảnh
               </CFormLabel>
@@ -298,7 +300,7 @@ const AdsPanelDetail = () => {
                   />
                 </Button>
               </CCol>
-            </CRow> */}
+            </CRow>
             <CRow className="mb-3">
               <CFormLabel htmlFor="spot_id" className="col-sm-2 col-form-label">
                 Điểm đặt tại đây
@@ -314,56 +316,57 @@ const AdsPanelDetail = () => {
                 />
               </CCol>
             </CRow>
-            <Box
-              sx={{
-                width: '100%',
-              }}
-            >
-              <Grid container>
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  xs={6}
-                  justifyContent="flex-start"
-                  alignItems="center"
-                >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    color="success"
-                    sx={{
-                      borderRadius: '8px',
-                    }}
-                    // disabled={!formState.isDirty}
-                  >
-                    Lưu
-                  </Button>
-                </Grid>
-                <Grid
-                  item
-                  xs={6}
-                  container
-                  direction="row"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                >
-                  <Button
-                    onClick={() => setIsModalDisplay(true)}
-                    variant="text"
-                    startIcon={<DeleteIcon />}
-                    color="error"
-                    sx={{
-                      borderRadius: '8px',
-                    }}
-                  >
-                    Xóa
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
           </CForm>
+        </Box>
+        <Box
+          sx={{
+            width: '100%',
+          }}
+        >
+          <Grid container>
+            <Grid
+              item
+              container
+              direction="row"
+              xs={6}
+              justifyContent="flex-start"
+              alignItems="center"
+            >
+              <Button
+                onClick={() => onSave()}
+                type="submit"
+                variant="contained"
+                startIcon={<SaveIcon />}
+                color="success"
+                sx={{
+                  borderRadius: '8px',
+                }}
+                // disabled={!formState.isDirty}
+              >
+                Lưu
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              <Button
+                onClick={() => setIsModalDisplay(true)}
+                variant="text"
+                startIcon={<DeleteIcon />}
+                color="error"
+                sx={{
+                  borderRadius: '8px',
+                }}
+              >
+                Xóa
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </CCardBody>
     </CCard>
