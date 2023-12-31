@@ -56,13 +56,18 @@ const columns = [
 const AdsSpotList = () => {
   const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
 
+  const user = JSON.parse(localStorage.getItem('user'))
+
+  const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
+  const role = user?.role
+
   const navigate = useNavigate()
 
   useEffect(() => {
     const fetchData = async () => {
       dispatchAdsSpots({ type: 'TURN_ON_LOADING' })
       try {
-        const data = await adsSpotService.getAll()
+        const data = await adsSpotService.getAll(id, role)
         dispatchAdsSpots({
           type: 'INITIALIZE_ADS_SPOTS',
           payload: data || [],

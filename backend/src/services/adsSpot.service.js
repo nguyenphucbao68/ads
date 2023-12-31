@@ -2,7 +2,44 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-const getAdsSpots = async () => {
+const getAdsSpots = async (query) => {
+  if (query?.ward_id) {
+    const data = await prisma.ads_spot.findMany({
+      where: {
+        is_deleted: false,
+        ward_id: parseInt(query?.ward_id, 10),
+      },
+      include: {
+        ward: true,
+        district: true,
+        ads_type: true,
+        spot_type: true,
+      },
+      orderBy: {
+        id: 'asc',
+      },
+    });
+
+    return data;
+  } else if (query?.district_id) {
+    const data = await prisma.ads_spot.findMany({
+      where: {
+        is_deleted: false,
+        district_id: parseInt(query?.district_id, 10),
+      },
+      include: {
+        ward: true,
+        district: true,
+        ads_type: true,
+        spot_type: true,
+      },
+      orderBy: {
+        id: 'asc',
+      },
+    });
+
+    return data;
+  }
   const data = await prisma.ads_spot.findMany({
     where: {
       is_deleted: false,

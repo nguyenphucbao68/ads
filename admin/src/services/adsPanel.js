@@ -1,9 +1,31 @@
 import api from '../utils/api'
 
-const getAll = () => {
-  return api.get('vhtt/ads-panels').then((res) => {
-    return res.data
-  })
+const getAll = (id, role) => {
+  if (role === 2) {
+    return api
+      .get('vhtt/ads-panels', {
+        params: {
+          ward_id: id,
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+  } else if (role === 1) {
+    return api
+      .get('vhtt/ads-panels', {
+        params: {
+          district_id: id,
+        },
+      })
+      .then((res) => {
+        return res.data
+      })
+  } else {
+    return api.get('vhtt/ads-panels').then((res) => {
+      return res.data
+    })
+  }
 }
 
 const getById = (id) => {

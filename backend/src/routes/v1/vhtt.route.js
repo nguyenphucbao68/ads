@@ -62,7 +62,7 @@ router
 
 router
   .route('/ads-spots')
-  .get(adsSpotController.getAdsSpots)
+  .get(auth('getAdsPanel'), adsSpotController.getAdsSpots)
   .post(auth('createAdsSpot'), validate(adsSpotValidation.createAdsSpot), adsSpotController.createAdsSpot);
 
 router
@@ -73,7 +73,7 @@ router
 
 router
   .route('/ads-panels')
-  .get(adsPanelController.getAdsPanels)
+  .get(auth('getAdsPanel'), adsPanelController.getAdsPanels)
   .post(auth('createAdsPanel'), validate(adsPanelValidation.createAdsPanel), adsPanelController.createAdsPanel);
 
 router
@@ -134,6 +134,10 @@ router
   .get(validate(spotTypeValidation.getById), spotTypeController.getById)
   .put(auth('updateSpotType'), validate(spotTypeValidation.update), spotTypeController.update)
   .delete(auth('deleteSpotType'), validate(spotTypeValidation.deleteSpotType), spotTypeController.deleteSpotType);
+
+router
+  .route('/edit-requests')
+  .post(auth('createChangeRequest'), validate(changeRequestValidation.create), changeRequestController.create);
 
 router
   .route('/edit-requests/:id')

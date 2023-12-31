@@ -14,7 +14,9 @@ const create = {
     type: Joi.number().required(),
     old_information: Joi.string().required(),
     new_information: Joi.string().required(),
-    status: Joi.number().required()
+    status: Joi.number().required(),
+    reason: Joi.string().required(),
+    edited_at: Joi.date().required(),
   }),
 };
 

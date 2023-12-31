@@ -6,6 +6,7 @@ import ReportDetails from './views/admin/reports/ReportDetails'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 const ReportStatistics = React.lazy(() => import('./views/admin/statistics/ReportsStatistics'))
+const EditRequestCreate = React.lazy(() => import('./views/admin/adsLicenses/EditRequestCreate'))
 
 // Ads Spot
 const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
@@ -191,7 +192,11 @@ const routes = [
   { path: '/admin/create_account', name: 'Create Account', element: AccountCreate },
   { path: '/admin/assign_location', name: 'Account List', element: AccountLocationAssign },
   { path: '/admin/approval', name: 'Approval', exact: true },
-  { path: '/admin/approval/edit_requests', name: 'Edit Requests Approval', element: Dashboard },
+  {
+    path: '/admin/approval/edit_requests',
+    name: 'Edit Requests Approval',
+    element: EditRequestCreate,
+  },
   { path: '/admin/approval/ads_licenses', name: 'Ads Licenses Approval', element: AdsLicenseList },
   {
     path: '/admin/approval/ads_licenses/:id',

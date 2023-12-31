@@ -3,10 +3,66 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // get all adsPanels
-const getAdsPanels = async (params) => {
+const getAdsPanels = async (query) => {
+  if (query.ward_id) {
+    const adsPanels = await prisma.ads_panel.findMany({
+      where: {
+        is_deleted: false,
+        ads_spot: {
+          ward_id: parseInt(query.ward_id),
+        },
+      },
+      include: {
+        ads_panel_type: {
+          select: {
+            name: true,
+          },
+        },
+        ads_spot: {
+          include: {
+            ward: true,
+            district: true,
+            ads_type: true,
+            spot_type: true,
+          },
+        },
+      },
+      orderBy: {
+        id: 'asc',
+      },
+    });
+    return adsPanels;
+  } else if (query.district_id) {
+    const adsPanels = await prisma.ads_panel.findMany({
+      where: {
+        is_deleted: false,
+        ads_spot: {
+          district_id: parseInt(query.district_id),
+        },
+      },
+      include: {
+        ads_panel_type: {
+          select: {
+            name: true,
+          },
+        },
+        ads_spot: {
+          include: {
+            ward: true,
+            district: true,
+            ads_type: true,
+            spot_type: true,
+          },
+        },
+      },
+      orderBy: {
+        id: 'asc',
+      },
+    });
+    return adsPanels;
+  }
   const adsPanels = await prisma.ads_panel.findMany({
     where: {
-      ...params,
       is_deleted: false,
     },
     include: {
