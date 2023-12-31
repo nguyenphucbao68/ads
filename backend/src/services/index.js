@@ -1,0 +1,17 @@
+module.exports.authService = require('./auth.service');
+module.exports.emailService = require('./email.service');
+module.exports.tokenService = require('./token.service');
+module.exports.userService = require('./user.service');
+module.exports.adsLicenseService = require('./adsLicense.service');
+module.exports.reportService = require('./report.service');
+module.exports.districtService = require('./district.service');
+module.exports.wardService = require('./ward.service');
+module.exports.adsPanelService = require('./adsPanel.service');
+module.exports.adsSpotService = require('./adsSpot.service');
+module.exports.officerService = require('./officer.service');
+module.exports.adsPanelTypeService = require('./adsPanelType.service');
+module.exports.reportTypeService = require('./reportType.service');
+module.exports.changeRequestService = require('./changeRequest.service');
+module.exports.adsTypeService = require('./adsType.service');
+module.exports.spotTypeService = require('./spotType.service');
+module.exports.statisticService = require('./statistic.service');

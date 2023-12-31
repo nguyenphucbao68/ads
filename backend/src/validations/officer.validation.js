@@ -1,11 +1,14 @@
 const Joi = require('joi');
 
-const getReports = {
-  params: Joi.object().key({
-    id: Joi.number.required(),
+const updateReportStatus = {
+  params: Joi.object().keys({
+    id: Joi.number().integer().required(),
+  }),
+  body: Joi.object().keys({
+    status: Joi.number().required(),
   }),
 };
 
 module.exports = {
-  getReports,
+  updateReportStatus,
 };

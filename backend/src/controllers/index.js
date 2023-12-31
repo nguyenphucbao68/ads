@@ -1,0 +1,14 @@
+module.exports.authController = require('./auth.controller');
+module.exports.userController = require('./user.controller');
+module.exports.adsLicenseController = require('./adsLicense.controller');
+module.exports.reportController = require('./report.controller');
+module.exports.districtController = require('./district.controller');
+module.exports.wardController = require('./ward.controller');
+module.exports.adsPanelController = require('./adsPanel.controller');
+module.exports.adsSpotController = require('./adsSpot.controller');
+module.exports.adsPanelTypeController = require('./adsPanelType.controller');
+module.exports.reportTypeController = require('./reportType.controller');
+module.exports.changeRequestController = require('./changeRequest.controller');
+module.exports.adsTypeController = require('./adsType.controller');
+module.exports.spotTypeController = require('./spotType.controller');
+module.exports.statisticController = require('./statistic.controller');
