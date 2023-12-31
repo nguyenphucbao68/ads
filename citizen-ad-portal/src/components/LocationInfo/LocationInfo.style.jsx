@@ -6,7 +6,7 @@ export const StyledCard = styled(Card)`
 
   .ant-card-body {
     padding: 0px;
-    background: #e5f6fd;
+    background: #edf7ed;
     padding: 20px;
   }
 `;

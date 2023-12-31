@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import ReactMapGL, {
   Popup,
@@ -6,6 +6,7 @@ import ReactMapGL, {
   FullscreenControl,
   NavigationControl,
   ScaleControl,
+  Marker,
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
 
@@ -15,6 +16,8 @@ import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
 import AdsPanelDetail from '../../components/AdsPanelDetail/AdsPanelDetail';
 import { Container } from './LandingPage.style';
 import axios from 'axios';
+import CurrentPin from '../../components/CurrentPin/CurrentPin';
+import AdsPanelLocationInfo from '../../components/AdsPanelLocationInfo/AdsPanelLocationInfo';
 
 const geolocateStyle = {
   top: 0,
@@ -41,6 +44,7 @@ const scaleControlStyle = {
 };
 
 function getCursor({ isHovering, isDragging }) {
+  console.log({ isHovering, isDragging });
   return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default';
 }
 
@@ -48,6 +52,10 @@ function LandingPage() {
   const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY;
   const API_KEY = process.env.REACT_APP_ADS_MANAGEMENT_API_KEY;
   const REVERSE_GEOCODING_PATH = process.env.REACT_APP_REVERSE_GEOCODINNG_URI;
+
+  const [currentMarker, setCurrentMarker] = useState(null);
+  const [locationInfo, setLocationInfo] = useState(null);
+  const [adsPanelInfo, setAdsPanelInfo] = useState(null);
 
   const items = [1, 2, 3];
   const [viewport, setViewport] = useState({
@@ -63,20 +71,40 @@ function LandingPage() {
   const onClick = useCallback((event) => {
     // const feature = event.features && event.features[0];
 
-    const latlng = event.lngLat.reverse().join(',');
+    const [lng, lat] = event.lngLat;
+    const latlng = `${lat},${lng}`;
+
+    setCurrentMarker({ latitude: lat, longitude: lng });
+    console.log({
+      url: `${REVERSE_GEOCODING_PATH}?latlng=${latlng}&api_key=${API_KEY}`,
+    });
     axios({
       method: 'get',
       url: `${REVERSE_GEOCODING_PATH}?latlng=${latlng}&api_key=${API_KEY}`,
       responseType: 'json',
     }).then(({ data }) => {
-      console.log({ result: data });
+      const { results } = data;
+      const filteredResults = results.filter((item) => item.types.length > 0);
+
+      if (filteredResults.length > 0) {
+        setLocationInfo(
+          filteredResults[Math.floor(Math.random() * filteredResults.length)]
+        );
+      } else {
+        setLocationInfo(results[Math.floor(Math.random() * results.length)]);
+      }
     });
   }, []);
 
   return (
     <Container>
       <AdsPanelDetail />
-
+      {locationInfo && (
+        <AdsPanelLocationInfo
+          locationDetail={locationInfo}
+          adsPanelDetail={adsPanelInfo}
+        />
+      )}
       <ReactMapGL
         {...viewport}
         width='100vw'
@@ -88,6 +116,16 @@ function LandingPage() {
         clickRadius={2}
         getCursor={getCursor}
       >
+        {currentMarker && (
+          <Marker
+            longitude={currentMarker.longitude}
+            latitude={currentMarker.latitude}
+            offsetTop={-20}
+            offsetLeft={-10}
+          >
+            <CurrentPin size={20} />
+          </Marker>
+        )}
         <Pin data={PANELS} onClick={setPopupInfo} />
 
         {popupInfo && (

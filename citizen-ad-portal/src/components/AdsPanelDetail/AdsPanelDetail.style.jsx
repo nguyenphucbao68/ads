@@ -9,6 +9,7 @@ export const StyledCard = styled(Card)`
   width: 400px;
   /* height: 75vh; */
   left: 450px;
+  z-index: 2;
 
   .ant-card-body {
     padding: 0px;
@@ -26,7 +27,6 @@ export const StyledCard = styled(Card)`
 export const StyledFlex = styled(Flex)`
   height: 100vh;
   position: absolute;
-  z-index: 2;
 `;
 
 export const StyledCloseCircleOutlined = styled(CloseCircleFilled)`
