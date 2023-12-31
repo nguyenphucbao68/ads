@@ -40,7 +40,6 @@ const getAdsLicenseById = async (id) => {
 const getAdsLicenses = async (userId, type, wardId, districtId) => {
   let option = {};
   const id = parseInt(userId);
-  let option;
 
   const user = await prisma.user.findUnique({
     where: {

@@ -55,32 +55,75 @@ const EditRequestCreate = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
-    console.log('data', data)
-    const adsPanel = await adsPanelService.getById(data.ads_panel_id)
-    console.log('adsPanel', adsPanel)
-    const dataCreate = {
-      old_information: JSON.stringify(adsPanel),
-      new_information: JSON.stringify(data),
-      user_id: user.id,
-      type: 0,
-      status: 0,
-    }
+    if (data?.type === '1') {
+      const adsSpot = await asdSpotService.getById(data.ads_spot_id)
+      const newData = {
+        image: data?.image,
+        max_ads_panel: data?.max_ads_panel,
+      }
+      const dataCreate = {
+        old_information: JSON.stringify(adsSpot),
+        new_information: JSON.stringify(newData),
+        user_id: user.id,
+        type: parseInt(data.type),
+        status: 0,
+        reason: data?.reason,
+        edited_at: data?.edited_at,
+      }
 
-    const result = await changeRequestService
-      .create({
-        ...dataCreate,
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message)
-      })
-    // if (result.id) {
-    //   navigate('/admin/approval/ads_licenses', {
-    //     state: {
-    //       type: 'success',
-    //       message: 'Yêu cầu cấp phép quảng cáo thành công',
-    //     },
-    //   })
-    // }
+      const result = await changeRequestService
+        .create({
+          ...dataCreate,
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message)
+        })
+      if (result.id) {
+        navigate('/admin/approval/ads_licenses', {
+          state: {
+            type: 'success',
+            message: `Yêu cầu chỉnh ${
+              data?.type === '0' ? 'bảng' : 'điểm đặt'
+            } quảng cáo đã gửi thành công`,
+          },
+        })
+      }
+    } else if (data?.type === '0') {
+      const adsPanel = await adsPanelService.getById(data.ads_panel_id)
+
+      const newData = {
+        height: data?.height,
+        width: data?.width,
+        expire_date: data?.expire_date,
+        image: data?.image,
+      }
+      const dataCreate = {
+        old_information: JSON.stringify(adsPanel),
+        new_information: JSON.stringify(newData),
+        user_id: user.id,
+        type: parseInt(data.type),
+        status: 0,
+        reason: data?.reason,
+        edited_at: data?.edited_at,
+      }
+      const result = await changeRequestService
+        .create({
+          ...dataCreate,
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message)
+        })
+      if (result.id) {
+        navigate('/admin/approval/ads_licenses', {
+          state: {
+            type: 'success',
+            message: `Yêu cầu chỉnh ${
+              data?.type === '0' ? 'bảng' : 'điểm đặt'
+            } quảng cáo đã gửi thành công`,
+          },
+        })
+      }
+    }
   }
 
   const types = [
@@ -111,7 +154,7 @@ const EditRequestCreate = () => {
             }}
           >
             <CRow className="mb-3">
-              <CFormLabel htmlFor="adsPanelId" className="col-sm-2 col-form-label">
+              <CFormLabel htmlFor="type" className="col-sm-2 col-form-label">
                 Loại yêu cầu
               </CFormLabel>
               <CCol sm={10}>
@@ -119,6 +162,7 @@ const EditRequestCreate = () => {
                   className="form-select"
                   id="type"
                   name="type"
+                  defaultValue={'1'}
                   {...register('type', { required: 'Vui lòng chọn loại' })}
                   onChange={(event) => {
                     setCurrentType(event.target.value)
@@ -158,7 +202,13 @@ const EditRequestCreate = () => {
                     Chiều cao
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput type="email" id="inputHeight" />
+                    <CFormInput
+                      type="number"
+                      id="inputHeight"
+                      {...register('height', { required: 'Vui lòng nhập chiều cao' })}
+                      feedback={errors.height?.message}
+                    />
+                    <span className="text-danger">{errors.height?.message}</span>
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
@@ -166,7 +216,13 @@ const EditRequestCreate = () => {
                     Chiều rộng
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput type="email" id="inputWidth" />
+                    <CFormInput
+                      type="number"
+                      id="inputWidth"
+                      {...register('width', { required: 'Vui lòng nhập chiều rộng' })}
+                      feedback={errors.width?.message}
+                    />
+                    <span className="text-danger">{errors.width?.message}</span>
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
@@ -188,7 +244,13 @@ const EditRequestCreate = () => {
                     Hình ảnh
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput type="email" id="inputImage" />
+                    <CFormInput
+                      type="text"
+                      id="inputImage"
+                      {...register('image', { required: 'Vui lòng nhập hình ảnh' })}
+                      feedback={errors.image?.message}
+                    />
+                    <span className="text-danger">{errors.image?.message}</span>
                   </CCol>
                 </CRow>
                 <CRow className="mb-3">
@@ -292,10 +354,10 @@ const EditRequestCreate = () => {
                 <CFormInput
                   type="date"
                   id="inputEditDate"
-                  {...register('edit_date', { required: 'Vui lòng chọn ngày chỉnh sửa' })}
-                  feedback={errors.edit_date?.message}
+                  {...register('edited_at', { required: 'Vui lòng chọn ngày chỉnh sửa' })}
+                  feedback={errors.edited_at?.message}
                 />
-                <span className="text-danger">{errors.edit_date?.message}</span>
+                <span className="text-danger">{errors.edited_at?.message}</span>
               </CCol>
             </CRow>
           </Box>
