@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
 
-import { Box, Button, List } from '@mui/material'
+import { Box, Button, Grid, List } from '@mui/material'
 import {
   CForm,
   CCol,
@@ -17,9 +17,14 @@ import {
   CCardBody,
   CSpinner,
   CImage,
+  CFormSelect,
 } from '@coreui/react'
+import { Toaster, toast } from 'sonner'
 
 import { useNavigate, useParams } from 'react-router-dom'
+import * as ReportService from '../../../services/report'
+import { useForm } from 'react-hook-form'
+
 import { ReportContext } from 'src/contexts/ReportProvider'
 const ReportDetails = () => {
   const { id } = useParams()
@@ -33,17 +38,57 @@ const ReportDetails = () => {
     setElement(reports.rows.find((value) => value.id == id))
     setIsLoading(false)
   }, [])
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const statusOptions = [
+    { value: '0', label: 'Chưa xử lí' },
+    { value: '1', label: 'Đã xử lí' },
+  ]
+
+  const user = JSON.parse(localStorage.getItem('user'))
+
+  const navigate = useNavigate()
+
+  const onSubmit = async (data) => {
+    if (data?.status === '1') {
+      const result = await ReportService.updateStatus(id, {
+        status: data.status,
+        content: data.content,
+        user: {
+          id: user?.id,
+          email: element?.email,
+        },
+      })
+
+      if (result.id) {
+        navigate('/admin/report', {
+          state: {
+            type: 'success',
+            message: `Cập nhật báo cáo thành công`,
+          },
+        })
+      }
+      return
+    }
+    toast.error('Vui lòng cập nhật trạng thái báo cáo')
+  }
   return (
     <div className="report-details">
       {isLoading ? (
         <CSpinner />
       ) : (
         <CCard className="mb-4">
-          {/* <Toaster position="top-right" reverseOrder={false} /> */}
-          <CCardBody>
-            <h4 className="card-title mb-0">Chi tiết báo cáo của {element?.name}</h4>
+          <Toaster position="top-right" reverseOrder={false} />
 
-            <CForm>
+          {/* <Toaster position="top-right" reverseOrder={false} /> */}
+          <CForm onSubmit={handleSubmit(onSubmit)}>
+            <CCardBody>
+              <h4 className="card-title mb-0">Chi tiết báo cáo của {element?.name}</h4>
+
               <Box
                 sx={{
                   height: 'calc(450px)',
@@ -125,10 +170,47 @@ const ReportDetails = () => {
                   </CCol>
                 </CRow>
                 <CRow className="mt-2 mb-3">
+                  <CFormLabel htmlFor="content" className="col-sm-2 col-form-label">
+                    Nội dung xử lí
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="text"
+                      id="content"
+                      defaultValue={element?.content}
+                      {...register('content', { required: 'Vui lòng nhập nội dung xử lí' })}
+                      feedback={errors.content?.message}
+                    />
+                    <span className="text-danger">{errors.content?.message}</span>
+                  </CCol>
+                </CRow>
+                <CRow className="mt-2 mb-3">
+                  <CFormLabel htmlFor="inputStatus" className="col-sm-2 col-form-label">
+                    Trạng thái
+                  </CFormLabel>
+
+                  <CCol sm={10}>
+                    {/* <CFormInput type="text" id="inputStatus" value={element?.status} /> */}
+                    <CFormSelect
+                      id="inputStatus"
+                      defaultValue={element?.status}
+                      name="inputStatus"
+                      {...register('status', { required: 'Vui lòng chọn trạng thái' })}
+                      feedback={errors.status?.message}
+                    >
+                      {statusOptions.map((value, index) => (
+                        <option key={index} value={value.value}>
+                          {value.label}
+                        </option>
+                      ))}
+                    </CFormSelect>
+                  </CCol>
+                </CRow>
+                <CRow className="mt-2 mb-3">
                   <CFormLabel htmlFor="inputReportType" className="col-sm-2 col-form-label">
                     Ảnh
                   </CFormLabel>
-                  {element.image.map((value, index) => (
+                  {element?.image?.map((value, index) => (
                     <CCol key={index} sm={10}>
                       <Button>
                         <CImage
@@ -171,9 +253,45 @@ const ReportDetails = () => {
                     </CModalFooter>
                   </CModal>
                 </CRow>
+
+                <Grid container>
+                  <Grid
+                    item
+                    container
+                    direction="row"
+                    justifyContent="flex-end"
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Button
+                      color="warning"
+                      variant="contained"
+                      sx={{
+                        borderRadius: '8px',
+                      }}
+                      onClick={() =>
+                        navigate({
+                          pathname: '/admin/report',
+                        })
+                      }
+                    >
+                      Quay lại
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        borderRadius: '8px',
+                      }}
+                    >
+                      Cập nhật trạng thái
+                    </Button>
+                  </Grid>
+                </Grid>
               </Box>
-            </CForm>
-          </CCardBody>
+            </CCardBody>
+          </CForm>
         </CCard>
       )}
     </div>

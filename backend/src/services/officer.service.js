@@ -88,11 +88,11 @@ const getReportById = async (id) => {
   });
 };
 
-const updateReportStatus = async (userId, reportId, status) => {
-  const validHandleUser = await prisma.report.findUnique({
+const updateReportStatus = async (userId, reportId, body) => {
+  const validHandleUser = await prisma.report.findFirst({
     where: {
       id: reportId,
-      handled_user_id: userId,
+      handled_user_id: null,
     },
   });
 
@@ -103,10 +103,11 @@ const updateReportStatus = async (userId, reportId, status) => {
   return await prisma.report.update({
     where: {
       id: reportId,
-      handled_user_id: userId,
     },
     data: {
-      status,
+      status: body.status,
+      content: body.content,
+      handled_user_id: userId,
     },
   });
 };

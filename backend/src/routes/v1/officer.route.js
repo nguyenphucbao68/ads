@@ -27,7 +27,11 @@ router.route('/reports').get(auth('getReports'), officerController.getReportsByR
 router
   .route('/reports/:id')
   .get(auth('getReports'), officerController.getReportById)
-  .post(auth('getReports'), validate(officerValidation.updateReportStatus), officerController.updateReportStatus);
+  .post(
+    auth('updateReportStatusById'),
+    validate(officerValidation.updateReportStatus),
+    officerController.updateReportStatus
+  );
 
 router.route('/edit-requests').post(validate(changeRequestValidation.create), changeRequestController.create);
 
