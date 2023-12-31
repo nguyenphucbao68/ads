@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Ben Thanh Market",
+    "description": "Famous market for shopping and local cuisine",
+    "latitude": 10.7738,
+    "longitude": 106.6989
+  },
+  {
+    "name": "Nguyen Hue Walking Street",
+    "description": "Popular pedestrian street with shops and cafes",
+    "latitude": 10.7763,
+    "longitude": 106.7029
+  },
+  {
+    "name": "Saigon Notre-Dame Basilica",
+    "description": "Iconic French-colonial cathedral",
+    "latitude": 10.7797,
+    "longitude": 106.699
+  },
+  {
+    "name": "Independence Palace",
+    "description": "Historical landmark and former presidential palace",
+    "latitude": 10.7769,
+    "longitude": 106.7009
+  },
+  {
+    "name": "Saigon Central Post Office",
+    "description": "Architectural gem with a historic post office",
+    "latitude": 10.7798,
+    "longitude": 106.6999
+  },
+  {
+    "name": "Bitexco Financial Tower",
+    "description": "Modern skyscraper with a helipad and observation deck",
+    "latitude": 10.7713,
+    "longitude": 106.704
+  },
+  {
+    "name": "Takashimaya Saigon Centre",
+    "description": "Luxury shopping mall with international brands",
+    "latitude": 10.7765,
+    "longitude": 106.7021
+  },
+  {
+    "name": "Saigon Opera House",
+    "description": "Historical opera house with French architectural influence",
+    "latitude": 10.7769,
+    "longitude": 106.7006
+  }
+]
