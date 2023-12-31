@@ -14,7 +14,6 @@ function AdsPanelList(props) {
           ))}
         </div>
       </Container>
-      <AdsPanelDetail />
     </Flex>
   );
 }

@@ -2,21 +2,14 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import { StyledCard } from './AdsPanel.styles';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import AdsPanelDetail from '../AdsPanelDetail/AdsPanelDetail';
 import { WarningFilled } from '@ant-design/icons';
+import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 
 function AdsPanel() {
-  const [viewAdsPanelDetail, setViewAdsPanelDetail] = useState(false);
-
-  const onViewAdsPanelDetail = () => {
-    setViewAdsPanelDetail(!viewAdsPanelDetail);
-  };
+  const { onShowPanelDetail } = useAdsPanelDetail();
 
   return (
-    <StyledCard
-      style={{ width: 300 }}
-      bodyStyle={{ backgroundColor: '#ca5c5cF' }}
-    >
+    <StyledCard hoverable onClick={onShowPanelDetail}>
       <p>Trụ, cụm pano</p>
       <p>
         Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1
@@ -28,15 +21,17 @@ function AdsPanel() {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <InfoCircleOutlined
           twoToneColor='#eb2f96'
-          onClick={onViewAdsPanelDetail}
+          style={{
+            fontSize: 20,
+            color: '#339dd8',
+          }}
+          onClick={onShowPanelDetail}
         />
-        <Button danger>
+        <Button danger onClick={(e) => e.stopPropagation()}>
           <WarningFilled />
           BÁO CÁO VI PHẠM
         </Button>
       </div>
-
-      {viewAdsPanelDetail && <AdsPanelDetail />}
     </StyledCard>
   );
 }

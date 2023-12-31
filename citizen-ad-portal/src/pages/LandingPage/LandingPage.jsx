@@ -12,6 +12,9 @@ import Pin from '../../components/Pin/Pin';
 import PANELS from '../../mock/panels.json';
 import PinInfo from '../../components/PinInfo/PinInfo';
 import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
+import AdsPanelDetail from '../../components/AdsPanelDetail/AdsPanelDetail';
+import { Container } from './LandingPage.style';
+import axios from 'axios';
 
 const geolocateStyle = {
   top: 0,
@@ -37,9 +40,14 @@ const scaleControlStyle = {
   padding: '10px',
 };
 
+function getCursor({ isHovering, isDragging }) {
+  return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default';
+}
+
 function LandingPage() {
   const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY;
-  console.log({ API_MAP_KEY });
+  const API_KEY = process.env.REACT_APP_ADS_MANAGEMENT_API_KEY;
+  const REVERSE_GEOCODING_PATH = process.env.REACT_APP_REVERSE_GEOCODINNG_URI;
 
   const items = [1, 2, 3];
   const [viewport, setViewport] = useState({
@@ -53,13 +61,22 @@ function LandingPage() {
   const [popupInfo, setPopupInfo] = useState(null);
 
   const onClick = useCallback((event) => {
-    const feature = event.features && event.features[0];
+    // const feature = event.features && event.features[0];
 
-    console.log({ feature });
+    const latlng = event.lngLat.reverse().join(',');
+    axios({
+      method: 'get',
+      url: `${REVERSE_GEOCODING_PATH}?latlng=${latlng}&api_key=${API_KEY}`,
+      responseType: 'json',
+    }).then(({ data }) => {
+      console.log({ result: data });
+    });
   }, []);
 
   return (
-    <React.Fragment>
+    <Container>
+      <AdsPanelDetail />
+
       <ReactMapGL
         {...viewport}
         width='100vw'
@@ -68,9 +85,8 @@ function LandingPage() {
         goongApiAccessToken={API_MAP_KEY}
         mapStyle={'https://tiles.goong.io/assets/goong_map_web.json'}
         onClick={onClick}
-        style={{
-          zIndex: 1,
-        }}
+        clickRadius={2}
+        getCursor={getCursor}
       >
         <Pin data={PANELS} onClick={setPopupInfo} />
 
@@ -86,7 +102,6 @@ function LandingPage() {
             >
               <PinInfo info={popupInfo} />
             </Popup>
-            <AdsPanelList items={items} isVisible={popupInfo} />
           </React.Fragment>
         )}
 
@@ -95,7 +110,8 @@ function LandingPage() {
         <NavigationControl style={navStyle} />
         <ScaleControl style={scaleControlStyle} />
       </ReactMapGL>
-    </React.Fragment>
+      {popupInfo && <AdsPanelList items={items} isVisible={popupInfo} />}
+    </Container>
   );
 }
 
