@@ -11,6 +11,7 @@ const allRoles = {
     'getAdsPanel',
     'getAdsSpot',
     'createChangeRequest',
+    'updateReportStatusById',
   ],
   district: ['getWardsFromDistrict'],
   vhtt: [

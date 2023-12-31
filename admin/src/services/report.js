@@ -6,6 +6,18 @@ const getAll = () => {
   })
 }
 
+// const updateStatus = (id, data) => {
+//   return api.post(`officer/reports/${id}`, data).then((res) => {
+//     return res.data
+//   })
+// }
+
+const updateStatus = (id, data) => {
+  return api.post(`officer/reports/${id}`, data).then((res) => {
+    return res.data
+  })
+}
+
 const getById = (id) => {
   return api.get(`vhtt/wards/${id}`).then((res) => {
     return res.data
@@ -30,4 +42,4 @@ const deleteById = (id) => {
   })
 }
 
-export { getAll, getById, create, update, deleteById }
+export { getAll, getById, create, update, deleteById, updateStatus }
