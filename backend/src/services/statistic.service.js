@@ -6,7 +6,14 @@ const prisma = new PrismaClient();
 const getReportsStatistics = async (body) => {
   const { type, district_id, ward_id } = body;
 
-  const condition = type === 'district' ? sql`AND district_id = ${district_id}` : sql`AND ward_id = ${ward_id}`;
+  const condition =
+    type === 'district'
+      ? district_id !== 0
+        ? sql`AND district_id = ${district_id}`
+        : sql``
+      : ward_id !== 0
+      ? sql`AND ward_id = ${ward_id}`
+      : sql``;
 
   const pendingSqlQuey = sql`
   SELECT
@@ -46,7 +53,7 @@ const getReportsStatistics = async (body) => {
   const rejectedReports = await prisma.$queryRaw(rejectedSqlQuey);
 
   return {
-    labels: ['Chưa xử lý', 'Đã duyệt', 'Không phê duyệt'],
+    labels: ['Chưa xử lý', 'Đang xử lý', 'Đã xử lý'],
     datasets: [
       {
         backgroundColor: ['#41B883', '#E46651', '#00D8FF'],
