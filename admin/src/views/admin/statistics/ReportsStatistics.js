@@ -13,9 +13,7 @@ import { getReportsStatistics } from 'src/services/statistic'
 import useWindowDimensions from './useWiindowDimensions'
 
 const ReportStatistics = () => {
-  const { height, width } = useWindowDimensions()
-  console.log(height, width)
-  console.log(height / 992, width / 1728)
+  const { height } = useWindowDimensions()
 
   const { register, watch } = useForm({
     defaultValues: {
