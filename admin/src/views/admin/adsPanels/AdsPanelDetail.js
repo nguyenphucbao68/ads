@@ -41,7 +41,18 @@ const AdsPanelDetail = () => {
 
   const [data, setData] = useState({
     adsPanelType: [],
-    adsPanelDetail: {},
+    adsPanelDetail: {
+      id: null,
+      ads_type_id: null,
+      height: null,
+      width: null,
+      expire_date: null,
+      image: null,
+      ads_spot_id: null,
+      is_deleted: null,
+      created_at: null,
+      updated_at: null,
+    },
     adsSpotList: [],
     fileSelected: [],
   })
@@ -64,7 +75,6 @@ const AdsPanelDetail = () => {
   }
 
   const formatDate = (dateString) => {
-    console.log('dateString ', dateString)
     // Assuming dateString is in YYYY-MM-DD format
     const date = new Date(dateString)
     const formattedDate = date.toLocaleDateString('en-US', {
@@ -72,8 +82,6 @@ const AdsPanelDetail = () => {
       month: 'short',
       day: 'numeric',
     })
-
-    console.log('formattedDate: ', formattedDate)
     return formattedDate
   }
 
@@ -97,8 +105,8 @@ const AdsPanelDetail = () => {
       }
       console.log('chuan bi luu ', adsPanelDetail)
 
-      // Uncomment later
-      // await adsPanelService.update(id, data)
+      // TODO Uncomment later
+      await adsPanelService.update(id, data)
 
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
@@ -118,16 +126,56 @@ const AdsPanelDetail = () => {
     }
   }
 
+  // Khởi tạo cho drop down loại hình quảng cáo
+  const selectedAdsType = data.adsPanelType.find(
+    (option) => option.id === data.adsPanelDetail.ads_type_id,
+  )
+
+  const adsTypeOptions = [
+    {
+      label: selectedAdsType ? selectedAdsType.name : '',
+      value: selectedAdsType ? selectedAdsType.id : '',
+    },
+    ...data.adsPanelType
+      .filter((option) => option.id !== data.adsPanelType.ads_type_id)
+      .map((option) => ({
+        label: option.name,
+        value: option.id,
+      })),
+  ]
+
+  // Khởi tạo cho drop down ví trí điểm đặt.
+  const selectedAdsSpot = data.adsSpotList.find(
+    (option) => option.id === data.adsPanelDetail.ads_spot_id,
+  )
+
+  const adsSpotOptions = [
+    {
+      label: selectedAdsSpot
+        ? selectedAdsSpot.address +
+          ', ' +
+          selectedAdsSpot.ward.name +
+          ', ' +
+          selectedAdsSpot.district.name
+        : '',
+      value: selectedAdsSpot ? selectedAdsSpot.id : '',
+    },
+    ...data.adsSpotList
+      .filter((option) => option.id !== data.adsPanelType.ads_spot_id)
+      .map((option) => ({
+        label: option.address + ', ' + option.ward.name + ', ' + option.district.name,
+        value: option.id,
+      })),
+  ]
+
   const cloudinaryRef = useRef()
   const widgetRef = useRef()
 
   useEffect(() => {
-    console.log('Chay init tren')
     init()
   }, [id])
 
   useEffect(() => {
-    console.log('Chay init duoi')
     cloudinaryRef.current = window.cloudinary
     widgetRef.current = cloudinaryRef.current.createUploadWidget(
       {
@@ -177,11 +225,8 @@ const AdsPanelDetail = () => {
               <CCol sm={10}>
                 <CFormSelect
                   aria-label="Default select example"
-                  options={data.adsPanelType.map((option) => ({
-                    label: option.name,
-                    value: option.id,
-                  }))}
-                  {...register('type', { required: 'Vui lòng chọn kiểu' })}
+                  options={adsTypeOptions}
+                  {...register('type', { required: true })}
                 />
               </CCol>
             </CRow>
@@ -194,7 +239,10 @@ const AdsPanelDetail = () => {
                   type="number"
                   id="height"
                   defaultValue={data.adsPanelDetail.height}
-                  {...register('height', { required: 'Vui lòng nhập chiều cao' })}
+                  {...register('height', {
+                    required: true,
+                    valueAsNumber: true,
+                  })}
                 />
               </CCol>
             </CRow>
@@ -207,7 +255,10 @@ const AdsPanelDetail = () => {
                   type="number"
                   id="width"
                   defaultValue={data.adsPanelDetail.width}
-                  {...register('width', { required: 'Vui lòng nhập chiều rộng' })}
+                  {...register('width', {
+                    required: true,
+                    valueAsNumber: true,
+                  })}
                 />
               </CCol>
             </CRow>
@@ -222,7 +273,7 @@ const AdsPanelDetail = () => {
                     id="expire_date"
                     defaultValue={formatDate(data.adsPanelDetail.expire_date)}
                     disabled
-                    {...register('expire_date', { required: 'Vui lòng nhập ngày hết hạn' })}
+                    {...register('expire_date', { required: true })}
                   />
                 ) : null}
               </CCol>
@@ -292,7 +343,7 @@ const AdsPanelDetail = () => {
                     type="file"
                     disabled
                     // multiple
-                    {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
+                    {...register('images', { required: true })}
                     // onChange={uploadMultiFiles}
                   />
                 </Button>
@@ -305,11 +356,8 @@ const AdsPanelDetail = () => {
               <CCol sm={10}>
                 <CFormSelect
                   aria-label="Default select example"
-                  options={data.adsSpotList.map((option) => ({
-                    label: option.address + ', ' + option.ward.name + ', ' + option.district.name,
-                    value: option.id,
-                  }))}
-                  {...register('spot_id', { required: 'Vui lòng chọn kiểu' })}
+                  options={adsSpotOptions}
+                  {...register('spot_id', { required: true })}
                 />
               </CCol>
             </CRow>
@@ -338,7 +386,7 @@ const AdsPanelDetail = () => {
                 sx={{
                   borderRadius: '8px',
                 }}
-                // disabled={!formState.isDirty}
+                disabled={!formState.isDirty}
               >
                 Lưu
               </Button>
