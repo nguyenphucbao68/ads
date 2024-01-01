@@ -6,6 +6,11 @@ const updateReportStatus = {
   }),
   body: Joi.object().keys({
     status: Joi.number().required(),
+    content: Joi.string().required(),
+    user: Joi.object().keys({
+      id: Joi.number().integer().required(),
+      email: Joi.string().required(),
+    }),
   }),
 };
 

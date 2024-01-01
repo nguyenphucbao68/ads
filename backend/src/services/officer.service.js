@@ -62,19 +62,19 @@ const getReportsByRole = async (role, userId) => {
       join ads_panel ap on r.ads_panel_id = ap.id
       join ads_spot aspt on ap.ads_spot_id = aspt.id
       join report_type rt on rt.id = r.report_type_id
-      where ward_id = ${userWard.ward_id}`;
+      where aspt.ward_id = ${userWard.ward_id} or r.ward_id = ${userWard.ward_id}`;
   } else {
     const userDistrict = await prisma.user_district.findFirst({
       where: {
         user_id: parseInt(userId, 10),
       },
     });
-
+    
     data = await prisma.$queryRaw`select r.*, aspt.address, rt.name as report_type_name from report r 
       join ads_panel ap on r.ads_panel_id = ap.id
       join ads_spot aspt on ap.ads_spot_id = aspt.id
       join report_type rt on rt.id = r.report_type_id
-      where district_id = ${userDistrict.district_id}`;
+      where aspt.district_id = ${userDistrict.district_id} or r.district_id = ${userDistrict.district_id}`;
   }
 
   return data;
@@ -88,11 +88,11 @@ const getReportById = async (id) => {
   });
 };
 
-const updateReportStatus = async (userId, reportId, status) => {
-  const validHandleUser = await prisma.report.findUnique({
+const updateReportStatus = async (userId, reportId, body) => {
+  const validHandleUser = await prisma.report.findFirst({
     where: {
       id: reportId,
-      handled_user_id: userId,
+      handled_user_id: null,
     },
   });
 
@@ -103,10 +103,11 @@ const updateReportStatus = async (userId, reportId, status) => {
   return await prisma.report.update({
     where: {
       id: reportId,
-      handled_user_id: userId,
     },
     data: {
-      status,
+      status: body.status,
+      content: body.content,
+      handled_user_id: userId,
     },
   });
 };

@@ -194,6 +194,44 @@ const sendEmail = async (email, otp) => {
   return true;
 };
 
+// send mail update report status
+const sendUpdateStatusEmail = async (user, reportId, content, status) => {
+  const subject = 'Cập nhật trạng thái báo cáo';
+  // replace this url with the link to the email verification page of your front-end app
+  const reportUrl = `http://link-to-app/report/${reportId}`;
+  const text = `Chào bạn,
+Báo cáo của bạn ${status === 1 ? 'đang được xử lí' : 'đã được xử lí'}
+Nội dung: ${content}
+Xem chi tiết báo cáo: ${reportUrl}`;
+
+  try {
+    const myAccessTokenObject = await myOAuth2Client.getAccessToken();
+    const myAccessToken = myAccessTokenObject.token;
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: process.env.ADMIN_EMAIL_ADDRESS,
+        clientId: process.env.GOOGLE_MAILER_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_MAILER_CLIENT_SECRET,
+        refresh_token: process.env.GOOGLE_MAILER_REFRESH_TOKEN,
+        accessToken: myAccessToken,
+      },
+    });
+    const mailOptions = {
+      from: 'Web-HCMUS <group9notification@gmail.com>',
+      to: user.email,
+      subject: subject,
+      text: text,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+  } catch (error) {
+    return false;
+  }
+  return true;
+};
+
 const generateOTP = async (email) => {
   // check email exist
   const user = await prisma.user.findFirst({
@@ -234,4 +272,5 @@ module.exports = {
   sendEmail,
   generateOTP,
   resetPasswordByEmail,
+  sendUpdateStatusEmail,
 };

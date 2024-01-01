@@ -10,19 +10,22 @@ import { getStyle } from '@coreui/utils'
 import { CChart } from '@coreui/react-chartjs'
 import { WardContext } from 'src/contexts/WardProvider'
 import { getReportsStatistics } from 'src/services/statistic'
+import useWindowDimensions from './useWiindowDimensions'
 
 const ReportStatistics = () => {
+  const { height } = useWindowDimensions()
+
   const { register, watch } = useForm({
     defaultValues: {
       type: 'ward',
-      district_id: 1,
-      ward_id: 1,
+      district_id: 0,
+      ward_id: 0,
     },
   })
   const { wards, dispatchWards } = useContext(WardContext)
   const { districts, dispatchDistricts } = useContext(DistrictContext)
   const [data, setData] = useState({
-    labels: ['Chưa xử lý', 'Đã duyệt', 'Không phê duyệt'],
+    labels: ['Chưa xử lý', 'Đang xử lý', 'Đã xử lý'],
     datasets: [
       {
         backgroundColor: ['#41B883', '#E46651', '#00D8FF'],
@@ -85,11 +88,12 @@ const ReportStatistics = () => {
           <hr />
           <Box
             sx={{
-              height: 'calc(100vh - 480px)',
-              width: '500px',
+              height: `${(height / 992) * 500}px`,
+              width: `${(height / 992) * 500}px`,
               margin: 'auto',
-              overflowY: 'auto',
-              overflowX: 'hidden',
+              padding: '10px',
+              // overflowY: 'auto',
+              // overflowX: 'hidden',
             }}
           >
             <CChart
@@ -155,6 +159,7 @@ const ReportStatistics = () => {
                     name="optWard"
                     {...register('ward_id', { required: 'Vui lòng chọn phường' })}
                   >
+                    <option value={0}>Tất cả</option>
                     {wards.rows.map((ward) => (
                       <option key={ward.id} value={ward.id}>
                         {ward.name}
@@ -176,6 +181,7 @@ const ReportStatistics = () => {
                     name="optDistrict"
                     {...register('district_id', { required: 'Vui lòng chọn quận' })}
                   >
+                    <option value={0}>Tất cả</option>
                     {districts.rows.map((district) => (
                       <option key={district.id} value={district.id}>
                         {district.name}

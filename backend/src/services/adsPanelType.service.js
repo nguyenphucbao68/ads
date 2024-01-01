@@ -8,7 +8,11 @@ const getAll = async () => {
     where: {
       is_deleted: false,
     },
+    orderBy: {
+      id: 'asc',
+    },
   });
+
   return data;
 };
 

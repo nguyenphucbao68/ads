@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.route('/').post(validate(reportValidation.getReports), reportController.getReports);
 
-router.route('/create').post(reportController.createReport);
+router.route('/create').post(validate(reportValidation.createReports), reportController.createReport);
 
 module.exports = router;

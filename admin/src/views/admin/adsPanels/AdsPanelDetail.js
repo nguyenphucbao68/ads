@@ -86,20 +86,16 @@ const AdsPanelDetail = () => {
       const type = getValues('type')
       const spot_id = getValues('spot_id')
 
-      setData((prev) => ({
-        ...prev,
-        adsPanelDetail: {
-          ads_type_id: type,
-          ads_spot_id: spot_id,
-          height: height,
-          width: width,
-          // expire_date: expire_date,
-          expire_date: '2023-12-10',
-          image: data.fileSelected.join(','),
-        },
-      }))
-
-      console.log(data.adsPanelDetail)
+      const adsPanelDetail = {
+        ...data.adsPanelDetail,
+        ads_type_id: type,
+        ads_spot_id: spot_id,
+        height: height,
+        width: width,
+        // expire_date: expire_date,
+        image: data.fileSelected.join(','),
+      }
+      console.log('chuan bi luu ', adsPanelDetail)
 
       // Uncomment later
       // await adsPanelService.update(id, data)
@@ -126,10 +122,12 @@ const AdsPanelDetail = () => {
   const widgetRef = useRef()
 
   useEffect(() => {
+    console.log('Chay init tren')
     init()
   }, [id])
 
   useEffect(() => {
+    console.log('Chay init duoi')
     cloudinaryRef.current = window.cloudinary
     widgetRef.current = cloudinaryRef.current.createUploadWidget(
       {
@@ -223,8 +221,7 @@ const AdsPanelDetail = () => {
                     type="text"
                     id="expire_date"
                     defaultValue={formatDate(data.adsPanelDetail.expire_date)}
-                    // defaultValue={format(new Date(data.adsPanelDetail.expire_date), 'dd/MM/yyyy')}
-                    // defaultValue="alllo"
+                    disabled
                     {...register('expire_date', { required: 'Vui lòng nhập ngày hết hạn' })}
                   />
                 ) : null}

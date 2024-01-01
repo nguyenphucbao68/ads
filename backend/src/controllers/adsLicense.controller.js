@@ -21,8 +21,20 @@ const updateAdsLicense = catchAsync(async (req, res) => {
   res.send(data);
 });
 
+const deleteAdsLicense = catchAsync(async (req, res) => {
+  const data = await adsLicenseService.deleteAdsLicense(req.params.id);
+  res.send(data);
+});
+
+const createAdsLicense = catchAsync(async (req, res) => {
+  const data = await adsLicenseService.createAdsLicense(req.body);
+  res.send(data);
+});
+
 module.exports = {
   getAdsLicense,
   getAdsLicenses,
   updateAdsLicense,
+  deleteAdsLicense,
+  createAdsLicense,
 };

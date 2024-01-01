@@ -2,13 +2,19 @@ const catchAsync = require('../utils/catchAsync');
 const { adsPanelService } = require('../services');
 
 const getAdsPanels = catchAsync(async (req, res) => {
-  const adsPanels = await adsPanelService.getAdsPanels();
+  const adsPanels = await adsPanelService.getAdsPanels(req.query);
   res.send(adsPanels);
 });
 
 const getAdsPanel = catchAsync(async (req, res) => {
   const adsPanel = await adsPanelService.getAdsPanelById(req.params.id);
   res.send(adsPanel);
+});
+
+const getAdsPanelsByAdsSpotId = catchAsync(async (req, res) => {
+  console.log({ params: req.params.id });
+  const adsPanels = await adsPanelService.getAdsPanelsByAdsSpotId(req.params.id);
+  res.send(adsPanels);
 });
 
 const createAdsPanel = catchAsync(async (req, res) => {
@@ -38,4 +44,5 @@ module.exports = {
   updateAdsPanel,
   deleteAdsPanel,
   getAdsPanelByWard,
+  getAdsPanelsByAdsSpotId,
 };

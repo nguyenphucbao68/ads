@@ -49,6 +49,11 @@ const AdsPanelList = () => {
     page: 0,
   })
 
+  const user = JSON.parse(localStorage.getItem('user'))
+
+  const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
+  const role = user?.role
+
   const navigate = useNavigate()
 
   const navigateToDetail = (params) => {
@@ -63,7 +68,7 @@ const AdsPanelList = () => {
     setData((prevState) => ({ ...prevState, loading: true }))
 
     try {
-      let rawData = await adsPanelService.getAll()
+      let rawData = await adsPanelService.getAll(id, role)
 
       setData((prevState) => ({
         ...prevState,

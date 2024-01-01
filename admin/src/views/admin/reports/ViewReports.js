@@ -35,9 +35,7 @@ const ViewReports = () => {
               marginTop: '15px',
             }}
           >
-            <ReportProvider>
-              <ReportList />
-            </ReportProvider>
+            <ReportList />
           </Box>
         </CCardBody>
       </CCard>

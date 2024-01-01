@@ -20,12 +20,21 @@ const columns = [
   { field: 'report_type_name', headerName: 'Loại hình báo cáo', flex: 13 },
   { field: 'id', headerName: 'id' },
   {
+    field: 'status',
+    headerName: 'Trạng thái',
+    renderCell: (cellValues) => {
+      const status = cellValues.value
+      return status == 0 ? <span>Chưa xử lý</span> : <span>Đã xử lý</span>
+    },
+  },
+
+  {
     field: 'view_status',
     headerName: '',
     flex: 2,
     renderCell: (cellValues) => {
       const dot = cellValues.value
-      return dot == 0 ? <FiberManualRecordIcon color="primary" fontSize="small" /> : <span />
+      return dot == 0 ? <FiberManualRecordIcon color="info" fontSize="small" /> : <span />
     },
   },
 ]
@@ -43,6 +52,7 @@ const ReportList = () => {
           .toISOString()
           .replace(/T/, ' ') // replace T with a space
           .replace(/\..+/, '') // delete the dot and everything after
+        element.image = element.image.split(',')
       })
       dispatchReports({
         type: 'INITIALIZE_REPORTS',
@@ -83,7 +93,7 @@ const ReportList = () => {
       getRowId={(row) => row.id}
       rowSelection={false}
       onRowClick={(params) => {
-        navigate(`/admin/wards/${params.row.id}`)
+        navigate(`/admin/report/${params.row.id}`)
       }}
       paginationModel={{ page: reports.page, pageSize: reports.pageSize }}
       onPaginationModelChange={(params) => {
@@ -98,6 +108,11 @@ const ReportList = () => {
       slots={{
         toolbar: CustomGridToolbar,
         noRowsOverlay: CustomNoRowsOverlay,
+      }}
+      slotProps={{
+        toolbar: {
+          addNew: null,
+        },
       }}
       localeText={GRID_DEFAULT_LOCALE_TEXT}
       getRowSpacing={(params) => ({

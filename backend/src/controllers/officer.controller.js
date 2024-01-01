@@ -1,4 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
+const { authService } = require('../services');
 const { officerService } = require('../services');
 
 const getAdsLicenses = catchAsync(async (req, res) => {
@@ -29,7 +30,16 @@ const getReportById = catchAsync(async (req, res) => {
 });
 
 const updateReportStatus = catchAsync(async (req, res) => {
-  const result = await officerService.updateReportStatus(req.user.id, req.params.id, req.body.status);
+  const result = await officerService.updateReportStatus(req.user.id, req.params.id, req.body);
+  await authService.sendUpdateStatusEmail(
+    {
+      email: req.body.user.email,
+    },
+    req.params.id,
+    req.body.content,
+    req.body.status
+  );
+
   res.send(result);
 });
 

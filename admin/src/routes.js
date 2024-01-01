@@ -1,10 +1,12 @@
 import React from 'react'
 import AccountUpdatePage from './pages/account/update'
 import ViewReports from './views/admin/reports/ViewReports'
+import ReportDetails from './views/admin/reports/ReportDetails'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 const ReportStatistics = React.lazy(() => import('./views/admin/statistics/ReportsStatistics'))
+const EditRequestCreate = React.lazy(() => import('./views/admin/adsLicenses/EditRequestCreate'))
 
 // Ads Spot
 const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
@@ -58,6 +60,7 @@ const AccountLocationAssign = React.lazy(() =>
 // Ads License
 const AdsLicenseList = React.lazy(() => import('./views/admin/adsLicenses/AdsLicenseList'))
 const AdsLicenseDetails = React.lazy(() => import('./views/admin/adsLicenses/AdsLicenseDetails'))
+const AddLicenseCreate = React.lazy(() => import('./views/admin/adsLicenses/AdsLicenseCreate'))
 
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -182,16 +185,28 @@ const routes = [
     element: AdsPanelTypeDetail,
   },
 
+  //report
   { path: '/admin/report', name: 'Report', element: ViewReports },
+  { path: '/admin/report/:id', name: 'Report Details', element: ReportDetails },
+
   { path: '/admin/create_account', name: 'Create Account', element: AccountCreate },
   { path: '/admin/assign_location', name: 'Account List', element: AccountLocationAssign },
   { path: '/admin/approval', name: 'Approval', exact: true },
-  { path: '/admin/approval/edit_requests', name: 'Edit Requests Approval', element: Dashboard },
+  {
+    path: '/admin/approval/edit_requests',
+    name: 'Edit Requests Approval',
+    element: EditRequestCreate,
+  },
   { path: '/admin/approval/ads_licenses', name: 'Ads Licenses Approval', element: AdsLicenseList },
   {
     path: '/admin/approval/ads_licenses/:id',
     name: 'Ads License Details',
     element: AdsLicenseDetails,
+  },
+  {
+    path: '/admin/approval/ads_licenses/create',
+    name: 'Ads License Create',
+    element: AddLicenseCreate,
   },
 
   // Profile
