@@ -102,56 +102,57 @@ const AdsTypeDetail = () => {
                 />
               </CCol>
             </CRow>
-            <Box
-              sx={{
-                width: '100%',
-              }}
-            >
-              <Grid container>
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  xs={6}
-                  justifyContent="flex-start"
-                  alignItems="center"
-                >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    color="primary"
-                    sx={{
-                      borderRadius: '8px',
-                    }}
-                    disabled={!formState.isDirty}
-                  >
-                    Lưu
-                  </Button>
-                </Grid>
-                <Grid
-                  item
-                  xs={6}
-                  container
-                  direction="row"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                >
-                  <Button
-                    onClick={() => setIsModalDisplay(true)}
-                    variant="text"
-                    startIcon={<DeleteIcon />}
-                    color="error"
-                    sx={{
-                      borderRadius: '8px',
-                    }}
-                  >
-                    Xóa
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
           </CForm>
+        </Box>
+        <Box
+          sx={{
+            width: '100%',
+          }}
+        >
+          <Grid container>
+            <Grid
+              item
+              container
+              direction="row"
+              xs={6}
+              justifyContent="flex-start"
+              alignItems="center"
+            >
+              <Button
+                onClick={() => onSave()}
+                type="submit"
+                variant="contained"
+                startIcon={<SaveIcon />}
+                color="primary"
+                sx={{
+                  borderRadius: '8px',
+                }}
+                disabled={!formState.isDirty}
+              >
+                Lưu
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              <Button
+                onClick={() => setIsModalDisplay(true)}
+                variant="text"
+                startIcon={<DeleteIcon />}
+                color="error"
+                sx={{
+                  borderRadius: '8px',
+                }}
+              >
+                Xóa
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </CCardBody>
     </CCard>
