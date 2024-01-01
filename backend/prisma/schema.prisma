@@ -119,7 +119,7 @@ model report {
   phone           String      @db.VarChar
   content         String
   image           String
-  status          Int
+  status          Int         @default(0)
   view_status     Int         @default(0)
   created_at      DateTime    @default(now()) @db.Timestamptz(6)
   is_deleted      Boolean     @default(false)
