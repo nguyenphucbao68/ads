@@ -79,7 +79,7 @@ function LandingPage() {
     const latlng = `${lat},${lng}`;
 
     setCurrentMarker({ latitude: lat, longitude: lng });
-
+    setAdsPanelInfo(null);
     axios({
       method: 'get',
       url: `${REVERSE_GEOCODING_PATH}?latlng=${latlng}&api_key=${API_KEY}`,
@@ -102,14 +102,45 @@ function LandingPage() {
     if (popupInfo) {
       const adsPanelsBySpotUri = `${process.env.REACT_APP_ADS_USER_URI}/${popupInfo.id}/ads-panels`;
 
+      console.log({ popupInfo });
       axios({
         method: 'get',
         url: adsPanelsBySpotUri,
         responseType: 'json',
       })
         .then(({ data }) => {
-          console.log({ data });
           setAdsPanel(data.map((item) => ({ ...item, ads_spot: popupInfo })));
+
+          setAdsPanelInfo({ ...popupInfo, adsPanelCount: data.length });
+
+          const [lng, lat] = [popupInfo.longtitude, popupInfo.latitude];
+          const latlng = `${lat},${lng}`;
+          setCurrentMarker({
+            latitude: lat,
+            longitude: lng,
+          });
+          axios({
+            method: 'get',
+            url: `${REVERSE_GEOCODING_PATH}?latlng=${latlng}&api_key=${API_KEY}`,
+            responseType: 'json',
+          }).then(({ data }) => {
+            const { results } = data;
+            const filteredResults = results.filter(
+              (item) => item.types.length > 0
+            );
+
+            if (filteredResults.length > 0) {
+              setLocationInfo(
+                filteredResults[
+                  Math.floor(Math.random() * filteredResults.length)
+                ]
+              );
+            } else {
+              setLocationInfo(
+                results[Math.floor(Math.random() * results.length)]
+              );
+            }
+          });
         })
         .catch((e) => {
           console.log(e.toJSON());
@@ -121,7 +152,7 @@ function LandingPage() {
   return (
     <Container>
       <AdsPanelDetail />
-      {locationInfo && (
+      {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
           locationDetail={locationInfo}
           adsPanelDetail={adsPanelInfo}

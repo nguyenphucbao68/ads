@@ -3,7 +3,7 @@ import { StyledCard } from './AdsPanelInfo.style';
 import { Flex, Typography } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 function AdsPanelInfo({ adsPannelInfo }) {
   return (
@@ -25,10 +25,28 @@ function AdsPanelInfo({ adsPannelInfo }) {
             Thông tin bảng quảng cáo
           </Title>
           <Paragraph strong style={{ margin: 0 }}>
-            {adsPannelInfo && 'Chưa có dữ liệu'}
+            <Text strong>
+              {!adsPannelInfo ? 'Chưa có dữ liệu' : adsPannelInfo.ads_type.name}
+            </Text>
+          </Paragraph>
+          <Paragraph style={{ margin: 0 }}>
+            {!adsPannelInfo
+              ? 'Vui lòng chọn điểm trên bản đồ để xem'
+              : `Số lượng bảng quảng cáo: ${adsPannelInfo.adsPanelCount}`}
           </Paragraph>
           <Paragraph>
-            {!adsPannelInfo && 'Vui lòng chọn điểm trên bản đồ để xem'}
+            {adsPannelInfo && (
+              <React.Fragment>
+                Tình trạng:{' '}
+                {
+                  <Text strong italic>
+                    {adsPannelInfo.is_available
+                      ? 'ĐÃ QUY HOẠCH'
+                      : 'CHƯA QUY HOẠCH'}
+                  </Text>
+                }
+              </React.Fragment>
+            )}
           </Paragraph>
         </div>
       </Flex>

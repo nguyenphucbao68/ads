@@ -11,9 +11,6 @@ function CurrentPin(props) {
   const { size = 20 } = props;
 
   return (
-    // <svg height={size} viewBox='0 0 24 24' style={pinStyle}>
-    //   <path d={ICON} />
-    // </svg>
     <svg
       fill='#ff0000'
       version='1.1'

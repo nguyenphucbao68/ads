@@ -32,7 +32,7 @@ function Pin({ data, onClick }) {
         width='40'
         height='40'
         xmlns='http://www.w3.org/2000/svg'
-        onClick={() => onClick(adsSpot)}
+        onClick={() => onClick({ ...adsSpot })}
         style={{
           transform: `translate(${-SIZE / 2}px,${-SIZE}px)`,
           cursor: 'pointer',
