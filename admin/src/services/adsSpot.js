@@ -52,4 +52,10 @@ const deleteById = (id) => {
   })
 }
 
-export { getAll, getById, create, update, deleteById }
+const getAllAdsPanelByAdsSpotId = (id) => {
+  return api.get(`vhtt/ads-spots/${id}/ads-panels`).then((res) => {
+    return res.data
+  })
+}
+
+export { getAll, getById, create, update, deleteById, getAllAdsPanelByAdsSpotId }

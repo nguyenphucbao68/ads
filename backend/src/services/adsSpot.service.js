@@ -77,11 +77,14 @@ const getAdsSpotById = async (id) => {
 const getAllAdsPanelByAdsSpotId = async (id) => {
   const adsPanel = await prisma.ads_panel.findMany({
     where: {
-      ads_spot_id: parseInt(id, 10),
+      ads_spot_id: id,
     },
     include: {
-      ads_spot: true,
-      ads_type: true,
+      ads_panel_type: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
 

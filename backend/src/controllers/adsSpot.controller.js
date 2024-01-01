@@ -32,7 +32,7 @@ const getAllAdsSpotByAdsPanelId = catchAsync(async (req, res) => {
 });
 
 const getAllAdsPanelByAdsSpotId = catchAsync(async (req, res) => {
-  const adsPanel = await adsSpotService.getAllAdsPanelByAdsSpotId(req.params.adsSpotId);
+  const adsPanel = await adsSpotService.getAllAdsPanelByAdsSpotId(req.params.id);
   res.send(adsPanel);
 });
 

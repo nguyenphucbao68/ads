@@ -65,6 +65,10 @@ router
   .get(auth('getAdsPanel'), adsSpotController.getAdsSpots)
   .post(auth('createAdsSpot'), validate(adsSpotValidation.createAdsSpot), adsSpotController.createAdsSpot);
 
+router
+  .route('/ads-spots/:id/ads-panels')
+  .get(validate(adsSpotValidation.getAdsSpot), adsSpotController.getAllAdsPanelByAdsSpotId);
+
 router.route('/user/ads-spots').get(adsSpotController.getAdsSpots);
 
 router.route('/user/ads-spots/:id/ads-panels').get(adsPanelController.getAdsPanelsByAdsSpotId);

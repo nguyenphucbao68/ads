@@ -36,7 +36,8 @@ const updateReportStatus = catchAsync(async (req, res) => {
       email: req.body.user.email,
     },
     req.params.id,
-    req.body.content
+    req.body.content,
+    req.body.status
   );
 
   res.send(result);
