@@ -155,6 +155,8 @@ function LandingPage() {
             <Popup
               tipSize={5}
               anchor='top'
+              offsetTop={20}
+              offsetLeft={15}
               longitude={popupInfo.longtitude}
               latitude={popupInfo.latitude}
               closeOnClick={false}
