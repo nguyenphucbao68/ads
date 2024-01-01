@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-
+import { format } from 'date-fns'
 import { Box, Button, Grid, styled } from '@mui/material'
 import {
   CCard,
@@ -23,7 +23,7 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import { CloudUpload } from '@mui/icons-material'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as adsPanelTypeService from 'src/services/adsPanelType'
-
+import * as adsSpotService from 'src/services/adsSpot'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -41,7 +41,8 @@ const AdsPanelDetail = () => {
 
   const [data, setData] = useState({
     adsPanelType: [],
-    adsPanelDetail: [],
+    adsPanelDetail: {},
+    adsSpotList: [],
     fileSelected: [],
   })
   const [isModalDisplay, setIsModalDisplay] = useState(false)
@@ -53,10 +54,17 @@ const AdsPanelDetail = () => {
   const init = async () => {
     const adsPanelData = await adsPanelService.getById(id)
     const adsPanelTypeData = await adsPanelTypeService.getAll()
-    setData((prev) => ({ ...prev, adsPanelDetail: adsPanelData, adsPanelType: adsPanelTypeData }))
+    const adsSpotList = await adsSpotService.getAll()
+    setData((prev) => ({
+      ...prev,
+      adsPanelDetail: adsPanelData,
+      adsPanelType: adsPanelTypeData,
+      adsSpotList: adsSpotList,
+    }))
   }
 
   const formatDate = (dateString) => {
+    console.log('dateString ', dateString)
     // Assuming dateString is in YYYY-MM-DD format
     const date = new Date(dateString)
     const formattedDate = date.toLocaleDateString('en-US', {
@@ -64,19 +72,37 @@ const AdsPanelDetail = () => {
       month: 'short',
       day: 'numeric',
     })
+
+    console.log('formattedDate: ', formattedDate)
     return formattedDate
   }
 
   // Hàm thay đổi
-  // TODO viết lại
   const onSave = async () => {
     try {
-      const name = getValues('name')
-      await adsPanelService.update(id, { name })
+      const width = getValues('width')
+      const height = getValues('height')
+      const expire_date = getValues('expire_date')
+      const type = getValues('type')
+      const spot_id = getValues('spot_id')
+
+      const adsPanelDetail = {
+        ...data.adsPanelDetail,
+        ads_type_id: type,
+        ads_spot_id: spot_id,
+        height: height,
+        width: width,
+        // expire_date: expire_date,
+        image: data.fileSelected.join(','),
+      }
+      console.log('chuan bi luu ', adsPanelDetail)
+
+      // Uncomment later
+      // await adsPanelService.update(id, data)
 
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
-      setTimeout(() => navigate(`/admin/ads-panels`), 1000)
+      // setTimeout(() => navigate(`/admin/ads_panels`), 1000)
     } catch (err) {
       toast.error('Cập nhật bảng quảng cáo thất bại')
     }
@@ -96,8 +122,12 @@ const AdsPanelDetail = () => {
   const widgetRef = useRef()
 
   useEffect(() => {
+    console.log('Chay init tren')
     init()
+  }, [id])
 
+  useEffect(() => {
+    console.log('Chay init duoi')
     cloudinaryRef.current = window.cloudinary
     widgetRef.current = cloudinaryRef.current.createUploadWidget(
       {
@@ -151,6 +181,7 @@ const AdsPanelDetail = () => {
                     label: option.name,
                     value: option.id,
                   }))}
+                  {...register('type', { required: 'Vui lòng chọn kiểu' })}
                 />
               </CCol>
             </CRow>
@@ -185,12 +216,15 @@ const AdsPanelDetail = () => {
                 Ngày hết hạn
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput
-                  type="text"
-                  id="expire_date"
-                  defaultValue={formatDate(data.adsPanelDetail.expire_date)}
-                  {...register('expire_date', { required: 'Vui lòng nhập ngày hết hạn' })}
-                />
+                {data.adsPanelDetail.expire_date ? (
+                  <CFormInput
+                    type="text"
+                    id="expire_date"
+                    defaultValue={formatDate(data.adsPanelDetail.expire_date)}
+                    disabled
+                    {...register('expire_date', { required: 'Vui lòng nhập ngày hết hạn' })}
+                  />
+                ) : null}
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -269,63 +303,67 @@ const AdsPanelDetail = () => {
                 Điểm đặt tại đây
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput
-                  type="text"
-                  id="spot_id"
-                  defaultValue={data.adsPanelDetail.ads_spot_id}
+                <CFormSelect
+                  aria-label="Default select example"
+                  options={data.adsSpotList.map((option) => ({
+                    label: option.address + ', ' + option.ward.name + ', ' + option.district.name,
+                    value: option.id,
+                  }))}
+                  {...register('spot_id', { required: 'Vui lòng chọn kiểu' })}
                 />
               </CCol>
             </CRow>
-            <Box
-              sx={{
-                width: '100%',
-              }}
-            >
-              <Grid container>
-                <Grid
-                  item
-                  container
-                  direction="row"
-                  xs={6}
-                  justifyContent="flex-start"
-                  alignItems="center"
-                >
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    startIcon={<SaveIcon />}
-                    color="success"
-                    sx={{
-                      borderRadius: '8px',
-                    }}
-                    disabled={!formState.isDirty}
-                  >
-                    Lưu
-                  </Button>
-                </Grid>
-                <Grid
-                  item
-                  xs={6}
-                  container
-                  direction="row"
-                  justifyContent="flex-end"
-                  alignItems="center"
-                >
-                  <Button
-                    onClick={() => setIsModalDisplay(true)}
-                    variant="text"
-                    startIcon={<DeleteIcon />}
-                    color="error"
-                    sx={{
-                      borderRadius: '8px',
-                    }}
-                  >
-                    Xóa
-                  </Button>
-                </Grid>
-              </Grid>
-            </Box>
           </CForm>
+        </Box>
+        <Box
+          sx={{
+            width: '100%',
+          }}
+        >
+          <Grid container>
+            <Grid
+              item
+              container
+              direction="row"
+              xs={6}
+              justifyContent="flex-start"
+              alignItems="center"
+            >
+              <Button
+                onClick={() => onSave()}
+                type="submit"
+                variant="contained"
+                startIcon={<SaveIcon />}
+                color="success"
+                sx={{
+                  borderRadius: '8px',
+                }}
+                // disabled={!formState.isDirty}
+              >
+                Lưu
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              <Button
+                onClick={() => setIsModalDisplay(true)}
+                variant="text"
+                startIcon={<DeleteIcon />}
+                color="error"
+                sx={{
+                  borderRadius: '8px',
+                }}
+              >
+                Xóa
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </CCardBody>
     </CCard>
