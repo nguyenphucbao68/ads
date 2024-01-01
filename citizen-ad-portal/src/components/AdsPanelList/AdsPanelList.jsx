@@ -1,39 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import AdsPanel from '../AdsPanel/AdsPanel';
 import { Container } from './AdsPanelList.style';
-import { Flex } from 'antd';
+import { Flex, Typography } from 'antd';
 import AdsPanelDetail from '../AdsPanelDetail/AdsPanelDetail';
 import axios from 'axios';
 
+const { Title } = Typography;
+
 function AdsPanelList(props) {
-  const adsSpotInfo = props.popupInfo;
-  const [adsPanels, setAdsPanel] = useState([]);
-
-  useEffect(() => {
-    const adsPanelsBySpotUri = `${process.env.REACT_APP_ADS_USER_URI}/${adsSpotInfo.id}/ads-panels`;
-    console.log({ adsSpotInfo });
-
-    axios({
-      method: 'get',
-      url: adsPanelsBySpotUri,
-      responseType: 'json',
-    })
-      .then(({ data }) => {
-        console.log({ data });
-        setAdsPanel(data);
-      })
-      .catch((e) => {
-        console.log(e.toJSON());
-      });
-  }, []);
-
   return (
     <Flex>
       <Container isVisible={props.isVisible}>
         <div>
-          {props.items.map((item, idx) => (
-            <AdsPanel key={idx} />
-          ))}
+          {props.items.length > 0 ? (
+            props.items.map((item, idx) => (
+              <AdsPanel adsPanelItem={item} key={idx} />
+            ))
+          ) : (
+            <div style={{ width: 400 }}>
+              <Title level={2}>KHÔNG CÓ THÔNG TIN</Title>
+            </div>
+          )}
         </div>
       </Container>
     </Flex>

@@ -57,6 +57,7 @@ function LandingPage() {
   const [currentMarker, setCurrentMarker] = useState(null);
   const [locationInfo, setLocationInfo] = useState(null);
   const [adsPanelInfo, setAdsPanelInfo] = useState(null);
+  const [adsPanels, setAdsPanel] = useState([]);
 
   const { adsSpotList } = useAdsSpot();
 
@@ -96,6 +97,25 @@ function LandingPage() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (popupInfo) {
+      const adsPanelsBySpotUri = `${process.env.REACT_APP_ADS_USER_URI}/${popupInfo.id}/ads-panels`;
+
+      axios({
+        method: 'get',
+        url: adsPanelsBySpotUri,
+        responseType: 'json',
+      })
+        .then(({ data }) => {
+          console.log({ data });
+          setAdsPanel(data.map((item) => ({ ...item, ads_spot: popupInfo })));
+        })
+        .catch((e) => {
+          console.log(e.toJSON());
+        });
+    }
+  }, [popupInfo]);
 
   return (
     <Container>
@@ -149,13 +169,7 @@ function LandingPage() {
         <NavigationControl style={navStyle} />
         <ScaleControl style={scaleControlStyle} />
       </ReactMapGL>
-      {popupInfo && (
-        <AdsPanelList
-          items={items}
-          isVisible={popupInfo}
-          popupInfo={popupInfo}
-        />
-      )}
+      {popupInfo && <AdsPanelList items={adsPanels} isVisible={popupInfo} />}
     </Container>
   );
 }

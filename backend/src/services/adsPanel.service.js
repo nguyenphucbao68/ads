@@ -94,6 +94,10 @@ const getAdsPanelsByAdsSpotId = async (id) => {
     where: {
       ads_spot_id: parseInt(id, 10),
     },
+    include: {
+      ads_panel_type: true,
+      ads_spot: true,
+    },
   });
   return adsPanels;
 };

@@ -6,26 +6,31 @@ import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 
 const { Paragraph, Text, Title } = Typography;
 
-function AdsPanel() {
+function AdsPanel({ adsPanelItem }) {
   const { onShowPanelDetail } = useAdsPanelDetail();
 
   return (
     <StyledCard hoverable onClick={onShowPanelDetail}>
       <Title level={3} style={{ margin: 0 }}>
-        Trụ, cụm pano
+        {/* Trụ, cụm pano */}
+        {adsPanelItem.ads_panel_type.name}
       </Title>
       <Paragraph type='secondary'>
-        Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1
+        {/* Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1 */}
+        {adsPanelItem.address}
       </Paragraph>
-      <Paragraph style={{ margin: 0 }}>Kích thước: 2.5m x 10m</Paragraph>
+      <Paragraph style={{ margin: 0 }}>
+        Kích thước: {+adsPanelItem.width.toFixed(1)}m x{' '}
+        {+adsPanelItem.height.toFixed(1)}m
+      </Paragraph>
       <Paragraph style={{ margin: 0 }}>
         Số lượng: <Text strong>1 trụ/bảng</Text>
       </Paragraph>
       <Paragraph style={{ margin: 0 }}>
-        Hình thức: <Text strong>Cổ động chính trị</Text>
+        Hình thức: <Text strong>{adsPanelItem.ads_spot.ads_type.name}</Text>
       </Paragraph>
       <Paragraph>
-        Phân loại: <Text strong>Đất công/công viên/Hành lang an toàn</Text>
+        Phân loại: <Text strong>{adsPanelItem.ads_spot.spot_type.name}</Text>
       </Paragraph>
       <div
         style={{
