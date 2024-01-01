@@ -3,19 +3,43 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
 import AddIcon from '@mui/icons-material/Add'
-import { AdsPanelContext } from 'src/contexts/AdsPanelProvider'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as asdSpotService from 'src/services/adsSpot'
+import * as spotTypeService from 'src/services/spotType'
+import * as asdTypeService from 'src/services/adsType'
 import * as changeRequestService from 'src/services/changeRequest'
 
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
-// TODO
+
 const EditRequestCreate = () => {
-  const { adsPanels, dispatchAdsPanels } = useContext(AdsPanelContext)
   const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
+  const [adsTypes, setAdsTypes] = useState([])
+  const [spotTypes, setSpotTypes] = useState([])
+
+  useEffect(() => {
+    const fetchAdsTypes = async () => {
+      const adsTypesResponse = await asdTypeService.getAll()
+      return adsTypesResponse
+    }
+
+    const fetchSpotTypes = async () => {
+      const spotTypesResponse = await spotTypeService.getAll()
+      return spotTypesResponse
+    }
+
+    fetchAdsTypes().then((res) => {
+      setAdsTypes(res)
+    })
+
+    fetchSpotTypes().then((res) => {
+      setSpotTypes(res)
+    })
+  }, [])
+
+  const [adsPanelsData, setAdsPanelsData] = useState([])
 
   const user = JSON.parse(localStorage.getItem('user'))
 
@@ -23,18 +47,6 @@ const EditRequestCreate = () => {
 
   const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
   const role = user?.role
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const adsPanelsResponse = await adsPanelService.getAll(id, role)
-      dispatchAdsPanels({
-        type: 'INITIALIZE_ADS_PANELS',
-        payload: adsPanelsResponse || [],
-      })
-    }
-
-    fetchData()
-  }, [dispatchAdsPanels, id, role])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +72,8 @@ const EditRequestCreate = () => {
       const newData = {
         image: data?.image,
         max_ads_panel: data?.max_ads_panel,
+        spot_type_id: data?.spot_type_id,
+        ads_type_id: data?.ads_type_id,
       }
       const dataCreate = {
         old_information: JSON.stringify(adsSpot),
@@ -96,6 +110,8 @@ const EditRequestCreate = () => {
         width: data?.width,
         expire_date: data?.expire_date,
         image: data?.image,
+        ads_panel_id: data?.ads_panel_id,
+        ads_spot_id: data?.ads_spot_id,
       }
       const dataCreate = {
         old_information: JSON.stringify(adsPanel),
@@ -138,6 +154,19 @@ const EditRequestCreate = () => {
   ]
 
   const [currentType, setCurrentType] = useState(0)
+  const [currentSpot, setCurrentSpot] = useState(0)
+
+  useEffect(() => {
+    if (!currentSpot) return
+    const fetchData = async () => {
+      const adsPanelsResponse = await asdSpotService.getAllAdsPanelByAdsSpotId(
+        parseInt(currentSpot),
+      )
+      setAdsPanelsData(adsPanelsResponse || [])
+    }
+
+    fetchData()
+  }, [currentSpot])
 
   return (
     <CCard className="mb-4">
@@ -148,7 +177,7 @@ const EditRequestCreate = () => {
           </h4>
           <Box
             sx={{
-              height: 'calc(100vh - 340px)',
+              height: '100%',
               width: '100%',
               marginTop: '15px',
             }}
@@ -179,81 +208,6 @@ const EditRequestCreate = () => {
             {currentType === '0' ? (
               <>
                 <CRow className="mb-3">
-                  <CFormLabel htmlFor="adsPanelId" className="col-sm-2 col-form-label">
-                    Bảng quảng cáo
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <select
-                      className="form-select"
-                      id="adsPanelId"
-                      name="adsPanelId"
-                      {...register('ads_panel_id', { required: 'Vui lòng chọn bảng quảng cáo' })}
-                    >
-                      {adsPanels?.rows?.map((adsPanel) => (
-                        <option key={adsPanel.id} value={adsPanel.id}>
-                          {adsPanel?.ads_panel_type?.name}
-                        </option>
-                      ))}
-                    </select>
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="inputHeight" className="col-sm-2 col-form-label">
-                    Chiều cao
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="number"
-                      id="inputHeight"
-                      {...register('height', { required: 'Vui lòng nhập chiều cao' })}
-                      feedback={errors.height?.message}
-                    />
-                    <span className="text-danger">{errors.height?.message}</span>
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="inputWidth" className="col-sm-2 col-form-label">
-                    Chiều rộng
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="number"
-                      id="inputWidth"
-                      {...register('width', { required: 'Vui lòng nhập chiều rộng' })}
-                      feedback={errors.width?.message}
-                    />
-                    <span className="text-danger">{errors.width?.message}</span>
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="inputExpireDate" className="col-sm-2 col-form-label">
-                    Ngày hết hạn
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="date"
-                      id="inputExpireDate"
-                      {...register('expire_date', { required: 'Vui lòng chọn ngày hết hạn' })}
-                      feedback={errors.expire_date?.message}
-                    />
-                    <span className="text-danger">{errors.expire_date?.message}</span>
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
-                  <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
-                    Hình ảnh
-                  </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="text"
-                      id="inputImage"
-                      {...register('image', { required: 'Vui lòng nhập hình ảnh' })}
-                      feedback={errors.image?.message}
-                    />
-                    <span className="text-danger">{errors.image?.message}</span>
-                  </CCol>
-                </CRow>
-                <CRow className="mb-3">
                   <CFormLabel htmlFor="adsSpotId" className="col-sm-2 col-form-label">
                     Điểm đặt quảng cáo
                   </CFormLabel>
@@ -265,6 +219,9 @@ const EditRequestCreate = () => {
                       {...register('ads_spot_id', {
                         required: 'Vui lòng chọn điểm đặt quảng cáo',
                       })}
+                      onChange={(event) => {
+                        setCurrentSpot(event.target.value)
+                      }}
                     >
                       {adsSpots?.rows?.map((adsSpot) => (
                         <option key={adsSpot.id} value={adsSpot.id}>
@@ -274,6 +231,87 @@ const EditRequestCreate = () => {
                     </select>
                   </CCol>
                 </CRow>
+                {adsPanelsData?.length > 0 && (
+                  <>
+                    <CRow className="mb-3">
+                      <CFormLabel htmlFor="adsPanelId" className="col-sm-2 col-form-label">
+                        Bảng quảng cáo
+                      </CFormLabel>
+                      <CCol sm={10}>
+                        <select
+                          className="form-select"
+                          id="adsPanelId"
+                          name="adsPanelId"
+                          {...register('ads_panel_id', {
+                            required: 'Vui lòng chọn bảng quảng cáo',
+                          })}
+                        >
+                          {adsPanelsData?.map((adsPanel) => (
+                            <option key={adsPanel.id} value={adsPanel.id}>
+                              {adsPanel?.ads_panel_type?.name}
+                            </option>
+                          ))}
+                        </select>
+                      </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                      <CFormLabel htmlFor="inputHeight" className="col-sm-2 col-form-label">
+                        Chiều cao
+                      </CFormLabel>
+                      <CCol sm={10}>
+                        <CFormInput
+                          type="number"
+                          id="inputHeight"
+                          {...register('height', { required: 'Vui lòng nhập chiều cao' })}
+                          feedback={errors.height?.message}
+                        />
+                        <span className="text-danger">{errors.height?.message}</span>
+                      </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                      <CFormLabel htmlFor="inputWidth" className="col-sm-2 col-form-label">
+                        Chiều rộng
+                      </CFormLabel>
+                      <CCol sm={10}>
+                        <CFormInput
+                          type="number"
+                          id="inputWidth"
+                          {...register('width', { required: 'Vui lòng nhập chiều rộng' })}
+                          feedback={errors.width?.message}
+                        />
+                        <span className="text-danger">{errors.width?.message}</span>
+                      </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                      <CFormLabel htmlFor="inputExpireDate" className="col-sm-2 col-form-label">
+                        Ngày hết hạn
+                      </CFormLabel>
+                      <CCol sm={10}>
+                        <CFormInput
+                          type="date"
+                          id="inputExpireDate"
+                          {...register('expire_date', { required: 'Vui lòng chọn ngày hết hạn' })}
+                          feedback={errors.expire_date?.message}
+                        />
+                        <span className="text-danger">{errors.expire_date?.message}</span>
+                      </CCol>
+                    </CRow>
+                    <CRow className="mb-3">
+                      <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
+                        Hình ảnh
+                      </CFormLabel>
+                      <CCol sm={10}>
+                        <CFormInput
+                          type="text"
+                          id="inputImage"
+                          {...register('image', { required: 'Vui lòng nhập hình ảnh' })}
+                          feedback={errors.image?.message}
+                        />
+                        <span className="text-danger">{errors.image?.message}</span>
+                      </CCol>
+                    </CRow>
+                  </>
+                )}
               </>
             ) : (
               <>
@@ -327,6 +365,48 @@ const EditRequestCreate = () => {
                     />
                   </CCol>
                   <span className="text-danger">{errors.max_ads_panel?.message}</span>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel htmlFor="spotTypeId" className="col-sm-2 col-form-label">
+                    Loại điểm đặt
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <select
+                      className="form-select"
+                      id="spotTypeId"
+                      name="spotTypeId"
+                      {...register('spot_type_id', {
+                        required: 'Vui lòng chọn loại điểm đặt quảng cáo',
+                      })}
+                    >
+                      {spotTypes?.map((spotType) => (
+                        <option key={spotType.id} value={spotType.id}>
+                          {spotType?.name}
+                        </option>
+                      ))}
+                    </select>
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel htmlFor="adsTypeId" className="col-sm-2 col-form-label">
+                    Loại quảng cáo
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <select
+                      className="form-select"
+                      id="adsTypeId"
+                      name="adsTypeId"
+                      {...register('ads_type_id', {
+                        required: 'Vui lòng chọn loại quảng cáo',
+                      })}
+                    >
+                      {adsTypes?.map((adsType) => (
+                        <option key={adsType.id} value={adsType.id}>
+                          {adsType?.name}
+                        </option>
+                      ))}
+                    </select>
+                  </CCol>
                 </CRow>
               </>
             )}

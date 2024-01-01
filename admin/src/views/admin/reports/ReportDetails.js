@@ -46,7 +46,8 @@ const ReportDetails = () => {
 
   const statusOptions = [
     { value: '0', label: 'Chưa xử lí' },
-    { value: '1', label: 'Đã xử lí' },
+    { value: '1', label: 'Đang xử lí' },
+    { value: '2', label: 'Đã xử lí' },
   ]
 
   const user = JSON.parse(localStorage.getItem('user'))
@@ -54,7 +55,7 @@ const ReportDetails = () => {
   const navigate = useNavigate()
 
   const onSubmit = async (data) => {
-    if (data?.status === '1') {
+    if (data?.status === '1' || data?.status === '2') {
       const result = await ReportService.updateStatus(id, {
         status: data.status,
         content: data.content,
@@ -74,7 +75,7 @@ const ReportDetails = () => {
       }
       return
     }
-    toast.error('Vui lòng cập nhật trạng thái báo cáo')
+    toast.error('Vui lòng cập nhật trạng thái mới cho báo cáo')
   }
   return (
     <div className="report-details">
