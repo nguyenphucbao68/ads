@@ -1,24 +1,52 @@
-import React, { useState } from 'react';
-import { Button } from 'antd';
+import React from 'react';
+import { Button, Typography } from 'antd';
 import { StyledCard } from './AdsPanel.styles';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { WarningFilled } from '@ant-design/icons';
+import { InfoCircleOutlined, WarningFilled } from '@ant-design/icons';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
+import { getFormattedAddress } from '../../common/common';
 
-function AdsPanel() {
+const { Paragraph, Text, Title } = Typography;
+
+function AdsPanel({ adsPanelItem }) {
   const { onShowPanelDetail } = useAdsPanelDetail();
 
+  const { ads_spot } = adsPanelItem;
+
   return (
-    <StyledCard hoverable onClick={onShowPanelDetail}>
-      <p>Trụ, cụm pano</p>
-      <p>
-        Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1
-      </p>
-      <p>Kích thước: 2.5m x 10m</p>
-      <p>Số lượng: 1 trụ/bảng</p>
-      <p>Hình thức: Cổ động chính trị</p>
-      <p>Phân loại: Đất công/công viên/Hành lang an toàn</p>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <StyledCard hoverable onClick={(e) => onShowPanelDetail(adsPanelItem)}>
+      <Title level={3} style={{ margin: 0 }}>
+        {/* Trụ, cụm pano */}
+        {adsPanelItem.ads_panel_type.name}
+      </Title>
+      <Paragraph type='secondary'>
+        {/* Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1 */}
+        {adsPanelItem.address}
+        {getFormattedAddress(
+          ads_spot.address,
+          ads_spot.ward.name,
+          ads_spot.district.name
+        )}
+      </Paragraph>
+      <Paragraph style={{ margin: 0 }}>
+        Kích thước: {+adsPanelItem.width.toFixed(1)}m x{' '}
+        {+adsPanelItem.height.toFixed(1)}m
+      </Paragraph>
+      <Paragraph style={{ margin: 0 }}>
+        Số lượng: <Text strong>1 trụ/bảng</Text>
+      </Paragraph>
+      <Paragraph style={{ margin: 0 }}>
+        Hình thức: <Text strong>{ads_spot.ads_type.name}</Text>
+      </Paragraph>
+      <Paragraph>
+        Phân loại: <Text strong>{ads_spot.spot_type.name}</Text>
+      </Paragraph>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginTop: 32,
+        }}
+      >
         <InfoCircleOutlined
           twoToneColor='#eb2f96'
           style={{
@@ -27,8 +55,11 @@ function AdsPanel() {
           }}
           onClick={onShowPanelDetail}
         />
-        <Button danger onClick={(e) => e.stopPropagation()}>
-          <WarningFilled />
+        <Button
+          danger
+          onClick={(e) => e.stopPropagation()}
+          icon={<WarningFilled />}
+        >
           BÁO CÁO VI PHẠM
         </Button>
       </div>

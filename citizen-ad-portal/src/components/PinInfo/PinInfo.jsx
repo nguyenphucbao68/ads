@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
-
+import { getFormattedAddress } from '../../common/common';
 const { Title, Paragraph } = Typography;
 
 const StyledCard = styled(Card)`
@@ -12,15 +12,21 @@ const StyledCard = styled(Card)`
 `;
 
 function PinInfo({ info }) {
+  console.log({ info });
+
+
+
   return (
     <StyledCard style={{ width: 300, padding: 0 }} bordered={false}>
-      <Title level={5}>Cổ động chính trị</Title>
-      <Paragraph>Đất công/Công viên/Hành lang an toàn giao thông</Paragraph>
+      <Title level={5} style={{ margin: 0 }}>
+        {info.ads_type.name}
+      </Title>
+      <Paragraph style={{ margin: 0 }}>{info.spot_type.name}</Paragraph>
       <Paragraph>
-        Đồng khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1
+        {getFormattedAddress(info.address, info.ward.name, info.district.name)}
       </Paragraph>
       <Paragraph strong italic>
-        ĐÃ QUY HOẠCH
+        {info.is_available ? 'ĐÃ QUY HOẠCH' : 'CHƯA QUY HOẠCH'}
       </Paragraph>
     </StyledCard>
   );
