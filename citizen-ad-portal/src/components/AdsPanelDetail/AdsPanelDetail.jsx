@@ -7,14 +7,17 @@ import {
   CardBody,
 } from './AdsPanelDetail.style';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
+import { getFormattedAddress } from '../../common/common';
+import moment from 'moment';
+
 const { Title, Text, Paragraph } = Typography;
 
-function AdsPanelDetail(props) {
-  const { showAdsPanelDetail, onClosePanelDetail } = useAdsPanelDetail();
+function AdsPanelDetail() {
+  const { adsPanelDetail, onClosePanelDetail } = useAdsPanelDetail();
 
   return (
     <React.Fragment>
-      {showAdsPanelDetail && (
+      {adsPanelDetail && (
         <StyledFlex align='center'>
           <StyledCard hoverable>
             <img
@@ -23,20 +26,27 @@ function AdsPanelDetail(props) {
             />
             <StyledCloseCircleOutlined onClick={onClosePanelDetail} />
             <CardBody vertical>
-              <Title level={5}>
-                Làm Bảng Hiệu - Quảng cáo An Phát, Hồ Chí Minh
-              </Title>
-              <Paragraph level={5}>Trụ, cụm pano</Paragraph>
-              <Paragraph level={5}>Ngày hết hạn: 12/12/2023</Paragraph>
+              <Title level={5}>{adsPanelDetail.ads_panel_type.name}</Title>
               <Paragraph level={5}>
-                Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé,
-                Quận 1
+                Ngày hết hạn: {moment(adsPanelDetail.expire_date).format('L')}
               </Paragraph>
-              <Paragraph level={5}>Kích thước: 2.5m x 10m</Paragraph>
-              <Paragraph level={5}>Số lượng: 1 trụ/bảng</Paragraph>
-              <Paragraph level={5}>Hình thức: Cổ động chính trị</Paragraph>
               <Paragraph level={5}>
-                Phân loại: Đất công/công viên/Hành lang an toàn
+                {getFormattedAddress(
+                  adsPanelDetail.ads_spot.address,
+                  adsPanelDetail.ads_spot.ward.name,
+                  adsPanelDetail.ads_spot.district.name
+                )}
+              </Paragraph>
+              <Paragraph level={5}>
+                Kích thước: {+adsPanelDetail.width.toFixed(1)}m x{' '}
+                {+adsPanelDetail.height.toFixed(1)}m
+              </Paragraph>
+              <Paragraph level={5}>Số lượng: 1 trụ/bảng</Paragraph>
+              <Paragraph level={5}>
+                Hình thức: {adsPanelDetail.ads_spot.ads_type.name}
+              </Paragraph>
+              <Paragraph level={5}>
+                Phân loại: {adsPanelDetail.ads_spot.spot_type.name}
               </Paragraph>
             </CardBody>
           </StyledCard>

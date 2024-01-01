@@ -10,7 +10,6 @@ import ReactMapGL, {
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
 
-import PANELS from '../../mock/panels.json';
 import PinInfo from '../../components/PinInfo/PinInfo';
 import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
 import AdsPanelDetail from '../../components/AdsPanelDetail/AdsPanelDetail';
@@ -19,6 +18,7 @@ import axios from 'axios';
 import CurrentPin from '../../components/CurrentPin/CurrentPin';
 import AdsPanelLocationInfo from '../../components/AdsPanelLocationInfo/AdsPanelLocationInfo';
 import { useAdsSpot } from '../../contexts/AdsSpotProvider';
+import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 
 const geolocateStyle = {
   top: 0,
@@ -60,8 +60,8 @@ function LandingPage() {
   const [adsPanels, setAdsPanel] = useState([]);
 
   const { adsSpotList } = useAdsSpot();
+  const { onClosePanelDetail } = useAdsPanelDetail();
 
-  const items = [1, 2, 3, 4];
   const [viewport, setViewport] = useState({
     latitude: 10.7769,
     longitude: 106.7009,
@@ -115,6 +115,7 @@ function LandingPage() {
           console.log(e.toJSON());
         });
     }
+    onClosePanelDetail();
   }, [popupInfo]);
 
   return (

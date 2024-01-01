@@ -3,20 +3,22 @@ import React, { createContext, useContext, useState } from 'react';
 export const AdsPanelDetailContext = createContext({});
 
 export const AdsPanelDetailProvider = ({ children }) => {
-  const [showAdsPanelDetail, setShowAdsPanelDetail] = useState(false);
+  const [adsPanelDetail, setAdsPanelDetail] = useState(null);
 
-  const onShowPanelDetail = () => {
-    setShowAdsPanelDetail(true);
+  const onShowPanelDetail = (adsPanelItem) => {
+    setAdsPanelDetail({
+      ...adsPanelItem,
+    });
   };
 
   const onClosePanelDetail = () => {
-    setShowAdsPanelDetail(false);
+    setAdsPanelDetail(null);
   };
 
   return (
     <AdsPanelDetailContext.Provider
       value={{
-        showAdsPanelDetail,
+        adsPanelDetail,
         onShowPanelDetail,
         onClosePanelDetail,
       }}

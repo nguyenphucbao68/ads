@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Typography } from 'antd';
 import styled from 'styled-components';
-
+import { getFormattedAddress } from '../../common/common';
 const { Title, Paragraph } = Typography;
 
 const StyledCard = styled(Card)`
@@ -14,9 +14,7 @@ const StyledCard = styled(Card)`
 function PinInfo({ info }) {
   console.log({ info });
 
-  const getFormattedAddress = (address, ward, district) => {
-    return [address, ward, district].join(', ');
-  };
+
 
   return (
     <StyledCard style={{ width: 300, padding: 0 }} bordered={false}>
