@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
-import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
+import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput, CButton } from '@coreui/react'
 import AddIcon from '@mui/icons-material/Add'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as asdSpotService from 'src/services/adsSpot'
@@ -11,13 +11,32 @@ import * as changeRequestService from 'src/services/changeRequest'
 
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
+import { toast, Toaster } from 'sonner'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
 
 const EditRequestCreate = () => {
   const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
   const [adsTypes, setAdsTypes] = useState([])
   const [spotTypes, setSpotTypes] = useState([])
+  const widgetRef = useRef()
+  const cloudinaryRef = useRef()
+  const [image, setImage] = useState('')
+
+  useEffect(() => {
+    cloudinaryRef.current = window.cloudinary
+    widgetRef.current = cloudinaryRef.current.createUploadWidget(
+      {
+        cloudName: 'dzjaj79nw',
+        uploadPreset: 'u4mszkqu',
+      },
+      (error, result) => {
+        if (result.event === 'success') {
+          toast.success('Tải ảnh lên thành công')
+          setImage(result.info.url)
+        }
+      },
+    )
+  }, [])
 
   useEffect(() => {
     const fetchAdsTypes = async () => {
@@ -67,10 +86,14 @@ const EditRequestCreate = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
+    if (!image) {
+      toast.error('Vui lòng tải ảnh lên')
+      return
+    }
     if (data?.type === '1') {
       const adsSpot = await asdSpotService.getById(data.ads_spot_id)
       const newData = {
-        image: data?.image,
+        image: image,
         max_ads_panel: data?.max_ads_panel,
         spot_type_id: data?.spot_type_id,
         ads_type_id: data?.ads_type_id,
@@ -93,6 +116,7 @@ const EditRequestCreate = () => {
           toast.error(err.response.data.message)
         })
       if (result.id) {
+        setImage('')
         navigate('/admin/approval/ads_licenses', {
           state: {
             type: 'success',
@@ -109,7 +133,7 @@ const EditRequestCreate = () => {
         height: data?.height,
         width: data?.width,
         expire_date: data?.expire_date,
-        image: data?.image,
+        image: image,
         ads_panel_id: data?.ads_panel_id,
         ads_spot_id: data?.ads_spot_id,
       }
@@ -130,6 +154,7 @@ const EditRequestCreate = () => {
           toast.error(err.response.data.message)
         })
       if (result.id) {
+        setImage('')
         navigate('/admin/approval/ads_licenses', {
           state: {
             type: 'success',
@@ -170,6 +195,7 @@ const EditRequestCreate = () => {
 
   return (
     <CCard className="mb-4">
+      <Toaster />
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCardBody>
           <h4 id="ads-panel-type-title" className="card-title mb-0">
@@ -296,19 +322,29 @@ const EditRequestCreate = () => {
                         <span className="text-danger">{errors.expire_date?.message}</span>
                       </CCol>
                     </CRow>
-                    <CRow className="mb-3">
+                    <CRow className="mb-3 mt-3">
                       <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
                         Hình ảnh
                       </CFormLabel>
-                      <CCol sm={10}>
-                        <CFormInput
-                          type="text"
-                          id="inputImage"
-                          {...register('image', { required: 'Vui lòng nhập hình ảnh' })}
-                          feedback={errors.image?.message}
-                        />
-                        <span className="text-danger">{errors.image?.message}</span>
-                      </CCol>
+                      <div className="col-sm-10">
+                        {/* <CFormInput type="file" id="inputPassword" onChange={() => widgetRef.current.open()} /> */}
+                        {image && (
+                          <img
+                            src={image}
+                            alt="image"
+                            width="200px"
+                            height="200px"
+                            style={{
+                              objectFit: 'cover',
+                              marginRight: '10px',
+                            }}
+                          />
+                        )}
+                        <CButton required onClick={() => widgetRef.current.open()}>
+                          Tải ảnh lên
+                        </CButton>
+                      </div>
+                      <span className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</span>
                     </CRow>
                   </>
                 )}
@@ -336,19 +372,29 @@ const EditRequestCreate = () => {
                     </select>
                   </CCol>
                 </CRow>
-                <CRow className="mb-3">
+                <CRow className="mb-3 mt-3">
                   <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
                     Hình ảnh
                   </CFormLabel>
-                  <CCol sm={10}>
-                    <CFormInput
-                      type="text"
-                      id="inputImage"
-                      {...register('image', { required: 'Vui lòng nhập hình ảnh' })}
-                      feedback={errors.image?.message}
-                    />
-                    <span className="text-danger">{errors.image?.message}</span>
-                  </CCol>
+                  <div className="col-sm-10">
+                    {/* <CFormInput type="file" id="inputPassword" onChange={() => widgetRef.current.open()} /> */}
+                    {image && (
+                      <img
+                        src={image}
+                        alt="image"
+                        width="200px"
+                        height="200px"
+                        style={{
+                          objectFit: 'cover',
+                          marginRight: '10px',
+                        }}
+                      />
+                    )}
+                    <CButton required onClick={() => widgetRef.current.open()}>
+                      Tải ảnh lên
+                    </CButton>
+                  </div>
+                  <span className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</span>
                 </CRow>
                 <CRow className="mb-3">
                   <CFormLabel htmlFor="inputMaxAdsPanel" className="col-sm-2 col-form-label">
