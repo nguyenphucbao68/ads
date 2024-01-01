@@ -106,11 +106,11 @@ const AdsPanelDetail = () => {
       console.log('chuan bi luu ', adsPanelDetail)
 
       // TODO Uncomment later
-      await adsPanelService.update(id, data)
+      await adsPanelService.update(id, adsPanelDetail)
 
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
-      // setTimeout(() => navigate(`/admin/ads_panels`), 1000)
+      setTimeout(() => navigate(`/admin/ads_panels`), 1000)
     } catch (err) {
       toast.error('Cập nhật bảng quảng cáo thất bại')
     }

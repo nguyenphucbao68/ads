@@ -73,17 +73,6 @@ const AdsPanelCreate = () => {
     }))
   }
 
-  const formatDate = (dateString) => {
-    // Assuming dateString is in YYYY-MM-DD format
-    const date = new Date(dateString)
-    const formattedDate = date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-    return formattedDate
-  }
-
   // Hàm thay đổi
   const onSave = async () => {
     try {
@@ -93,23 +82,23 @@ const AdsPanelCreate = () => {
       const type = getValues('type')
       const spot_id = getValues('spot_id')
 
-      const adsPanelDetail = {
+      const adsPanelCreateData = {
         ...data.adsPanelDetail,
-        ads_type_id: type,
-        ads_spot_id: spot_id,
+        type_id: type.value,
+        ads_spot_id: spot_id.value,
         height: height,
         width: width,
-        // expire_date: expire_date,
+        expire_date: expire_date,
         image: data.fileSelected.join(','),
       }
-      console.log('chuan bi luu ', adsPanelDetail)
 
+      console.log('adsPanelCreateData ', adsPanelCreateData)
       // TODO Uncomment later
-      await adsPanelService.update(id, data)
+      await adsPanelService.create(adsPanelCreateData)
 
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
-      // setTimeout(() => navigate(`/admin/ads_panels`), 1000)
+      setTimeout(() => navigate(`/admin/ads_panels`), 1000)
     } catch (err) {
       toast.error('Cập nhật bảng quảng cáo thất bại')
     }
@@ -143,6 +132,16 @@ const AdsPanelCreate = () => {
     })),
   ]
 
+  const parseDate = (value) => {
+    const [year, month, day] = value.split('-').map(Number)
+    return new Date(year, month - 1, day)
+  }
+
+  const formatDate = (date) => {
+    if (!date) return '' // Return empty string if date is null or undefined
+    const formattedDate = new Date(date).toISOString().split('T')[0]
+    return formattedDate
+  }
   const cloudinaryRef = useRef()
   const widgetRef = useRef()
 
@@ -242,15 +241,30 @@ const AdsPanelCreate = () => {
                 Ngày hết hạn
               </CFormLabel>
               <CCol sm={10}>
-                {data.adsPanelDetail.expire_date ? (
-                  <CFormInput
-                    type="text"
-                    id="expire_date"
-                    defaultValue={formatDate(data.adsPanelDetail.expire_date)}
-                    disabled
-                    {...register('expire_date', { required: true })}
-                  />
-                ) : null}
+                <CFormInput
+                  type="text"
+                  id="expire_date"
+                  // defaultValue={formatDate(data.adsPanelDetail.expire_date)}
+                  {...register('expire_date', {
+                    required: true,
+                    pattern: {
+                      value: /^\d{4}-\d{2}-\d{2}$/,
+                      message: 'Please enter a date in YYYY-MM-DD format',
+                    },
+                    validate: {
+                      validDate: (value) => {
+                        const date = parseDate(value)
+                        return !isNaN(date.getTime()) && value === formatDate(date)
+                      },
+                    },
+                    onChange: (e) => {
+                      e.target.value = e.target.value
+                        .replace(/[^0-9-]/g, '')
+                        .replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3')
+                        .slice(0, 10)
+                    },
+                  })}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
