@@ -11,7 +11,7 @@ function Pin({ data, onClick }) {
   return data.map((city, idx) => (
     <Marker
       key={`marker-${idx}`}
-      longitude={city.longitude}
+      longitude={city.longtitude}
       latitude={city.latitude}
     >
       <svg
@@ -25,7 +25,7 @@ function Pin({ data, onClick }) {
         }}
         onClick={() => onClick(city)}
       >
-        <path d={ICON}/>
+        <path d={ICON} />
       </svg>
     </Marker>
   ));

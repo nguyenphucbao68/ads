@@ -89,6 +89,15 @@ const getAdsPanelById = async (id) => {
   return adsPanel;
 };
 
+const getAdsPanelsByAdsSpotId = async (id) => {
+  const adsPanels = await prisma.ads_panel.findMany({
+    where: {
+      ads_spot_id: parseInt(id, 10),
+    },
+  });
+  return adsPanels;
+};
+
 // create a new adsPanel
 const createAdsPanel = async (adsPanelBody) => {
   const adsPanel = await prisma.ads_panel.create({
@@ -139,4 +148,5 @@ module.exports = {
   updateAdsPanel,
   deleteAdsPanel,
   getAdsPanelByWard,
+  getAdsPanelsByAdsSpotId,
 };

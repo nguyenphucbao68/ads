@@ -18,6 +18,7 @@ import { Container } from './LandingPage.style';
 import axios from 'axios';
 import CurrentPin from '../../components/CurrentPin/CurrentPin';
 import AdsPanelLocationInfo from '../../components/AdsPanelLocationInfo/AdsPanelLocationInfo';
+import { useAdsSpot } from '../../contexts/AdsSpotProvider';
 
 const geolocateStyle = {
   top: 0,
@@ -48,16 +49,18 @@ function getCursor({ isHovering, isDragging }) {
   return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default';
 }
 
-function LandingPage() {
-  const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY;
-  const API_KEY = process.env.REACT_APP_ADS_MANAGEMENT_API_KEY;
-  const REVERSE_GEOCODING_PATH = process.env.REACT_APP_REVERSE_GEOCODINNG_URI;
+const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY;
+const API_KEY = process.env.REACT_APP_ADS_MANAGEMENT_API_KEY;
+const REVERSE_GEOCODING_PATH = process.env.REACT_APP_REVERSE_GEOCODINNG_URI;
 
+function LandingPage() {
   const [currentMarker, setCurrentMarker] = useState(null);
   const [locationInfo, setLocationInfo] = useState(null);
   const [adsPanelInfo, setAdsPanelInfo] = useState(null);
 
-  const items = [1, 2, 3];
+  const { adsSpotList } = useAdsSpot();
+
+  const items = [1, 2, 3, 4];
   const [viewport, setViewport] = useState({
     latitude: 10.7769,
     longitude: 106.7009,
@@ -75,9 +78,7 @@ function LandingPage() {
     const latlng = `${lat},${lng}`;
 
     setCurrentMarker({ latitude: lat, longitude: lng });
-    console.log({
-      url: `${REVERSE_GEOCODING_PATH}?latlng=${latlng}&api_key=${API_KEY}`,
-    });
+
     axios({
       method: 'get',
       url: `${REVERSE_GEOCODING_PATH}?latlng=${latlng}&api_key=${API_KEY}`,
@@ -126,14 +127,14 @@ function LandingPage() {
             <CurrentPin size={20} />
           </Marker>
         )}
-        <Pin data={PANELS} onClick={setPopupInfo} />
+        <Pin data={adsSpotList} onClick={setPopupInfo} />
 
         {popupInfo && (
           <React.Fragment>
             <Popup
               tipSize={5}
               anchor='top'
-              longitude={popupInfo.longitude}
+              longitude={popupInfo.longtitude}
               latitude={popupInfo.latitude}
               closeOnClick={false}
               onClose={setPopupInfo}
@@ -148,7 +149,13 @@ function LandingPage() {
         <NavigationControl style={navStyle} />
         <ScaleControl style={scaleControlStyle} />
       </ReactMapGL>
-      {popupInfo && <AdsPanelList items={items} isVisible={popupInfo} />}
+      {popupInfo && (
+        <AdsPanelList
+          items={items}
+          isVisible={popupInfo}
+          popupInfo={popupInfo}
+        />
+      )}
     </Container>
   );
 }
