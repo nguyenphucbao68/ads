@@ -7,11 +7,11 @@ const getAdsPanel = {
 
 const createAdsPanel = {
   body: Joi.object().keys({
-    type_id: Joi.number().integer().required(),
+    ads_type_id: Joi.number().integer().required(),
     ads_spot_id: Joi.number().integer().required(),
     height: Joi.number().required(),
     width: Joi.number().required(),
-    expire_date: Joi.date().timestamp().required(),
+    expire_date: Joi.date().format('YYYY-MM-DD').required(),
     image: Joi.string().required(),
   }),
 };

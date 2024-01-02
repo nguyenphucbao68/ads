@@ -11,11 +11,9 @@ import {
   CFormInput,
   CFormSelect,
 } from '@coreui/react'
-import { useParams } from 'react-router-dom'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import { Toaster, toast } from 'sonner'
-import ConfirmModal from 'src/modals/ConfirmModal'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Gallery, Item } from 'react-photoswipe-gallery'
@@ -37,22 +35,8 @@ const VisuallyHiddenInput = styled('input')({
 })
 // TODO
 const AdsPanelCreate = () => {
-  const { id } = useParams()
-
   const [data, setData] = useState({
     adsPanelType: [],
-    adsPanelDetail: {
-      id: null,
-      ads_type_id: null,
-      height: null,
-      width: null,
-      expire_date: null,
-      image: null,
-      ads_spot_id: null,
-      is_deleted: null,
-      created_at: null,
-      updated_at: null,
-    },
     adsSpotList: [],
     fileSelected: [],
   })
@@ -67,48 +51,46 @@ const AdsPanelCreate = () => {
     const adsSpotList = await adsSpotService.getAll()
     setData((prev) => ({
       ...prev,
-
       adsPanelType: adsPanelTypeData,
       adsSpotList: adsSpotList,
     }))
   }
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    if (!isNaN(date.getTime())) {
+      const isoDate = date.toISOString().split('T')[0]
+      return isoDate
+    } else {
+      return 'Invalid Date'
+    }
+  }
+
   // Hàm thay đổi
   const onSave = async () => {
     try {
-      const width = getValues('width')
-      const height = getValues('height')
-      const expire_date = getValues('expire_date')
-      const type = getValues('type')
-      const spot_id = getValues('spot_id')
+      const width = getValues('width') || 0
+      const height = getValues('height') || 0
+      const expire_date = formatDate(getValues('expire_date') || new Date())
+      const type = getValues('type') || data.adsPanelType[0].id
+      const spot_id = getValues('spot_id') || data.adsSpotList[0].id
 
       const adsPanelCreateData = {
-        ...data.adsPanelDetail,
-        type_id: type.value,
-        ads_spot_id: spot_id.value,
+        ads_type_id: type,
+        ads_spot_id: spot_id,
         height: height,
         width: width,
         expire_date: expire_date,
-        image: data.fileSelected.join(','),
+        image: data.fileSelected.length > 0 ? data.fileSelected.length.join(',') : 'example',
       }
 
       console.log('adsPanelCreateData ', adsPanelCreateData)
-      // TODO Uncomment later
+
       await adsPanelService.create(adsPanelCreateData)
 
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
       setTimeout(() => navigate(`/admin/ads_panels`), 1000)
-    } catch (err) {
-      toast.error('Cập nhật bảng quảng cáo thất bại')
-    }
-  }
-
-  // Hàm xóa
-  const onDelete = async () => {
-    try {
-      await adsPanelService.deleteById(id)
-      navigate(`/admin/ads_panels`)
     } catch (err) {
       toast.error('Cập nhật bảng quảng cáo thất bại')
     }
@@ -137,17 +119,12 @@ const AdsPanelCreate = () => {
     return new Date(year, month - 1, day)
   }
 
-  const formatDate = (date) => {
-    if (!date) return '' // Return empty string if date is null or undefined
-    const formattedDate = new Date(date).toISOString().split('T')[0]
-    return formattedDate
-  }
   const cloudinaryRef = useRef()
   const widgetRef = useRef()
 
   useEffect(() => {
     init()
-  }, [id])
+  }, [])
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary
@@ -171,15 +148,6 @@ const AdsPanelCreate = () => {
   return (
     <CCard className="mb-4">
       <Toaster position="top-right" reverseOrder={false} />
-      <ConfirmModal
-        visible={isModalDisplay}
-        title="Xác nhận"
-        content="Bạn có chắc chắn muốn xoá loại bảng quảng cáo này?"
-        confirmText="Xác nhận"
-        cancelText="Hủy"
-        onConfirm={onDelete}
-        onCancel={() => setIsModalDisplay(false)}
-      />
       <CCardBody>
         <h4 id="ads-panel-type-title" className="card-title mb-0">
           Chi tiết bảng quảng cáo
@@ -212,7 +180,7 @@ const AdsPanelCreate = () => {
                 <CFormInput
                   type="number"
                   id="height"
-                  defaultValue={data.adsPanelDetail.height}
+                  defaultValue={0}
                   {...register('height', {
                     required: true,
                     valueAsNumber: true,
@@ -228,7 +196,7 @@ const AdsPanelCreate = () => {
                 <CFormInput
                   type="number"
                   id="width"
-                  defaultValue={data.adsPanelDetail.width}
+                  defaultValue={0}
                   {...register('width', {
                     required: true,
                     valueAsNumber: true,

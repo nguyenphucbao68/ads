@@ -75,38 +75,38 @@ const AdsPanelDetail = () => {
   }
 
   const formatDate = (dateString) => {
-    // Assuming dateString is in YYYY-MM-DD format
     const date = new Date(dateString)
-    const formattedDate = date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-    return formattedDate
+    if (!isNaN(date.getTime())) {
+      const isoDate = date.toISOString().split('T')[0]
+      return isoDate
+    } else {
+      return 'Invalid Date'
+    }
   }
 
   // Hàm thay đổi
   const onSave = async () => {
     try {
-      const width = getValues('width')
-      const height = getValues('height')
-      const expire_date = getValues('expire_date')
-      const type = getValues('type')
-      const spot_id = getValues('spot_id')
+      const width = getValues('width') || data.adsPanelDetail.width
+      const height = getValues('height') || data.adsPanelDetail.height
+      const expire_date = formatDate(getValues('expire_date') || data.adsPanelDetail.expire_date)
+      const type = getValues('type') || data.adsPanelDetail.ads_type_id
+      const spot_id = getValues('spot_id') || data.adsPanelDetail.ads_spot_id
 
-      const adsPanelDetail = {
-        ...data.adsPanelDetail,
+      const adsPanelUpdateData = {
         ads_type_id: type,
         ads_spot_id: spot_id,
         height: height,
         width: width,
-        // expire_date: expire_date,
-        image: data.fileSelected.join(','),
+        expire_date: expire_date,
+        image:
+          data.fileSelected.length > 0
+            ? data.fileSelected.length.join(',')
+            : data.adsPanelDetail.image,
       }
-      console.log('chuan bi luu ', adsPanelDetail)
+      console.log('chuan bi luu ', adsPanelUpdateData)
 
-      // TODO Uncomment later
-      await adsPanelService.update(id, adsPanelDetail)
+      await adsPanelService.update(id, adsPanelUpdateData)
 
       // Hiển thị thông báo thành công rồi chuyển hướng
       toast.success('Cập nhật bảng quảng cáo thành công')
