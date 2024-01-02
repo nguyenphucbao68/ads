@@ -1259,22 +1259,6 @@ const report = [
   },
 ];
 
-// TODO user_district
-const user_district = [
-  {
-    user_id: 2,
-    district_id: 1,
-  },
-];
-
-// TODO user_ward
-const user_ward = [
-  {
-    user_id: 3,
-    ward_id: 1,
-  },
-];
-
 const user = [
   {
     // id: 1,
@@ -1356,6 +1340,22 @@ const ads_license = [
   },
 ];
 
+// TODO user_district
+const user_district = [
+  {
+    user_id: 2,
+    district_id: 1,
+  },
+];
+
+// TODO user_ward
+const user_ward = [
+  {
+    user_id: 3,
+    ward_id: 1,
+  },
+];
+
 async function main() {
   // Array.from({ length: 15 }).forEach(() => {
   //   BUS_OPERATORS.push(createBusOperator());
@@ -1372,10 +1372,10 @@ async function main() {
     information_change_request,
     report_type,
     report,
-    user_district,
-    user_ward,
     user,
     ads_license,
+    user_district,
+    user_ward,
   };
 
   // eslint-disable-next-line no-restricted-syntax
