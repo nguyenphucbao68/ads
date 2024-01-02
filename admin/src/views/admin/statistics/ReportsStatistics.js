@@ -13,7 +13,7 @@ import { getReportsStatistics } from 'src/services/statistic'
 import useWindowDimensions from './useWiindowDimensions'
 
 const ReportStatistics = () => {
-  const { height } = useWindowDimensions()
+  const { height, width } = useWindowDimensions()
 
   const { register, watch } = useForm({
     defaultValues: {
@@ -88,109 +88,123 @@ const ReportStatistics = () => {
           <hr />
           <Box
             sx={{
-              height: `${(height / 992) * 500}px`,
-              width: `${(height / 992) * 500}px`,
-              margin: 'auto',
-              padding: '10px',
-              // overflowY: 'auto',
-              // overflowX: 'hidden',
+              height: 'calc(100vh - 330px)',
+              width: '100%',
+              overflowY: 'auto',
             }}
           >
-            <CChart
-              type="doughnut"
-              data={data}
-              options={{
-                plugins: {
-                  legend: {
-                    labels: {
-                      color: getStyle('--cui-body-color'),
-                    },
-                  },
-                },
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              margin: 'auto',
-              width: '500px',
-            }}
-          >
-            <Typography
+            <Box
               sx={{
-                marginTop: '20px',
-                marginBottom: '10px',
-                fontWeight: 'bold',
+                // height: `${(height / 992) * 500}px`,
+                // width: `${(height / 992) * 500}px`,
+                height: `${
+                  height / 992 > width / 1728 ? (width / 1728) * 500 : (height / 992) * 500
+                }px`,
+                width: `${
+                  height / 992 > width / 1728 ? (width / 1728) * 500 : (height / 992) * 500
+                }px`,
+                margin: 'auto',
+                padding: '10px',
+                // overflowY: 'auto',
+                // overflowX: 'hidden',
               }}
             >
-              Lọc theo:
-            </Typography>
-            <CFormCheck
-              inline
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineCheckbox1"
-              value="ward"
-              label="Phường"
-              {...register('type', {
-                required: 'Vui lòng chọn loại báo cáo',
-              })}
-            />
-            <CFormCheck
-              inline
-              type="radio"
-              name="inlineRadioOptions"
-              id="inlineCheckbox2"
-              value="district"
-              label="Quận"
-              {...register('type', {
-                required: 'Vui lòng chọn loại báo cáo',
-              })}
-            />
-            {type === 'ward' && (
-              <CRow className="mb-3 mt-3">
-                <CFormLabel htmlFor="optWard" className="col-sm-2 col-form-label">
-                  Phường
-                </CFormLabel>
-                <CCol sm={10}>
-                  <select
-                    className="form-select"
-                    id="optWard"
-                    name="optWard"
-                    {...register('ward_id', { required: 'Vui lòng chọn phường' })}
-                  >
-                    <option value={0}>Tất cả</option>
-                    {wards.rows.map((ward) => (
-                      <option key={ward.id} value={ward.id}>
-                        {ward.name}
-                      </option>
-                    ))}
-                  </select>
-                </CCol>
-              </CRow>
-            )}
-            {type === 'district' && (
-              <CRow className="mb-3 mt-3">
-                <CFormLabel htmlFor="optDistrict" className="col-sm-2 col-form-label">
-                  Quận
-                </CFormLabel>
-                <CCol sm={10}>
-                  <select
-                    className="form-select"
-                    id="optDistrict"
-                    name="optDistrict"
-                    {...register('district_id', { required: 'Vui lòng chọn quận' })}
-                  >
-                    <option value={0}>Tất cả</option>
-                    {districts.rows.map((district) => (
-                      <option key={district.id} value={district.id}>
-                        {district.name}
-                      </option>
-                    ))}
-                  </select>
-                </CCol>
-              </CRow>
-            )}
+              <CChart
+                type="doughnut"
+                data={data}
+                options={{
+                  plugins: {
+                    legend: {
+                      labels: {
+                        color: getStyle('--cui-body-color'),
+                      },
+                    },
+                  },
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                margin: 'auto',
+                width: '500px',
+              }}
+            >
+              <Typography
+                sx={{
+                  marginTop: '20px',
+                  marginBottom: '10px',
+                  fontWeight: 'bold',
+                }}
+              >
+                Lọc theo:
+              </Typography>
+              <CFormCheck
+                inline
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineCheckbox1"
+                value="ward"
+                label="Phường"
+                {...register('type', {
+                  required: 'Vui lòng chọn loại báo cáo',
+                })}
+              />
+              <CFormCheck
+                inline
+                type="radio"
+                name="inlineRadioOptions"
+                id="inlineCheckbox2"
+                value="district"
+                label="Quận"
+                {...register('type', {
+                  required: 'Vui lòng chọn loại báo cáo',
+                })}
+              />
+              {type === 'ward' && (
+                <CRow className="mb-3 mt-3">
+                  <CFormLabel htmlFor="optWard" className="col-sm-2 col-form-label">
+                    Phường
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <select
+                      className="form-select"
+                      id="optWard"
+                      name="optWard"
+                      {...register('ward_id', { required: 'Vui lòng chọn phường' })}
+                    >
+                      <option value={0}>Tất cả</option>
+                      {wards.rows.map((ward) => (
+                        <option key={ward.id} value={ward.id}>
+                          {ward.name}
+                        </option>
+                      ))}
+                    </select>
+                  </CCol>
+                </CRow>
+              )}
+              {type === 'district' && (
+                <CRow className="mb-3 mt-3">
+                  <CFormLabel htmlFor="optDistrict" className="col-sm-2 col-form-label">
+                    Quận
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <select
+                      className="form-select"
+                      id="optDistrict"
+                      name="optDistrict"
+                      {...register('district_id', { required: 'Vui lòng chọn quận' })}
+                    >
+                      <option value={0}>Tất cả</option>
+                      {districts.rows.map((district) => (
+                        <option key={district.id} value={district.id}>
+                          {district.name}
+                        </option>
+                      ))}
+                    </select>
+                  </CCol>
+                </CRow>
+              )}
+            </Box>
           </Box>
         </CCardBody>
       </CForm>
