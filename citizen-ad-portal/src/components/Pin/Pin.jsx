@@ -15,19 +15,6 @@ function Pin({ data, onClick }) {
       longitude={adsSpot.longtitude}
       latitude={adsSpot.latitude}
     >
-      {/* <svg
-        height={SIZE}
-        viewBox='0 0 24 24'
-        style={{
-          cursor: 'pointer',
-          fill: '#d00',
-          stroke: 'none',
-          transform: `translate(${-SIZE / 2}px,${-SIZE}px)`,
-        }}
-        onClick={() => onClick(adsSpot)}
-      >
-        <path d={ICON} />
-      </svg> */}
       <svg
         width='40'
         height='40'
