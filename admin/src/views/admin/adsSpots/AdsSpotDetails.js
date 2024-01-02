@@ -27,9 +27,6 @@ import MapGL, {
 } from '@goongmaps/goong-map-react'
 import './AdsSpotDetails.css'
 
-import ControlPanel from './ControlPanel'
-import Pin from './Pin'
-import { clusterLayer, clusterCountLayer, unclusteredPointLayer } from './layers'
 import { CloudUpload } from '@mui/icons-material'
 import CancelIcon from '@mui/icons-material/Cancel'
 
@@ -289,40 +286,7 @@ const AdsSpotDetails = () => {
                   // interactiveLayerIds={[clusterLayer.id]}
                   // onClick={onClick}
                   // ref={mapRef}
-                >
-                  <Marker
-                    longitude={marker.longitude}
-                    latitude={marker.latitude}
-                    offsetTop={-20}
-                    offsetLeft={-10}
-                    draggable
-                    onDragStart={onMarkerDragStart}
-                    onDrag={onMarkerDrag}
-                    onDragEnd={onMarkerDragEnd}
-                  >
-                    <Pin size={20} />
-                  </Marker>
-
-                  <div className="nav" style={navStyle}>
-                    <GeolocateControl style={geolocateStyle} />
-                    <FullscreenControl style={fullscreenControlStyle} />
-                    <NavigationControl style={navStyle} />
-                    <ScaleControl style={scaleControlStyle} />
-                  </div>
-
-                  {/* <Source
-                    id="earthquakes"
-                    type="geojson"
-                    data="https://docs.goong.io/assets/earthquakes.geojson"
-                    cluster={true}
-                    clusterMaxZoom={14}
-                    clusterRadius={50}
-                  >
-                    <Layer {...clusterLayer} />
-                    <Layer {...clusterCountLayer} />
-                    <Layer {...unclusteredPointLayer} />
-                  </Source> */}
-                </MapGL>
+                ></MapGL>
               </CCol>
             </CRow>
             <CRow className="mb-3">
