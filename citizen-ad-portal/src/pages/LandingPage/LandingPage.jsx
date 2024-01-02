@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import ReactMapGL, {
   Popup,
@@ -8,6 +8,8 @@ import ReactMapGL, {
   ScaleControl,
   Marker,
   FlyToInterpolator,
+  Source,
+  Layer,
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
 import { StyledPopup, StyledReactMapGL } from './LandingPage.style';
@@ -22,6 +24,11 @@ import AdsPanelLocationInfo from '../../components/AdsPanelLocationInfo/AdsPanel
 import { useAdsSpot } from '../../contexts/AdsSpotProvider';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 import AddressSearchInput from '../../components/AddressSearchInput/AddressSearchInput';
+import {
+  clusterCountLayer,
+  clusterLayer,
+  unclusteredPointLayer,
+} from './layers';
 
 const geolocateStyle = {
   top: 0,
@@ -61,6 +68,7 @@ function LandingPage() {
   const [locationInfo, setLocationInfo] = useState(null);
   const [adsPanelInfo, setAdsPanelInfo] = useState(null);
   const [adsPanels, setAdsPanel] = useState([]);
+  const mapRef = useRef(null);
 
   const { adsSpotList } = useAdsSpot();
   const { onClosePanelDetail } = useAdsPanelDetail();
@@ -77,6 +85,25 @@ function LandingPage() {
 
   const onClick = useCallback((event) => {
     // const feature = event.features && event.features[0];
+    const feature = event.features[0];
+    console.log({ feature });
+    // const clusterId = feature.properties.cluster_id;
+
+    // const mapboxSource = mapRef.current.getMap().getSource('earthquakes');
+
+    // mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+    //   if (err) {
+    //     return;
+    //   }
+
+    //   setViewport({
+    //     ...viewport,
+    //     longitude: feature.geometry.coordinates[0],
+    //     latitude: feature.geometry.coordinates[1],
+    //     zoom,
+    //     transitionDuration: 500,
+    //   });
+    // });
 
     const [lng, lat] = event.lngLat;
     const latlng = `${lat},${lng}`;
@@ -172,7 +199,7 @@ function LandingPage() {
           transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
           transitionDuration: 'auto',
         });
-        setCurrentMarker({longitude, latitude})
+        setCurrentMarker({ longitude, latitude });
       })
       .catch((e) => {
         console.log({ error: e.toJSON() });
@@ -182,6 +209,25 @@ function LandingPage() {
   useEffect(() => {
     console.log({ viewport });
   }, [viewport]);
+
+  const clusterData = {
+    type: 'FeatureCollection',
+    crs: {
+      type: 'name',
+      properties: {
+        name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
+      },
+    },
+    features: adsSpotList.map((item) => ({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [item.longtitude, item.latitude],
+      },
+    })),
+  };
+
+  console.log({ clusterData });
 
   return (
     <Container>
@@ -203,7 +249,20 @@ function LandingPage() {
         onClick={onClick}
         clickRadius={2}
         getCursor={getCursor}
+        ref={mapRef}
       >
+        <Source
+          id='earthquakes'
+          type='geojson'
+          data={clusterData}
+          cluster={true}
+          clusterMaxZoom={14}
+          clusterRadius={50}
+        >
+          <Layer {...clusterLayer} />
+          <Layer {...clusterCountLayer} />
+          <Layer {...unclusteredPointLayer} />
+        </Source>
         {currentMarker && (
           <Marker
             longitude={currentMarker.longitude}
