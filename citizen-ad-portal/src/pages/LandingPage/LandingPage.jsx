@@ -9,6 +9,7 @@ import ReactMapGL, {
   Marker,
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
+import { StyledPopup, StyledReactMapGL } from './LandingPage.style';
 
 import PinInfo from '../../components/PinInfo/PinInfo';
 import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
@@ -19,6 +20,7 @@ import CurrentPin from '../../components/CurrentPin/CurrentPin';
 import AdsPanelLocationInfo from '../../components/AdsPanelLocationInfo/AdsPanelLocationInfo';
 import { useAdsSpot } from '../../contexts/AdsSpotProvider';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
+import AddressSearchInput from '../../components/AddressSearchInput/AddressSearchInput';
 
 const geolocateStyle = {
   top: 0,
@@ -152,6 +154,7 @@ function LandingPage() {
   return (
     <Container>
       <AdsPanelDetail />
+      <AddressSearchInput/>
       {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
           locationDetail={locationInfo}
@@ -183,7 +186,7 @@ function LandingPage() {
 
         {popupInfo && (
           <React.Fragment>
-            <Popup
+            <StyledPopup
               tipSize={5}
               anchor='top'
               offsetTop={20}
@@ -194,7 +197,7 @@ function LandingPage() {
               onClose={setPopupInfo}
             >
               <PinInfo info={popupInfo} />
-            </Popup>
+            </StyledPopup>
           </React.Fragment>
         )}
 
