@@ -7,6 +7,7 @@ import ReactMapGL, {
   NavigationControl,
   ScaleControl,
   Marker,
+  FlyToInterpolator,
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
 import { StyledPopup, StyledReactMapGL } from './LandingPage.style';
@@ -151,10 +152,41 @@ function LandingPage() {
     onClosePanelDetail();
   }, [popupInfo]);
 
+  const onSelectAddress = useCallback((placeId) => {
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_PLACES_API}/Detail?api_key=${process.env.REACT_APP_ADS_MANAGEMENT_API_KEY}&place_id=${placeId}`,
+      responseType: 'json',
+    })
+      .then(({ data }) => {
+        const location = data.result.geometry.location;
+
+        console.log({ location });
+
+        const { lng: longitude, lat: latitude } = location;
+
+        setViewport({
+          longitude: location.lng,
+          latitude: location.lat,
+          zoom: 16,
+          transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
+          transitionDuration: 'auto',
+        });
+        setCurrentMarker({longitude, latitude})
+      })
+      .catch((e) => {
+        console.log({ error: e.toJSON() });
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log({ viewport });
+  }, [viewport]);
+
   return (
     <Container>
       <AdsPanelDetail />
-      <AddressSearchInput/>
+      <AddressSearchInput onSelectAddress={onSelectAddress} />
       {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
           locationDetail={locationInfo}
