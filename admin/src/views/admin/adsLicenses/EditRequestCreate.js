@@ -1,7 +1,17 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
-import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput, CButton } from '@coreui/react'
+import {
+  CCard,
+  CCardBody,
+  CForm,
+  CCol,
+  CRow,
+  CFormLabel,
+  CFormInput,
+  CButton,
+  CFormTextarea,
+} from '@coreui/react'
 import AddIcon from '@mui/icons-material/Add'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as asdSpotService from 'src/services/adsSpot'
@@ -503,8 +513,8 @@ const EditRequestCreate = () => {
                 Lý do chỉnh sửa
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput
-                  type="text"
+                <CFormTextarea
+                  rows={5}
                   id="inputReason"
                   {...register('reason', { required: 'Vui lòng nhập lí do' })}
                   feedback={errors.reason?.message}
