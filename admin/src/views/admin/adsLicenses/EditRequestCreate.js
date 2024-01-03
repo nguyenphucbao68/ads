@@ -1,7 +1,17 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { Box, Button, Grid } from '@mui/material'
-import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput, CButton } from '@coreui/react'
+import { Box, Button, Grid, styled } from '@mui/material'
+import {
+  CCard,
+  CCardBody,
+  CForm,
+  CCol,
+  CRow,
+  CFormLabel,
+  CFormInput,
+  CButton,
+  CFormTextarea,
+} from '@coreui/react'
 import AddIcon from '@mui/icons-material/Add'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as asdSpotService from 'src/services/adsSpot'
@@ -13,6 +23,21 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast, Toaster } from 'sonner'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
+import { Gallery, Item } from 'react-photoswipe-gallery'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { CloudUpload } from '@mui/icons-material'
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+})
 
 const EditRequestCreate = () => {
   const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
@@ -67,6 +92,10 @@ const EditRequestCreate = () => {
   const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
   const role = user?.role
 
+  const [currentPanel, setCurrentPanel] = useState(0)
+  const [currentType, setCurrentType] = useState('1')
+  const [currentSpot, setCurrentSpot] = useState(0)
+
   useEffect(() => {
     const fetchData = async () => {
       const adsSpotsResponse = await asdSpotService.getAll(id, role)
@@ -74,6 +103,7 @@ const EditRequestCreate = () => {
         type: 'INITIALIZE_ADS_SPOTS',
         payload: adsSpotsResponse || [],
       })
+      setCurrentSpot(adsSpotsResponse?.[0])
     }
 
     fetchData()
@@ -83,6 +113,7 @@ const EditRequestCreate = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm()
 
   const onSubmit = async (data) => {
@@ -178,20 +209,43 @@ const EditRequestCreate = () => {
     },
   ]
 
-  const [currentType, setCurrentType] = useState(0)
-  const [currentSpot, setCurrentSpot] = useState(0)
-
   useEffect(() => {
     if (!currentSpot) return
     const fetchData = async () => {
       const adsPanelsResponse = await asdSpotService.getAllAdsPanelByAdsSpotId(
-        parseInt(currentSpot),
+        parseInt(currentSpot.id),
       )
       setAdsPanelsData(adsPanelsResponse || [])
+      setCurrentPanel(adsPanelsResponse?.[0])
     }
 
     fetchData()
-  }, [currentSpot])
+    if (currentType === '1') {
+      setValue('max_ads_panel', currentSpot?.max_ads_panel)
+      setValue('spot_type_id', currentSpot?.spot_type_id)
+      setValue('ads_type_id', currentSpot?.ads_type_id)
+      setImage(currentSpot?.image ?? '')
+    }
+  }, [currentSpot, setValue, currentType])
+
+  useEffect(() => {
+    if (!currentPanel) return
+    if (currentType === '0') {
+      setValue('height', currentPanel?.height.toFixed(2))
+      setValue('width', currentPanel?.width.toFixed(2))
+      const date = new Date(currentPanel?.expire_date)
+      const day = date.getDate()
+      const month = date.getMonth() + 1
+      const year = date.getFullYear()
+
+      const expireDate = `${year}-${month < 10 ? `0${month}` : `${month}`}-${
+        day < 10 ? `0${day}` : `${day}`
+      }`
+
+      setValue('expire_date', expireDate)
+      setImage(currentPanel?.image ?? '')
+    }
+  }, [currentPanel, setValue, currentType])
 
   return (
     <CCard className="mb-4">
@@ -246,7 +300,9 @@ const EditRequestCreate = () => {
                         required: 'Vui lòng chọn điểm đặt quảng cáo',
                       })}
                       onChange={(event) => {
-                        setCurrentSpot(event.target.value)
+                        setCurrentSpot(
+                          adsSpots?.rows?.find((x) => x.id === parseInt(event.target.value)),
+                        )
                       }}
                     >
                       {adsSpots?.rows?.map((adsSpot) => (
@@ -271,6 +327,11 @@ const EditRequestCreate = () => {
                           {...register('ads_panel_id', {
                             required: 'Vui lòng chọn bảng quảng cáo',
                           })}
+                          onChange={(event) => {
+                            setCurrentPanel(
+                              adsPanelsData?.find((x) => x.id === parseInt(event.target.value)),
+                            )
+                          }}
                         >
                           {adsPanelsData?.map((adsPanel) => (
                             <option key={adsPanel.id} value={adsPanel.id}>
@@ -287,6 +348,7 @@ const EditRequestCreate = () => {
                       <CCol sm={10}>
                         <CFormInput
                           type="number"
+                          step={0.01}
                           id="inputHeight"
                           {...register('height', { required: 'Vui lòng nhập chiều cao' })}
                           feedback={errors.height?.message}
@@ -301,6 +363,7 @@ const EditRequestCreate = () => {
                       <CCol sm={10}>
                         <CFormInput
                           type="number"
+                          step={0.01}
                           id="inputWidth"
                           {...register('width', { required: 'Vui lòng nhập chiều rộng' })}
                           feedback={errors.width?.message}
@@ -326,25 +389,75 @@ const EditRequestCreate = () => {
                       <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
                         Hình ảnh
                       </CFormLabel>
-                      <div className="col-sm-10">
-                        {/* <CFormInput type="file" id="inputPassword" onChange={() => widgetRef.current.open()} /> */}
-                        {image && (
-                          <img
-                            src={image}
-                            alt="image"
-                            width="200px"
-                            height="200px"
-                            style={{
-                              objectFit: 'cover',
-                              marginRight: '10px',
-                            }}
+                      <CCol sm={10}>
+                        <Gallery>
+                          {image && (
+                            <Item original={image} thumbnail={image} width="1024" height="768">
+                              {({ ref, open }) => (
+                                <div
+                                  style={{
+                                    position: 'relative',
+                                    display: 'inline-block',
+                                    cursor: 'pointer',
+                                    width: '200px',
+                                    marginRight: '10px',
+                                    marginTop: '5px',
+                                    marginBottom: '5px',
+                                  }}
+                                >
+                                  <CancelIcon
+                                    onClick={() => {
+                                      setImage('')
+                                    }}
+                                    style={{
+                                      position: 'absolute',
+                                      top: '-10px',
+                                      right: '-15px',
+                                      cursor: 'pointer',
+                                      zIndex: 999,
+                                    }}
+                                    color="error"
+                                  />
+                                  <img
+                                    ref={ref}
+                                    onClick={open}
+                                    src={image}
+                                    alt="..."
+                                    style={{
+                                      width: '200px',
+                                      height: '200px',
+                                      objectFit: 'cover',
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </Item>
+                          )}
+                        </Gallery>
+                      </CCol>
+                      <CCol
+                        sm={10}
+                        className="mt-2"
+                        style={{
+                          marginLeft: 'auto',
+                        }}
+                      >
+                        <Button
+                          component="label"
+                          variant="outlined"
+                          startIcon={<CloudUpload />}
+                          onClick={() => widgetRef.current.open()}
+                        >
+                          Thêm ảnh
+                          <VisuallyHiddenInput
+                            type="file"
+                            disabled
+                            // multiple
+                            // onChange={uploadMultiFiles}
                           />
-                        )}
-                        <CButton required onClick={() => widgetRef.current.open()}>
-                          Tải ảnh lên
-                        </CButton>
-                      </div>
-                      <span className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</span>
+                        </Button>
+                        <div className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</div>
+                      </CCol>
                     </CRow>
                   </>
                 )}
@@ -363,6 +476,11 @@ const EditRequestCreate = () => {
                       {...register('ads_spot_id', {
                         required: 'Vui lòng chọn điểm đặt quảng cáo',
                       })}
+                      onChange={(event) => {
+                        setCurrentSpot(
+                          adsSpots?.rows?.find((x) => x.id === parseInt(event.target.value)),
+                        )
+                      }}
                     >
                       {adsSpots?.rows?.map((adsSpot) => (
                         <option key={adsSpot.id} value={adsSpot.id}>
@@ -376,25 +494,75 @@ const EditRequestCreate = () => {
                   <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
                     Hình ảnh
                   </CFormLabel>
-                  <div className="col-sm-10">
-                    {/* <CFormInput type="file" id="inputPassword" onChange={() => widgetRef.current.open()} /> */}
-                    {image && (
-                      <img
-                        src={image}
-                        alt="image"
-                        width="200px"
-                        height="200px"
-                        style={{
-                          objectFit: 'cover',
-                          marginRight: '10px',
-                        }}
+                  <CCol sm={10}>
+                    <Gallery>
+                      {image && (
+                        <Item original={image} thumbnail={image} width="1024" height="768">
+                          {({ ref, open }) => (
+                            <div
+                              style={{
+                                position: 'relative',
+                                display: 'inline-block',
+                                cursor: 'pointer',
+                                width: '200px',
+                                marginRight: '10px',
+                                marginTop: '5px',
+                                marginBottom: '5px',
+                              }}
+                            >
+                              <CancelIcon
+                                onClick={() => {
+                                  setImage('')
+                                }}
+                                style={{
+                                  position: 'absolute',
+                                  top: '-10px',
+                                  right: '-15px',
+                                  cursor: 'pointer',
+                                  zIndex: 999,
+                                }}
+                                color="error"
+                              />
+                              <img
+                                ref={ref}
+                                onClick={open}
+                                src={image}
+                                alt="..."
+                                style={{
+                                  width: '200px',
+                                  height: '200px',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Item>
+                      )}
+                    </Gallery>
+                  </CCol>
+                  <CCol
+                    sm={10}
+                    className="mt-2"
+                    style={{
+                      marginLeft: 'auto',
+                    }}
+                  >
+                    <Button
+                      component="label"
+                      variant="outlined"
+                      startIcon={<CloudUpload />}
+                      onClick={() => widgetRef.current.open()}
+                    >
+                      Thêm ảnh
+                      <VisuallyHiddenInput
+                        type="file"
+                        disabled
+                        // multiple
+                        // onChange={uploadMultiFiles}
                       />
-                    )}
-                    <CButton required onClick={() => widgetRef.current.open()}>
-                      Tải ảnh lên
-                    </CButton>
-                  </div>
-                  <span className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</span>
+                    </Button>
+                    <div className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</div>
+                  </CCol>
                 </CRow>
                 <CRow className="mb-3">
                   <CFormLabel htmlFor="inputMaxAdsPanel" className="col-sm-2 col-form-label">
@@ -462,8 +630,8 @@ const EditRequestCreate = () => {
                 Lý do chỉnh sửa
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput
-                  type="text"
+                <CFormTextarea
+                  rows={5}
                   id="inputReason"
                   {...register('reason', { required: 'Vui lòng nhập lí do' })}
                   feedback={errors.reason?.message}
