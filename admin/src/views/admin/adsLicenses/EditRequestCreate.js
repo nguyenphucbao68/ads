@@ -67,6 +67,10 @@ const EditRequestCreate = () => {
   const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
   const role = user?.role
 
+  const [currentPanel, setCurrentPanel] = useState(0)
+  const [currentType, setCurrentType] = useState('1')
+  const [currentSpot, setCurrentSpot] = useState(0)
+
   useEffect(() => {
     const fetchData = async () => {
       const adsSpotsResponse = await asdSpotService.getAll(id, role)
@@ -74,6 +78,7 @@ const EditRequestCreate = () => {
         type: 'INITIALIZE_ADS_SPOTS',
         payload: adsSpotsResponse || [],
       })
+      setCurrentSpot(adsSpotsResponse?.[0])
     }
 
     fetchData()
@@ -83,6 +88,7 @@ const EditRequestCreate = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm()
 
   const onSubmit = async (data) => {
@@ -178,20 +184,43 @@ const EditRequestCreate = () => {
     },
   ]
 
-  const [currentType, setCurrentType] = useState(0)
-  const [currentSpot, setCurrentSpot] = useState(0)
-
   useEffect(() => {
     if (!currentSpot) return
     const fetchData = async () => {
       const adsPanelsResponse = await asdSpotService.getAllAdsPanelByAdsSpotId(
-        parseInt(currentSpot),
+        parseInt(currentSpot.id),
       )
       setAdsPanelsData(adsPanelsResponse || [])
+      setCurrentPanel(adsPanelsResponse?.[0])
     }
 
     fetchData()
-  }, [currentSpot])
+    if (currentType === '1') {
+      setValue('max_ads_panel', currentSpot?.max_ads_panel)
+      setValue('spot_type_id', currentSpot?.spot_type_id)
+      setValue('ads_type_id', currentSpot?.ads_type_id)
+      setImage(currentSpot?.image ?? '')
+    }
+  }, [currentSpot, setValue, currentType])
+
+  useEffect(() => {
+    if (!currentPanel) return
+    if (currentType === '0') {
+      setValue('height', currentPanel?.height)
+      setValue('width', currentPanel?.width)
+      const date = new Date(currentPanel?.expire_date)
+      const day = date.getDate()
+      const month = date.getMonth() + 1
+      const year = date.getFullYear()
+
+      const expireDate = `${year}-${month < 10 ? `0${month}` : `${month}`}-${
+        day < 10 ? `0${day}` : `${day}`
+      }`
+
+      setValue('expire_date', expireDate)
+      setImage(currentPanel?.image ?? '')
+    }
+  }, [currentPanel, setValue, currentType])
 
   return (
     <CCard className="mb-4">
@@ -246,7 +275,9 @@ const EditRequestCreate = () => {
                         required: 'Vui lòng chọn điểm đặt quảng cáo',
                       })}
                       onChange={(event) => {
-                        setCurrentSpot(event.target.value)
+                        setCurrentSpot(
+                          adsSpots?.rows?.find((x) => x.id === parseInt(event.target.value)),
+                        )
                       }}
                     >
                       {adsSpots?.rows?.map((adsSpot) => (
@@ -271,6 +302,11 @@ const EditRequestCreate = () => {
                           {...register('ads_panel_id', {
                             required: 'Vui lòng chọn bảng quảng cáo',
                           })}
+                          onChange={(event) => {
+                            setCurrentPanel(
+                              adsPanelsData?.find((x) => x.id === parseInt(event.target.value)),
+                            )
+                          }}
                         >
                           {adsPanelsData?.map((adsPanel) => (
                             <option key={adsPanel.id} value={adsPanel.id}>
@@ -363,6 +399,11 @@ const EditRequestCreate = () => {
                       {...register('ads_spot_id', {
                         required: 'Vui lòng chọn điểm đặt quảng cáo',
                       })}
+                      onChange={(event) => {
+                        setCurrentSpot(
+                          adsSpots?.rows?.find((x) => x.id === parseInt(event.target.value)),
+                        )
+                      }}
                     >
                       {adsSpots?.rows?.map((adsSpot) => (
                         <option key={adsSpot.id} value={adsSpot.id}>

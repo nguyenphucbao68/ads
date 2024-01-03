@@ -1,4 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 import { Box, Button, Grid, List } from '@mui/material'
 import {
@@ -50,15 +52,17 @@ const ReportDetails = () => {
     { value: '2', label: 'Đã xử lí' },
   ]
 
+  const [content, setContent] = useState('')
+
   const user = JSON.parse(localStorage.getItem('user'))
 
   const navigate = useNavigate()
 
   const onSubmit = async (data) => {
-    if (data?.status === '1' || data?.status === '2') {
+    if ((data?.status === '1' || data?.status === '2') && content) {
       const result = await ReportService.updateStatus(id, {
         status: data.status,
-        content: data.content,
+        content: content,
         user: {
           id: user?.id,
           email: element?.email,
@@ -74,8 +78,9 @@ const ReportDetails = () => {
         })
       }
       return
+    } else {
+      toast.error('Vui lòng cập nhật trạng thái mới cho báo cáo')
     }
-    toast.error('Vui lòng cập nhật trạng thái mới cho báo cáo')
   }
   return (
     <div className="report-details">
@@ -175,14 +180,41 @@ const ReportDetails = () => {
                     Nội dung xử lí
                   </CFormLabel>
                   <CCol sm={10}>
-                    <CFormInput
+                    {/* <CFormInput
                       type="text"
                       id="content"
                       defaultValue={element?.content}
                       {...register('content', { required: 'Vui lòng nhập nội dung xử lí' })}
                       feedback={errors.content?.message}
                     />
-                    <span className="text-danger">{errors.content?.message}</span>
+                    <span className="text-danger">{errors.content?.message}</span> */}
+                    <CKEditor
+                      id="content"
+                      editor={ClassicEditor}
+                      data={element?.content}
+                      onReady={(editor) => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log('Editor is ready to use!', editor)
+                      }}
+                      onChange={(event) => {
+                        console.log(event)
+                      }}
+                      onBlur={(event, editor) => {
+                        const content = editor.getData()
+                        setContent(content)
+                      }}
+                      onFocus={(event, editor) => {
+                        console.log('Focus.', editor)
+                      }}
+                      config={{
+                        height: 300,
+                      }}
+                      onInit={(editor) => {
+                        editor.editing.view.change((writer) => {
+                          writer.setStyle('height', '400px', editor.editing.view.document.getRoot())
+                        })
+                      }}
+                    />
                   </CCol>
                 </CRow>
                 <CRow className="mt-2 mb-3">
