@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import { Box, Button, Grid } from '@mui/material'
+import { Box, Button, Grid, styled } from '@mui/material'
 import {
   CCard,
   CCardBody,
@@ -23,6 +23,21 @@ import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast, Toaster } from 'sonner'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
+import { Gallery, Item } from 'react-photoswipe-gallery'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { CloudUpload } from '@mui/icons-material'
+
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+})
 
 const EditRequestCreate = () => {
   const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
@@ -372,25 +387,76 @@ const EditRequestCreate = () => {
                       <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
                         Hình ảnh
                       </CFormLabel>
-                      <div className="col-sm-10">
-                        {/* <CFormInput type="file" id="inputPassword" onChange={() => widgetRef.current.open()} /> */}
-                        {image && (
-                          <img
-                            src={image}
-                            alt="image"
-                            width="200px"
-                            height="200px"
-                            style={{
-                              objectFit: 'cover',
-                              marginRight: '10px',
-                            }}
+                      <CCol sm={10}>
+                        <Gallery>
+                          {image && (
+                            <Item original={image} thumbnail={image} width="1024" height="768">
+                              {({ ref, open }) => (
+                                <div
+                                  style={{
+                                    position: 'relative',
+                                    display: 'inline-block',
+                                    cursor: 'pointer',
+                                    width: '200px',
+                                    marginRight: '10px',
+                                    marginTop: '5px',
+                                    marginBottom: '5px',
+                                  }}
+                                >
+                                  <CancelIcon
+                                    onClick={() => {
+                                      setImage('')
+                                    }}
+                                    style={{
+                                      position: 'absolute',
+                                      top: '-10px',
+                                      right: '-15px',
+                                      cursor: 'pointer',
+                                      zIndex: 999,
+                                    }}
+                                    color="error"
+                                  />
+                                  <img
+                                    ref={ref}
+                                    onClick={open}
+                                    src={image}
+                                    alt="..."
+                                    style={{
+                                      width: '200px',
+                                      height: '200px',
+                                      objectFit: 'cover',
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </Item>
+                          )}
+                        </Gallery>
+                      </CCol>
+                      <CCol
+                        sm={10}
+                        className="mt-2"
+                        style={{
+                          marginLeft: 'auto',
+                        }}
+                      >
+                        <Button
+                          component="label"
+                          variant="outlined"
+                          startIcon={<CloudUpload />}
+                          onClick={() => widgetRef.current.open()}
+                        >
+                          Thêm ảnh
+                          <VisuallyHiddenInput
+                            type="file"
+                            disabled
+                            // multiple
+                            {...register('images', { required: true })}
+                            // onChange={uploadMultiFiles}
                           />
-                        )}
-                        <CButton required onClick={() => widgetRef.current.open()}>
-                          Tải ảnh lên
-                        </CButton>
-                      </div>
-                      <span className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</span>
+                        </Button>
+                        <div className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</div>
+                      </CCol>
                     </CRow>
                   </>
                 )}
@@ -427,25 +493,76 @@ const EditRequestCreate = () => {
                   <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
                     Hình ảnh
                   </CFormLabel>
-                  <div className="col-sm-10">
-                    {/* <CFormInput type="file" id="inputPassword" onChange={() => widgetRef.current.open()} /> */}
-                    {image && (
-                      <img
-                        src={image}
-                        alt="image"
-                        width="200px"
-                        height="200px"
-                        style={{
-                          objectFit: 'cover',
-                          marginRight: '10px',
-                        }}
+                  <CCol sm={10}>
+                    <Gallery>
+                      {image && (
+                        <Item original={image} thumbnail={image} width="1024" height="768">
+                          {({ ref, open }) => (
+                            <div
+                              style={{
+                                position: 'relative',
+                                display: 'inline-block',
+                                cursor: 'pointer',
+                                width: '200px',
+                                marginRight: '10px',
+                                marginTop: '5px',
+                                marginBottom: '5px',
+                              }}
+                            >
+                              <CancelIcon
+                                onClick={() => {
+                                  setImage('')
+                                }}
+                                style={{
+                                  position: 'absolute',
+                                  top: '-10px',
+                                  right: '-15px',
+                                  cursor: 'pointer',
+                                  zIndex: 999,
+                                }}
+                                color="error"
+                              />
+                              <img
+                                ref={ref}
+                                onClick={open}
+                                src={image}
+                                alt="..."
+                                style={{
+                                  width: '200px',
+                                  height: '200px',
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Item>
+                      )}
+                    </Gallery>
+                  </CCol>
+                  <CCol
+                    sm={10}
+                    className="mt-2"
+                    style={{
+                      marginLeft: 'auto',
+                    }}
+                  >
+                    <Button
+                      component="label"
+                      variant="outlined"
+                      startIcon={<CloudUpload />}
+                      onClick={() => widgetRef.current.open()}
+                    >
+                      Thêm ảnh
+                      <VisuallyHiddenInput
+                        type="file"
+                        disabled
+                        // multiple
+                        {...register('images', { required: true })}
+                        // onChange={uploadMultiFiles}
                       />
-                    )}
-                    <CButton required onClick={() => widgetRef.current.open()}>
-                      Tải ảnh lên
-                    </CButton>
-                  </div>
-                  <span className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</span>
+                    </Button>
+                    <div className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</div>
+                  </CCol>
                 </CRow>
                 <CRow className="mb-3">
                   <CFormLabel htmlFor="inputMaxAdsPanel" className="col-sm-2 col-form-label">
