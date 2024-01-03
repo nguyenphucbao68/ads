@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from 'react'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
-import { Box, Button, Grid, List } from '@mui/material'
+import { Box, Button, Grid } from '@mui/material'
 import {
   CForm,
   CCol,
@@ -10,8 +10,6 @@ import {
   CFormLabel,
   CFormInput,
   CModal,
-  CModalHeader,
-  CModalTitle,
   CModalBody,
   CButton,
   CModalFooter,
@@ -205,9 +203,6 @@ const ReportDetails = () => {
                       }}
                       onFocus={(event, editor) => {
                         console.log('Focus.', editor)
-                      }}
-                      config={{
-                        height: 300,
                       }}
                       onInit={(editor) => {
                         editor.editing.view.change((writer) => {

@@ -231,8 +231,8 @@ const EditRequestCreate = () => {
   useEffect(() => {
     if (!currentPanel) return
     if (currentType === '0') {
-      setValue('height', currentPanel?.height.toFixed(4))
-      setValue('width', currentPanel?.width.toFixed(4))
+      setValue('height', currentPanel?.height.toFixed(2))
+      setValue('width', currentPanel?.width.toFixed(2))
       const date = new Date(currentPanel?.expire_date)
       const day = date.getDate()
       const month = date.getMonth() + 1
@@ -348,7 +348,7 @@ const EditRequestCreate = () => {
                       <CCol sm={10}>
                         <CFormInput
                           type="number"
-                          step={0.0001}
+                          step={0.01}
                           id="inputHeight"
                           {...register('height', { required: 'Vui lòng nhập chiều cao' })}
                           feedback={errors.height?.message}
@@ -363,7 +363,7 @@ const EditRequestCreate = () => {
                       <CCol sm={10}>
                         <CFormInput
                           type="number"
-                          step={0.0001}
+                          step={0.01}
                           id="inputWidth"
                           {...register('width', { required: 'Vui lòng nhập chiều rộng' })}
                           feedback={errors.width?.message}
