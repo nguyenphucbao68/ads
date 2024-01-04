@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react'
 
 import { Box, Button, Grid, styled } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import { AdsTypeContext } from 'src/contexts/AdsTypeProvider'
 import { SpotTypeContext } from 'src/contexts/SpotTypeProvider'
-import { useForm } from 'react-hook-form'
+import { get, useForm } from 'react-hook-form'
 import { Gallery, Item } from 'react-photoswipe-gallery'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
@@ -15,46 +15,12 @@ import * as adsSpotService from 'src/services/adsSpot'
 import * as adsTypeService from 'src/services/adsType'
 import * as spotTypeService from 'src/services/spotType'
 import ConfirmModal from 'src/modals/ConfirmModal'
-import MapGL, {
-  Popup,
-  GeolocateControl,
-  Marker,
-  Layer,
-  Source,
-  NavigationControl,
-  FullscreenControl,
-  ScaleControl,
-} from '@goongmaps/goong-map-react'
 import './AdsSpotDetails.css'
 
 import { CloudUpload } from '@mui/icons-material'
 import CancelIcon from '@mui/icons-material/Cancel'
-
-const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
-
-const fullscreenControlStyle = {
-  top: 0,
-  right: 0,
-  padding: '10px',
-}
-
-const navStyle = {
-  top: 36,
-  right: 0,
-  padding: '10px',
-}
-
-const geolocateStyle = {
-  top: 130,
-  right: 0,
-  padding: '10px',
-}
-
-const scaleControlStyle = {
-  bottom: 36,
-  right: 0,
-  padding: '10px',
-}
+import LandingPage from './LandingPage/LandingPage'
+import { getFormattedAddress } from 'src/utils/address'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -73,11 +39,20 @@ const AdsSpotDetails = () => {
   const navigate = useNavigate()
   const { adsTypes, dispatchAdsTypes } = useContext(AdsTypeContext)
   const { spotTypes, dispatchSpotTypes } = useContext(SpotTypeContext)
+  const [currentMarker, setCurrentMarker] = useState(null)
   const [data, setData] = useState({
     showConfirmModal: false,
     adsSpot: {
       id,
       address: '',
+      ward: {
+        id: 1,
+        name: '',
+      },
+      district: {
+        id: 1,
+        name: '',
+      },
       spot_type: {
         id: 1,
         name: '',
@@ -89,6 +64,13 @@ const AdsSpotDetails = () => {
       is_available: true,
       max_ads_panels: 1,
     },
+    new_address: {
+      address: '',
+      ward: '',
+      district: '',
+      long: 0,
+      lat: 0,
+    },
     fileSelected: [],
   })
 
@@ -98,58 +80,28 @@ const AdsSpotDetails = () => {
     formState,
     formState: { errors },
     getValues,
-  } = useForm()
-
-  const [viewport, setViewport] = useState({
-    latitude: 21.02727,
-    longitude: 105.85119,
-    zoom: 18,
-    bearing: 0,
-    pitch: 0,
+  } = useForm({
+    values: {
+      old_address: getFormattedAddress(
+        data.adsSpot.address,
+        data.adsSpot.ward.name,
+        data.adsSpot.district.name,
+      ),
+      new_address:
+        data.new_address.address.length > 0
+          ? getFormattedAddress(
+              data.new_address.address,
+              data.new_address.ward,
+              data.new_address.district,
+            )
+          : '',
+      spot_type_id: data.adsSpot.spot_type.id,
+      ads_type_id: data.adsSpot.ads_type.id,
+      is_available: data.adsSpot.is_available,
+      max_ads_panels: data.adsSpot.max_ads_panels,
+      images: data.fileSelected,
+    },
   })
-  const mapRef = useRef(null)
-
-  const onClick = (event) => {
-    const feature = event.features[0]
-    const clusterId = feature.properties.cluster_id
-
-    const mapboxSource = mapRef.current.getMap().getSource('earthquakes')
-
-    mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
-      if (err) {
-        return
-      }
-
-      setViewport({
-        ...viewport,
-        longitude: feature.geometry.coordinates[0],
-        latitude: feature.geometry.coordinates[1],
-        zoom,
-        transitionDuration: 500,
-      })
-    })
-  }
-  const [marker, setMarker] = useState({
-    latitude: 21.02727,
-    longitude: 105.85119,
-  })
-  const [events, logEvents] = useState({})
-
-  const onMarkerDragStart = useCallback((event) => {
-    logEvents((_events) => ({ ..._events, onDragStart: event.lngLat }))
-  }, [])
-
-  const onMarkerDrag = useCallback((event) => {
-    logEvents((_events) => ({ ..._events, onDrag: event.lngLat }))
-  }, [])
-
-  const onMarkerDragEnd = useCallback((event) => {
-    logEvents((_events) => ({ ..._events, onDragEnd: event.lngLat }))
-    setMarker({
-      longitude: event.lngLat[0],
-      latitude: event.lngLat[1],
-    })
-  }, [])
 
   // const uploadMultiFiles = (e) => {
   //   const files = Array.from(e.target.files)
@@ -158,6 +110,13 @@ const AdsSpotDetails = () => {
   //     fileSelected: [...pre.fileSelected, ...files],
   //   }))
   // }
+
+  const onChangeNewAddress = useCallback((address) => {
+    setData((pre) => ({
+      ...pre,
+      new_address: address,
+    }))
+  }, [])
 
   const cloudinaryRef = useRef()
   const widgetRef = useRef()
@@ -182,17 +141,15 @@ const AdsSpotDetails = () => {
 
   const onSubmit = async (data) => {
     try {
-      const images = getValues('images')
-      console.log('images ', images)
       const formData = new FormData()
-      formData.append('address', data.address)
-      formData.append('ward_id', 1)
-      formData.append('district_id', 1)
+      formData.append('new_address', data.new_address.address)
+      formData.append('ward_name', data.new_address.ward)
+      formData.append('district_name', data.new_address.district)
+      formData.append('long', data.new_address.long)
+      formData.append('lat', data.new_address.lat)
       formData.append('spot_type_id', parseInt(data.spot_type_id, 10))
       formData.append('ads_type_id', parseInt(data.ads_type_id, 10))
       formData.append('images', data.images.join(','))
-      formData.append('longtitude', viewport.longitude)
-      formData.append('latitude', viewport.latitude)
       formData.append('is_available', Boolean(data.is_available))
       formData.append('max_ads_panels', parseInt(data.max_ads_panels, 10))
       // const adsSpot = await adsSpotService.update(id, formData)
@@ -271,22 +228,70 @@ const AdsSpotDetails = () => {
               overflowY: 'auto',
             }}
           >
-            <CRow className="mb-3">
-              <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label">
-                Địa chỉ
+            <CRow className="mt-2 mb-3">
+              <CFormLabel htmlFor="inputOldAddress" className="col-sm-2 col-form-label">
+                Địa chỉ hiện tại
               </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  readOnly
+                  plainText
+                  id="inputOldAddress"
+                  {...register('old_address', {
+                    required: 'Vui lòng chọn địa chỉ hiện tại trên bản đồ',
+                  })}
+                  feedback={errors.old_address?.message}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mt-2 mb-3">
+              <CFormLabel htmlFor="inputNewAddress" className="col-sm-2 col-form-label">
+                Địa chỉ mới
+              </CFormLabel>
+              <CCol sm={8}>
+                <CFormInput
+                  type="text"
+                  readOnly
+                  plainText
+                  placeholder="Chọn địa chỉ mới trên bản đồ"
+                  id="inputNewAddress"
+                  {...register('new_address', {
+                    required: 'Vui lòng chọn địa chỉ mới trên bản đồ',
+                  })}
+                  feedback={errors.new_address?.message}
+                />
+              </CCol>
+              {/* Add reset button */}
+              <Button
+                className="col-sm-2 mt-1 pt-2 pb-2"
+                variant="outlined"
+                onClick={() => {
+                  setData((pre) => ({
+                    ...pre,
+                    new_address: {
+                      address: '',
+                      ward: '',
+                      district: '',
+                    },
+                  }))
+                  setCurrentMarker(null)
+                }}
+              >
+                Đặt lại
+              </Button>
+            </CRow>
+
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel>
               <CCol sm={12}>
-                <MapGL
-                  {...viewport}
-                  width="100%"
+                <LandingPage
                   height="550px"
-                  mapStyle="https://tiles.goong.io/assets/goong_map_web.json"
-                  onViewportChange={setViewport}
-                  goongApiAccessToken={API_MAP_KEY}
-                  // interactiveLayerIds={[clusterLayer.id]}
-                  // onClick={onClick}
-                  // ref={mapRef}
-                ></MapGL>
+                  width="100%"
+                  onChangeNewAddress={onChangeNewAddress}
+                  currentMarker={currentMarker}
+                  setCurrentMarker={setCurrentMarker}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
