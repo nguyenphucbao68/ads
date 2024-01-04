@@ -103,7 +103,7 @@ model information_change_request {
   old_information String
   new_information String
   reason          String
-  status          Int
+  status          Int       @default(0)
   user_id         Int
   edited_at       DateTime? @default(now()) @db.Timestamptz(6)
   created_at      DateTime? @default(now()) @db.Timestamp(6)

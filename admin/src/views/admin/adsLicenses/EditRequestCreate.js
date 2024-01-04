@@ -448,7 +448,7 @@ const EditRequestCreate = () => {
                           startIcon={<CloudUpload />}
                           onClick={() => widgetRef.current.open()}
                         >
-                          Thêm ảnh
+                          Đổi ảnh
                           <VisuallyHiddenInput
                             type="file"
                             disabled
@@ -553,7 +553,7 @@ const EditRequestCreate = () => {
                       startIcon={<CloudUpload />}
                       onClick={() => widgetRef.current.open()}
                     >
-                      Thêm ảnh
+                      Đổi ảnh
                       <VisuallyHiddenInput
                         type="file"
                         disabled
