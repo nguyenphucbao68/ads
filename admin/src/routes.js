@@ -11,6 +11,7 @@ const EditRequestCreate = React.lazy(() => import('./views/admin/adsLicenses/Edi
 // Ads Spot
 const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
 const AdsSpotDetails = React.lazy(() => import('./views/admin/adsSpots/AdsSpotDetails'))
+const AdsSpotCreate = React.lazy(() => import('./views/admin/adsSpots/AdsSpotCreate'))
 
 // Ads Panel
 const AdsPanelTypeList = React.lazy(() => import('./views/admin/adsPanelTypes/AdsPanelTypeList'))
@@ -143,6 +144,7 @@ const routes = [
   // Ads spots
   { path: '/admin/ads_spots', name: 'Ads Spots', element: AdsSpotList },
   { path: '/admin/ads_spots/:id', name: 'Ads Spot Details', element: AdsSpotDetails },
+  { path: '/admin/ads_spots/create', name: 'Ads Spot Create', element: AdsSpotCreate },
 
   // Ads Panels
   { path: '/admin/ads_panels', name: 'Ads Panels', element: AdsPanelList },

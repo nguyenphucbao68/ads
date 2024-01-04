@@ -7,9 +7,10 @@ import { grey } from '@mui/material/colors'
 import { GRID_DEFAULT_LOCALE_TEXT } from 'src/components/CustomGridLocale'
 import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
 import * as adsSpotService from 'src/services/adsSpot'
+import { Toaster, toast } from 'sonner'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
@@ -62,6 +63,17 @@ const AdsSpotList = () => {
   const role = user?.role
 
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const showSuccesToast = (message) => {
+    toast.success(message)
+  }
+
+  useEffect(() => {
+    if (location.state?.type === 'success') {
+      showSuccesToast(location.state.message)
+    }
+  }, [location])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,10 +92,11 @@ const AdsSpotList = () => {
     }
 
     fetchData()
-  }, [dispatchAdsSpots])
+  }, [dispatchAdsSpots, id, role])
 
   return (
     <CCard className="mb-4">
+      <Toaster position="top-right" reverseOrder={false} />
       <CCardBody>
         <h4 id="ads-spots-title" className="card-title mb-0">
           Quản lý điểm đặt quảng cáo
@@ -134,8 +147,7 @@ const AdsSpotList = () => {
             }}
             slotProps={{
               toolbar: {
-                // TODO: handle add new button click
-                addNew: () => console.log('GO TO ADD NEW PAGE'),
+                addNew: () => navigate('/admin/ads_spots/create'),
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
