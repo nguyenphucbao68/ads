@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import { AdsTypeContext } from 'src/contexts/AdsTypeProvider'
 import { SpotTypeContext } from 'src/contexts/SpotTypeProvider'
-import { get, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { Gallery, Item } from 'react-photoswipe-gallery'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
@@ -45,6 +45,7 @@ const AdsSpotDetails = () => {
     adsSpot: {
       id,
       address: '',
+      image: '',
       ward: {
         id: 1,
         name: '',
@@ -62,7 +63,7 @@ const AdsSpotDetails = () => {
         name: '',
       },
       is_available: true,
-      max_ads_panels: 1,
+      max_ads_panel: 1,
     },
     new_address: {
       address: '',
@@ -80,6 +81,8 @@ const AdsSpotDetails = () => {
     formState,
     formState: { errors },
     getValues,
+    reset,
+    setValue,
   } = useForm({
     values: {
       old_address: getFormattedAddress(
@@ -87,35 +90,27 @@ const AdsSpotDetails = () => {
         data.adsSpot.ward.name,
         data.adsSpot.district.name,
       ),
-      new_address:
-        data.new_address.address.length > 0
-          ? getFormattedAddress(
-              data.new_address.address,
-              data.new_address.ward,
-              data.new_address.district,
-            )
-          : '',
+      new_address: null,
       spot_type_id: data.adsSpot.spot_type.id,
       ads_type_id: data.adsSpot.ads_type.id,
       is_available: data.adsSpot.is_available,
-      max_ads_panels: data.adsSpot.max_ads_panels,
+      max_ads_panel: data.adsSpot.max_ads_panel,
       images: data.fileSelected,
     },
   })
-
-  // const uploadMultiFiles = (e) => {
-  //   const files = Array.from(e.target.files)
-  //   setData((pre) => ({
-  //     ...pre,
-  //     fileSelected: [...pre.fileSelected, ...files],
-  //   }))
-  // }
 
   const onChangeNewAddress = useCallback((address) => {
     setData((pre) => ({
       ...pre,
       new_address: address,
     }))
+    setValue(
+      'new_address',
+      address.address.length > 0
+        ? getFormattedAddress(address.address, address.ward, address.district)
+        : null,
+      { shouldDirty: true },
+    )
   }, [])
 
   const cloudinaryRef = useRef()
@@ -139,28 +134,34 @@ const AdsSpotDetails = () => {
     )
   }, [])
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     try {
-      const formData = new FormData()
-      formData.append('new_address', data.new_address.address)
-      formData.append('ward_name', data.new_address.ward)
-      formData.append('district_name', data.new_address.district)
-      formData.append('long', data.new_address.long)
-      formData.append('lat', data.new_address.lat)
-      formData.append('spot_type_id', parseInt(data.spot_type_id, 10))
-      formData.append('ads_type_id', parseInt(data.ads_type_id, 10))
-      formData.append('images', data.images.join(','))
-      formData.append('is_available', Boolean(data.is_available))
-      formData.append('max_ads_panels', parseInt(data.max_ads_panels, 10))
-      // const adsSpot = await adsSpotService.update(id, formData)
-      // if (adsSpot) {
-      //   toast.success('Cập nhật điểm đặt quảng cáo thành công')
-      // } else {
-      //   toast.error('Cập nhật điểm đặt quảng cáo thất bại')
-      // }
-      console.log('formData', formData)
+      const body = {
+        address: data.new_address.address,
+        ward_name: data.new_address.ward,
+        district_name: data.new_address.district,
+        longtitude: Number(data.new_address.long),
+        latitude: Number(data.new_address.lat),
+        spot_type_id: parseInt(getValues('spot_type_id'), 10),
+        ads_type_id: parseInt(getValues('ads_type_id'), 10),
+        image: getValues('images').join(','),
+        is_available: Boolean(getValues('is_available')),
+        max_ads_panel: parseInt(getValues('max_ads_panel'), 10),
+      }
+
+      const adsSpot = await adsSpotService.update(id, body)
+      if (adsSpot) {
+        setData((pre) => ({
+          ...pre,
+          adsSpot,
+        }))
+        reset()
+        toast.success('Cập nhật điểm đặt quảng cáo thành công')
+      } else {
+        toast.error('Cập nhật điểm đặt quảng cáo thất bại')
+      }
     } catch (err) {
-      console.log(err.message)
+      console.error(err.message)
       toast.error('Cập nhật điểm đặt quảng cáo thất bại')
     }
   }
@@ -192,6 +193,7 @@ const AdsSpotDetails = () => {
       setData((pre) => ({
         ...pre,
         adsSpot,
+        fileSelected: adsSpot.image.split(','),
       }))
     }
 
@@ -238,9 +240,7 @@ const AdsSpotDetails = () => {
                   readOnly
                   plainText
                   id="inputOldAddress"
-                  {...register('old_address', {
-                    required: 'Vui lòng chọn địa chỉ hiện tại trên bản đồ',
-                  })}
+                  {...register('old_address', {})}
                   feedback={errors.old_address?.message}
                 />
               </CCol>
@@ -256,9 +256,7 @@ const AdsSpotDetails = () => {
                   plainText
                   placeholder="Chọn địa chỉ mới trên bản đồ"
                   id="inputNewAddress"
-                  {...register('new_address', {
-                    required: 'Vui lòng chọn địa chỉ mới trên bản đồ',
-                  })}
+                  {...register('new_address', {})}
                   feedback={errors.new_address?.message}
                 />
               </CCol>
@@ -283,7 +281,7 @@ const AdsSpotDetails = () => {
             </CRow>
 
             <CRow className="mb-3">
-              <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel>
+              {/* <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel> */}
               <CCol sm={12}>
                 <LandingPage
                   height="550px"
@@ -460,10 +458,10 @@ const AdsSpotDetails = () => {
                   step="1"
                   min="1"
                   id="inputMaxAdsPanels"
-                  {...register('max_ads_panels', {
+                  {...register('max_ads_panel', {
                     valueAsNumber: 'Vui lòng nhập số nguyên dương',
                   })}
-                  feedback={errors.max_ads_panels?.message}
+                  feedback={errors.max_ads_panel?.message}
                   defaultValue={1}
                 />
               </CCol>
