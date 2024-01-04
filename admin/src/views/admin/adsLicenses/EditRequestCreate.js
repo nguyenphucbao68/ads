@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 import { Box, Button, Grid, styled } from '@mui/material'
 import {
@@ -9,7 +9,6 @@ import {
   CRow,
   CFormLabel,
   CFormInput,
-  CButton,
   CFormTextarea,
 } from '@coreui/react'
 import AddIcon from '@mui/icons-material/Add'
@@ -19,13 +18,14 @@ import * as spotTypeService from 'src/services/spotType'
 import * as asdTypeService from 'src/services/adsType'
 import * as changeRequestService from 'src/services/changeRequest'
 
-import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast, Toaster } from 'sonner'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
 import { Gallery, Item } from 'react-photoswipe-gallery'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { CloudUpload } from '@mui/icons-material'
+import LandingPage from '../adsSpots/LandingPage/LandingPage'
+import { getFormattedAddress } from 'src/utils/address'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -46,6 +46,7 @@ const EditRequestCreate = () => {
   const widgetRef = useRef()
   const cloudinaryRef = useRef()
   const [image, setImage] = useState('')
+  const [currentMarker, setCurrentMarker] = useState(null)
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary
@@ -86,8 +87,6 @@ const EditRequestCreate = () => {
   const [adsPanelsData, setAdsPanelsData] = useState([])
 
   const user = JSON.parse(localStorage.getItem('user'))
-
-  const navigate = useNavigate()
 
   const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
   const role = user?.role
@@ -147,15 +146,21 @@ const EditRequestCreate = () => {
           toast.error(err.response.data.message)
         })
       if (result.id) {
+        toast.success(
+          `Yêu cầu chỉnh sửa ${
+            data?.type === '0' ? 'bảng' : 'điểm đặt'
+          } quảng cáo đã gửi thành công`,
+        )
+
         setImage('')
-        navigate('/admin/approval/ads_licenses', {
-          state: {
-            type: 'success',
-            message: `Yêu cầu chỉnh ${
-              data?.type === '0' ? 'bảng' : 'điểm đặt'
-            } quảng cáo đã gửi thành công`,
-          },
-        })
+        // navigate('/admin/approval/ads_licenses', {
+        //   state: {
+        //     type: 'success',
+        //     message: `Yêu cầu chỉnh ${
+        //       data?.type === '0' ? 'bảng' : 'điểm đặt'
+        //     } quảng cáo đã gửi thành công`,
+        //   },
+        // })
       }
     } else if (data?.type === '0') {
       const adsPanel = await adsPanelService.getById(data.ads_panel_id)
@@ -186,14 +191,19 @@ const EditRequestCreate = () => {
         })
       if (result.id) {
         setImage('')
-        navigate('/admin/approval/ads_licenses', {
-          state: {
-            type: 'success',
-            message: `Yêu cầu chỉnh ${
-              data?.type === '0' ? 'bảng' : 'điểm đặt'
-            } quảng cáo đã gửi thành công`,
-          },
-        })
+        toast.success(
+          `Yêu cầu chỉnh sửa ${
+            data?.type === '0' ? 'bảng' : 'điểm đặt'
+          } quảng cáo đã gửi thành công`,
+        )
+        // navigate('/admin/approval/ads_licenses', {
+        //   state: {
+        //     type: 'success',
+        //     message: `Yêu cầu chỉnh ${
+        //       data?.type === '0' ? 'bảng' : 'điểm đặt'
+        //     } quảng cáo đã gửi thành công`,
+        //   },
+        // })
       }
     }
   }
@@ -224,6 +234,11 @@ const EditRequestCreate = () => {
       setValue('max_ads_panel', currentSpot?.max_ads_panel)
       setValue('spot_type_id', currentSpot?.spot_type_id)
       setValue('ads_type_id', currentSpot?.ads_type_id)
+      setValue(
+        'address',
+        getFormattedAddress(currentSpot.address, currentSpot.ward.name, currentSpot.district.name),
+      )
+
       setImage(currentSpot?.image ?? '')
     }
   }, [currentSpot, setValue, currentType])
@@ -249,7 +264,7 @@ const EditRequestCreate = () => {
 
   return (
     <CCard className="mb-4">
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       <CForm onSubmit={handleSubmit(onSubmit)}>
         <CCardBody>
           <h4 id="ads-panel-type-title" className="card-title mb-0">
@@ -311,6 +326,37 @@ const EditRequestCreate = () => {
                         </option>
                       ))}
                     </select>
+                  </CCol>
+                </CRow>
+                <CRow className="mt-2 mb-3">
+                  <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
+                    Địa chỉ hiện tại
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="text"
+                      readOnly
+                      plainText
+                      id="inputAddress"
+                      {...register('address', {})}
+                      feedback={errors.address?.message}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel
+                    htmlFor="labelAddress"
+                    className="col-sm-12 col-form-label"
+                  ></CFormLabel>
+                  <CCol sm={12}>
+                    <LandingPage
+                      height="550px"
+                      width="100%"
+                      onChangeNewAddress={() => {}}
+                      currentMarker={currentMarker}
+                      setCurrentMarker={setCurrentMarker}
+                      spotId={currentSpot?.id}
+                    />
                   </CCol>
                 </CRow>
                 {adsPanelsData?.length > 0 && (
@@ -488,6 +534,37 @@ const EditRequestCreate = () => {
                         </option>
                       ))}
                     </select>
+                  </CCol>
+                </CRow>
+                <CRow className="mt-2 mb-3">
+                  <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
+                    Địa chỉ hiện tại
+                  </CFormLabel>
+                  <CCol sm={10}>
+                    <CFormInput
+                      type="text"
+                      readOnly
+                      plainText
+                      id="inputAddress"
+                      {...register('address', {})}
+                      feedback={errors.address?.message}
+                    />
+                  </CCol>
+                </CRow>
+                <CRow className="mb-3">
+                  <CFormLabel
+                    htmlFor="labelAddress"
+                    className="col-sm-12 col-form-label"
+                  ></CFormLabel>
+                  <CCol sm={12}>
+                    <LandingPage
+                      height="550px"
+                      width="100%"
+                      onChangeNewAddress={() => {}}
+                      currentMarker={currentMarker}
+                      setCurrentMarker={setCurrentMarker}
+                      spotId={currentSpot?.id}
+                    />
                   </CCol>
                 </CRow>
                 <CRow className="mb-3 mt-3">
