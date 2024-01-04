@@ -55,7 +55,14 @@ const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
 const API_KEY = process.env.REACT_APP_ADS_MANAGEMENT_API_KEY
 const REVERSE_GEOCODING_PATH = process.env.REACT_APP_REVERSE_GEOCODINNG_URI
 
-function LandingPage({ width, height, onChangeNewAddress, currentMarker, setCurrentMarker }) {
+function LandingPage({
+  width,
+  height,
+  onChangeNewAddress,
+  currentMarker,
+  setCurrentMarker,
+  spotId = null,
+}) {
   const { id } = useParams()
 
   // const [currentMarker, setCurrentMarker] = useState(null)
@@ -92,7 +99,7 @@ function LandingPage({ width, height, onChangeNewAddress, currentMarker, setCurr
       const adsSpot = await adsSpotService.getAll()
       setAdsSpots(adsSpot)
 
-      const findAdsSpot = adsSpot.find((item) => item.id === Number(id))
+      const findAdsSpot = adsSpot.find((item) => item.id === Number(spotId ? spotId : id))
 
       if (findAdsSpot) {
         setViewport({
@@ -111,7 +118,7 @@ function LandingPage({ width, height, onChangeNewAddress, currentMarker, setCurr
     }
 
     fetchData()
-  }, [])
+  }, [spotId, id])
 
   const onClick = useCallback((event) => {
     const [lng, lat] = event.lngLat
@@ -274,7 +281,7 @@ function LandingPage({ width, height, onChangeNewAddress, currentMarker, setCurr
             <CurrentPin size={20} />
           </Marker>
         )}
-        <AddressSearchInput onSelectAddress={onSelectAddress} />
+        {!spotId && <AddressSearchInput onSelectAddress={onSelectAddress} />}
         <Pin data={adsSpots} onClick={setPopupInfo} />
         <AdsPanelDetail adsPanelDetail={adsPanelDetail} onClosePanelDetail={onClosePanelDetail} />
         {popupInfo && (
@@ -319,6 +326,7 @@ LandingPage.propTypes = {
   onChangeNewAddress: PropTypes.func,
   currentMarker: PropTypes.object,
   setCurrentMarker: PropTypes.func,
+  spotId: PropTypes.number,
 }
 
 export default LandingPage

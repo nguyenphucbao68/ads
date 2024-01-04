@@ -755,7 +755,7 @@ const ads_panel = [
 ];
 
 // TODO
-const information_change_request = [];
+const information_change_request = [];//status 0: pending, 1: not approved, 2: approved
 
 const report_type = [
   {
