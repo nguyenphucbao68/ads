@@ -7,18 +7,15 @@ import React, {
 } from 'react';
 
 import ReactMapGL, {
-  // Popup,
   GeolocateControl,
   FullscreenControl,
   NavigationControl,
   ScaleControl,
   Marker,
   FlyToInterpolator,
-  Source,
-  Layer,
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
-import { StyledCircle, StyledPopup } from './LandingPage.style';
+import { StyledPopup } from './LandingPage.style';
 import useSuperCluster from 'use-supercluster';
 import PinInfo from '../../components/PinInfo/PinInfo';
 import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
@@ -30,12 +27,8 @@ import AdsPanelLocationInfo from '../../components/AdsPanelLocationInfo/AdsPanel
 import { useAdsSpot } from '../../contexts/AdsSpotProvider';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 import AddressSearchInput from '../../components/AddressSearchInput/AddressSearchInput';
-import {
-  clusterCountLayer,
-  clusterLayer,
-  unclusteredPointCircle,
-  // unclusteredPointLayer,
-} from './layers';
+
+import ClusterMarker from '../../components/ClusterMarker/ClusterMarker';
 
 const geolocateStyle = {
   top: 0,
@@ -89,6 +82,8 @@ function LandingPage() {
   const [locationInfo, setLocationInfo] = useState(null);
   const [adsPanelInfo, setAdsPanelInfo] = useState(null);
   const [adsPanels, setAdsPanel] = useState([]);
+  const [bounds, setBounds] = useState(null);
+
   const mapRef = useRef(null);
 
   const { adsSpotList } = useAdsSpot();
@@ -105,26 +100,8 @@ function LandingPage() {
   const [popupInfo, setPopupInfo] = useState(null);
 
   const onClick = useCallback((event) => {
-    // const feature = event.features && event.features[0];
     const feature = event.features[0];
-    console.log({ feature });
-    // const clusterId = feature.properties.cluster_id;
-
-    // const mapboxSource = mapRef.current.getMap().getSource('earthquakes');
-
-    // mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
-    //   if (err) {
-    //     return;
-    //   }
-
-    //   setViewport({
-    //     ...viewport,
-    //     longitude: feature.geometry.coordinates[0],
-    //     latitude: feature.geometry.coordinates[1],
-    //     zoom,
-    //     transitionDuration: 500,
-    //   });
-    // });
+    // console.log({ feature });
 
     const [lng, lat] = event.lngLat;
     const latlng = `${lat},${lng}`;
@@ -153,7 +130,6 @@ function LandingPage() {
     if (popupInfo) {
       const adsPanelsBySpotUri = `${process.env.REACT_APP_ADS_USER_URI}/${popupInfo.id}/ads-panels`;
 
-      console.log({ popupInfo });
       axios({
         method: 'get',
         url: adsPanelsBySpotUri,
@@ -198,7 +174,7 @@ function LandingPage() {
         });
     }
     onClosePanelDetail();
-  }, [popupInfo, onClosePanelDetail]);
+  }, [popupInfo]);
 
   const onSelectAddress = useCallback((placeId) => {
     axios({
@@ -208,8 +184,6 @@ function LandingPage() {
     })
       .then(({ data }) => {
         const location = data.result.geometry.location;
-
-        console.log({ location });
 
         const { lng: longitude, lat: latitude } = location;
 
@@ -243,28 +217,62 @@ function LandingPage() {
     [adsSpotList]
   );
 
-  const [bounds, setBounds] = useState(null);
-  const [zoom, setZoom] = useState(10);
-
-  const { clusters } = useSuperCluster({
+  const { clusters, supercluster } = useSuperCluster({
     points,
     bounds,
-    zoom,
+    zoom: viewport.zoom,
     options: {
       radius: 40,
       maxZoom: 20,
     },
   });
 
-  useEffect(() => {
-    setBounds(mapRef.current.getMap().getBounds().toArray().flat());
-  }, [mapRef.current]);
+  const handleZoomCluster = useCallback(
+    (clusterId, lat, lng) => {
+      const exapansionZoom = Math.min(
+        supercluster.getClusterExpansionZoom(clusterId),
+        20
+      );
 
-  // useEffect(() => {
-  //   console.log({ bounds });
-  // }, [bounds]);
+      setViewport({
+        ...viewport,
+        longitude: lng,
+        latitude: lat,
+        zoom: exapansionZoom,
+        transitionDuration: 500,
+      });
+    },
+    [supercluster]
+  );
 
-  // console.log({ clusters });
+  const getClusters = () =>
+    clusters.map((cluster) => {
+      const [longitude, latitude] = cluster.geometry.coordinates;
+      const { cluster: isCluster, point_count: pointCount } =
+        cluster.properties;
+
+      if (!isCluster) {
+        return (
+          <Pin
+            key={cluster.id}
+            data={cluster.properties}
+            onClick={setPopupInfo}
+          />
+        );
+      }
+      return (
+        <ClusterMarker
+          id={cluster.id}
+          key={cluster.id}
+          latitude={latitude}
+          longitude={longitude}
+          pointCount={pointCount}
+          pointLength={points.length}
+          onZoom={handleZoomCluster}
+        />
+      );
+    });
+
   return (
     <Container>
       <AdsPanelDetail />
@@ -287,7 +295,6 @@ function LandingPage() {
         getCursor={getCursor}
         ref={mapRef}
         onViewStateChange={({ viewState }) => {
-          setZoom(viewState.zoom);
           const { _sw, _ne } = mapRef.current.getMap().getBounds();
           const { nwLat, nwLng, seLat, seLng } = convertCoordinates(
             _ne.lat,
@@ -298,19 +305,6 @@ function LandingPage() {
           setBounds([nwLng, seLat, seLng, nwLat]);
         }}
       >
-        {/* <Source
-          id='earthquakes'
-          type='geojson'
-          data={clusterData}
-          cluster={true}
-          clusterMaxZoom={14}
-          clusterRadius={50}
-        >
-          <Layer {...clusterLayer} />
-          <Layer {...clusterCountLayer} />
-          <Layer {...clusterLayer} />
-
-        </Source> */}
         {currentMarker && (
           <Marker
             longitude={currentMarker.longitude}
@@ -322,38 +316,21 @@ function LandingPage() {
           </Marker>
         )}
 
-        {clusters.map((cluster) => {
-          const [longitude, latitude] = cluster.geometry.coordinates;
-          const { cluster: isCluster, point_count: pointCount } =
-            cluster.properties;
-
-          if (!isCluster) {
-            return <Pin data={cluster.properties} onClick={setPopupInfo} />;
-          }
-          return (
-            <Marker key={cluster.id} latitude={latitude} longitude={longitude}>
-              <StyledCircle>{pointCount}</StyledCircle>
-            </Marker>
-          );
-        })}
-
-        <Pin data={adsSpotList[0]} onClick={setPopupInfo} />
+        {getClusters()}
 
         {popupInfo && (
-          <React.Fragment>
-            <StyledPopup
-              tipSize={5}
-              anchor='top'
-              offsetTop={20}
-              offsetLeft={15}
-              longitude={popupInfo.longtitude}
-              latitude={popupInfo.latitude}
-              closeOnClick={false}
-              onClose={setPopupInfo}
-            >
-              <PinInfo info={popupInfo} />
-            </StyledPopup>
-          </React.Fragment>
+          <StyledPopup
+            tipSize={5}
+            anchor='top'
+            offsetTop={20}
+            offsetLeft={15}
+            longitude={popupInfo.longtitude}
+            latitude={popupInfo.latitude}
+            closeOnClick={false}
+            onClose={setPopupInfo}
+          >
+            <PinInfo info={popupInfo} />
+          </StyledPopup>
         )}
 
         <GeolocateControl style={geolocateStyle} />

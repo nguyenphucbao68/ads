@@ -26,15 +26,15 @@ function Pin({ data, onClick }) {
           cy='20'
           r={SIZE}
           stroke='black'
-          stroke-width='2'
+          strokeWidth='2'
           fill={data.is_available ? 'blue' : 'red'}
         />
 
         <text
           x='50%'
           y='50%'
-          dominant-baseline='middle'
-          text-anchor='middle'
+          dominantBaseline='middle'
+          textAnchor='middle'
           fontSize='10'
           fill='white'
         >
