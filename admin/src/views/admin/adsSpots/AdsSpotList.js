@@ -11,13 +11,79 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { AdsSpotContext } from 'src/contexts/AdsSpotProvider'
 import * as adsSpotService from 'src/services/adsSpot'
 import { Toaster, toast } from 'sonner'
+import WardFilterComponent from '../adsLicenses/WardFilterComponent'
+import DistrictFilterComponent from '../adsLicenses/DistrictFilterComponent'
 
 const columns = [
   { field: 'id', headerName: 'STT', width: 70 },
   {
     field: 'address',
     headerName: 'Địa điểm',
-    width: 400,
+    width: 250,
+  },
+  {
+    field: 'ward',
+    headerName: 'Phường',
+    width: 150,
+    renderCell: (params) => {
+      return <span>{params.row.ward.name}</span>
+    },
+    filterOperators: [
+      {
+        label: 'Bằng',
+        value: 'equal',
+        getApplyFilterFn: (filterItem) => {
+          if (
+            !filterItem.field ||
+            !filterItem.value ||
+            !filterItem.operator ||
+            // eslint-disable-next-line eqeqeq
+            filterItem.value == '0'
+          ) {
+            return null
+          }
+          return (params) => {
+            return Number(params.row.ward.id) === Number(filterItem.value)
+          }
+        },
+        InputComponent: WardFilterComponent,
+        InputComponentProps: {
+          type: 'number',
+        },
+      },
+    ],
+  },
+  {
+    field: 'district',
+    headerName: 'Quận',
+    width: 100,
+    renderCell: (params) => {
+      return <span>{params.row.district.name}</span>
+    },
+    filterOperators: [
+      {
+        label: 'Bằng',
+        value: 'equal',
+        getApplyFilterFn: (filterItem) => {
+          if (
+            !filterItem.field ||
+            !filterItem.value ||
+            !filterItem.operator ||
+            // eslint-disable-next-line eqeqeq
+            filterItem.value == '0'
+          ) {
+            return null
+          }
+          return (params) => {
+            return Number(params.row.district.id) === Number(filterItem.value)
+          }
+        },
+        InputComponent: DistrictFilterComponent,
+        InputComponentProps: {
+          type: 'number',
+        },
+      },
+    ],
   },
   {
     field: 'spot_type_name',

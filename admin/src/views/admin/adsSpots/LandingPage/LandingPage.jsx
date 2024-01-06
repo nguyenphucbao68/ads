@@ -322,6 +322,12 @@ function LandingPage({
   )
 
   const getClusters = () => {
+    console.log({ points })
+    console.log({ bounds })
+    console.log({ viewport })
+
+    console.log({ clusters })
+
     return clusters.length > 0 && points.length > 0
       ? clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates
