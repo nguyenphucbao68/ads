@@ -84,8 +84,20 @@ const getAdsPanelById = async (id) => {
   const adsPanel = await prisma.ads_panel.findUnique({
     where: {
       id: parseInt(id, 10),
+    }
+  });
+  const adsSpot = await prisma.ads_spot.findUnique({
+    where: {
+      id: parseInt(id, 10),
+    },
+    include: {
+      ward: true,
+      district: true
     },
   });
+  adsPanel.address = adsSpot.address;
+  adsPanel.ward = adsSpot.ward;
+  adsPanel.district = adsSpot.district;
   return adsPanel;
 };
 

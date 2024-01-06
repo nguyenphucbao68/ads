@@ -104,8 +104,13 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Yêu cầu chỉnh sửa',
+        name: 'Tạo yêu cầu chỉnh sửa',
         to: '/admin/approval/edit_requests',
+      },
+      {
+        component: CNavItem,
+        name: 'Duyệt yêu cầu chỉnh sửa',
+        to: '/admin/approval/approve_edit_requests',
       },
       {
         component: CNavItem,
