@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import ReactMapGL, {
@@ -22,33 +22,54 @@ import AdsPanelLocationInfo from 'src/components/Map/AdsPanelLocationInfo/AdsPan
 import AddressSearchInput from 'src/components/Map/AddressSearchInput/AddressSearchInput'
 import * as adsSpotService from 'src/services/adsSpot'
 import { useParams } from 'react-router-dom'
+import useSupercluster from 'use-supercluster'
+import ClusterMarker from 'src/components/Map/ClusterMarker/ClusterMarker'
 
 const geolocateStyle = {
   top: 0,
   right: 0,
   padding: '10px',
+  zIndex: 999,
 }
 
 const fullscreenControlStyle = {
   top: 36,
   right: 0,
   padding: '10px',
+  zIndex: 999,
 }
 
 const navStyle = {
   top: 72,
   right: 0,
   padding: '10px',
+  zIndex: 999,
 }
 
 const scaleControlStyle = {
   bottom: 36,
   right: 0,
   padding: '10px',
+  zIndex: 999,
 }
 
 function getCursor({ isHovering, isDragging }) {
   return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default'
+}
+
+function convertCoordinates(neLat, neLng, swLat, swLng) {
+  const nwLat = Math.max(neLat, swLat)
+  const nwLng = Math.min(neLng, swLng)
+
+  const seLat = Math.min(neLat, swLat)
+  const seLng = Math.max(neLng, swLng)
+
+  return {
+    nwLat: nwLat,
+    nwLng: nwLng,
+    seLat: seLat,
+    seLng: seLng,
+  }
 }
 
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY
@@ -69,8 +90,10 @@ function LandingPage({
   const [locationInfo, setLocationInfo] = useState(null)
   const [adsPanelInfo, setAdsPanelInfo] = useState(null)
   const [adsPanels, setAdsPanel] = useState([])
-
   const [adsSpots, setAdsSpots] = useState([])
+  const [bounds, setBounds] = useState(null)
+
+  const mapRef = useRef(null)
 
   const [adsPanelDetail, setAdsPanelDetail] = useState(null)
 
@@ -96,10 +119,10 @@ function LandingPage({
 
   useEffect(() => {
     const fetchData = async () => {
-      const adsSpot = await adsSpotService.getAll()
-      setAdsSpots(adsSpot)
+      const adsSpotsResult = await adsSpotService.getAll()
+      setAdsSpots(adsSpotsResult)
 
-      const findAdsSpot = adsSpot.find((item) => item.id === Number(spotId ? spotId : id))
+      const findAdsSpot = adsSpotsResult.find((item) => item.id === Number(spotId ? spotId : id))
 
       if (findAdsSpot) {
         setViewport({
@@ -108,17 +131,17 @@ function LandingPage({
           longitude: findAdsSpot.longtitude,
         })
       } else {
-        if (adsSpot.length > 0)
+        if (adsSpotsResult.length > 0)
           setViewport({
             ...viewport,
-            latitude: adsSpot[0].latitude,
-            longitude: adsSpot[0].longtitude,
+            latitude: adsSpotsResult[0].latitude,
+            longitude: adsSpotsResult[0].longtitude,
           })
       }
     }
 
     fetchData()
-  }, [spotId, id])
+  }, [])
 
   const onClick = useCallback((event) => {
     const [lng, lat] = event.lngLat
@@ -240,8 +263,6 @@ function LandingPage({
       .then(({ data }) => {
         const location = data.result.geometry.location
 
-        console.log({ location })
-
         const { lng: longitude, lat: latitude } = location
 
         setViewport({
@@ -258,6 +279,73 @@ function LandingPage({
       })
   }, [])
 
+  const points = useMemo(
+    () =>
+      adsSpots.map((item) => ({
+        key: item.id,
+        type: 'Feature',
+        properties: {
+          cluster: false,
+          ...item,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(item.longtitude), parseFloat(item.latitude)],
+        },
+      })),
+    [adsSpots],
+  )
+
+  const { clusters, supercluster } = useSupercluster({
+    points,
+    bounds,
+    zoom: viewport.zoom,
+    options: {
+      radius: 40,
+      maxZoom: 20,
+    },
+  })
+
+  console.log({ points })
+  console.log({ clusters })
+
+  const handleZoomCluster = useCallback(
+    (clusterId, lat, lng) => {
+      const exapansionZoom = Math.min(supercluster.getClusterExpansionZoom(clusterId), 20)
+
+      setViewport({
+        ...viewport,
+        longitude: lng,
+        latitude: lat,
+        zoom: exapansionZoom,
+        transitionDuration: 500,
+      })
+    },
+    [supercluster],
+  )
+
+  const getClusters = () => {
+    return clusters.map((cluster) => {
+      const [longitude, latitude] = cluster.geometry.coordinates
+      const { cluster: isCluster, point_count: pointCount } = cluster.properties
+
+      if (!isCluster) {
+        return <Pin key={cluster.id} data={cluster.properties} onClick={setPopupInfo} />
+      }
+      return (
+        <ClusterMarker
+          id={cluster.id}
+          key={cluster.id}
+          latitude={latitude}
+          longitude={longitude}
+          pointCount={pointCount}
+          pointLength={points.length}
+          onZoom={handleZoomCluster}
+        />
+      )
+    })
+  }
+
   return (
     <Container>
       <ReactMapGL
@@ -270,6 +358,17 @@ function LandingPage({
         onClick={onClick}
         clickRadius={2}
         getCursor={getCursor}
+        ref={mapRef}
+        onViewStateChange={({ viewState }) => {
+          const { _sw, _ne } = mapRef.current.getMap().getBounds()
+          const { nwLat, nwLng, seLat, seLng } = convertCoordinates(
+            _ne.lat,
+            _ne.lng,
+            _sw.lat,
+            _sw.lng,
+          )
+          setBounds([nwLng, seLat, seLng, nwLat])
+        }}
       >
         {currentMarker && (
           <Marker
@@ -282,7 +381,8 @@ function LandingPage({
           </Marker>
         )}
         {!spotId && <AddressSearchInput onSelectAddress={onSelectAddress} />}
-        <Pin data={adsSpots} onClick={setPopupInfo} />
+        {/* <Pin data={adsSpots} onClick={setPopupInfo} /> */}
+        {getClusters()}
         <AdsPanelDetail adsPanelDetail={adsPanelDetail} onClosePanelDetail={onClosePanelDetail} />
         {popupInfo && (
           <AdsPanelList

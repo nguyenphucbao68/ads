@@ -5,10 +5,16 @@ import AdsPanel from '../AdsPanel/AdsPanel'
 import { Container } from './AdsPanelList.style'
 import { Flex, Typography } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
+import useWindowDimensions from 'src/views/admin/statistics/useWiindowDimensions'
 
 const { Title } = Typography
 
 function AdsPanelList(props) {
+  const { height } = useWindowDimensions()
+  const inferHeight = () => {
+    if (height < window.screen.availHeight - 50) return '550px'
+    else return '100%'
+  }
   return (
     <Flex>
       <Container
@@ -27,8 +33,8 @@ function AdsPanelList(props) {
         ) : (
           <Flex
             style={{
-              width: 400,
-              height: '100vh',
+              width: '400px',
+              height: inferHeight(),
             }}
             align="center"
             justify="center"

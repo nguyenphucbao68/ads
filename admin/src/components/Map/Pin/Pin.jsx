@@ -1,5 +1,6 @@
 /* eslint-disable eqeqeq */
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Marker } from '@goongmaps/goong-map-react'
 import { useParams } from 'react-router-dom'
 
@@ -11,15 +12,14 @@ const SIZE = 12
 
 function Pin({ data, onClick }) {
   const { id } = useParams()
-
-  // console.log({ data })
-  return data.map((adsSpot, idx) => (
-    <Marker key={`marker-${idx}`} longitude={adsSpot.longtitude} latitude={adsSpot.latitude}>
+  if (!data) return <></>
+  return (
+    <Marker longitude={data.longtitude} latitude={data.latitude}>
       <svg
         width="40"
         height="40"
         xmlns="http://www.w3.org/2000/svg"
-        onClick={() => onClick({ ...adsSpot })}
+        onClick={() => onClick({ ...data })}
         style={{
           transform: `translate(${-SIZE / 2}px,${-SIZE}px)`,
           cursor: 'pointer',
@@ -32,11 +32,11 @@ function Pin({ data, onClick }) {
           stroke="black"
           strokeWidth="2"
           fill={
-            id == adsSpot.id
+            id == data.id
               ? 'green'
-              : adsSpot.is_available
+              : data.is_available
               ? 'blue'
-              : adsSpot.is_available === null
+              : data.is_available === null
               ? 'red'
               : 'red'
           }
@@ -54,7 +54,12 @@ function Pin({ data, onClick }) {
         </text>
       </svg>
     </Marker>
-  ))
+  )
+}
+
+Pin.propTypes = {
+  data: PropTypes.object,
+  onClick: PropTypes.func,
 }
 
 export default React.memo(Pin)

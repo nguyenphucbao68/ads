@@ -67,7 +67,9 @@
     "redux": "4.2.1",
     "simplebar-react": "^2.4.3",
     "sonner": "^1.2.4",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "supercluster": "^8.0.1",
+    "use-supercluster": "^1.1.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
