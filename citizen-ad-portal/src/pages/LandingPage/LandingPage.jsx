@@ -1,7 +1,13 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import ReactMapGL, {
-  Popup,
+  // Popup,
   GeolocateControl,
   FullscreenControl,
   NavigationControl,
@@ -12,8 +18,8 @@ import ReactMapGL, {
   Layer,
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
-import { StyledPopup, StyledReactMapGL } from './LandingPage.style';
-
+import { StyledCircle, StyledPopup } from './LandingPage.style';
+import useSuperCluster from 'use-supercluster';
 import PinInfo from '../../components/PinInfo/PinInfo';
 import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
 import AdsPanelDetail from '../../components/AdsPanelDetail/AdsPanelDetail';
@@ -27,7 +33,8 @@ import AddressSearchInput from '../../components/AddressSearchInput/AddressSearc
 import {
   clusterCountLayer,
   clusterLayer,
-  unclusteredPointLayer,
+  unclusteredPointCircle,
+  // unclusteredPointLayer,
 } from './layers';
 
 const geolocateStyle = {
@@ -55,13 +62,27 @@ const scaleControlStyle = {
 };
 
 function getCursor({ isHovering, isDragging }) {
-  console.log({ isHovering, isDragging });
   return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default';
 }
 
 const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY;
 const API_KEY = process.env.REACT_APP_ADS_MANAGEMENT_API_KEY;
 const REVERSE_GEOCODING_PATH = process.env.REACT_APP_REVERSE_GEOCODINNG_URI;
+
+function convertCoordinates(neLat, neLng, swLat, swLng) {
+  const nwLat = Math.max(neLat, swLat);
+  const nwLng = Math.min(neLng, swLng);
+
+  const seLat = Math.min(neLat, swLat);
+  const seLng = Math.max(neLng, swLng);
+
+  return {
+    nwLat: nwLat,
+    nwLng: nwLng,
+    seLat: seLat,
+    seLng: seLng,
+  };
+}
 
 function LandingPage() {
   const [currentMarker, setCurrentMarker] = useState(null);
@@ -177,7 +198,7 @@ function LandingPage() {
         });
     }
     onClosePanelDetail();
-  }, [popupInfo]);
+  }, [popupInfo, onClosePanelDetail]);
 
   const onSelectAddress = useCallback((placeId) => {
     axios({
@@ -206,29 +227,44 @@ function LandingPage() {
       });
   }, []);
 
-  useEffect(() => {
-    console.log({ viewport });
-  }, [viewport]);
+  const points = useMemo(
+    () =>
+      adsSpotList.map((item) => ({
+        type: 'Feature',
+        properties: {
+          cluster: false,
+          ...item,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(item.longtitude), parseFloat(item.latitude)],
+        },
+      })),
+    [adsSpotList]
+  );
 
-  const clusterData = {
-    type: 'FeatureCollection',
-    crs: {
-      type: 'name',
-      properties: {
-        name: 'urn:ogc:def:crs:OGC:1.3:CRS84',
-      },
+  const [bounds, setBounds] = useState(null);
+  const [zoom, setZoom] = useState(10);
+
+  const { clusters } = useSuperCluster({
+    points,
+    bounds,
+    zoom,
+    options: {
+      radius: 40,
+      maxZoom: 20,
     },
-    features: adsSpotList.map((item) => ({
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [item.longtitude, item.latitude],
-      },
-    })),
-  };
+  });
 
-  console.log({ clusterData });
+  useEffect(() => {
+    setBounds(mapRef.current.getMap().getBounds().toArray().flat());
+  }, [mapRef.current]);
 
+  // useEffect(() => {
+  //   console.log({ bounds });
+  // }, [bounds]);
+
+  // console.log({ clusters });
   return (
     <Container>
       <AdsPanelDetail />
@@ -250,8 +286,19 @@ function LandingPage() {
         clickRadius={2}
         getCursor={getCursor}
         ref={mapRef}
+        onViewStateChange={({ viewState }) => {
+          setZoom(viewState.zoom);
+          const { _sw, _ne } = mapRef.current.getMap().getBounds();
+          const { nwLat, nwLng, seLat, seLng } = convertCoordinates(
+            _ne.lat,
+            _ne.lng,
+            _sw.lat,
+            _sw.lng
+          );
+          setBounds([nwLng, seLat, seLng, nwLat]);
+        }}
       >
-        <Source
+        {/* <Source
           id='earthquakes'
           type='geojson'
           data={clusterData}
@@ -261,8 +308,9 @@ function LandingPage() {
         >
           <Layer {...clusterLayer} />
           <Layer {...clusterCountLayer} />
-          <Layer {...unclusteredPointLayer} />
-        </Source>
+          <Layer {...clusterLayer} />
+
+        </Source> */}
         {currentMarker && (
           <Marker
             longitude={currentMarker.longitude}
@@ -273,7 +321,23 @@ function LandingPage() {
             <CurrentPin size={20} />
           </Marker>
         )}
-        <Pin data={adsSpotList} onClick={setPopupInfo} />
+
+        {clusters.map((cluster) => {
+          const [longitude, latitude] = cluster.geometry.coordinates;
+          const { cluster: isCluster, point_count: pointCount } =
+            cluster.properties;
+
+          if (!isCluster) {
+            return <Pin data={cluster.properties} onClick={setPopupInfo} />;
+          }
+          return (
+            <Marker key={cluster.id} latitude={latitude} longitude={longitude}>
+              <StyledCircle>{pointCount}</StyledCircle>
+            </Marker>
+          );
+        })}
+
+        <Pin data={adsSpotList[0]} onClick={setPopupInfo} />
 
         {popupInfo && (
           <React.Fragment>

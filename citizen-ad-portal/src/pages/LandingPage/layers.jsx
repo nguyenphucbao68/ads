@@ -42,12 +42,27 @@ export const clusterCountLayer = {
 //   },
 // };
 
+export const unclusteredPointCircle = {
+  id: 'uncluster-point',
+  type: 'circle',
+  source: 'earthquakes',
+  filter: ['!', ['has', 'point_count']],
+  paint: {
+    'circle-color': '#11b4da',
+    'circle-radius': 20,
+    'circle-stroke-width': 1,
+    'circle-stroke-color': '#fff',
+  },
+  layout: {
+    'text-field': 'QC',
+  },
+};
+
 export const unclusteredPointLayer = {
   id: 'unclustered-point',
   type: 'symbol',
   source: 'earthquakes',
   filter: ['!', ['has', 'point_count']],
-
   layout: {
     'icon-image': 'custom-marker', // Tên của hình ảnh biểu tượng tùy chỉnh
     'icon-allow-overlap': true,
