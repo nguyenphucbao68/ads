@@ -134,10 +134,11 @@ const EditRequestCreate = () => {
     if (data?.type === '1') {
       const adsSpot = await asdSpotService.getById(data.ads_spot_id)
       const newData = {
+        id: parseInt(data.ads_spot_id),
         image: image,
-        max_ads_panel: data?.max_ads_panel,
-        spot_type_id: data?.spot_type_id,
-        ads_type_id: data?.ads_type_id,
+        max_ads_panel: parseInt(data?.max_ads_panel),
+        spot_type_id: parseInt(data?.spot_type_id),
+        ads_type_id: parseInt(data?.ads_type_id),
       }
       const dataCreate = {
         old_information: JSON.stringify(adsSpot),
@@ -177,13 +178,13 @@ const EditRequestCreate = () => {
       const adsPanel = await adsPanelService.getById(data.ads_panel_id)
 
       const newData = {
-        height: data?.height,
-        width: data?.width,
+        height: parseFloat(data?.height),
+        width: parseFloat(data?.width),
         expire_date: data?.expire_date,
         image: image,
-        ads_panel_id: data?.ads_panel_id,
-        ads_spot_id: data?.ads_spot_id,
-        ads_type_id: data?.ads_type_id,
+        id: parseInt(data?.ads_panel_id),
+        ads_spot_id: parseInt(data?.ads_spot_id),
+        ads_type_id: parseInt(data?.ads_type_id),
       }
       const dataCreate = {
         old_information: JSON.stringify(adsPanel),

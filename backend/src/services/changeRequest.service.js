@@ -9,9 +9,29 @@ const update = async (id, body) => {
       id: parseInt(id, 10),
     },
     data: {
-      name: body.name,
+      status: body.status,
     },
   });
+  if (body.status == 2) {
+    if (data.type == 1) {
+      data.new_information = JSON.parse(data.new_information);
+      await prisma.ads_spot.update({
+        where: {
+          id: data.new_information.id,
+        },
+        data: data.new_information,
+      });
+    } else if (data.type == 0) {
+      data.new_information = JSON.parse(data.new_information);
+      data.new_information.expire_date = new Date(data.new_information.expire_date);
+      await prisma.ads_panel.update({
+        where: {
+          id: data.new_information.id,
+        },
+        data: data.new_information,
+      });
+    }
+  }
 
   return data;
 };
@@ -31,10 +51,10 @@ const create = async (body, userId) => {
 
   return data;
 };
-const get = async ()=>{
+const get = async () => {
   const data = await prisma.information_change_request.findMany();
   return data;
-}
+};
 
 module.exports = {
   create,

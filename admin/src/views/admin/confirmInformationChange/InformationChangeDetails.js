@@ -1,6 +1,4 @@
 import React, { useEffect, useContext, useState } from 'react'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 import { Box, Button, Grid } from '@mui/material'
 import {
@@ -17,15 +15,14 @@ import {
   CCardBody,
   CSpinner,
   CImage,
-  CFormSelect,
 } from '@coreui/react'
 import { Toaster, toast } from 'sonner'
 
 import { useNavigate, useParams } from 'react-router-dom'
-import * as ICRService from 'src/services/changeRequest'
 import * as spotTypeService from 'src/services/spotType'
 import * as asdTypeService from 'src/services/adsType'
-import { useForm } from 'react-hook-form'
+import * as ICRService from 'src/services/changeRequest'
+import * as asdPanelTypeService from 'src/services/adsPanelType'
 
 import { ICRContext } from 'src/contexts/InformationChangeRequest'
 const InformationChangeDetails = () => {
@@ -34,12 +31,14 @@ const InformationChangeDetails = () => {
   const { ICRs } = useContext(ICRContext)
   const [adsTypes, setAdsTypes] = useState([])
   const [spotTypes, setSpotTypes] = useState([])
+  const [adsPanelTypes, setAdsPanelTypes] = useState([])
   const [element, setElement] = useState(null)
   const [visible, setVisible] = useState(false)
   const [currentModelImage, setCurrentModalImage] = useState('')
   useEffect(() => {
     setIsLoading(true)
     setElement(ICRs.rows.find((value) => value.id == id))
+    console.log(element)
     setIsLoading(false)
     const fetchAdsTypes = async () => {
       const adsTypesResponse = await asdTypeService.getAll()
@@ -51,6 +50,15 @@ const InformationChangeDetails = () => {
       return spotTypesResponse
     }
 
+    const fetchAdsPanelTypes = async () => {
+      const adsPanelTypesResponse = await asdPanelTypeService.getAll()
+      return adsPanelTypesResponse
+    }
+
+    fetchAdsPanelTypes().then((res) => {
+      setAdsPanelTypes(res)
+    })
+
     fetchAdsTypes().then((res) => {
       setAdsTypes(res)
     })
@@ -59,46 +67,34 @@ const InformationChangeDetails = () => {
       setSpotTypes(res)
     })
   }, [])
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
-
-  const statusOptions = [
-    { value: '0', label: 'Chưa xử lí' },
-    { value: '1', label: 'Đang xử lí' },
-    { value: '2', label: 'Đã xử lí' },
-  ]
-
-  const [content, setContent] = useState('')
-
-  const user = JSON.parse(localStorage.getItem('user'))
 
   const navigate = useNavigate()
+  const ACCEPT = 2
+  const CANCEL = 1
 
-  const onAcceptSubmit = async (data) => {
-    // if ((data?.status === '1' || data?.status === '2') && content) {
-    //   const result = await ReportService.updateStatus(id, {
-    //     status: data.status,
-    //     content: content,
-    //     user: {
-    //       id: user?.id,
-    //       email: element?.email,
-    //     },
-    //   })
-    //   if (result.id) {
-    //     navigate('/admin/report', {
-    //       state: {
-    //         type: 'success',
-    //         message: `Cập nhật báo cáo thành công`,
-    //       },
-    //     })
-    //   }
-    //   return
-    // } else {
-    //   toast.error('Vui lòng cập nhật trạng thái mới cho báo cáo')
-    // }
+  const onAcceptSubmit = async () => {
+    const result = await ICRService.update(element.id, ACCEPT)
+    if (result.id) {
+      toast.info('Cập nhật yêu cầu thành công')
+      navigate('/admin/approval/approve_edit_requests', {
+        state: {
+          type: 'success',
+          message: 'Cập nhật yêu cầu thành công',
+        },
+      })
+    }
+  }
+  const onCancelSubmit = async () => {
+    const result = await ICRService.update(element.id, CANCEL)
+    if (result.id) {
+      toast.info('Cập nhật yêu cầu thành công')
+      navigate('/admin/approval/approve_edit_requests', {
+        state: {
+          type: 'success',
+          message: 'Hủy yêu cầu cập nhật thành công',
+        },
+      })
+    }
   }
   return (
     <div className="information-change-details">
@@ -130,7 +126,7 @@ const InformationChangeDetails = () => {
                       id="inputAddress"
                       readOnly
                       plainText
-                      value={element?.address}
+                      value={`${element?.old_information.address}, ${element?.old_information.ward.name}, ${element?.old_information.district.name}`}
                     />
                   </CCol>
                 </CRow>
@@ -203,10 +199,84 @@ const InformationChangeDetails = () => {
                     />
                   </CCol>
                 </CRow>
+                {element?.type == 0 && (
+                  <CRow className="mt-2 mb-3">
+                    <CFormLabel htmlFor="inputAdsPanelType" className="col-sm-2 col-form-label">
+                      Loại bảng quảng cáo
+                    </CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        type="text"
+                        id="inputAdsPanelType"
+                        readOnly
+                        plainText
+                        value={`${
+                          adsPanelTypes.find(
+                            (value) => value.id == [element?.old_information?.ads_type_id],
+                          )?.name
+                        }->${
+                          adsPanelTypes.find(
+                            (value) => value.id == [element?.new_information?.ads_type_id],
+                          )?.name
+                        }`}
+                      />
+                    </CCol>
+                  </CRow>
+                )}
+                {element?.type == 0 && (
+                  <CRow className="mt-2 mb-3">
+                    <CFormLabel htmlFor="inputHeight" className="col-sm-2 col-form-label">
+                      Chiều cao
+                    </CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        type="text"
+                        id="inputHeight"
+                        readOnly
+                        plainText
+                        value={`${element?.old_information?.height}->${element?.new_information?.height}`}
+                      />
+                    </CCol>
+                  </CRow>
+                )}
+                {element?.type == 0 && (
+                  <CRow className="mt-2 mb-3">
+                    <CFormLabel htmlFor="inputWidth" className="col-sm-2 col-form-label">
+                      Chiều rộng
+                    </CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        type="text"
+                        id="inputWidth"
+                        readOnly
+                        plainText
+                        value={`${element?.old_information?.width}->${element?.new_information?.width}`}
+                      />
+                    </CCol>
+                  </CRow>
+                )}
+                {element?.type == 0 && (
+                  <CRow className="mt-2 mb-3">
+                    <CFormLabel htmlFor="inputExpire" className="col-sm-2 col-form-label">
+                      Ngày hết hạn
+                    </CFormLabel>
+                    <CCol sm={10}>
+                      <CFormInput
+                        type="text"
+                        id="inputExpire"
+                        readOnly
+                        plainText
+                        value={`${formatDate(element?.old_information?.expire_date)}->${
+                          element?.new_information?.expire_date
+                        }`}
+                      />
+                    </CCol>
+                  </CRow>
+                )}
                 {element?.type == 1 && (
                   <CRow className="mt-2 mb-3">
                     <CFormLabel htmlFor="inputSpotType" className="col-sm-2 col-form-label">
-                      Loại bảng quảng cáo
+                      Loại quảng cáo
                     </CFormLabel>
                     <CCol sm={10}>
                       <CFormInput
@@ -360,6 +430,7 @@ const InformationChangeDetails = () => {
                         sx={{
                           borderRadius: '8px',
                         }}
+                        onClick={onAcceptSubmit}
                       >
                         Duyệt yêu cầu
                       </Button>
@@ -372,6 +443,7 @@ const InformationChangeDetails = () => {
                         sx={{
                           borderRadius: '8px',
                         }}
+                        onClick={onCancelSubmit}
                       >
                         Hủy bỏ yêu cầu
                       </Button>
@@ -385,6 +457,18 @@ const InformationChangeDetails = () => {
       )}
     </div>
   )
+}
+const formatDate = (dateTime) => {
+  const date = new Date(dateTime)
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+
+  const expireDate = `${year}-${month < 10 ? `0${month}` : `${month}`}-${
+    day < 10 ? `0${day}` : `${day}`
+  }`
+
+  return expireDate
 }
 
 export default InformationChangeDetails

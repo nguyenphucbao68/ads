@@ -91,8 +91,16 @@ const getAdsPanelById = async (id) => {
       id: parseInt(id, 10),
     },
     include: {
-      ward: true,
-      district: true
+      ward: {
+        select: {
+          name: true
+        }
+      },
+      district: {
+        select:{
+          name: true
+        }
+      }
     },
   });
   adsPanel.address = adsSpot.address;

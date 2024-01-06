@@ -15,5 +15,14 @@ const getAll = () => {
     return res.data
   })
 }
+const update = (id, status) => {
+  return api
+    .put(`vhtt/edit-requests/${id}`, {
+      status,
+    })
+    .then((res) => {
+      return res.data
+    })
+}
 
-export { create, getAll }
+export { create, getAll, update }

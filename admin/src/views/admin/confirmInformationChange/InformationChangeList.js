@@ -17,7 +17,26 @@ const columns = [
   {
     field: 'address',
     headerName: 'Địa chỉ',
-    flex: 3,
+    flex: 2,
+    renderCell: (params) => {
+      return <span>{params.row.old_information.address}</span>
+    },
+  },
+  {
+    field: 'ward',
+    headerName: 'Phường',
+    flex: 1,
+    renderCell: (params) => {
+      return <span>{params.row.old_information.ward.name}</span>
+    },
+  },
+  {
+    field: 'district',
+    headerName: 'Quận',
+    flex: 1,
+    renderCell: (params) => {
+      return <span>{params.row.old_information.district.name}</span>
+    },
   },
   {
     field: 'type',
@@ -59,6 +78,17 @@ const InformationChangeList = () => {
   const { ICRs, dispatchICRs } = useContext(ICRContext)
 
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const showSuccesToast = (message) => {
+    toast.success(message)
+  }
+
+  useEffect(() => {
+    if (location.state?.type === 'success') {
+      showSuccesToast(location.state.message)
+    }
+  }, [location])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +102,6 @@ const InformationChangeList = () => {
           ...item,
           old_information: oldInf,
           new_information: newInf,
-          address: oldInf.address + ', ' + oldInf.ward?.name + ', ' + oldInf.district?.name,
         }
       })
       dispatchICRs({
