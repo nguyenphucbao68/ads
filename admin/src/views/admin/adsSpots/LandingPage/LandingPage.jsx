@@ -306,9 +306,6 @@ function LandingPage({
     },
   })
 
-  console.log({ points })
-  console.log({ clusters })
-
   const handleZoomCluster = useCallback(
     (clusterId, lat, lng) => {
       const exapansionZoom = Math.min(supercluster.getClusterExpansionZoom(clusterId), 20)
@@ -325,25 +322,29 @@ function LandingPage({
   )
 
   const getClusters = () => {
-    return clusters.map((cluster) => {
-      const [longitude, latitude] = cluster.geometry.coordinates
-      const { cluster: isCluster, point_count: pointCount } = cluster.properties
+    return clusters.length > 0 && points.length > 0
+      ? clusters.map((cluster) => {
+          const [longitude, latitude] = cluster.geometry.coordinates
+          const { cluster: isCluster, point_count: pointCount } = cluster.properties
 
-      if (!isCluster) {
-        return <Pin key={cluster.id} data={cluster.properties} onClick={setPopupInfo} />
-      }
-      return (
-        <ClusterMarker
-          id={cluster.id}
-          key={cluster.id}
-          latitude={latitude}
-          longitude={longitude}
-          pointCount={pointCount}
-          pointLength={points.length}
-          onZoom={handleZoomCluster}
-        />
-      )
-    })
+          if (!isCluster) {
+            return <Pin key={cluster.id} data={cluster.properties} onClick={setPopupInfo} />
+          }
+          return (
+            <ClusterMarker
+              id={cluster.id}
+              key={cluster.id}
+              latitude={latitude}
+              longitude={longitude}
+              pointCount={pointCount}
+              pointLength={points.length}
+              onZoom={handleZoomCluster}
+            />
+          )
+        })
+      : points.map((point) => {
+          return <Pin key={point.key} data={point.properties} onClick={setPopupInfo} />
+        })
   }
 
   return (
