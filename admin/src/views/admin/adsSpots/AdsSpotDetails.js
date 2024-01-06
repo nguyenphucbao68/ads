@@ -15,7 +15,6 @@ import * as adsSpotService from 'src/services/adsSpot'
 import * as adsTypeService from 'src/services/adsType'
 import * as spotTypeService from 'src/services/spotType'
 import ConfirmModal from 'src/modals/ConfirmModal'
-import './AdsSpotDetails.css'
 
 import { CloudUpload } from '@mui/icons-material'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -265,14 +264,7 @@ const AdsSpotDetails = () => {
                 className="col-sm-2 mt-1 pt-2 pb-2"
                 variant="outlined"
                 onClick={() => {
-                  setData((pre) => ({
-                    ...pre,
-                    new_address: {
-                      address: '',
-                      ward: '',
-                      district: '',
-                    },
-                  }))
+                  setValue('new_address', null)
                   setCurrentMarker(null)
                 }}
               >

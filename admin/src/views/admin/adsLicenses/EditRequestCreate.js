@@ -17,6 +17,7 @@ import * as asdSpotService from 'src/services/adsSpot'
 import * as spotTypeService from 'src/services/spotType'
 import * as asdTypeService from 'src/services/adsType'
 import * as changeRequestService from 'src/services/changeRequest'
+import * as asdPanelTypeService from 'src/services/adsPanelType'
 
 import { useForm } from 'react-hook-form'
 import { toast, Toaster } from 'sonner'
@@ -43,6 +44,7 @@ const EditRequestCreate = () => {
   const { adsSpots, dispatchAdsSpots } = useContext(AdsSpotContext)
   const [adsTypes, setAdsTypes] = useState([])
   const [spotTypes, setSpotTypes] = useState([])
+  const [asdPanelTypes, setAsdPanelTypes] = useState([])
   const widgetRef = useRef()
   const cloudinaryRef = useRef()
   const [image, setImage] = useState('')
@@ -74,6 +76,15 @@ const EditRequestCreate = () => {
       const spotTypesResponse = await spotTypeService.getAll()
       return spotTypesResponse
     }
+
+    const fetchAdsPanelTypes = async () => {
+      const adsPanelTypesResponse = await asdPanelTypeService.getAll()
+      return adsPanelTypesResponse
+    }
+
+    fetchAdsPanelTypes().then((res) => {
+      setAsdPanelTypes(res)
+    })
 
     fetchAdsTypes().then((res) => {
       setAdsTypes(res)
@@ -172,6 +183,7 @@ const EditRequestCreate = () => {
         image: image,
         ads_panel_id: data?.ads_panel_id,
         ads_spot_id: data?.ads_spot_id,
+        ads_type_id: data?.ads_type_id,
       }
       const dataCreate = {
         old_information: JSON.stringify(adsPanel),
@@ -228,6 +240,11 @@ const EditRequestCreate = () => {
       setAdsPanelsData(adsPanelsResponse || [])
       setCurrentPanel(adsPanelsResponse?.[0])
     }
+
+    setCurrentMarker({
+      latitude: currentSpot?.latitude,
+      longitude: currentSpot?.longtitude,
+    })
 
     fetchData()
     if (currentType === '1') {
@@ -379,14 +396,38 @@ const EditRequestCreate = () => {
                             )
                           }}
                         >
-                          {adsPanelsData?.map((adsPanel) => (
+                          {adsPanelsData?.map((adsPanel, index) => (
                             <option key={adsPanel.id} value={adsPanel.id}>
-                              {adsPanel?.ads_panel_type?.name}
+                              {/* {adsPanel?.ads_panel_type?.name} */}
+                              {`Bảng quảng cáo ${index + 1} - ${adsPanel?.ads_panel_type?.name}`}
                             </option>
                           ))}
                         </select>
                       </CCol>
                     </CRow>
+                    {currentPanel.id && (
+                      <CRow className="mb-3">
+                        <CFormLabel htmlFor="asdPanelTypeId" className="col-sm-2 col-form-label">
+                          Loại bảng quảng cáo
+                        </CFormLabel>
+                        <CCol sm={10}>
+                          <select
+                            className="form-select"
+                            id="asdPanelTypeId"
+                            name="asdPanelTypeId"
+                            {...register('ads_type_id', {
+                              required: 'Vui lòng chọn loại bảng quảng cáo',
+                            })}
+                          >
+                            {asdPanelTypes?.map((adsPanelType, index) => (
+                              <option key={adsPanelType.id} value={adsPanelType.id}>
+                                {adsPanelType?.name}
+                              </option>
+                            ))}
+                          </select>
+                        </CCol>
+                      </CRow>
+                    )}
                     <CRow className="mb-3">
                       <CFormLabel htmlFor="inputHeight" className="col-sm-2 col-form-label">
                         Chiều cao

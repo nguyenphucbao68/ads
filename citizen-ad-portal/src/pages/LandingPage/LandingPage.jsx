@@ -1,7 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import ReactMapGL, {
-  Popup,
   GeolocateControl,
   FullscreenControl,
   NavigationControl,
@@ -10,8 +15,8 @@ import ReactMapGL, {
   FlyToInterpolator,
 } from '@goongmaps/goong-map-react';
 import Pin from '../../components/Pin/Pin';
-import { StyledPopup, StyledReactMapGL } from './LandingPage.style';
-
+import { StyledPopup } from './LandingPage.style';
+import useSuperCluster from 'use-supercluster';
 import PinInfo from '../../components/PinInfo/PinInfo';
 import AdsPanelList from '../../components/AdsPanelList/AdsPanelList';
 import AdsPanelDetail from '../../components/AdsPanelDetail/AdsPanelDetail';
@@ -22,6 +27,8 @@ import AdsPanelLocationInfo from '../../components/AdsPanelLocationInfo/AdsPanel
 import { useAdsSpot } from '../../contexts/AdsSpotProvider';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 import AddressSearchInput from '../../components/AddressSearchInput/AddressSearchInput';
+
+import ClusterMarker from '../../components/ClusterMarker/ClusterMarker';
 
 const geolocateStyle = {
   top: 0,
@@ -48,7 +55,6 @@ const scaleControlStyle = {
 };
 
 function getCursor({ isHovering, isDragging }) {
-  console.log({ isHovering, isDragging });
   return isDragging ? 'grabbing' : isHovering ? 'pointer' : 'default';
 }
 
@@ -56,11 +62,29 @@ const API_MAP_KEY = process.env.REACT_APP_ADS_MANAGEMENT_MAP_API_KEY;
 const API_KEY = process.env.REACT_APP_ADS_MANAGEMENT_API_KEY;
 const REVERSE_GEOCODING_PATH = process.env.REACT_APP_REVERSE_GEOCODINNG_URI;
 
+function convertCoordinates(neLat, neLng, swLat, swLng) {
+  const nwLat = Math.max(neLat, swLat);
+  const nwLng = Math.min(neLng, swLng);
+
+  const seLat = Math.min(neLat, swLat);
+  const seLng = Math.max(neLng, swLng);
+
+  return {
+    nwLat: nwLat,
+    nwLng: nwLng,
+    seLat: seLat,
+    seLng: seLng,
+  };
+}
+
 function LandingPage() {
   const [currentMarker, setCurrentMarker] = useState(null);
   const [locationInfo, setLocationInfo] = useState(null);
   const [adsPanelInfo, setAdsPanelInfo] = useState(null);
   const [adsPanels, setAdsPanel] = useState([]);
+  const [bounds, setBounds] = useState(null);
+
+  const mapRef = useRef(null);
 
   const { adsSpotList } = useAdsSpot();
   const { onClosePanelDetail } = useAdsPanelDetail();
@@ -76,7 +100,8 @@ function LandingPage() {
   const [popupInfo, setPopupInfo] = useState(null);
 
   const onClick = useCallback((event) => {
-    // const feature = event.features && event.features[0];
+    const feature = event.features[0];
+    // console.log({ feature });
 
     const [lng, lat] = event.lngLat;
     const latlng = `${lat},${lng}`;
@@ -105,7 +130,6 @@ function LandingPage() {
     if (popupInfo) {
       const adsPanelsBySpotUri = `${process.env.REACT_APP_ADS_USER_URI}/${popupInfo.id}/ads-panels`;
 
-      console.log({ popupInfo });
       axios({
         method: 'get',
         url: adsPanelsBySpotUri,
@@ -161,8 +185,6 @@ function LandingPage() {
       .then(({ data }) => {
         const location = data.result.geometry.location;
 
-        console.log({ location });
-
         const { lng: longitude, lat: latitude } = location;
 
         setViewport({
@@ -172,16 +194,84 @@ function LandingPage() {
           transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
           transitionDuration: 'auto',
         });
-        setCurrentMarker({longitude, latitude})
+        setCurrentMarker({ longitude, latitude });
       })
       .catch((e) => {
         console.log({ error: e.toJSON() });
       });
   }, []);
 
-  useEffect(() => {
-    console.log({ viewport });
-  }, [viewport]);
+  const points = useMemo(
+    () =>
+      adsSpotList.map((item) => ({
+        type: 'Feature',
+        properties: {
+          cluster: false,
+          ...item,
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(item.longtitude), parseFloat(item.latitude)],
+        },
+      })),
+    [adsSpotList]
+  );
+
+  const { clusters, supercluster } = useSuperCluster({
+    points,
+    bounds,
+    zoom: viewport.zoom,
+    options: {
+      radius: 40,
+      maxZoom: 20,
+    },
+  });
+
+  const handleZoomCluster = useCallback(
+    (clusterId, lat, lng) => {
+      const exapansionZoom = Math.min(
+        supercluster.getClusterExpansionZoom(clusterId),
+        20
+      );
+
+      setViewport({
+        ...viewport,
+        longitude: lng,
+        latitude: lat,
+        zoom: exapansionZoom,
+        transitionDuration: 500,
+      });
+    },
+    [supercluster]
+  );
+
+  const getClusters = () =>
+    clusters.map((cluster) => {
+      const [longitude, latitude] = cluster.geometry.coordinates;
+      const { cluster: isCluster, point_count: pointCount } =
+        cluster.properties;
+
+      if (!isCluster) {
+        return (
+          <Pin
+            key={cluster.id}
+            data={cluster.properties}
+            onClick={setPopupInfo}
+          />
+        );
+      }
+      return (
+        <ClusterMarker
+          id={cluster.id}
+          key={cluster.id}
+          latitude={latitude}
+          longitude={longitude}
+          pointCount={pointCount}
+          pointLength={points.length}
+          onZoom={handleZoomCluster}
+        />
+      );
+    });
 
   return (
     <Container>
@@ -203,6 +293,17 @@ function LandingPage() {
         onClick={onClick}
         clickRadius={2}
         getCursor={getCursor}
+        ref={mapRef}
+        onViewStateChange={({ viewState }) => {
+          const { _sw, _ne } = mapRef.current.getMap().getBounds();
+          const { nwLat, nwLng, seLat, seLng } = convertCoordinates(
+            _ne.lat,
+            _ne.lng,
+            _sw.lat,
+            _sw.lng
+          );
+          setBounds([nwLng, seLat, seLng, nwLat]);
+        }}
       >
         {currentMarker && (
           <Marker
@@ -214,23 +315,22 @@ function LandingPage() {
             <CurrentPin size={20} />
           </Marker>
         )}
-        <Pin data={adsSpotList} onClick={setPopupInfo} />
+
+        {getClusters()}
 
         {popupInfo && (
-          <React.Fragment>
-            <StyledPopup
-              tipSize={5}
-              anchor='top'
-              offsetTop={20}
-              offsetLeft={15}
-              longitude={popupInfo.longtitude}
-              latitude={popupInfo.latitude}
-              closeOnClick={false}
-              onClose={setPopupInfo}
-            >
-              <PinInfo info={popupInfo} />
-            </StyledPopup>
-          </React.Fragment>
+          <StyledPopup
+            tipSize={5}
+            anchor='top'
+            offsetTop={20}
+            offsetLeft={15}
+            longitude={popupInfo.longtitude}
+            latitude={popupInfo.latitude}
+            closeOnClick={false}
+            onClose={setPopupInfo}
+          >
+            <PinInfo info={popupInfo} />
+          </StyledPopup>
         )}
 
         <GeolocateControl style={geolocateStyle} />

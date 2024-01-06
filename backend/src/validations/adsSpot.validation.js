@@ -9,13 +9,13 @@ const getAdsSpot = {
 const createAdsSpot = {
   body: Joi.object().keys({
     address: Joi.string().required(),
-    ward_id: Joi.number().integer().required(),
-    district_id: Joi.number().integer().required(),
+    ward_name: Joi.string().required(),
+    district_name: Joi.string().required(),
     spot_type_id: Joi.number().integer().required(),
     ads_type_id: Joi.number().integer().required(),
     image: Joi.string().required(),
     is_available: Joi.boolean().required(),
-    max_ads_panels: Joi.number().required(),
+    max_ads_panel: Joi.number().required(),
     latitude: Joi.number().required(),
     longtitude: Joi.number().required(),
   }),

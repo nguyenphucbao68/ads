@@ -16,7 +16,7 @@ const getAdsSpots = async (query) => {
         spot_type: true,
       },
       orderBy: {
-        id: 'asc',
+        updated_at: 'desc',
       },
     });
 
@@ -34,7 +34,7 @@ const getAdsSpots = async (query) => {
         spot_type: true,
       },
       orderBy: {
-        id: 'asc',
+        updated_at: 'desc',
       },
     });
 
@@ -51,7 +51,7 @@ const getAdsSpots = async (query) => {
       spot_type: true,
     },
     orderBy: {
-      id: 'asc',
+      updated_at: 'desc',
     },
   });
 
@@ -108,16 +108,61 @@ const getAllAdsSpotByAdsPanelId = async (id) => {
 };
 
 const createAdsSpot = async (body) => {
+  const { district_name, ward_name } = body;
+
+  // Check if district and ward is exist, if not, create new
+  if (district_name && ward_name) {
+    const districtData = await prisma.district.findFirst({
+      where: {
+        name: district_name,
+      },
+    });
+
+    const wardData = await prisma.ward.findFirst({
+      where: {
+        name: ward_name,
+      },
+    });
+
+    if (!districtData) {
+      await prisma.district.create({
+        data: {
+          name: district_name,
+        },
+      });
+    }
+
+    if (!wardData) {
+      await prisma.ward.create({
+        data: {
+          name: ward_name,
+        },
+      });
+    }
+  }
+
+  const newWard = await prisma.ward.findFirst({
+    where: {
+      name: ward_name,
+    },
+  });
+
+  const newDistrict = await prisma.district.findFirst({
+    where: {
+      name: district_name,
+    },
+  });
+
   const data = await prisma.ads_spot.create({
     data: {
       address: body.address,
-      ward_id: body.ward_id,
-      district_id: body.district_id,
+      ward_id: newWard.id,
+      district_id: newDistrict.id,
       spot_type_id: body.spot_type_id,
       ads_type_id: body.ads_type_id,
       image: body.image,
       is_available: body.is_available,
-      max_ads_panels: body.max_ads_panels,
+      max_ads_panel: body.max_ads_panel,
       latitude: body.latitude,
       longtitude: body.longtitude,
     },
