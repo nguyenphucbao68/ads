@@ -2,11 +2,15 @@ import React from 'react'
 import AccountUpdatePage from './pages/account/update'
 import ViewReports from './views/admin/reports/ViewReports'
 import ReportDetails from './views/admin/reports/ReportDetails'
+import InformationChangeDetails from './views/admin/confirmInformationChange/InformationChangeDetails'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 const ReportStatistics = React.lazy(() => import('./views/admin/statistics/ReportsStatistics'))
 const EditRequestCreate = React.lazy(() => import('./views/admin/adsLicenses/EditRequestCreate'))
+const InformationChangeList = React.lazy(() =>
+  import('./views/admin/confirmInformationChange/InformationChangeList'),
+)
 
 // Ads Spot
 const AdsSpotList = React.lazy(() => import('./views/admin/adsSpots/AdsSpotList'))
@@ -194,8 +198,18 @@ const routes = [
   { path: '/admin/approval', name: 'Approval', exact: true },
   {
     path: '/admin/approval/edit_requests',
-    name: 'Edit Requests Approval',
+    name: 'Information Change Requests',
     element: EditRequestCreate,
+  },
+  {
+    path: '/admin/approval/approve_edit_requests',
+    name: 'Information Change Requests Approval',
+    element: InformationChangeList,
+  },
+  {
+    path: '/admin/approval/approve_edit_requests/:id',
+    name: 'Information Change Requests Details',
+    element: InformationChangeDetails,
   },
   { path: '/admin/approval/ads_licenses', name: 'Ads Licenses Approval', element: AdsLicenseList },
   {

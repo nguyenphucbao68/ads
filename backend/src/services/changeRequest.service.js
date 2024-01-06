@@ -31,8 +31,13 @@ const create = async (body, userId) => {
 
   return data;
 };
+const get = async ()=>{
+  const data = await prisma.information_change_request.findMany();
+  return data;
+}
 
 module.exports = {
   create,
   update,
+  get,
 };

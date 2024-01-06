@@ -11,6 +11,7 @@ import { UserProvider } from './contexts/UserProvider'
 import { AdsLicenseProvider } from './contexts/AdsLicenseProvider'
 import { ReportProvider } from './contexts/ReportProvider'
 import { AdsPanelProvider } from './contexts/AdsPanelProvider'
+import { ICRProvider } from './contexts/InformationChangeRequest'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -48,25 +49,27 @@ class App extends Component {
               path="*"
               name="Home"
               element={
-                <AdsPanelProvider>
-                  <AdsLicenseProvider>
-                    <DistrictProvider>
-                      <WardProvider>
-                        <ReportProvider>
-                          <AdsTypeProvider>
-                            <SpotTypeProvider>
-                              <AdsSpotProvider>
-                                <UserProvider>
-                                  <DefaultLayout />
-                                </UserProvider>
-                              </AdsSpotProvider>
-                            </SpotTypeProvider>
-                          </AdsTypeProvider>
-                        </ReportProvider>
-                      </WardProvider>
-                    </DistrictProvider>
-                  </AdsLicenseProvider>
-                </AdsPanelProvider>
+                <ICRProvider>
+                  <AdsPanelProvider>
+                    <AdsLicenseProvider>
+                      <DistrictProvider>
+                        <WardProvider>
+                          <ReportProvider>
+                            <AdsTypeProvider>
+                              <SpotTypeProvider>
+                                <AdsSpotProvider>
+                                  <UserProvider>
+                                    <DefaultLayout />
+                                  </UserProvider>
+                                </AdsSpotProvider>
+                              </SpotTypeProvider>
+                            </AdsTypeProvider>
+                          </ReportProvider>
+                        </WardProvider>
+                      </DistrictProvider>
+                    </AdsLicenseProvider>
+                  </AdsPanelProvider>
+                </ICRProvider>
               }
             />
           </Routes>

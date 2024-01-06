@@ -151,6 +151,10 @@ router
   .route('/edit-requests/:id')
   .put(auth('updateChangeRequest'), validate(changeRequestValidation.update), changeRequestController.update);
 
+router.route('/edit-requests')
+    .get(auth('updateChangeRequest'), changeRequestController.get);
+
+
 router
   .route('/users')
   .get(userController.getAll)

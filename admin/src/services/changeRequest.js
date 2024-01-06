@@ -10,5 +10,10 @@ const create = (data, userId) => {
       return res.data
     })
 }
+const getAll = () => {
+  return api.get('vhtt/edit-requests').then((res) => {
+    return res.data
+  })
+}
 
-export { create }
+export { create, getAll }

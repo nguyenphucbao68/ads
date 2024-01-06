@@ -18,7 +18,6 @@ const columns = [
   { field: 'phone', headerName: 'Điện thoại', flex: 15 },
   { field: 'address', headerName: 'Địa chỉ báo cáo', flex: 25 },
   { field: 'report_type_name', headerName: 'Loại hình báo cáo', flex: 13 },
-  { field: 'id', headerName: 'id' },
   {
     field: 'status',
     headerName: 'Trạng thái',
@@ -65,14 +64,6 @@ const ReportList = () => {
   }, [dispatchReports])
   return (
     <DataGrid
-      initialState={{
-        columns: {
-          columnVisibilityModel: {
-            // Hide columns status and traderName, the other columns will remain visible
-            id: false,
-          },
-        },
-      }}
       sx={{
         [`& .${gridClasses.cell}`]: {
           ':focus': {
