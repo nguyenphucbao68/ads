@@ -517,7 +517,7 @@ const EditRequestCreate = () => {
               </>
             ) : (
               <>
-                <CRow className="mb-3">
+                {/* <CRow className="mb-3">
                   <CFormLabel htmlFor="adsSpotId" className="col-sm-2 col-form-label">
                     Điểm đặt quảng cáo
                   </CFormLabel>
@@ -542,7 +542,7 @@ const EditRequestCreate = () => {
                       ))}
                     </select>
                   </CCol>
-                </CRow>
+                </CRow> */}
                 <CRow className="mt-2 mb-3">
                   <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
                     Địa chỉ hiện tại
@@ -571,6 +571,7 @@ const EditRequestCreate = () => {
                       currentMarker={currentMarker}
                       setCurrentMarker={setCurrentMarker}
                       spotId={currentSpot?.id}
+                      setCurrentSpot={setCurrentSpot}
                     />
                   </CCol>
                 </CRow>
