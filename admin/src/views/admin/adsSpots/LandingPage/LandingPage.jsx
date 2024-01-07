@@ -178,7 +178,9 @@ function LandingPage({
           .join(', ')
         onChangeNewAddress({
           address: formattedAddress,
-          ward: 'Phường ' + filteredResults[0].compound.commune,
+          ward: filteredResults[0].compound.commune.includes('Phường')
+            ? filteredResults[0].compound.commune
+            : 'Phường ' + filteredResults[0].compound.commune,
           district: filteredResults[0].compound.district,
           long: lng,
           lat,
@@ -192,9 +194,10 @@ function LandingPage({
           .join(', ')
         onChangeNewAddress({
           address: formattedAddress,
-          ward: 'Phường ' + results[0].compound.commune,
+          ward: results[0].compound.commune.includes('Phường')
+            ? results[0].compound.commune
+            : 'Phường ' + results[0].compound.commune,
           district: results[0].compound.district,
-
           long: lng,
           lat,
         })
@@ -249,7 +252,9 @@ function LandingPage({
               .join(', ')
             onChangeNewAddress({
               address: formattedAddress,
-              ward: 'Phường ' + filteredResults[0].compound.commune,
+              ward: filteredResults[0].compound.commune.includes('Phường')
+                ? filteredResults[0].compound.commune
+                : 'Phường ' + filteredResults[0].compound.commune,
               district: filteredResults[0].compound.district,
               long: lng,
               lat,
@@ -263,7 +268,9 @@ function LandingPage({
               .join(', ')
             onChangeNewAddress({
               address: formattedAddress,
-              ward: 'Phường ' + results[0].compound.commune,
+              ward: results[0].compound.commune.includes('Phường')
+                ? results[0].compound.commune
+                : 'Phường ' + results[0].compound.commune,
               district: results[0].compound.district,
               long: lng,
               lat,

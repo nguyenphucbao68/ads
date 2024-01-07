@@ -125,8 +125,9 @@ const createAdsSpot = async (body) => {
       },
     });
 
+    let newDistrict;
     if (!districtData) {
-      await prisma.district.create({
+      newDistrict = await prisma.district.create({
         data: {
           name: district_name,
         },
@@ -137,6 +138,7 @@ const createAdsSpot = async (body) => {
       await prisma.ward.create({
         data: {
           name: ward_name,
+          district_id: newDistrict.id,
         },
       });
     }
@@ -188,8 +190,9 @@ const updateAdsSpot = async (id, body) => {
       },
     });
 
+    let newDistrict;
     if (!districtData) {
-      await prisma.district.create({
+      newDistrict = await prisma.district.create({
         data: {
           name: district_name,
         },
@@ -200,6 +203,7 @@ const updateAdsSpot = async (id, body) => {
       await prisma.ward.create({
         data: {
           name: ward_name,
+          district_id: newDistrict.id,
         },
       });
     }

@@ -175,68 +175,6 @@ const ward = [
     district_id: 3,
     is_deleted: false,
   },
-
-  {
-    // id: 17,
-    name: 'Phường 1',
-    district_id: 4,
-    is_deleted: false,
-  },
-  {
-    // id: 18,
-    name: 'Phường 2',
-    district_id: 4,
-    is_deleted: false,
-  },
-  {
-    // id: 19,
-    name: 'Phường 3',
-    district_id: 4,
-    is_deleted: false,
-  },
-  {
-    // id: 20,
-    name: 'Phường 4',
-    district_id: 4,
-    is_deleted: false,
-  },
-  {
-    // id: 21,
-    name: 'Phường 5',
-    district_id: 4,
-    is_deleted: false,
-  },
-
-  {
-    // id: 22,
-    name: 'Phường 1',
-    district_id: 5,
-    is_deleted: false,
-  },
-  {
-    // id: 23,
-    name: 'Phường 2',
-    district_id: 5,
-    is_deleted: false,
-  },
-  {
-    // id: 24,
-    name: 'Phường 3',
-    district_id: 5,
-    is_deleted: false,
-  },
-  {
-    // id: 25,
-    name: 'Phường 4',
-    district_id: 5,
-    is_deleted: false,
-  },
-  {
-    // id: 26,
-    name: 'Phường 5',
-    district_id: 5,
-    is_deleted: false,
-  },
 ];
 
 const ads_panel_type = [
@@ -530,7 +468,7 @@ const ads_spot = [
   {
     // id: 16,
     address: '1 Tôn Thất Thuyết',
-    ward_id: 17,
+    ward_id: 1,
     district_id: 4,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -543,7 +481,7 @@ const ads_spot = [
   {
     // id: 17,
     address: '306/5 Nguyễn Thị Minh Khai',
-    ward_id: 18,
+    ward_id: 1,
     district_id: 4,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -556,7 +494,7 @@ const ads_spot = [
   {
     // id: 18,
     address: 'Số 2a Vĩnh Hội',
-    ward_id: 19,
+    ward_id: 1,
     district_id: 4,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -569,7 +507,7 @@ const ads_spot = [
   {
     // id: 19,
     address: '47-49 Vĩnh Hội',
-    ward_id: 20,
+    ward_id: 1,
     district_id: 4,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -583,7 +521,7 @@ const ads_spot = [
   {
     // id: 20,
     address: '254/4 Bến Vân Đồn',
-    ward_id: 21,
+    ward_id: 1,
     district_id: 4,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -596,7 +534,7 @@ const ads_spot = [
   {
     // id: 21,
     address: '905 Trần Hưng Đạo',
-    ward_id: 22,
+    ward_id: 2,
     district_id: 5,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -609,7 +547,7 @@ const ads_spot = [
   {
     // id: 22,
     address: '10 Nguyễn Tri Phương',
-    ward_id: 23,
+    ward_id: 2,
     district_id: 3,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -622,7 +560,7 @@ const ads_spot = [
   {
     // id: 23,
     address: '118/1, Nguyễn Trãi',
-    ward_id: 24,
+    ward_id: 2,
     district_id: 5,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -635,7 +573,7 @@ const ads_spot = [
   {
     // id: 24,
     address: '157/1, Nguyễn Chí Thanh',
-    ward_id: 25,
+    ward_id: 2,
     district_id: 5,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -648,7 +586,7 @@ const ads_spot = [
   {
     // id: 25,
     address: '1031 Trần Hưng Đạo',
-    ward_id: 26,
+    ward_id: 2,
     district_id: 5,
     spot_type_id: Math.floor(Math.random() * 6) + 1,
     ads_type_id: Math.floor(Math.random() * 3) + 1,
@@ -755,7 +693,7 @@ const ads_panel = [
 ];
 
 // TODO
-const information_change_request = [];//status 0: pending, 1: not approved, 2: approved
+const information_change_request = []; //status 0: pending, 1: not approved, 2: approved
 
 const report_type = [
   {
