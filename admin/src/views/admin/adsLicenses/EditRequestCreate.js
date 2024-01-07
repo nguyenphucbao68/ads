@@ -229,7 +229,6 @@ const EditRequestCreate = () => {
         parseInt(currentSpot.id),
       )
       setAdsPanelsData(adsPanelsResponse || [])
-      // setCurrentPanel(adsPanelsResponse?.[0])
     }
 
     setCurrentMarker({
@@ -257,6 +256,7 @@ const EditRequestCreate = () => {
     if (currentType === '0') {
       setValue('height', currentPanel?.height.toFixed(2))
       setValue('width', currentPanel?.width.toFixed(2))
+      setValue('ads_type_id', currentPanel?.ads_panel_type?.id)
       const date = new Date(currentPanel?.expire_date)
       const day = date.getDate()
       const month = date.getMonth() + 1
@@ -311,7 +311,7 @@ const EditRequestCreate = () => {
             </CRow>
             {currentType === '0' ? (
               <>
-                <CRow className="mb-3">
+                {/* <CRow className="mb-3">
                   <CFormLabel htmlFor="adsSpotId" className="col-sm-2 col-form-label">
                     Điểm đặt quảng cáo
                   </CFormLabel>
@@ -336,7 +336,7 @@ const EditRequestCreate = () => {
                       ))}
                     </select>
                   </CCol>
-                </CRow>
+                </CRow> */}
                 <CRow className="mt-2 mb-3">
                   <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
                     Địa chỉ hiện tại
@@ -365,8 +365,8 @@ const EditRequestCreate = () => {
                       currentMarker={currentMarker}
                       setCurrentMarker={setCurrentMarker}
                       spotId={currentSpot?.id}
+                      setCurrentSpot={setCurrentSpot}
                       setCurrentPanel={setCurrentPanel}
-                      isEdit={true}
                     />
                   </CCol>
                 </CRow>
