@@ -190,7 +190,7 @@ const AdsSpotCreate = () => {
         <CForm onSubmit={handleSubmit(onSubmit)} id="AdsSpotCreate">
           <Box
             sx={{
-              height: 'calc(100vh - 350px)',
+              height: '100%',
               width: '100%',
               overflowY: 'auto',
             }}

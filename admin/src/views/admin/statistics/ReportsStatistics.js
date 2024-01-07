@@ -88,7 +88,7 @@ const ReportStatistics = () => {
           <hr />
           <Box
             sx={{
-              height: 'calc(100vh - 330px)',
+              height: '100%',
               width: '100%',
               overflowY: 'auto',
             }}
