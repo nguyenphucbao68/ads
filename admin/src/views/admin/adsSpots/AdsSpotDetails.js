@@ -274,7 +274,7 @@ const AdsSpotDetails = () => {
               {/* <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel> */}
               <CCol sm={12}>
                 <LandingPage
-                  height="550px"
+                  height="650px"
                   width="100%"
                   onChangeNewAddress={onChangeNewAddress}
                   currentMarker={currentMarker}
