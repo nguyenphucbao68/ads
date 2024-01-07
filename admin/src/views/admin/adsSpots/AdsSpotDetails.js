@@ -123,7 +123,6 @@ const AdsSpotDetails = () => {
       },
       (error, result) => {
         if (result.event === 'success') {
-          console.log('Upload success with the link: ' + result.info.url)
           setData((pre) => ({
             ...pre,
             fileSelected: [...pre.fileSelected, result.info.url],
@@ -175,7 +174,6 @@ const AdsSpotDetails = () => {
         toast.error('Xóa điểm đặt quảng cáo thất bại')
       }
     } catch (err) {
-      console.log(err.message)
       toast.error('Xóa điểm đặt quảng cáo thất bại')
     }
   }

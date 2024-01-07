@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import { Box, Button, Grid, styled } from '@mui/material'
 import {
@@ -102,7 +102,7 @@ const EditRequestCreate = () => {
   const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
   const role = user?.role
 
-  const [currentPanel, setCurrentPanel] = useState(0)
+  const [currentPanel, setCurrentPanel] = useState(null)
   const [currentType, setCurrentType] = useState('1')
   const [currentSpot, setCurrentSpot] = useState(0)
 
@@ -175,8 +175,6 @@ const EditRequestCreate = () => {
         // })
       }
     } else if (data?.type === '0') {
-      const adsPanel = await adsPanelService.getById(data.ads_panel_id)
-
       const newData = {
         height: parseFloat(data?.height),
         width: parseFloat(data?.width),
@@ -187,7 +185,7 @@ const EditRequestCreate = () => {
         ads_type_id: parseInt(data?.ads_type_id),
       }
       const dataCreate = {
-        old_information: JSON.stringify(adsPanel),
+        old_information: JSON.stringify(currentPanel),
         new_information: JSON.stringify(newData),
         user_id: user.id,
         type: parseInt(data.type),
@@ -209,14 +207,6 @@ const EditRequestCreate = () => {
             data?.type === '0' ? 'bảng' : 'điểm đặt'
           } quảng cáo đã gửi thành công`,
         )
-        // navigate('/admin/approval/ads_licenses', {
-        //   state: {
-        //     type: 'success',
-        //     message: `Yêu cầu chỉnh ${
-        //       data?.type === '0' ? 'bảng' : 'điểm đặt'
-        //     } quảng cáo đã gửi thành công`,
-        //   },
-        // })
       }
     }
   }
@@ -239,7 +229,7 @@ const EditRequestCreate = () => {
         parseInt(currentSpot.id),
       )
       setAdsPanelsData(adsPanelsResponse || [])
-      setCurrentPanel(adsPanelsResponse?.[0])
+      // setCurrentPanel(adsPanelsResponse?.[0])
     }
 
     setCurrentMarker({
@@ -252,13 +242,14 @@ const EditRequestCreate = () => {
       setValue('max_ads_panel', currentSpot?.max_ads_panel)
       setValue('spot_type_id', currentSpot?.spot_type_id)
       setValue('ads_type_id', currentSpot?.ads_type_id)
-      setValue(
-        'address',
-        getFormattedAddress(currentSpot.address, currentSpot.ward.name, currentSpot.district.name),
-      )
 
       setImage(currentSpot?.image ?? '')
     }
+    setValue(
+      'address',
+      getFormattedAddress(currentSpot.address, currentSpot.ward.name, currentSpot.district.name),
+    )
+    setCurrentPanel(null)
   }, [currentSpot, setValue, currentType])
 
   useEffect(() => {
@@ -374,61 +365,35 @@ const EditRequestCreate = () => {
                       currentMarker={currentMarker}
                       setCurrentMarker={setCurrentMarker}
                       spotId={currentSpot?.id}
+                      setCurrentPanel={setCurrentPanel}
+                      isEdit={true}
                     />
                   </CCol>
                 </CRow>
-                {adsPanelsData?.length > 0 && (
+                {adsPanelsData?.length > 0 && currentPanel?.id && (
                   <>
                     <CRow className="mb-3">
-                      <CFormLabel htmlFor="adsPanelId" className="col-sm-2 col-form-label">
-                        Bảng quảng cáo
+                      <CFormLabel htmlFor="asdPanelTypeId" className="col-sm-2 col-form-label">
+                        Loại bảng quảng cáo
                       </CFormLabel>
                       <CCol sm={10}>
                         <select
                           className="form-select"
-                          id="adsPanelId"
-                          name="adsPanelId"
-                          {...register('ads_panel_id', {
-                            required: 'Vui lòng chọn bảng quảng cáo',
+                          id="asdPanelTypeId"
+                          name="asdPanelTypeId"
+                          {...register('ads_type_id', {
+                            required: 'Vui lòng chọn loại bảng quảng cáo',
                           })}
-                          onChange={(event) => {
-                            setCurrentPanel(
-                              adsPanelsData?.find((x) => x.id === parseInt(event.target.value)),
-                            )
-                          }}
                         >
-                          {adsPanelsData?.map((adsPanel, index) => (
-                            <option key={adsPanel.id} value={adsPanel.id}>
-                              {/* {adsPanel?.ads_panel_type?.name} */}
-                              {`Bảng quảng cáo ${index + 1} - ${adsPanel?.ads_panel_type?.name}`}
+                          {asdPanelTypes?.map((adsPanelType, index) => (
+                            <option key={adsPanelType.id} value={adsPanelType.id}>
+                              {adsPanelType?.name}
                             </option>
                           ))}
                         </select>
                       </CCol>
                     </CRow>
-                    {currentPanel.id && (
-                      <CRow className="mb-3">
-                        <CFormLabel htmlFor="asdPanelTypeId" className="col-sm-2 col-form-label">
-                          Loại bảng quảng cáo
-                        </CFormLabel>
-                        <CCol sm={10}>
-                          <select
-                            className="form-select"
-                            id="asdPanelTypeId"
-                            name="asdPanelTypeId"
-                            {...register('ads_type_id', {
-                              required: 'Vui lòng chọn loại bảng quảng cáo',
-                            })}
-                          >
-                            {asdPanelTypes?.map((adsPanelType, index) => (
-                              <option key={adsPanelType.id} value={adsPanelType.id}>
-                                {adsPanelType?.name}
-                              </option>
-                            ))}
-                          </select>
-                        </CCol>
-                      </CRow>
-                    )}
+
                     <CRow className="mb-3">
                       <CFormLabel htmlFor="inputHeight" className="col-sm-2 col-form-label">
                         Chiều cao

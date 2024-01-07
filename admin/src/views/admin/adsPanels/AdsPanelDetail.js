@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { format } from 'date-fns'
 import { Box, Button, Grid, styled } from '@mui/material'
 import {
@@ -24,6 +24,8 @@ import { CloudUpload } from '@mui/icons-material'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as adsPanelTypeService from 'src/services/adsPanelType'
 import * as adsSpotService from 'src/services/adsSpot'
+import LandingPage from '../adsSpots/LandingPage/LandingPage'
+import { getFormattedAddress } from 'src/utils/address'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -55,23 +57,45 @@ const AdsPanelDetail = () => {
     },
     adsSpotList: [],
     fileSelected: [],
+    currentSpot: null,
+    new_address: null,
   })
   const [isModalDisplay, setIsModalDisplay] = useState(false)
   const navigate = useNavigate()
+  const [currentSpotId, setCurrentSpotId] = useState(null)
 
-  const { register, handleSubmit, formState, getValues } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState,
+    formState: { errors },
+    getValues,
+    setValue,
+  } = useForm()
 
   // Fetch data
   const init = async () => {
     const adsPanelData = await adsPanelService.getById(id)
     const adsPanelTypeData = await adsPanelTypeService.getAll()
     const adsSpotList = await adsSpotService.getAll()
+    const currentSpot = adsSpotList.find((spot) => spot.id === adsPanelData.ads_spot_id)
     setData((prev) => ({
       ...prev,
       adsPanelDetail: adsPanelData,
       adsPanelType: adsPanelTypeData,
       adsSpotList: adsSpotList,
+      currentSpot: currentSpot,
     }))
+
+    setValue(
+      'old_address',
+      getFormattedAddress(currentSpot.address, currentSpot.ward.name, currentSpot.district.name),
+    )
+
+    setCurrentMarker({
+      latitude: currentSpot.latitude,
+      longitude: currentSpot.longtitude,
+    })
   }
 
   const formatDate = (dateString) => {
@@ -84,6 +108,30 @@ const AdsPanelDetail = () => {
     }
   }
 
+  const [currentMarker, setCurrentMarker] = useState(null)
+
+  useEffect(() => {
+    setData((pre) => ({
+      ...pre,
+      currentSpot: data.adsSpotList.find((spot) => spot.id === currentSpotId),
+    }))
+  }, [currentSpotId])
+
+  const onChangeNewAddress = useCallback((address) => {
+    setData((pre) => ({
+      ...pre,
+      new_address: address,
+    }))
+
+    setValue(
+      'new_address',
+      address.address.length > 0
+        ? getFormattedAddress(address.address, address.ward, address.district)
+        : null,
+      { shouldDirty: true },
+    )
+  }, [])
+
   // Hàm thay đổi
   const onSave = async () => {
     try {
@@ -91,7 +139,7 @@ const AdsPanelDetail = () => {
       const height = getValues('height') || data.adsPanelDetail.height
       const expire_date = formatDate(getValues('expire_date') || data.adsPanelDetail.expire_date)
       const type = getValues('type') || data.adsPanelDetail.ads_type_id
-      const spot_id = getValues('spot_id') || data.adsPanelDetail.ads_spot_id
+      const spot_id = data.currentSpot.id || data.adsPanelDetail.ads_spot_id
 
       const adsPanelUpdateData = {
         ads_type_id: type,
@@ -99,12 +147,8 @@ const AdsPanelDetail = () => {
         height: height,
         width: width,
         expire_date: expire_date,
-        image:
-          data.fileSelected.length > 0
-            ? data.fileSelected.length.join(',')
-            : data.adsPanelDetail.image,
+        image: data.fileSelected.length > 0 ? data.fileSelected[0] : data.adsPanelDetail.image,
       }
-      console.log('chuan bi luu ', adsPanelUpdateData)
 
       await adsPanelService.update(id, adsPanelUpdateData)
 
@@ -184,7 +228,6 @@ const AdsPanelDetail = () => {
       },
       (error, result) => {
         if (result.event === 'success') {
-          console.log('Upload success with the link: ' + result.info.url)
           setData((pre) => ({
             ...pre,
             fileSelected: [...pre.fileSelected, result.info.url],
@@ -212,7 +255,7 @@ const AdsPanelDetail = () => {
         </h4>
         <Box
           sx={{
-            height: 'calc(100vh - 340px)',
+            height: '100%',
             width: '100%',
             marginTop: '15px',
           }}
@@ -349,7 +392,64 @@ const AdsPanelDetail = () => {
                 </Button>
               </CCol>
             </CRow>
+            <CRow className="mt-2 mb-3">
+              <CFormLabel htmlFor="inputOldAddress" className="col-sm-2 col-form-label">
+                Địa chỉ hiện tại
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  readOnly
+                  plainText
+                  id="inputOldAddress"
+                  {...register('old_address', {})}
+                  feedback={errors.old_address?.message}
+                />
+              </CCol>
+            </CRow>
+            <CRow className="mt-2 mb-3">
+              <CFormLabel htmlFor="inputNewAddress" className="col-sm-2 col-form-label">
+                Địa chỉ mới
+              </CFormLabel>
+              <CCol sm={8}>
+                <CFormInput
+                  type="text"
+                  readOnly
+                  plainText
+                  placeholder="Chọn địa chỉ mới trên bản đồ"
+                  id="inputNewAddress"
+                  {...register('new_address', {})}
+                  feedback={errors.new_address?.message}
+                />
+              </CCol>
+              {/* Add reset button */}
+              <Button
+                className="col-sm-2 mt-1 pt-2 pb-2"
+                variant="outlined"
+                onClick={() => {
+                  setCurrentMarker(null)
+                }}
+              >
+                Đặt lại
+              </Button>
+            </CRow>
+
             <CRow className="mb-3">
+              {/* <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel> */}
+              <CCol sm={12}>
+                <LandingPage
+                  height="800px"
+                  width="100%"
+                  onChangeNewAddress={onChangeNewAddress}
+                  currentMarker={currentMarker}
+                  spotId={data?.currentSpot?.id}
+                  setCurrentSpotId={setCurrentSpotId}
+                  setCurrentMarker={setCurrentMarker}
+                  isEdit={true}
+                />
+              </CCol>
+            </CRow>
+            {/* <CRow className="mb-3">
               <CFormLabel htmlFor="spot_id" className="col-sm-2 col-form-label">
                 Điểm đặt tại đây
               </CFormLabel>
@@ -360,7 +460,7 @@ const AdsPanelDetail = () => {
                   {...register('spot_id', { required: true })}
                 />
               </CCol>
-            </CRow>
+            </CRow> */}
           </CForm>
         </Box>
         <Box

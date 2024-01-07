@@ -24,6 +24,7 @@ import * as adsSpotService from 'src/services/adsSpot'
 import { useParams } from 'react-router-dom'
 import useSupercluster from 'use-supercluster'
 import ClusterMarker from 'src/components/Map/ClusterMarker/ClusterMarker'
+import { toast } from 'sonner'
 
 const geolocateStyle = {
   top: 0,
@@ -83,6 +84,9 @@ function LandingPage({
   currentMarker,
   setCurrentMarker,
   spotId = null,
+  setCurrentSpotId = () => {},
+  setCurrentPanel = () => {},
+  isEdit = false,
 }) {
   const { id } = useParams()
 
@@ -98,6 +102,7 @@ function LandingPage({
   const [adsPanelDetail, setAdsPanelDetail] = useState(null)
 
   const onShowPanelDetail = (adsPanelItem) => {
+    setCurrentPanel(adsPanelItem)
     setAdsPanelDetail({
       ...adsPanelItem,
     })
@@ -141,7 +146,7 @@ function LandingPage({
     }
 
     fetchData()
-  }, [])
+  }, [spotId, id])
 
   const onClick = useCallback((event) => {
     const [lng, lat] = event.lngLat
@@ -195,9 +200,18 @@ function LandingPage({
       if (popupInfo) {
         // const adsPanelsBySpotUri = `${process.env.REACT_APP_ADS_SPOTS_URI}/${popupInfo.id}/ads-panels`
 
-        console.log({ popupInfo })
-
         const adsPanels = await adsSpotService.getAllAdsPanelByAdsSpotId(popupInfo.id)
+
+        const adsSpotServiceResult = await adsSpotService.getById(popupInfo.id)
+        if (isEdit) {
+          if (adsPanels.length < adsSpotServiceResult.max_ads_panel) {
+            setCurrentSpotId(popupInfo.id)
+          } else {
+            if (spotId !== popupInfo.id) {
+              toast.error('Số lượng bảng quảng cáo đã đạt giới hạn')
+            }
+          }
+        }
 
         setAdsPanel(adsPanels.map((item) => ({ ...item, ads_spot: popupInfo })))
 
@@ -322,12 +336,6 @@ function LandingPage({
   )
 
   const getClusters = () => {
-    console.log({ points })
-    console.log({ bounds })
-    console.log({ viewport })
-
-    console.log({ clusters })
-
     return clusters.length > 0 && points.length > 0
       ? clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates
@@ -434,6 +442,9 @@ LandingPage.propTypes = {
   currentMarker: PropTypes.object,
   setCurrentMarker: PropTypes.func,
   spotId: PropTypes.number,
+  setCurrentSpotId: PropTypes.func,
+  setCurrentPanel: PropTypes.func,
+  isEdit: PropTypes.bool,
 }
 
 export default LandingPage
