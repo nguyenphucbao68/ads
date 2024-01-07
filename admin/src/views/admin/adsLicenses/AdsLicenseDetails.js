@@ -316,9 +316,7 @@ const AdsLicenseDetails = () => {
                   variant="text"
                   color="primary"
                   endIcon={<ArrowForwardIosIcon />}
-                  onClick={() =>
-                    navigate(`/admin/ads_panels/${data.adsLicense.ads_panel.ads_spot.id}`)
-                  }
+                  onClick={() => navigate(`/admin/ads_panels/${data.adsLicense.ads_panel.id}`)}
                 >
                   Xem chi tiết
                 </Button>

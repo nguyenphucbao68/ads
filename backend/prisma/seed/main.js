@@ -671,7 +671,7 @@ const ads_panel = [
     is_deleted: false,
   },
   {
-    // id: 9,
+    // id: 8,
     ads_type_id: Math.floor(Math.random() * 9) + 1, // GET RANDOM ads_type
     height: Math.random() * (MAX - MIN) + MIN, // GET RANDOM FLOAT BETWEEN MIN, MAX
     width: Math.random() * (MAX - MIN) + MIN, // GET RANDOM FLOAT BETWEEN MIN, MAX
@@ -681,7 +681,7 @@ const ads_panel = [
     is_deleted: false,
   },
   {
-    // id: 10,
+    // id: 9,
     ads_type_id: Math.floor(Math.random() * 9) + 1, // GET RANDOM ads_type
     height: Math.random() * (MAX - MIN) + MIN, // GET RANDOM FLOAT BETWEEN MIN, MAX
     width: Math.random() * (MAX - MIN) + MIN, // GET RANDOM FLOAT BETWEEN MIN, MAX
@@ -1238,7 +1238,7 @@ const user = [
 
 const ads_license = [
   {
-    ads_panel_id: Math.floor(Math.random() * 10) + 1,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
     content: 'Cấp phép cho công ty này',
     user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
@@ -1251,7 +1251,7 @@ const ads_license = [
     address: '5 TRẦN BÌNH TRỌNG, PHƯ2ỜNG 1, QUẬN 5, TP. HCM',
   },
   {
-    ads_panel_id: Math.floor(Math.random() * 10) + 1,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
     content: 'Cấp phép cho công ty này',
     user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
@@ -1264,7 +1264,7 @@ const ads_license = [
     address: '92 NGUYỄN BIỂU, PHƯỜNG 1, QUẬN 5, TP. HCM',
   },
   {
-    ads_panel_id: Math.floor(Math.random() * 10) + 1,
+    ads_panel_id: Math.floor(Math.random() * 9) + 1,
     content: 'Cấp phép cho công ty này',
     user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
