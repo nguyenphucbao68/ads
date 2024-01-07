@@ -83,6 +83,7 @@ const getAllAdsPanelByAdsSpotId = async (id) => {
       ads_panel_type: {
         select: {
           name: true,
+          id: true,
         },
       },
     },

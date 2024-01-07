@@ -86,6 +86,7 @@ function LandingPage({
   spotId = null,
   setCurrentSpotId = () => {},
   setCurrentPanel = () => {},
+  setCurrentSpot = () => {},
   isEdit = false,
 }) {
   const { id } = useParams()
@@ -203,6 +204,8 @@ function LandingPage({
         const adsPanels = await adsSpotService.getAllAdsPanelByAdsSpotId(popupInfo.id)
 
         const adsSpotServiceResult = await adsSpotService.getById(popupInfo.id)
+
+        setCurrentSpot(adsSpotServiceResult)
         if (isEdit) {
           if (adsPanels.length < adsSpotServiceResult.max_ads_panel) {
             setCurrentSpotId(popupInfo.id)
@@ -444,6 +447,7 @@ LandingPage.propTypes = {
   spotId: PropTypes.number,
   setCurrentSpotId: PropTypes.func,
   setCurrentPanel: PropTypes.func,
+  setCurrentSpot: PropTypes.func,
   isEdit: PropTypes.bool,
 }
 
