@@ -1,24 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { FlexContainer } from './AdsPanelLocationInfo.style'
+import { FlexContainer, RightPanelToggle } from './AdsPanelLocationInfo.style'
 import LocationInfo from '../LocationInfo/LocationInfo'
 import AdsPanelInfo from '../AdsPanelInfo/AdsPanelInfo'
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons'
 
 function AdsPanelLocationInfo({ locationDetail, adsPanelDetail }) {
+  const [visibleInfomation, setVisibleInformation] = useState(true)
+
   return (
-    <FlexContainer
-      vertical
-      gap={5}
-      style={{
-        position: 'absolute',
-        top: '30%',
-        right: 50,
-        zIndex: 2,
-      }}
-    >
-      <AdsPanelInfo adsPannelInfo={adsPanelDetail} />
-      <LocationInfo locationDetail={locationDetail} />
+    <FlexContainer vertical gap={5}>
+      <RightPanelToggle
+        icon={visibleInfomation ? <EyeOutlined /> : <EyeInvisibleOutlined />}
+        shape="circle"
+        onClick={() => setVisibleInformation(!visibleInfomation)}
+      />
+      {visibleInfomation && (
+        <React.Fragment>
+          <AdsPanelInfo adsPannelInfo={adsPanelDetail} />
+          <LocationInfo locationDetail={locationDetail} />
+        </React.Fragment>
+      )}
     </FlexContainer>
   )
 }

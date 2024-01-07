@@ -412,6 +412,7 @@ function LandingPage({
           <AdsPanelList
             items={adsPanels}
             isVisible={popupInfo}
+            adsPanelDetail={adsPanelDetail}
             onShowPanelDetail={onShowPanelDetail}
           />
         )}

@@ -21,7 +21,6 @@ function AdsPanel({ adsPanelItem, onShowPanelDetail }) {
         {adsPanelItem.ads_panel_type.name}
       </Title>
       <Paragraph type="secondary">
-        {/* Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1 */}
         {adsPanelItem.address}
         {getFormattedAddress(ads_spot.address, ads_spot.ward.name, ads_spot.district.name)}
       </Paragraph>

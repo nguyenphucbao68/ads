@@ -1,10 +1,14 @@
-import { Flex } from 'antd'
+import { Button, Flex } from 'antd'
 import styled from 'styled-components'
 
 export const FlexContainer = styled(Flex)`
   position: absolute;
-  right: 20px;
+  top: 35%;
+  right: 10px;
   width: 400px;
-  bottom: 260px;
   z-index: 1;
+`
+
+export const RightPanelToggle = styled(Button)`
+  align-self: flex-end;
 `

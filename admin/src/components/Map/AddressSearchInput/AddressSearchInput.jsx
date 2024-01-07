@@ -43,12 +43,12 @@ function AddressSearchInput({ onSelectAddress }) {
   return (
     <AutoComplete
       style={{
-        width: 450,
+        width: 400,
         height: 50,
         zIndex: 2,
         position: 'absolute',
         top: 20,
-        left: 440,
+        left: 10,
       }}
       onSearch={(value) => setInput(value)}
       onSelect={onSelect}
