@@ -19,7 +19,7 @@ const columns = [
   {
     field: 'address',
     headerName: 'Địa điểm',
-    width: 250,
+    width: 200,
   },
   {
     field: 'ward',
