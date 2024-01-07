@@ -123,9 +123,15 @@ function LandingPage({
 
   const [popupInfo, setPopupInfo] = useState(null)
 
+  const user = JSON.parse(localStorage.getItem('user'))
+
+  const idFetchValue =
+    user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
+  const role = user?.role
+
   useEffect(() => {
     const fetchData = async () => {
-      const adsSpotsResult = await adsSpotService.getAll()
+      const adsSpotsResult = await adsSpotService.getAll(idFetchValue, role)
       setAdsSpots(adsSpotsResult)
 
       const findAdsSpot = adsSpotsResult.find((item) => item.id === Number(spotId ? spotId : id))
