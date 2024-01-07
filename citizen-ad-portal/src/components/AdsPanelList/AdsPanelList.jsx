@@ -1,17 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import AdsPanel from '../AdsPanel/AdsPanel';
-import { Container } from './AdsPanelList.style';
-import { Flex, Typography } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { Container, SideBarToggle } from './AdsPanelList.style';
+import { Button, Flex, Typography } from 'antd';
+import {
+  ExclamationCircleOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 import AdsPanelDetail from '../AdsPanelDetail/AdsPanelDetail';
 import axios from 'axios';
+import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 
 const { Title } = Typography;
 
 function AdsPanelList(props) {
+  const [sideBarOpen, setSideBarOpen] = useState(true);
+  const { adsPanelDetail } = useAdsPanelDetail();
+
+  const getToggleLeftButton = () => {
+    if (adsPanelDetail) {
+      return '600px';
+    }
+    if (sideBarOpen) {
+      return '430px';
+    }
+
+    return '10px';
+  };
+
   return (
-    <Flex>
-      <Container isVisible={props.isVisible}>
+    <div>
+      <Container
+        isVisible={props.isVisible}
+        style={{ left: sideBarOpen ? '0px' : '-400px' }}
+      >
         {props.items.length > 0 ? (
           props.items.map((item, idx) => (
             <AdsPanel adsPanelItem={item} key={idx} />
@@ -31,7 +53,15 @@ function AdsPanelList(props) {
           </Flex>
         )}
       </Container>
-    </Flex>
+      <SideBarToggle
+        icon={sideBarOpen ? <LeftOutlined /> : <RightOutlined />}
+        shape='circle'
+        onClick={() => setSideBarOpen(!sideBarOpen)}
+        style={{
+          left: getToggleLeftButton(),
+        }}
+      />
+    </div>
   );
 }
 
