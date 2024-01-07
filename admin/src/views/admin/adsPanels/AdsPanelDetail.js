@@ -26,7 +26,7 @@ import * as adsPanelTypeService from 'src/services/adsPanelType'
 import * as adsSpotService from 'src/services/adsSpot'
 import LandingPage from '../adsSpots/LandingPage/LandingPage'
 import { getFormattedAddress } from 'src/utils/address'
-const VisuallyHiddenInput = styled('input')({
+export const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
   height: 1,
@@ -427,6 +427,7 @@ const AdsPanelDetail = () => {
                 className="col-sm-2 mt-1 pt-2 pb-2"
                 variant="outlined"
                 onClick={() => {
+                  setValue('new_address', null)
                   setCurrentMarker(null)
                 }}
               >

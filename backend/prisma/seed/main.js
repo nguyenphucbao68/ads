@@ -1249,6 +1249,7 @@ const ads_license = [
     email: 'letran@gmail.com',
     phone: '02838382342',
     address: '5 TRẦN BÌNH TRỌNG, PHƯ2ỜNG 1, QUẬN 5, TP. HCM',
+    image: 'https://gurulocity.com/wp-content/uploads/2016/10/2016-Colgate-Print-Advertisement-732x1024.jpeg',
   },
   {
     ads_panel_id: Math.floor(Math.random() * 9) + 1,
@@ -1262,6 +1263,8 @@ const ads_license = [
     email: 'lieutu@gmail.com',
     phone: '02838954814',
     address: '92 NGUYỄN BIỂU, PHƯỜNG 1, QUẬN 5, TP. HCM',
+    image:
+      'https://images.saymedia-content.com/.image/t_share/MTc2MjY0MjI5MTk4ODMyODMw/genders-role-in-advertisement-a-complete-analysis.jpg,https://naotw-pd.s3.amazonaws.com/styles/aotw_detail_ir/s3/mcdonalds_print_aotw.jpg?itok=MdS9M4oY',
   },
   {
     ads_panel_id: Math.floor(Math.random() * 9) + 1,
@@ -1275,6 +1278,7 @@ const ads_license = [
     email: 'meraki@gmail.com',
     phone: '02838954814',
     address: '42/43 Lê Lợi, Phường Bến Thành, Quận 1, Thành phố Hồ Chí Minh',
+    image: 'https://4.bp.blogspot.com/_NtCTAedaefg/TTSTwj5L-II/AAAAAAAAACc/PWwWHrKRwLE/s1600/Scan+110170009.jpg',
   },
 ];
 
