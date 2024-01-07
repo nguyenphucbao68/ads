@@ -11,10 +11,12 @@ export const StyledReactMapGL = styled(ReactMapGL)`
 `;
 
 export const StyledPopup = styled(Popup)`
-  button .mapboxgl-popup-close-button {
+  .mapboxgl-popup-close-button {
     z-index: 2;
-    font-size: 24;
+    font-size: 20px;
+  }
+
+  .mapboxgl-popup-content {
+    padding: 15px;
   }
 `;
-
-
