@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Typography } from 'antd'
-import { StyledCard, StyledFlex, StyledCloseCircleOutlined, CardBody } from './AdsPanelDetail.style'
+import { StyledCard, StyledCloseCircleOutlined, CardBody } from './AdsPanelDetail.style'
 // import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider'
 import { getFormattedAddress } from 'src/utils/address'
 import moment from 'moment'
@@ -15,7 +15,11 @@ function AdsPanelDetail({ adsPanelDetail, onClosePanelDetail }) {
   return (
     <React.Fragment>
       {adsPanelDetail && (
-        <StyledFlex align="center">
+        <div
+          style={{
+            marginTop: 15,
+          }}
+        >
           <StyledCard hoverable>
             <img
               src="https://prviet.vn/ImageUpload/userfiles/images/HINH-TONG-HOP/thiet-ke-thi-cong-pano-quang-cao-ngoai-troi-pano-cot-bien-thiet-ke-quang-cao-prviet-02.jpg"
@@ -43,7 +47,7 @@ function AdsPanelDetail({ adsPanelDetail, onClosePanelDetail }) {
               <Paragraph level={5}>Phân loại: {adsPanelDetail.ads_spot.spot_type.name}</Paragraph>
             </CardBody>
           </StyledCard>
-        </StyledFlex>
+        </div>
       )}
     </React.Fragment>
   )

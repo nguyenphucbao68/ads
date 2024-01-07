@@ -1,40 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
 import AdsPanel from '../AdsPanel/AdsPanel'
-import { Container } from './AdsPanelList.style'
+import { Container, SideBarToggle } from './AdsPanelList.style'
 import { Flex, Typography } from 'antd'
-import { ExclamationCircleOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import useWindowDimensions from 'src/views/admin/statistics/useWiindowDimensions'
 
 const { Title } = Typography
 
 function AdsPanelList(props) {
+  const [sideBarOpen, setSideBarOpen] = useState(true)
+  const { adsPanelDetail, onShowPanelDetail } = props
+  const getToggleLeftButton = () => {
+    if (adsPanelDetail) {
+      return '600px'
+    }
+    if (sideBarOpen) {
+      return '430px'
+    }
+
+    return '10px'
+  }
   const { height } = useWindowDimensions()
   const inferHeight = () => {
     if (height < window.screen.availHeight - 50) return '550px'
     else return '100%'
   }
+
   return (
-    <Flex>
+    <div>
       <Container
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          zIndex: 1,
-        }}
         isVisible={props.isVisible}
+        style={{
+          left: sideBarOpen ? '0px' : '-400px',
+          paddingTop: 75,
+          width: '420px',
+        }}
       >
         {props.items.length > 0 ? (
           props.items.map((item, idx) => (
-            <AdsPanel adsPanelItem={item} key={idx} onShowPanelDetail={props.onShowPanelDetail} />
+            <AdsPanel adsPanelItem={item} key={idx} onShowPanelDetail={onShowPanelDetail} />
           ))
         ) : (
           <Flex
             style={{
               width: '400px',
               height: inferHeight(),
+              paddingBottom: 75,
             }}
             align="center"
             justify="center"
@@ -45,13 +57,22 @@ function AdsPanelList(props) {
           </Flex>
         )}
       </Container>
-    </Flex>
+      <SideBarToggle
+        icon={sideBarOpen ? <LeftOutlined /> : <RightOutlined />}
+        shape="circle"
+        onClick={() => setSideBarOpen(!sideBarOpen)}
+        style={{
+          left: getToggleLeftButton(),
+        }}
+      />
+    </div>
   )
 }
 
 AdsPanelList.propTypes = {
   items: PropTypes.array,
   isVisible: PropTypes.object,
+  adsPanelDetail: PropTypes.object,
   onShowPanelDetail: PropTypes.func,
 }
 

@@ -14,8 +14,6 @@ const StyledCard = styled(Card)`
 `
 
 function PinInfo({ info }) {
-  console.log({ info })
-
   return (
     <StyledCard style={{ width: 300, padding: 0, boxShadow: 'none' }} bordered={false}>
       <Title level={5} style={{ margin: 0 }}>
