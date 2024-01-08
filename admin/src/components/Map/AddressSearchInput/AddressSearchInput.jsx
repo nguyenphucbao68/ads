@@ -16,9 +16,6 @@ function AddressSearchInput({ onSelectAddress }) {
           url: `${process.env.REACT_APP_PLACES_API}/AutoComplete?api_key=${process.env.REACT_APP_ADS_MANAGEMENT_API_KEY}&input=${input}`,
           responseType: 'json',
         }).then(({ data }) => {
-          console.log({
-            data: data.predictions.map((item) => item.description),
-          })
           const res = data.predictions.map((item, id) => ({
             id,
             value: item.description,
@@ -35,7 +32,6 @@ function AddressSearchInput({ onSelectAddress }) {
   const onSelect = (data) => {
     const filteredData = options.filter((item) => item.value === data)
 
-    console.log({ filteredData })
     onSelectAddress(filteredData[0].placeId)
     setInput(data)
   }

@@ -303,6 +303,17 @@ function LandingPage({
           transitionDuration: 'auto',
         })
         setCurrentMarker({ longitude, latitude })
+        onChangeNewAddress({
+          address: data.result.formatted_address,
+          ward: data.result.compound.commune.includes('Phường'),
+          district: data.result.compound.district,
+          long: longitude,
+          lat: latitude,
+        })
+        setLocationInfo({
+          name: data.result.name,
+          address: data.result.formatted_address,
+        })
       })
       .catch((e) => {
         console.log({ error: e.toJSON() })
