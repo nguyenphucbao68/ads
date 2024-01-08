@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { format } from 'date-fns'
 import { Box, Button, Grid, styled } from '@mui/material'
 import {
@@ -22,6 +22,8 @@ import { CloudUpload } from '@mui/icons-material'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as adsPanelTypeService from 'src/services/adsPanelType'
 import * as adsSpotService from 'src/services/adsSpot'
+import LandingPage from '../adsSpots/LandingPage/LandingPage'
+import { getFormattedAddress } from 'src/utils/address'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -39,6 +41,7 @@ const AdsPanelCreate = () => {
     adsPanelType: [],
     adsSpotList: [],
     fileSelected: [],
+    currentSpot: null,
   })
 
   const cloudinaryRef = useRef()
@@ -46,8 +49,9 @@ const AdsPanelCreate = () => {
 
   const [isModalDisplay, setIsModalDisplay] = useState(false)
   const navigate = useNavigate()
-
-  const { register, handleSubmit, formState, getValues } = useForm()
+  const [currentMarker, setCurrentMarker] = useState(null)
+  const [currentSpotId, setCurrentSpotId] = useState(null)
+  const { register, handleSubmit, formState, getValues, setValue } = useForm()
 
   // Fetch data
   const init = async () => {
@@ -146,6 +150,28 @@ const AdsPanelCreate = () => {
       },
     )
   }, [])
+
+  const onChangeNewAddress = useCallback((address) => {
+    setData((pre) => ({
+      ...pre,
+      new_address: address,
+    }))
+
+    setValue(
+      'new_address',
+      address.address.length > 0
+        ? getFormattedAddress(address.address, address.ward, address.district)
+        : null,
+      { shouldDirty: true },
+    )
+  }, [])
+
+  useEffect(() => {
+    setData((pre) => ({
+      ...pre,
+      currentSpot: data.adsSpotList.find((spot) => spot.id === currentSpotId),
+    }))
+  }, [currentSpotId])
 
   return (
     <CCard className="mb-4">
@@ -309,14 +335,13 @@ const AdsPanelCreate = () => {
               </CCol>
             </CRow>
             <CRow className="mb-3">
-              <CFormLabel htmlFor="spot_id" className="col-sm-2 col-form-label">
-                Điểm đặt tại đây
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormSelect
-                  aria-label="Default select example"
-                  options={adsSpotOptions}
-                  {...register('spot_id', { required: true })}
+              <CCol sm={12}>
+                <LandingPage
+                  height="650px"
+                  width="100%"
+                  onChangeNewAddress={onChangeNewAddress}
+                  currentMarker={currentMarker}
+                  setCurrentMarker={setCurrentMarker}
                 />
               </CCol>
             </CRow>
