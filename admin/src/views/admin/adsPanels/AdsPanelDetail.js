@@ -85,6 +85,7 @@ const AdsPanelDetail = () => {
       adsPanelType: adsPanelTypeData,
       adsSpotList: adsSpotList,
       currentSpot: currentSpot,
+      fileSelected: adsPanelData.image.split(',').filter((image) => image.length > 0),
     }))
 
     setValue(
