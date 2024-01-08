@@ -1239,7 +1239,7 @@ const user = [
 const ads_license = [
   {
     ads_panel_id: Math.floor(Math.random() * 9) + 1,
-    content: 'Cấp phép cho công ty này',
+    content: '&lt;p>CÔNG TY CỔ PHẦN ĐẦU TƯ SẢN XUẤT LÊ TRẦN&lt;/p>',
     user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
@@ -1253,7 +1253,7 @@ const ads_license = [
   },
   {
     ads_panel_id: Math.floor(Math.random() * 9) + 1,
-    content: 'Cấp phép cho công ty này',
+    content: '&lt;p>CÔNG TY CỔ PHẦN ĐẦU TƯ SẢN XUẤT LÊ TRẦN&lt;/p>',
     user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),
@@ -1268,7 +1268,7 @@ const ads_license = [
   },
   {
     ads_panel_id: Math.floor(Math.random() * 9) + 1,
-    content: 'Cấp phép cho công ty này',
+    content: '&lt;p>CÔNG TY CỔ PHẦN ĐẦU TƯ SẢN XUẤT LÊ TRẦN&lt;/p>',
     user_id: Math.floor(Math.random() * 3) + 1,
     start_date: CURRENT_DATE,
     expire_date: getDateNextMoth(),

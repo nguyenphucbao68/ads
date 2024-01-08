@@ -201,6 +201,7 @@ const createAdsLicense = async (body) => {
       email: body.email,
       address: body.address,
       phone: body.phone,
+      image: body.image,
     },
   });
 
