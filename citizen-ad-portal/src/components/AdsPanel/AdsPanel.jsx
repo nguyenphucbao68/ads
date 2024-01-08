@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
-import { Button, Modal, Typography, Form, Input, Select, Space } from 'antd';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Button,
+  Modal,
+  Typography,
+  Form,
+  Input,
+  Select,
+  Space,
+  Upload,
+} from 'antd';
 import { StyledCard } from './AdsPanel.styles';
-import { InfoCircleOutlined, WarningFilled } from '@ant-design/icons';
+import {
+  InfoCircleOutlined,
+  UploadOutlined,
+  WarningFilled,
+} from '@ant-design/icons';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 import { getFormattedAddress } from '../../common/common';
-
+import axios from 'axios';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 const { Paragraph, Text, Title } = Typography;
 
 const layout = {
@@ -12,11 +27,15 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
-
 const { Option } = Select;
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 function AdsPanel({ adsPanelItem }) {
   const { onShowPanelDetail } = useAdsPanelDetail();
@@ -39,6 +58,8 @@ function AdsPanel({ adsPanelItem }) {
   };
 
   const onReportTypeChange = (value) => {};
+
+  const [content, setContent] = useState('');
 
   const onGenderChange = (value) => {
     switch (value) {
@@ -66,6 +87,52 @@ function AdsPanel({ adsPanelItem }) {
   const onFill = () => {
     form.setFieldsValue({ note: 'Hello world!', gender: 'male' });
   };
+
+  const cloudName = 'dzjaj79nw';
+  const uploadPreset = 'u4mszkqu';
+
+  const customRequest = async ({ file, onSuccess, onError, onProgress }) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/${cloudName}/upload`,
+        formData,
+        {
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            onProgress({ percent: percentCompleted });
+          },
+        }
+      );
+
+      onSuccess();
+      console.log('Image URL:', response.data.url);
+    } catch (error) {
+      console.log('Error uploading image to Cloudinary', error);
+    }
+  };
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState([]);
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
+    );
+  };
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   return (
     <StyledCard hoverable onClick={(e) => onShowPanelDetail(adsPanelItem)}>
@@ -188,6 +255,47 @@ function AdsPanel({ adsPanelItem }) {
                 ) : null
               }
             </Form.Item>
+
+            <Upload
+              customRequest={customRequest}
+              listType='picture'
+              maxCount={2}
+              multiple
+            >
+              <Button icon={<UploadOutlined />}>Upload photos</Button>
+            </Upload>
+            <Modal
+              open={previewOpen}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img
+                alt='example'
+                style={{
+                  width: '100%',
+                }}
+                src={previewImage}
+              />
+            </Modal>
+
+            <CKEditor
+              id='content'
+              editor={ClassicEditor}
+              onReady={(editor) => {
+                // You can store the "editor" and use when it is needed.
+              }}
+              onChange={(event, editor) => {
+                console.log(event);
+              }}
+              onBlur={(event, editor) => {
+                setContent(editor.getData());
+              }}
+              onFocus={(event, editor) => {
+                console.log('Focus.', editor);
+              }}
+              onInit={(editor) => {}}
+            />
           </Form>
         </Modal>
       </div>
