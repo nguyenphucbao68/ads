@@ -168,11 +168,7 @@ const AdsLicenseCreate = () => {
                   onFocus={(event, editor) => {
                     console.log('Focus.', editor)
                   }}
-                  onInit={(editor) => {
-                    editor.editing.view.change((writer) => {
-                      writer.setStyle('height', '400px', editor.editing.view.document.getRoot())
-                    })
-                  }}
+                  onInit={(editor) => {}}
                 />
               </CCol>
             </CRow>
