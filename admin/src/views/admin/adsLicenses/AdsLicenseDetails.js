@@ -10,7 +10,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ConfirmModal from 'src/modals/ConfirmModal'
-import { Parser } from 'html-to-react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import he from 'he'
 import { Gallery, Item } from 'react-photoswipe-gallery'
@@ -134,7 +133,7 @@ const AdsLicenseDetails = () => {
                   borderRadius: '8px',
                 }}
               >
-                {Parser().parse(he.decode(data.adsLicense.content))}
+                <div dangerouslySetInnerHTML={{ __html: he.decode(data.adsLicense.content) }} />
               </CCol>
             </CRow>
             <CRow className="mb-3">
