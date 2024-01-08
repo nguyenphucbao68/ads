@@ -19,6 +19,7 @@ import { toast } from 'sonner'
 import { VisuallyHiddenInput } from '../adsPanels/AdsPanelDetail'
 import LandingPage from '../adsSpots/LandingPage/LandingPage'
 import { getFormattedAddress } from 'src/utils/address'
+import './AdsLicenseCreate.css'
 // TODO
 const AdsLicenseCreate = () => {
   const { adsPanels, dispatchAdsPanels } = useContext(AdsPanelContext)
@@ -157,22 +158,17 @@ const AdsLicenseCreate = () => {
                   editor={ClassicEditor}
                   onReady={(editor) => {
                     // You can store the "editor" and use when it is needed.
-                    editor.ui.view.editable.element.style.minHeight = '200px'
                   }}
                   onChange={(event, editor) => {
-                    editor.ui.view.editable.element.style.minHeight = '200px'
                     console.log(event)
                   }}
                   onBlur={(event, editor) => {
-                    editor.ui.view.editable.element.style.minHeight = '200px'
                     setContent(editor.getData())
                   }}
                   onFocus={(event, editor) => {
-                    editor.ui.view.editable.element.style.minHeight = '200px'
                     console.log('Focus.', editor)
                   }}
                   onInit={(editor) => {
-                    editor.ui.view.editable.element.style.minHeight = '200px'
                     editor.editing.view.change((writer) => {
                       writer.setStyle('height', '400px', editor.editing.view.document.getRoot())
                     })
