@@ -45,26 +45,6 @@ const columns = [
     },
   },
   {
-    field: 'name',
-    headerName: 'Tên công ty',
-    width: 200,
-  },
-  {
-    field: 'email',
-    headerName: 'Email',
-    width: 150,
-  },
-  {
-    field: 'phone',
-    headerName: 'Số điện thoại',
-    width: 120,
-  },
-  {
-    field: 'address',
-    headerName: 'Địa chỉ',
-    width: 200,
-  },
-  {
     field: 'ward',
     headerName: 'Phường',
     width: 100,
@@ -128,6 +108,27 @@ const columns = [
       },
     ],
   },
+  {
+    field: 'name',
+    headerName: 'Tên công ty',
+    width: 200,
+  },
+  {
+    field: 'email',
+    headerName: 'Email',
+    width: 150,
+  },
+  {
+    field: 'phone',
+    headerName: 'Số điện thoại',
+    width: 120,
+  },
+  // {
+  //   field: 'address',
+  //   headerName: 'Địa chỉ',
+  //   width: 200,
+  // },
+
   {
     field: 'status',
     headerName: 'Trạng thái',

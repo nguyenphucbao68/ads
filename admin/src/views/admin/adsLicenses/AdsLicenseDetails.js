@@ -11,6 +11,9 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ConfirmModal from 'src/modals/ConfirmModal'
 import { Parser } from 'html-to-react'
+import DeleteIcon from '@mui/icons-material/Delete'
+import he from 'he'
+import { Gallery, Item } from 'react-photoswipe-gallery'
 
 const AdsLicenseDetails = () => {
   const { id } = useParams()
@@ -60,6 +63,7 @@ const AdsLicenseDetails = () => {
       address: '',
       phone: '',
     },
+    fileSelected: [],
   })
 
   useEffect(() => {
@@ -68,6 +72,7 @@ const AdsLicenseDetails = () => {
       setData((pre) => ({
         ...pre,
         adsLicense: adsLicenseRes,
+        fileSelected: adsLicenseRes.image.split(',').filter((image) => image.length > 0),
       }))
     }
 
@@ -99,7 +104,7 @@ const AdsLicenseDetails = () => {
         <CForm>
           <Box
             sx={{
-              height: '100%',
+              height: 'calc(100vh - 350px)',
               width: '100%',
               overflowY: 'auto',
             }}
@@ -129,16 +134,45 @@ const AdsLicenseDetails = () => {
                   borderRadius: '8px',
                 }}
               >
-                {/* TODO: Render html here */}
-                {Parser().parse(`<h1>${data.adsLicense.content}</h1>`)}
-
-                {/* <CFormInput
-                  type="text"
-                  id="inputAdsLicenseContent"
-                  readOnly
-                  plainText
-                  value={`<p>${data.adsLicense.content}</p>`}
-                /> */}
+                {Parser().parse(he.decode(data.adsLicense.content))}
+              </CCol>
+            </CRow>
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="imagesPicker" className="col-sm-12 col-form-label">
+                Hình ảnh minh họa
+              </CFormLabel>
+              <CCol sm={12}>
+                <Gallery>
+                  {data.fileSelected.map((file, index) => (
+                    <Item key={index} original={file} thumbnail={file} width="1024" height="768">
+                      {({ ref, open }) => (
+                        <div
+                          style={{
+                            position: 'relative',
+                            display: 'inline-block',
+                            cursor: 'pointer',
+                            width: '200px',
+                            marginRight: '10px',
+                            marginTop: '5px',
+                            marginBottom: '5px',
+                          }}
+                        >
+                          <img
+                            ref={ref}
+                            onClick={open}
+                            src={file}
+                            alt="..."
+                            style={{
+                              width: '200px',
+                              height: '200px',
+                              objectFit: 'cover',
+                            }}
+                          />
+                        </div>
+                      )}
+                    </Item>
+                  ))}
+                </Gallery>
               </CCol>
             </CRow>
             <CRow className="mb-1">
@@ -476,6 +510,40 @@ const AdsLicenseDetails = () => {
                     ? 'Đã duyệt'
                     : 'Không phê duyệt'}
                 </Box>
+                {data.adsLicense.status === 0 && (
+                  <Button
+                    variant="contained"
+                    startIcon={<DeleteIcon />}
+                    color="error"
+                    sx={{
+                      borderRadius: '8px',
+                      marginLeft: '10px',
+                    }}
+                    onClick={() => {
+                      setData((pre) => ({
+                        ...pre,
+                        showConfirmModal: true,
+                        title: 'Xác nhận xóa',
+                        content: 'Bạn có chắc chắn muốn xóa cấp phép quảng cáo này?',
+                        onConfirm: async () => {
+                          const result = await adsLicenseService.deleteById(id)
+                          setData((pre) => ({
+                            ...pre,
+                            showConfirmModal: false,
+                          }))
+                          if (result.id) {
+                            toast.success('Xóa cấp phép quảng cáo thành công')
+                            navigate('/admin/approval/ads_licenses')
+                          } else {
+                            toast.error('Xóa cấp phép quảng cáo thất bại')
+                          }
+                        },
+                      }))
+                    }}
+                  >
+                    Xóa
+                  </Button>
+                )}
               </Grid>
               {data.adsLicense.status === 0 && (
                 <Grid
