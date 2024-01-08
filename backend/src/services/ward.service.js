@@ -28,6 +28,15 @@ const getWardById = async (id) => {
   });
   return data;
 };
+const getWardIdByUserId = async (id) => {
+  const data = await prisma.user_ward.findFirst({
+    where: {
+      user_id: parseInt(id),
+    },
+  });
+  if (data) return data.ward_id;
+  else return null;
+};
 
 const createWard = async (body) => {
   const data = await prisma.ward.create({
@@ -75,4 +84,5 @@ module.exports = {
   createWard,
   updateWard,
   deleteWard,
+  getWardIdByUserId,
 };

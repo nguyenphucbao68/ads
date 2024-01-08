@@ -9,11 +9,9 @@ import store from './store'
 import 'photoswipe/dist/photoswipe.css'
 
 createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
 )
 
 // If you want to start measuring performance in your app, pass a function

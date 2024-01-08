@@ -12,3 +12,4 @@ module.exports.changeRequestController = require('./changeRequest.controller');
 module.exports.adsTypeController = require('./adsType.controller');
 module.exports.spotTypeController = require('./spotType.controller');
 module.exports.statisticController = require('./statistic.controller');
+module.exports.socketController = require('./socket.Controller');

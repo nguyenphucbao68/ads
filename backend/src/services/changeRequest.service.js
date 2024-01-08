@@ -52,7 +52,13 @@ const create = async (body, userId) => {
   return data;
 };
 const get = async () => {
-  const data = await prisma.information_change_request.findMany();
+  const data = await prisma.information_change_request.findMany({
+    orderBy: [
+      {
+        created_at: 'desc',
+      },
+    ],
+  });
   return data;
 };
 

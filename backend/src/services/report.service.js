@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const AdsPanelService = require('./adsPanel.service');
 
 const prisma = new PrismaClient();
 
@@ -29,6 +30,12 @@ const getReports = async (wid = 0, did = 0) => {
 };
 
 const createReport = async (reportBody) => {
+  if (!reportBody?.district_id) {
+    const adPanel = await AdsPanelService.getAdsPanelById(reportBody.ads_panel_id);
+    reportBody.district_id = adPanel.district.id;
+    reportBody.ward_id = adPanel.ward.id;
+    reportBody.address = `${adPanel.address}, ${adPanel.ward.name}, ${adPanel.district.name}`;
+  }
   const report = await prisma.report.create({
     data: reportBody,
   });

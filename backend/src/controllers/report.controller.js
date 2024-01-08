@@ -8,6 +8,7 @@ const getReports = catchAsync(async (req, res) => {
 
 const createReport = catchAsync(async (req, res) => {
   const result = await reportService.createReport(req.body);
+  req.io.to(`district-${result.district_id}`).to(`ward-${result.ward_id}`).emit('newReport', 'new report');
   res.send(result);
 });
 
