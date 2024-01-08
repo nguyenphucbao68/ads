@@ -40,6 +40,10 @@ const AdsPanelCreate = () => {
     adsSpotList: [],
     fileSelected: [],
   })
+
+  const cloudinaryRef = useRef()
+  const widgetRef = useRef()
+
   const [isModalDisplay, setIsModalDisplay] = useState(false)
   const navigate = useNavigate()
 
@@ -81,7 +85,7 @@ const AdsPanelCreate = () => {
         height: height,
         width: width,
         expire_date: expire_date,
-        image: data.fileSelected.length > 0 ? data.fileSelected.length.join(',') : 'example',
+        image: data.fileSelected.length > 0 ? data.fileSelected.join(',') : '',
       }
 
       console.log('adsPanelCreateData ', adsPanelCreateData)
@@ -119,9 +123,6 @@ const AdsPanelCreate = () => {
     return new Date(year, month - 1, day)
   }
 
-  const cloudinaryRef = useRef()
-  const widgetRef = useRef()
-
   useEffect(() => {
     init()
   }, [])
@@ -134,13 +135,14 @@ const AdsPanelCreate = () => {
         uploadPreset: 'u4mszkqu',
       },
       (error, result) => {
+        console.log('result.event ', result.event)
         if (result.event === 'success') {
           console.log('Upload success with the link: ' + result.info.url)
           setData((pre) => ({
             ...pre,
             fileSelected: [...pre.fileSelected, result.info.url],
           }))
-        } else console.error(error)
+        }
       },
     )
   }, [])
