@@ -295,15 +295,15 @@ function LandingPage({
 
         const { lng: longitude, lat: latitude } = location
 
-        onChangeNewAddress({
-          address: data.result.formatted_address,
-          ward: data.result.compound.commune.includes('Phường')
-            ? data.result.compound.commune
-            : 'Phường ' + data.result.compound.commune,
-          district: data.result.compound.district,
-          long: longitude,
-          lat: latitude,
-        })
+        // onChangeNewAddress({
+        //   address: data.result.formatted_address,
+        //   ward: data.result.compound.commune.includes('Phường')
+        //     ? data.result.compound.commune
+        //     : 'Phường ' + data.result.compound.commune,
+        //   district: data.result.compound.district,
+        //   long: longitude,
+        //   lat: latitude,
+        // })
 
         setViewport({
           longitude: location.lng,
