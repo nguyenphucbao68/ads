@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -12,15 +12,29 @@ import {
   CNavItem,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
+import { cilBellExclamation, cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
+import io from 'socket.io-client'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const [notification, setNotification] = useState(false)
+  var socket = null
+  //
+  useEffect(() => {
+    socket = io.connect(process.env.REACT_APP_BACKEND_URL)
+    socket.emit('joinRoomById', JSON.parse(localStorage.getItem('user')).id)
+  }, [])
+  useEffect(() => {
+    socket.on('newReport', (msg) => {
+      console.log(msg)
+      setNotification(true)
+    })
+  }, [socket])
 
   return (
     <CHeader position="sticky" className="mb-4">
@@ -58,18 +72,32 @@ const AppHeader = () => {
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilBell} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilList} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
+            <CNavLink
+              to="admin/report"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+              component={NavLink}
+              onClick={() => setNotification(false)}
+            >
+              {notification && (
+                <span
+                  style={{
+                    display: 'inline-block',
+                    color: 'red',
+                  }}
+                >
+                  Báo cáo mới
+                </span>
+              )}
+              <CIcon
+                style={{
+                  color: notification ? 'red' : 'initial',
+                }}
+                icon={notification ? cilBellExclamation : cilBell}
+                size="lg"
+              />
             </CNavLink>
           </CNavItem>
         </CHeaderNav>

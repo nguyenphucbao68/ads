@@ -14,15 +14,17 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 const http = require('http');
-const { Server } = require("socket.io");
+const { Server } = require('socket.io');
+const { socketController } = require('./controllers');
 
 const app = express();
 //socket server
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: '*',
   },
+  connectionStateRecovery: {},
 });
 
 if (config.env !== 'test') {
@@ -55,10 +57,19 @@ app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
 // add socket io
-app.use((req, res, next)=>{
-  req.io = io
+io.on('connection', (socket) => {
+  socket.on('joinRoomById', (msg) => {
+    socketController.joinRoomById(socket, msg);
+  });
+//   socket.on('disconnect', function() {
+//     console.log('Got disconnect!');
+//  });
+
+});
+app.use((req, res, next) => {
+  req.io = io;
   next();
-})
+});
 
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {
@@ -78,6 +89,5 @@ app.use(errorConverter);
 
 // handle error
 app.use(errorHandler);
-
 
 module.exports = server;
