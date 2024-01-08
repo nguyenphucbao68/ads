@@ -42,6 +42,7 @@ const AdsPanelCreate = () => {
     adsSpotList: [],
     fileSelected: [],
     currentSpot: null,
+    new_address: null,
   })
 
   const cloudinaryRef = useRef()
@@ -50,8 +51,15 @@ const AdsPanelCreate = () => {
   const [isModalDisplay, setIsModalDisplay] = useState(false)
   const navigate = useNavigate()
   const [currentMarker, setCurrentMarker] = useState(null)
-  const [currentSpotId, setCurrentSpotId] = useState(null)
-  const { register, handleSubmit, formState, getValues, setValue } = useForm()
+  const [currentSpotId, setCurrentSpotId] = useState(1)
+  const {
+    register,
+    handleSubmit,
+    formState,
+    formState: { errors },
+    getValues,
+    setValue,
+  } = useForm()
 
   // Fetch data
   const init = async () => {
@@ -61,6 +69,7 @@ const AdsPanelCreate = () => {
       ...prev,
       adsPanelType: adsPanelTypeData,
       adsSpotList: adsSpotList,
+      currentSpot: adsSpotList.find((spot) => spot.id === currentSpotId),
     }))
   }
 
@@ -77,11 +86,13 @@ const AdsPanelCreate = () => {
   // Hàm thay đổi
   const onSave = async () => {
     try {
+      console.log('currentSpotId', currentSpotId)
       const width = getValues('width') || 0
       const height = getValues('height') || 0
       const expire_date = formatDate(getValues('expire_date') || new Date())
+
       const type = getValues('type') || data.adsPanelType[0].id
-      const spot_id = getValues('spot_id') || data.adsSpotList[0].id
+      const spot_id = data.currentSpot.id || 1
 
       const adsPanelCreateData = {
         ads_type_id: type,
@@ -129,6 +140,7 @@ const AdsPanelCreate = () => {
 
   useEffect(() => {
     init()
+    console.log('data init', data)
   }, [])
 
   useEffect(() => {
@@ -182,7 +194,7 @@ const AdsPanelCreate = () => {
         </h4>
         <Box
           sx={{
-            height: 'calc(100vh - 340px)',
+            height: '100%',
             width: '100%',
             marginTop: '15px',
           }}
@@ -334,11 +346,40 @@ const AdsPanelCreate = () => {
                 </Button>
               </CCol>
             </CRow>
+            <CRow className="mt-2 mb-3">
+              <CFormLabel htmlFor="inputNewAddress" className="col-sm-2 col-form-label">
+                Địa chỉ mới
+              </CFormLabel>
+              <CCol sm={8}>
+                <CFormInput
+                  type="text"
+                  readOnly
+                  plainText
+                  placeholder="Chọn địa chỉ mới trên bản đồ"
+                  id="inputNewAddress"
+                  {...register('new_address', {})}
+                  feedback={errors.new_address?.message}
+                />
+              </CCol>
+              {/* Add reset button */}
+              <Button
+                className="col-sm-2 mt-1 pt-2 pb-2"
+                variant="outlined"
+                onClick={() => {
+                  setValue('new_address', null)
+                  setCurrentMarker(null)
+                }}
+              >
+                Đặt lại
+              </Button>
+            </CRow>
             <CRow className="mb-3">
               <CCol sm={12}>
                 <LandingPage
                   height="650px"
                   width="100%"
+                  spotId={currentSpotId}
+                  setCurrentSpotId={setCurrentSpotId}
                   onChangeNewAddress={onChangeNewAddress}
                   currentMarker={currentMarker}
                   setCurrentMarker={setCurrentMarker}
