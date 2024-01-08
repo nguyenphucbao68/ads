@@ -17,6 +17,8 @@ const columns = [
   { field: 'email', headerName: 'Email', flex: 15 },
   { field: 'phone', headerName: 'Điện thoại', flex: 15 },
   { field: 'address', headerName: 'Địa chỉ báo cáo', flex: 25 },
+  { field: 'ward_name', headerName: 'Phường', flex: 25 },
+  { field: 'district_name', headerName: 'Quận', flex: 25 },
   { field: 'report_type_name', headerName: 'Loại hình báo cáo', flex: 13 },
   {
     field: 'status',

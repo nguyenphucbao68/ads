@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef, useCallback } from 'react'
 
 import { Box, Button, Grid } from '@mui/material'
 import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
@@ -7,86 +7,27 @@ import AddIcon from '@mui/icons-material/Add'
 import { AdsPanelContext } from 'src/contexts/AdsPanelProvider'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as adsLicenseService from 'src/services/adsLicense'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { Gallery, Item } from 'react-photoswipe-gallery'
+import CancelIcon from '@mui/icons-material/Cancel'
+import { CloudUpload } from '@mui/icons-material'
 
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { CKEditor } from '@ckeditor/ckeditor5-react'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { VisuallyHiddenInput } from '../adsPanels/AdsPanelDetail'
 import LandingPage from '../adsSpots/LandingPage/LandingPage'
 import { getFormattedAddress } from 'src/utils/address'
-import { CloudUpload } from '@mui/icons-material'
-import { Gallery, Item } from 'react-photoswipe-gallery'
-import CancelIcon from '@mui/icons-material/Cancel'
-import { VisuallyHiddenInput } from '../adsPanels/AdsPanelDetail'
 // TODO
-
 const AdsLicenseCreate = () => {
   const { adsPanels, dispatchAdsPanels } = useContext(AdsPanelContext)
+  const [content, setContent] = useState('')
+  const [image, setImage] = useState('')
   const [currentMarker, setCurrentMarker] = useState(null)
 
-  const [content, setContent] = useState('')
-
-  const [data, setData] = useState({
-    adsSpot: {
-      address: '',
-      image: '',
-      ward: {
-        id: 1,
-        name: '',
-      },
-      district: {
-        id: 1,
-        name: '',
-      },
-      spot_type: {
-        id: 1,
-        name: '',
-      },
-      ads_type: {
-        id: 1,
-        name: '',
-      },
-      is_available: true,
-      max_ads_panel: 1,
-    },
-    new_address: {
-      address: '',
-      ward: '',
-      district: '',
-      long: 0,
-      lat: 0,
-    },
-    fileSelected: [],
-  })
-
-  const {
-    register,
-    handleSubmit,
-    formState,
-    formState: { errors },
-    getValues,
-    setValue,
-  } = useForm({
-    values: {
-      new_address:
-        data.new_address.address.length > 0
-          ? getFormattedAddress(
-              data.new_address.address,
-              data.new_address.ward,
-              data.new_address.district,
-            )
-          : null,
-      spot_type_id: data.adsSpot.spot_type.id,
-      ads_type_id: data.adsSpot.ads_type.id,
-      is_available: data.adsSpot.is_available,
-      max_ads_panel: data.adsSpot.max_ads_panel,
-      images: data.fileSelected,
-    },
-  })
-
-  const cloudinaryRef = useRef()
   const widgetRef = useRef()
+  const cloudinaryRef = useRef()
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary
@@ -97,11 +38,9 @@ const AdsLicenseCreate = () => {
       },
       (error, result) => {
         if (result.event === 'success') {
-          setData((pre) => ({
-            ...pre,
-            fileSelected: [...pre.fileSelected, result.info.url],
-          }))
-        } else console.error(error)
+          toast.success('Tải ảnh lên thành công')
+          setImage(result.info.url)
+        }
       },
     )
   }, [])
@@ -122,7 +61,33 @@ const AdsLicenseCreate = () => {
     fetchData()
   }, [dispatchAdsPanels])
 
+  const onChangeNewAddress = useCallback((address) => {
+    setValue(
+      'address',
+      address.address.length > 0
+        ? getFormattedAddress(address.address, address.ward, address.district)
+        : null,
+      { shouldDirty: true },
+    )
+  }, [])
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm()
+
+  useEffect(() => {
+    setValue('image', image)
+  }, [image])
+
+  useEffect(() => {
+    setValue('content', content)
+  }, [content])
+
   const onSubmit = async (data) => {
+    console.log('===', data)
     const result = await adsLicenseService
       .create({
         ...data,
@@ -141,24 +106,10 @@ const AdsLicenseCreate = () => {
     }
   }
 
-  const onChangeNewAddress = useCallback((address) => {
-    setData((pre) => ({
-      ...pre,
-      new_address: address,
-    }))
-    setValue(
-      'new_address',
-      address.address.length > 0
-        ? getFormattedAddress(address.address, address.ward, address.district)
-        : null,
-      { shouldDirty: true, shouldValidate: true },
-    )
-  }, [])
-
   return (
     <CCard className="mb-4">
-      <CCardBody>
-        <CForm onSubmit={handleSubmit(onSubmit)}>
+      <CForm onSubmit={handleSubmit(onSubmit)}>
+        <CCardBody>
           <h4 id="ads-panel-type-title" className="card-title mb-0">
             Tạo cấp phép quảng cáo
           </h4>
@@ -266,28 +217,14 @@ const AdsLicenseCreate = () => {
                 <span className="text-danger">{errors.phone?.message}</span>
               </CCol>
             </CRow>
-            {/* <CRow className="mb-3">
-              <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
-                Địa chỉ
+            <CRow className="mb-3 mt-3">
+              <CFormLabel htmlFor="inputImage" className="col-sm-2 col-form-label">
+                Hình ảnh
               </CFormLabel>
               <CCol sm={10}>
-                <CFormInput
-                  type="text"
-                  id="inputAddress"
-                  {...register('address', { required: 'Vui lòng nhập địa chỉ' })}
-                  feedback={errors.address?.message}
-                />
-                <span className="text-danger">{errors.address?.message}</span>
-              </CCol>
-            </CRow> */}
-            <CRow className="mb-3">
-              <CFormLabel htmlFor="imagesPicker" className="col-sm-12 col-form-label">
-                Hình ảnh điểm đặt quảng cáo
-              </CFormLabel>
-              <CCol sm={12}>
                 <Gallery>
-                  {data.fileSelected.map((file, index) => (
-                    <Item key={index} original={file} thumbnail={file} width="1024" height="768">
+                  {image && (
+                    <Item original={image} thumbnail={image} width="1024" height="768">
                       {({ ref, open }) => (
                         <div
                           style={{
@@ -302,10 +239,7 @@ const AdsLicenseCreate = () => {
                         >
                           <CancelIcon
                             onClick={() => {
-                              setData((pre) => ({
-                                ...pre,
-                                fileSelected: pre.fileSelected.filter((_, i) => i !== index),
-                              }))
+                              setImage('')
                             }}
                             style={{
                               position: 'absolute',
@@ -319,7 +253,7 @@ const AdsLicenseCreate = () => {
                           <img
                             ref={ref}
                             onClick={open}
-                            src={file}
+                            src={image}
                             alt="..."
                             style={{
                               width: '200px',
@@ -330,27 +264,48 @@ const AdsLicenseCreate = () => {
                         </div>
                       )}
                     </Item>
-                  ))}
+                  )}
                 </Gallery>
               </CCol>
-              <CCol sm={2} className="mt-2">
+              <CCol
+                sm={10}
+                className="mt-2"
+                style={{
+                  marginLeft: 'auto',
+                }}
+              >
                 <Button
                   component="label"
                   variant="outlined"
                   startIcon={<CloudUpload />}
-                  onClick={() => widgetRef.current.open()}
+                  onClick={() => widgetRef?.current?.open()}
                 >
-                  Thêm ảnh
+                  Đổi ảnh
                   <VisuallyHiddenInput
                     type="file"
                     disabled
                     // multiple
-                    {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
                     // onChange={uploadMultiFiles}
                   />
                 </Button>
+                <div className="text-danger">{!image && 'Vui lòng tải ảnh lên'}</div>
               </CCol>
             </CRow>
+            {/* <CRow className="mb-3">
+              <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
+                Địa chỉ
+              </CFormLabel>
+              <CCol sm={10}>
+                <CFormInput
+                  type="text"
+                  id="inputAddress"
+                  {...register('address', { required: 'Vui lòng nhập địa chỉ' })}
+                  feedback={errors.address?.message}
+                />
+                <span className="text-danger">{errors.address?.message}</span>
+              </CCol>
+            </CRow> */}
+
             <CRow className="mt-2 mb-3">
               <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
                 Địa chỉ quảng cáo
@@ -362,12 +317,12 @@ const AdsLicenseCreate = () => {
                   plainText
                   placeholder="Chọn địa chỉ đặt quảng cáo trên bản đồ"
                   id="inputAddress"
-                  {...register('new_address', {
+                  {...register('address', {
                     required: 'Vui lòng chọn địa chỉ đặt quảng cáo trên bản đồ',
                   })}
-                  feedback={errors.new_address?.message}
+                  feedback={errors.address?.message}
                 />
-                {errors.new_address?.type === 'required' && (
+                {errors.address?.type === 'required' && (
                   <p className="text-danger">Địa chỉ đặt quảng cáo không được để trống</p>
                 )}
               </CCol>
@@ -375,7 +330,7 @@ const AdsLicenseCreate = () => {
                 className="col-sm-2 mt-1 pt-2 pb-2"
                 variant="outlined"
                 onClick={() => {
-                  setValue('new_address', null)
+                  setValue('address', null)
                   setCurrentMarker(null)
                 }}
               >
@@ -397,7 +352,7 @@ const AdsLicenseCreate = () => {
 
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputStartDate" className="col-sm-2 col-form-label">
-                Ngày bắt đầu hợp đồng
+                Ngày bắt đầu học hợp
               </CFormLabel>
               <CCol sm={10}>
                 <CFormInput
@@ -445,8 +400,8 @@ const AdsLicenseCreate = () => {
               </Grid>
             </Grid>
           </Box>
-        </CForm>
-      </CCardBody>
+        </CCardBody>
+      </CForm>
     </CCard>
   )
 }

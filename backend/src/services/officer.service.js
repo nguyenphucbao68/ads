@@ -58,10 +58,13 @@ const getReportsByRole = async (role, userId) => {
       },
     });
 
-    data = await prisma.$queryRaw`select r.*, aspt.address, rt.name as report_type_name from report r 
+    data =
+      await prisma.$queryRaw`select r.*, aspt.address, rt.name as report_type_name, w.name as ward_name, d.name as district_name from report r 
       join ads_panel ap on r.ads_panel_id = ap.id
       join ads_spot aspt on ap.ads_spot_id = aspt.id
-      join report_type rt on rt.id = r.report_type_id
+      join report_type rt on rt.id = r.report_type_id  
+      join ward w on w.id = aspt.ward_id
+      join district d on d.id = aspt.district_id    
       where aspt.ward_id = ${userWard.ward_id} or r.ward_id = ${userWard.ward_id}
       order by r.created_at desc`;
   } else {
@@ -71,10 +74,13 @@ const getReportsByRole = async (role, userId) => {
       },
     });
 
-    data = await prisma.$queryRaw`select r.*, aspt.address, rt.name as report_type_name from report r 
+    data =
+      await prisma.$queryRaw`select r.*, aspt.address, rt.name as report_type_name, w.name as ward_name, d.name as district_name from report r 
       join ads_panel ap on r.ads_panel_id = ap.id
       join ads_spot aspt on ap.ads_spot_id = aspt.id
       join report_type rt on rt.id = r.report_type_id
+      join ward w on w.id = aspt.ward_id
+      join district d on d.id = aspt.district_id
       where aspt.district_id = ${userDistrict.district_id} or r.district_id = ${userDistrict.district_id}
       order by r.created_at desc`;
   }

@@ -11,6 +11,7 @@ const createAdsLicense = {
     email: Joi.string().email().required(),
     address: Joi.string().required(),
     phone: Joi.string().required(),
+    image: Joi.string().required(),
   }),
 };
 
