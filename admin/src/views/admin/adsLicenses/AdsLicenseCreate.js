@@ -159,16 +159,20 @@ const AdsLicenseCreate = () => {
                     // You can store the "editor" and use when it is needed.
                     editor.ui.view.editable.element.style.minHeight = '200px'
                   }}
-                  onChange={(event) => {
+                  onChange={(event, editor) => {
+                    editor.ui.view.editable.element.style.minHeight = '200px'
                     console.log(event)
                   }}
                   onBlur={(event, editor) => {
+                    editor.ui.view.editable.element.style.minHeight = '200px'
                     setContent(editor.getData())
                   }}
                   onFocus={(event, editor) => {
+                    editor.ui.view.editable.element.style.minHeight = '200px'
                     console.log('Focus.', editor)
                   }}
                   onInit={(editor) => {
+                    editor.ui.view.editable.element.style.minHeight = '200px'
                     editor.editing.view.change((writer) => {
                       writer.setStyle('height', '400px', editor.editing.view.document.getRoot())
                     })
