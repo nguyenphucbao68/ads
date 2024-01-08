@@ -236,6 +236,7 @@ const updateAdsSpot = async (id, body) => {
       longtitude: body.longtitude,
       is_available: body.is_available,
       max_ads_panel: body.max_ads_panel,
+      updated_at: new Date(),
     },
     include: {
       ward: true,
