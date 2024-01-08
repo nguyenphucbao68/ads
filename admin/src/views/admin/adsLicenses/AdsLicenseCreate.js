@@ -113,11 +113,12 @@ const AdsLicenseCreate = () => {
           <h4 id="ads-panel-type-title" className="card-title mb-0">
             Tạo cấp phép quảng cáo
           </h4>
+          <hr />
           <Box
             sx={{
-              height: '100%',
+              height: 'calc(100vh - 310px)',
               width: '100%',
-              marginTop: '15px',
+              overflowY: 'auto',
             }}
           >
             <CRow className="mb-3">
