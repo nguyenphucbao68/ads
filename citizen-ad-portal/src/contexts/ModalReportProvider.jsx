@@ -6,7 +6,7 @@ const modalReducer = (state, action) => {
   switch (action.type) {
     case 'ON_OPEN_MODAL':
       return {
-        category: action.payload.category,
+        ...action.payload,
         isOpenModal: true,
       };
 

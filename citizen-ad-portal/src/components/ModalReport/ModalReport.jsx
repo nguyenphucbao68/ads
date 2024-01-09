@@ -15,12 +15,19 @@ const { Option } = Select;
 
 function ModalReport() {
   const { state, onCloseModal } = useModalReport();
-  const onFinish = (values) => {
-    console.log({ ...values, current: editorRef.current.editor.getData() });
-  };
-
   const [form] = Form.useForm();
   const [reportTypes, setReportTypes] = useState([]);
+
+  useEffect(() => {
+    // fetch report types
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_ADS_REPORT_URI}/types`,
+      responseType: 'json',
+    }).then(({ data }) => {
+      setReportTypes(data);
+    });
+  }, []);
 
   const cloudName = 'dzjaj79nw';
   const uploadPreset = 'u4mszkqu';
@@ -53,10 +60,6 @@ function ModalReport() {
 
   const editorRef = useRef();
 
-  //   const [previewOpen, setPreviewOpen] = useState(false);
-  //   const [previewImage, setPreviewImage] = useState('');
-  //   const [previewTitle, setPreviewTitle] = useState('');
-
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -66,20 +69,61 @@ function ModalReport() {
     return e?.fileList;
   };
 
-  useEffect(() => {
-    // fetch report types
+  const onFinish = (values) => {
+    console.log({ ...values, current: editorRef.current.editor.getData() });
+
+    let ads_panel_id;
+    let longtitude;
+    let latitude;
+    let district_id;
+    let ward_id;
+    let address;
+
+    if (state.adsPanelItem) {
+      ads_panel_id = state.adsPanelItem.id;
+      longtitude = state.adsPanelItem.ads_spot.longtitude;
+      latitude = state.adsPanelItem.ads_spot.latitude;
+    }
+
+    if (state.locationDetail) {
+      longtitude = state.locationDetail.longtitude;
+      latitude = state.locationDetail.latitude;
+      district_id = state.locationDetail.district_id;
+      ward_id = state.locationDetail.ward_id;
+      district_id = state.locationDetail.district_id;
+    }
+    const body = {
+      ads_panel_id,
+      ...values,
+      image: JSON.stringify(values.image.map((item) => item.response.url)),
+      longtitude,
+      latitude,
+      content: editorRef.current.editor.getData(),
+    };
+
     axios({
-      method: 'get',
-      url: `${process.env.REACT_APP_ADS_REPORT_URI}/types`,
-      responseType: 'json',
-    }).then(({ data }) => {
-      setReportTypes(data);
-    });
-  }, []);
+      method: 'post',
+      data: {
+        ...body,
+      },
+      url: 'http://localhost:4000/v1/report/create',
+    })
+      .then(({ data }) => {
+        console.log({ data });
+      })
+      .catch((e) => console.log(e.toJSON()));
+    console.log({ state, body });
+  };
+
+  useEffect(() => {
+    console.log('reset form');
+    form.resetFields();
+  }, [state.category]);
 
   return (
     <Modal
-      title='BÁO CÁO VI PHẠM'
+      // title='BÁO CÁO VI PHẠM'
+      title={'BÁO CÁO VI PHẠM CHO ' + state.category}
       open={state.isOpenModal}
       onOk={onCloseModal}
       onCancel={onCloseModal}
@@ -95,15 +139,11 @@ function ModalReport() {
         style={{ maxWidth: 1200 }}
         autoComplete='off'
       >
-        <Form.Item
-          name='category'
-          label='Phân loại'
-          initialValue={state.category}
-        >
+        <Form.Item label='Phân loại'>
           <Input defaultValue={state.category} disabled />
         </Form.Item>
         <Form.Item
-          name='hinh_thuc_bao_cao'
+          name='report_type_id'
           label='Hình thức báo cáo'
           rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         >
@@ -116,25 +156,33 @@ function ModalReport() {
           </Select>
         </Form.Item>
         <Form.Item
-          name='ten_nguoi_gui'
+          name='name'
           label='Họ tên'
           rules={[{ required: true, message: 'Vui lòng không để trống' }]}
         >
           <Input placeholder='Nhập họ tên người gửi' />
         </Form.Item>
 
-        <Form.Item name='email' label='Email'>
+        <Form.Item
+          name='email'
+          label='Email'
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
+        >
           <Input placeholder='Nhập email người gửi' />
         </Form.Item>
 
-        <Form.Item name='so_dien_thoai' label='Số điện thoại liên lạc'>
+        <Form.Item
+          name='phone'
+          label='Số điện thoại liên lạc'
+          rules={[{ required: true, message: 'Vui lòng không để trống' }]}
+        >
           <Input placeholder='Nhập số điện thoại người gửi' />
         </Form.Item>
 
         <Form.Item
           label={'Upload'}
-          name={'fileList'}
-          valuePropName='fileList'
+          name={'image'}
+          valuePropName='image'
           getValueFromEvent={normFile}
         >
           <Upload

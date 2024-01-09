@@ -20,6 +20,7 @@ function AdsPanel({ adsPanelItem }) {
       type: 'ON_OPEN_MODAL',
       payload: {
         category: 'Biển quảng cáo',
+        adsPanelItem,
       },
     });
   };
@@ -32,7 +33,6 @@ function AdsPanel({ adsPanelItem }) {
       </Title>
       <Paragraph type='secondary'>
         {/* Đồng Khởi - Nguyễn Du (Sở Văn hoá và Thể thao), Phường Bến Nghé, Quận 1 */}
-        {adsPanelItem.address}
         {getFormattedAddress(
           ads_spot.address,
           ads_spot.ward.name,
