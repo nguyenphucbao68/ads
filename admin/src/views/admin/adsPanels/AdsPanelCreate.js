@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { format } from 'date-fns'
 import { Box, Button, Grid, styled } from '@mui/material'
 import {
@@ -22,6 +22,8 @@ import { CloudUpload } from '@mui/icons-material'
 import * as adsPanelService from 'src/services/adsPanel'
 import * as adsPanelTypeService from 'src/services/adsPanelType'
 import * as adsSpotService from 'src/services/adsSpot'
+import LandingPage from '../adsSpots/LandingPage/LandingPage'
+import { getFormattedAddress } from 'src/utils/address'
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
   clipPath: 'inset(50%)',
@@ -39,11 +41,25 @@ const AdsPanelCreate = () => {
     adsPanelType: [],
     adsSpotList: [],
     fileSelected: [],
+    currentSpot: null,
+    new_address: null,
   })
+
+  const cloudinaryRef = useRef()
+  const widgetRef = useRef()
+
   const [isModalDisplay, setIsModalDisplay] = useState(false)
   const navigate = useNavigate()
-
-  const { register, handleSubmit, formState, getValues } = useForm()
+  const [currentMarker, setCurrentMarker] = useState(null)
+  const [currentSpotId, setCurrentSpotId] = useState(1)
+  const {
+    register,
+    handleSubmit,
+    formState,
+    formState: { errors },
+    getValues,
+    setValue,
+  } = useForm()
 
   // Fetch data
   const init = async () => {
@@ -53,6 +69,7 @@ const AdsPanelCreate = () => {
       ...prev,
       adsPanelType: adsPanelTypeData,
       adsSpotList: adsSpotList,
+      currentSpot: adsSpotList.find((spot) => spot.id === currentSpotId),
     }))
   }
 
@@ -69,11 +86,13 @@ const AdsPanelCreate = () => {
   // Hàm thay đổi
   const onSave = async () => {
     try {
+      console.log('currentSpotId', currentSpotId)
       const width = getValues('width') || 0
       const height = getValues('height') || 0
       const expire_date = formatDate(getValues('expire_date') || new Date())
+
       const type = getValues('type') || data.adsPanelType[0].id
-      const spot_id = getValues('spot_id') || data.adsSpotList[0].id
+      const spot_id = data.currentSpot.id || 1
 
       const adsPanelCreateData = {
         ads_type_id: type,
@@ -81,7 +100,7 @@ const AdsPanelCreate = () => {
         height: height,
         width: width,
         expire_date: expire_date,
-        image: data.fileSelected.length > 0 ? data.fileSelected.length.join(',') : 'example',
+        image: data.fileSelected.length > 0 ? data.fileSelected.join(',') : '',
       }
 
       console.log('adsPanelCreateData ', adsPanelCreateData)
@@ -119,11 +138,9 @@ const AdsPanelCreate = () => {
     return new Date(year, month - 1, day)
   }
 
-  const cloudinaryRef = useRef()
-  const widgetRef = useRef()
-
   useEffect(() => {
     init()
+    console.log('data init', data)
   }, [])
 
   useEffect(() => {
@@ -134,16 +151,39 @@ const AdsPanelCreate = () => {
         uploadPreset: 'u4mszkqu',
       },
       (error, result) => {
+        console.log('result.event ', result.event)
         if (result.event === 'success') {
           console.log('Upload success with the link: ' + result.info.url)
           setData((pre) => ({
             ...pre,
             fileSelected: [...pre.fileSelected, result.info.url],
           }))
-        } else console.error(error)
+        }
       },
     )
   }, [])
+
+  const onChangeNewAddress = useCallback((address) => {
+    setData((pre) => ({
+      ...pre,
+      new_address: address,
+    }))
+
+    setValue(
+      'new_address',
+      address.address.length > 0
+        ? getFormattedAddress(address.address, address.ward, address.district)
+        : null,
+      { shouldDirty: true },
+    )
+  }, [])
+
+  useEffect(() => {
+    setData((pre) => ({
+      ...pre,
+      currentSpot: data.adsSpotList.find((spot) => spot.id === currentSpotId),
+    }))
+  }, [currentSpotId])
 
   return (
     <CCard className="mb-4">
@@ -154,7 +194,7 @@ const AdsPanelCreate = () => {
         </h4>
         <Box
           sx={{
-            height: 'calc(100vh - 340px)',
+            height: '100%',
             width: '100%',
             marginTop: '15px',
           }}
@@ -306,15 +346,43 @@ const AdsPanelCreate = () => {
                 </Button>
               </CCol>
             </CRow>
-            <CRow className="mb-3">
-              <CFormLabel htmlFor="spot_id" className="col-sm-2 col-form-label">
-                Điểm đặt tại đây
+            <CRow className="mt-2 mb-3">
+              <CFormLabel htmlFor="inputNewAddress" className="col-sm-2 col-form-label">
+                Địa chỉ mới
               </CFormLabel>
-              <CCol sm={10}>
-                <CFormSelect
-                  aria-label="Default select example"
-                  options={adsSpotOptions}
-                  {...register('spot_id', { required: true })}
+              <CCol sm={8}>
+                <CFormInput
+                  type="text"
+                  readOnly
+                  plainText
+                  placeholder="Chọn địa chỉ mới trên bản đồ"
+                  id="inputNewAddress"
+                  {...register('new_address', {})}
+                  feedback={errors.new_address?.message}
+                />
+              </CCol>
+              {/* Add reset button */}
+              <Button
+                className="col-sm-2 mt-1 pt-2 pb-2"
+                variant="outlined"
+                onClick={() => {
+                  setValue('new_address', null)
+                  setCurrentMarker(null)
+                }}
+              >
+                Đặt lại
+              </Button>
+            </CRow>
+            <CRow className="mb-3">
+              <CCol sm={12}>
+                <LandingPage
+                  height="650px"
+                  width="100%"
+                  spotId={currentSpotId}
+                  setCurrentSpotId={setCurrentSpotId}
+                  onChangeNewAddress={onChangeNewAddress}
+                  currentMarker={currentMarker}
+                  setCurrentMarker={setCurrentMarker}
                 />
               </CCol>
             </CRow>

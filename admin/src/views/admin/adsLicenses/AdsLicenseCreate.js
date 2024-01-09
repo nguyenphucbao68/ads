@@ -19,6 +19,7 @@ import { toast } from 'sonner'
 import { VisuallyHiddenInput } from '../adsPanels/AdsPanelDetail'
 import LandingPage from '../adsSpots/LandingPage/LandingPage'
 import { getFormattedAddress } from 'src/utils/address'
+import './AdsLicenseCreate.css'
 // TODO
 const AdsLicenseCreate = () => {
   const { adsPanels, dispatchAdsPanels } = useContext(AdsPanelContext)
@@ -113,11 +114,12 @@ const AdsLicenseCreate = () => {
           <h4 id="ads-panel-type-title" className="card-title mb-0">
             Tạo cấp phép quảng cáo
           </h4>
+          <hr />
           <Box
             sx={{
-              height: '100%',
+              height: 'calc(100vh - 310px)',
               width: '100%',
-              marginTop: '15px',
+              overflowY: 'auto',
             }}
           >
             <CRow className="mb-3">
@@ -156,9 +158,8 @@ const AdsLicenseCreate = () => {
                   editor={ClassicEditor}
                   onReady={(editor) => {
                     // You can store the "editor" and use when it is needed.
-                    editor.ui.view.editable.element.style.minHeight = '200px'
                   }}
-                  onChange={(event) => {
+                  onChange={(event, editor) => {
                     console.log(event)
                   }}
                   onBlur={(event, editor) => {
@@ -167,11 +168,7 @@ const AdsLicenseCreate = () => {
                   onFocus={(event, editor) => {
                     console.log('Focus.', editor)
                   }}
-                  onInit={(editor) => {
-                    editor.editing.view.change((writer) => {
-                      writer.setStyle('height', '400px', editor.editing.view.document.getRoot())
-                    })
-                  }}
+                  onInit={(editor) => {}}
                 />
               </CCol>
             </CRow>

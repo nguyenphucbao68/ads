@@ -190,7 +190,7 @@ const AdsSpotDetails = () => {
       setData((pre) => ({
         ...pre,
         adsSpot,
-        fileSelected: adsSpot.image.split(','),
+        fileSelected: adsSpot.image.split(',').filter((image) => image.length > 0),
       }))
     }
 
@@ -222,7 +222,7 @@ const AdsSpotDetails = () => {
         <CForm onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
-              height: '100%',
+              height: 'calc(100vh - 350px)',
               width: '100%',
               overflowY: 'auto',
             }}

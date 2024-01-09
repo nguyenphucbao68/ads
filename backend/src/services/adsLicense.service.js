@@ -116,6 +116,14 @@ const getAdsLicenses = async (userId, type, wardId, districtId) => {
     }
   }
 
+  option = {
+    ...option,
+    where: {
+      ...option.where,
+      is_deleted: false,
+    },
+  };
+
   const data = await prisma.ads_license.findMany({
     ...option,
     select: {

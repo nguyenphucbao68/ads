@@ -85,6 +85,7 @@ const AdsPanelDetail = () => {
       adsPanelType: adsPanelTypeData,
       adsSpotList: adsSpotList,
       currentSpot: currentSpot,
+      fileSelected: adsPanelData.image.split(',').filter((image) => image.length > 0),
     }))
 
     setValue(
@@ -436,17 +437,13 @@ const AdsPanelDetail = () => {
             </CRow>
 
             <CRow className="mb-3">
-              {/* <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel> */}
               <CCol sm={12}>
                 <LandingPage
-                  height="800px"
+                  height="650px"
                   width="100%"
                   onChangeNewAddress={onChangeNewAddress}
                   currentMarker={currentMarker}
-                  spotId={data?.currentSpot?.id}
-                  setCurrentSpotId={setCurrentSpotId}
                   setCurrentMarker={setCurrentMarker}
-                  isEdit={true}
                 />
               </CCol>
             </CRow>
