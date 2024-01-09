@@ -95,8 +95,16 @@ const InformationChangeList = () => {
       dispatchICRs({ type: 'TURN_ON_LOADING' })
       let data = await ICRService.getAll()
       data = data.map((item) => {
-        const oldInf = JSON.parse(item.old_information)
-        console.log(oldInf)
+        var oldInf = JSON.parse(item.old_information)
+        if (item.type == 0) {
+          oldInf = {
+            ...oldInf,
+            ward: oldInf.ads_spot.ward,
+            district: oldInf.ads_spot.district,
+            address: oldInf.ads_spot.address,
+          }
+        }
+
         const newInf = JSON.parse(item.new_information)
         return {
           ...item,
@@ -104,6 +112,7 @@ const InformationChangeList = () => {
           new_information: newInf,
         }
       })
+      console.log(data)
       dispatchICRs({
         type: 'INITIALIZE_ICRS',
         payload: data || [],
