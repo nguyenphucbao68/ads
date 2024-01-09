@@ -132,9 +132,9 @@ const EditRequestCreate = () => {
       return
     }
     if (data?.type === '1') {
-      const adsSpot = await asdSpotService.getById(data.ads_spot_id)
+      const adsSpot = await asdSpotService.getById(currentSpot?.id)
       const newData = {
-        id: parseInt(data.ads_spot_id),
+        id: currentSpot?.id,
         image: image,
         max_ads_panel: parseInt(data?.max_ads_panel),
         spot_type_id: parseInt(data?.spot_type_id),
