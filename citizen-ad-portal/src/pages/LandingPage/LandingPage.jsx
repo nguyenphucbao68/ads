@@ -187,6 +187,10 @@ function LandingPage() {
 
         const { lng: longitude, lat: latitude } = location;
 
+        setLocationInfo({
+          name: data.result.name,
+          address: data.result.formatted_address,
+        });
         setViewport({
           longitude: location.lng,
           latitude: location.lat,
