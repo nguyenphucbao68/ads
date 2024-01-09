@@ -237,25 +237,6 @@ function AdsPanel({ adsPanelItem }) {
               <Input placeholder='Nhập số điện thoại người gửi' />
             </Form.Item>
 
-            <Form.Item
-              noStyle
-              shouldUpdate={(prevValues, currentValues) =>
-                prevValues.gender !== currentValues.gender
-              }
-            >
-              {({ getFieldValue }) =>
-                getFieldValue('gender') === 'other' ? (
-                  <Form.Item
-                    name='customizeGender'
-                    label='Customize Gender'
-                    rules={[{ required: true }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                ) : null
-              }
-            </Form.Item>
-
             <Upload
               customRequest={customRequest}
               listType='picture'
@@ -264,6 +245,7 @@ function AdsPanel({ adsPanelItem }) {
             >
               <Button icon={<UploadOutlined />}>Upload photos</Button>
             </Upload>
+
             <Modal
               open={previewOpen}
               title={previewTitle}
@@ -279,23 +261,25 @@ function AdsPanel({ adsPanelItem }) {
               />
             </Modal>
 
-            <CKEditor
-              id='content'
-              editor={ClassicEditor}
-              onReady={(editor) => {
-                // You can store the "editor" and use when it is needed.
-              }}
-              onChange={(event, editor) => {
-                console.log(event);
-              }}
-              onBlur={(event, editor) => {
-                setContent(editor.getData());
-              }}
-              onFocus={(event, editor) => {
-                console.log('Focus.', editor);
-              }}
-              onInit={(editor) => {}}
-            />
+            <div style={{ marginTop: 20 }}>
+              <CKEditor
+                id='content'
+                editor={ClassicEditor}
+                onReady={(editor) => {
+                  // You can store the "editor" and use when it is needed.
+                }}
+                onChange={(event, editor) => {
+                  console.log(event);
+                }}
+                onBlur={(event, editor) => {
+                  setContent(editor.getData());
+                }}
+                onFocus={(event, editor) => {
+                  console.log('Focus.', editor);
+                }}
+                onInit={(editor) => {}}
+              />
+            </div>
           </Form>
         </Modal>
       </div>
