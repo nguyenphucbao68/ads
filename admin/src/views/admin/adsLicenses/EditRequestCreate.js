@@ -180,8 +180,8 @@ const EditRequestCreate = () => {
         width: parseFloat(data?.width),
         expire_date: data?.expire_date,
         image: image,
-        id: parseInt(data?.ads_panel_id),
-        ads_spot_id: parseInt(data?.ads_spot_id),
+        id: currentPanel?.id,
+        ads_spot_id: currentSpot?.id,
         ads_type_id: parseInt(data?.ads_type_id),
       }
       const dataCreate = {
