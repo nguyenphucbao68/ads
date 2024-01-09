@@ -251,9 +251,25 @@ const AdsPanelDetail = () => {
         onCancel={() => setIsModalDisplay(false)}
       />
       <CCardBody>
-        <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Chi tiết bảng quảng cáo
-        </h4>
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <h4 id="ads-panel-type-title" className="card-title mb-0">
+            Chi tiết bảng quảng cáo
+          </h4>
+          <Button
+            onClick={() =>
+              navigate(`/admin/approval/ads_licenses/create?adsPanelId=${data.adsPanelDetail.id}`)
+            }
+          >
+            Yêu cầu cấp phép
+          </Button>
+        </div>
         <Box
           sx={{
             height: '100%',
