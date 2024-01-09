@@ -1,6 +1,7 @@
 import './App.css';
 import { AdsPanelDetailProvider } from './contexts/AdsPanelDetailProvider';
 import { AdsSpotProvider } from './contexts/AdsSpotProvider';
+import { ModalReportProvider } from './contexts/ModalReportProvider';
 import LandingPage from './pages/LandingPage/LandingPage';
 
 function App() {
@@ -8,7 +9,9 @@ function App() {
     <div className='App'>
       <AdsSpotProvider>
         <AdsPanelDetailProvider>
-          <LandingPage />
+          <ModalReportProvider>
+            <LandingPage />
+          </ModalReportProvider>
         </AdsPanelDetailProvider>
       </AdsSpotProvider>
     </div>

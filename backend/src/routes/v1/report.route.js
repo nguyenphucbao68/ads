@@ -10,4 +10,6 @@ router.route('/').post(validate(reportValidation.getReports), reportController.g
 
 router.route('/create').post(validate(reportValidation.createReports), reportController.createReport);
 
+router.route('/types').get(reportController.getReportTypes);
+
 module.exports = router;

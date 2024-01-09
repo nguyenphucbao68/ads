@@ -43,7 +43,18 @@ const createReport = async (reportBody) => {
   return report;
 };
 
+const getReportTypes = async () => {
+  const reportTypes = await prisma.report_type.findMany({
+    where: {
+      is_deleted: false,
+    },
+  });
+
+  return reportTypes;
+};
+
 module.exports = {
   getReports,
   createReport,
+  getReportTypes,
 };
