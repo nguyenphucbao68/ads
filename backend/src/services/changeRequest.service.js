@@ -19,7 +19,7 @@ const update = async (id, body) => {
         where: {
           id: data.new_information.id,
         },
-        data: data.new_information,
+        data: { ...data.new_information, updated_at: new Date() },
       });
     } else if (data.type == 0) {
       data.new_information = JSON.parse(data.new_information);
@@ -28,7 +28,7 @@ const update = async (id, body) => {
         where: {
           id: data.new_information.id,
         },
-        data: data.new_information,
+        data: { ...data.new_information, updated_at: new Date() },
       });
     }
   }
@@ -51,13 +51,31 @@ const create = async (body, userId) => {
 
   return data;
 };
-const get = async () => {
+const get = async (userId) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      role: true,
+    },
+  });
+  var orderBy = {};
+  var whereId = {};
+  if (user.role == 0) {
+    orderBy = {
+      created_at: 'desc',
+    };
+  } else {
+    orderBy = {
+      updated_at: 'desc',
+    };
+    whereId.user_id = userId;
+  }
+
   const data = await prisma.information_change_request.findMany({
-    orderBy: [
-      {
-        created_at: 'desc',
-      },
-    ],
+    where: whereId,
+    orderBy: [orderBy],
   });
   return data;
 };

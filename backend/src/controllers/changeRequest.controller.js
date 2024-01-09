@@ -1,8 +1,11 @@
 const catchAsync = require('../utils/catchAsync');
 const { changeRequestService } = require('../services');
+const socketController = require('./socket.Controller');
 
 const update = catchAsync(async (req, res) => {
   const data = await changeRequestService.update(req.params.id, req.body);
+  const room = await socketController.findRoomById(data.user_id);
+  req.io.to(room).emit('updateChangeRequest', data.id);
   res.send(data);
 });
 
@@ -11,7 +14,7 @@ const create = catchAsync(async (req, res) => {
   res.send(data);
 });
 const get = catchAsync(async (req, res)=>{
-  const data = await changeRequestService.get();
+  const data = await changeRequestService.get(req.user.id);
   res.send(data);
 })
 

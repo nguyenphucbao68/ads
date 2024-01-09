@@ -152,7 +152,7 @@ router
   .put(auth('updateChangeRequest'), validate(changeRequestValidation.update), changeRequestController.update);
 
 router.route('/edit-requests')
-    .get(auth('updateChangeRequest'), changeRequestController.get);
+    .get(auth('createChangeRequest'), changeRequestController.get);
 
 
 router

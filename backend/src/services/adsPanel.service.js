@@ -108,6 +108,8 @@ const getAdsPanelById = async (id) => {
   adsPanel.address = adsSpot.address;
   adsPanel.ward = adsSpot.ward;
   adsPanel.district = adsSpot.district;
+  adsPanel.longtitude = adsSpot.longtitude;
+  adsPanel.latitude = adsSpot.latitude;
   return adsPanel;
 };
 

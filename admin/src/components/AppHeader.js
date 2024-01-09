@@ -30,8 +30,8 @@ const AppHeader = () => {
     socket.emit('joinRoomById', JSON.parse(localStorage.getItem('user')).id)
   }, [])
   useEffect(() => {
-    socket.on('newReport', (msg) => {
-      console.log(msg)
+    socket.on('updateChangeRequest', (msg) => {
+      // console.log(msg)
       setNotification(true)
     })
   }, [socket])
@@ -88,7 +88,7 @@ const AppHeader = () => {
                     color: 'red',
                   }}
                 >
-                  Báo cáo mới
+                  Yêu cầu chỉnh sửa được cập nhật
                 </span>
               )}
               <CIcon
