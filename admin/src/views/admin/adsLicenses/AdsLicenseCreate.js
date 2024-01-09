@@ -13,7 +13,7 @@ import { Gallery, Item } from 'react-photoswipe-gallery'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { CloudUpload } from '@mui/icons-material'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { VisuallyHiddenInput } from '../adsPanels/AdsPanelDetail'
@@ -26,6 +26,34 @@ const AdsLicenseCreate = () => {
   const [content, setContent] = useState('')
   const [image, setImage] = useState('')
   const [currentMarker, setCurrentMarker] = useState(null)
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const adsPanelId = searchParams.get('adsPanelId')
+
+  useEffect(() => {
+    if (adsPanelId) {
+      const fetchData = async () => {
+        const adsPanelResponse = await adsPanelService.getById(adsPanelId)
+        console.log('adsPanelResponse', adsPanelResponse)
+        setValue(
+          'address',
+          getFormattedAddress(
+            adsPanelResponse?.address,
+            adsPanelResponse?.ward?.name,
+            adsPanelResponse?.district?.name,
+          ),
+          { shouldDirty: true },
+        )
+        setCurrentMarker({
+          latitude: adsPanelResponse.latitude,
+          longitude: adsPanelResponse.longtitude,
+        })
+        setCurrentPanel(adsPanelResponse)
+      }
+
+      fetchData()
+    }
+  }, [adsPanelId])
 
   const widgetRef = useRef()
   const cloudinaryRef = useRef()
@@ -72,6 +100,8 @@ const AdsLicenseCreate = () => {
     )
   }, [])
 
+  const [currentPanel, setCurrentPanel] = useState(null)
+
   const {
     register,
     handleSubmit,
@@ -87,8 +117,13 @@ const AdsLicenseCreate = () => {
     setValue('content', content)
   }, [content])
 
+  useEffect(() => {
+    if (currentPanel !== null) {
+      setValue('ads_panel_id', currentPanel.id)
+    }
+  }, [currentPanel])
+
   const onSubmit = async (data) => {
-    console.log('===', data)
     const result = await adsLicenseService
       .create({
         ...data,
@@ -122,7 +157,7 @@ const AdsLicenseCreate = () => {
               overflowY: 'auto',
             }}
           >
-            <CRow className="mb-3">
+            {/* <CRow className="mb-3">
               <CFormLabel htmlFor="adsPanelId" className="col-sm-2 col-form-label">
                 Bảng quảng cáo & điểm đặt tương ứng
               </CFormLabel>
@@ -139,6 +174,50 @@ const AdsLicenseCreate = () => {
                     </option>
                   ))}
                 </select>
+              </CCol>
+            </CRow> */}
+            <CRow className="mt-2 mb-3">
+              <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
+                Địa chỉ quảng cáo
+              </CFormLabel>
+              <CCol sm={8}>
+                <CFormInput
+                  type="text"
+                  readOnly
+                  plainText
+                  placeholder="Chọn địa chỉ đặt quảng cáo trên bản đồ"
+                  id="inputAddress"
+                  {...register('address', {
+                    required: 'Vui lòng chọn địa chỉ đặt quảng cáo trên bản đồ',
+                  })}
+                  feedback={errors.address?.message}
+                />
+                {errors.address?.type === 'required' && (
+                  <p className="text-danger">Địa chỉ đặt quảng cáo không được để trống</p>
+                )}
+              </CCol>
+              <Button
+                className="col-sm-2 mt-1 pt-2 pb-2"
+                variant="outlined"
+                onClick={() => {
+                  setValue('address', null)
+                  setCurrentMarker(null)
+                }}
+              >
+                Đặt lại
+              </Button>
+            </CRow>
+            <CRow className="mb-3">
+              {/* <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel> */}
+              <CCol sm={12}>
+                <LandingPage
+                  height="600px"
+                  width="100%"
+                  onChangeNewAddress={onChangeNewAddress}
+                  currentMarker={currentMarker}
+                  setCurrentPanel={setCurrentPanel}
+                  setCurrentMarker={setCurrentMarker}
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -302,50 +381,6 @@ const AdsLicenseCreate = () => {
                 <span className="text-danger">{errors.address?.message}</span>
               </CCol>
             </CRow> */}
-
-            <CRow className="mt-2 mb-3">
-              <CFormLabel htmlFor="inputAddress" className="col-sm-2 col-form-label">
-                Địa chỉ quảng cáo
-              </CFormLabel>
-              <CCol sm={8}>
-                <CFormInput
-                  type="text"
-                  readOnly
-                  plainText
-                  placeholder="Chọn địa chỉ đặt quảng cáo trên bản đồ"
-                  id="inputAddress"
-                  {...register('address', {
-                    required: 'Vui lòng chọn địa chỉ đặt quảng cáo trên bản đồ',
-                  })}
-                  feedback={errors.address?.message}
-                />
-                {errors.address?.type === 'required' && (
-                  <p className="text-danger">Địa chỉ đặt quảng cáo không được để trống</p>
-                )}
-              </CCol>
-              <Button
-                className="col-sm-2 mt-1 pt-2 pb-2"
-                variant="outlined"
-                onClick={() => {
-                  setValue('address', null)
-                  setCurrentMarker(null)
-                }}
-              >
-                Đặt lại
-              </Button>
-            </CRow>
-            <CRow className="mb-3">
-              {/* <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel> */}
-              <CCol sm={12}>
-                <LandingPage
-                  height="600px"
-                  width="100%"
-                  onChangeNewAddress={onChangeNewAddress}
-                  currentMarker={currentMarker}
-                  setCurrentMarker={setCurrentMarker}
-                />
-              </CCol>
-            </CRow>
 
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputStartDate" className="col-sm-2 col-form-label">
