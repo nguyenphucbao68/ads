@@ -282,6 +282,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsLicense"
+              }
+            }
+          }
         }
       }
     },
@@ -490,8 +499,24 @@
         "description": "This endpoint is used to create edit request",
         "summary": "Create edit request",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InformationChangeRequest"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InformationChangeRequest"
+              }
+            }
           }
         }
       }
@@ -500,8 +525,8 @@
     "/report/": {
       "post": {
         "tags": ["Report"],
-        "description": "This endpoint is used to create report",
-        "summary": "Create report",
+        "description": "This endpoint is used to get filtered report",
+        "summary": "Get filtered report",
         "responses": {
           "200": {
             "description": "OK",
@@ -549,6 +574,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Report"
+              }
+            }
+          }
         }
       }
     },
@@ -593,6 +627,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
               }
             }
           }
@@ -655,6 +698,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/District"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/District"
               }
             }
           }
@@ -740,6 +792,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/District"
+              }
+            }
+          }
         }
       }
     },
@@ -798,6 +859,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/Ward"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
               }
             }
           }
@@ -883,6 +953,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ward"
+              }
+            }
+          }
         }
       }
     },
@@ -941,6 +1020,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/AdsSpot"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsSpot"
               }
             }
           }
@@ -1026,6 +1114,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/AdsSpot"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsSpot"
               }
             }
           }
@@ -1192,6 +1289,15 @@
           "204": {
             "description": "No Content"
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsPanel"
+              }
+            }
+          }
         }
       },
       "delete": {
@@ -1274,6 +1380,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsPanel"
+              }
+            }
+          }
         }
       }
     },
@@ -1337,6 +1452,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/AdsLicense"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsLicense"
               }
             }
           }
@@ -1452,6 +1576,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsLicense"
+              }
+            }
+          }
         }
       }
     },
@@ -1498,6 +1631,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/AdsPanelType"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsPanelType"
               }
             }
           }
@@ -1564,6 +1706,15 @@
           },
           "204": {
             "description": "No Content"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsPanelType"
+              }
+            }
           }
         }
       },
@@ -1646,6 +1797,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportType"
+              }
+            }
+          }
         }
       }
     },
@@ -1707,6 +1867,15 @@
           },
           "204": {
             "description": "No Content"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportType"
+              }
+            }
           }
         }
       },
@@ -1789,6 +1958,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsType"
+              }
+            }
+          }
         }
       }
     },
@@ -1847,6 +2025,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/AdsType"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdsType"
               }
             }
           }
@@ -1928,6 +2115,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpotType"
+              }
+            }
+          }
         }
       }
     },
@@ -1989,6 +2185,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SpotType"
+              }
+            }
+          }
         }
       },
       "delete": {
@@ -2042,6 +2247,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/InformationChangeRequest"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InformationChangeRequest"
               }
             }
           }
@@ -2107,6 +2321,15 @@
               }
             }
           }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InformationChangeRequest"
+              }
+            }
+          }
         }
       }
     },
@@ -2156,6 +2379,15 @@
             "description": "OK",
             "content": {
               "application/json": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
                 "$ref": "#/components/schemas/User"
               }
             }
@@ -2218,6 +2450,15 @@
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
               }
             }
           }
