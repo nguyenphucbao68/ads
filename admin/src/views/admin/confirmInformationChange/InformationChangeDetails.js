@@ -38,7 +38,6 @@ const InformationChangeDetails = () => {
   useEffect(() => {
     setIsLoading(true)
     setElement(ICRs.rows.find((value) => value.id == id))
-    console.log(element)
     setIsLoading(false)
     const fetchAdsTypes = async () => {
       const adsTypesResponse = await asdTypeService.getAll()
@@ -71,12 +70,13 @@ const InformationChangeDetails = () => {
   const navigate = useNavigate()
   const ACCEPT = 2
   const CANCEL = 1
+  const userRole = JSON.parse(localStorage.getItem('user')).role
 
   const onAcceptSubmit = async () => {
     const result = await ICRService.update(element.id, ACCEPT)
     if (result.id) {
       toast.info('Cập nhật yêu cầu thành công')
-      navigate('/admin/approval/approve_edit_requests', {
+      navigate('/admin/approval/edit_requests', {
         state: {
           type: 'success',
           message: 'Cập nhật yêu cầu thành công',
@@ -88,7 +88,7 @@ const InformationChangeDetails = () => {
     const result = await ICRService.update(element.id, CANCEL)
     if (result.id) {
       toast.info('Cập nhật yêu cầu thành công')
-      navigate('/admin/approval/approve_edit_requests', {
+      navigate('/admin/approval/edit_requests', {
         state: {
           type: 'success',
           message: 'Hủy yêu cầu cập nhật thành công',
@@ -142,10 +142,12 @@ const InformationChangeDetails = () => {
                       readOnly
                       plainText
                       value={
-                        new Date(element?.edited_at)
-                          .toISOString()
-                          .replace(/T/, ' ') // replace T with a space
-                          .replace(/\..+/, '') // delete the dot and everything after
+                        element?.edited_at
+                          ? new Date(element?.edited_at)
+                              .toISOString()
+                              .replace(/T/, ' ') // replace T with a space
+                              .replace(/\..+/, '') // delete the dot and everything after
+                          : null
                       }
                     />
                   </CCol>
@@ -416,13 +418,13 @@ const InformationChangeDetails = () => {
                       }}
                       onClick={() =>
                         navigate({
-                          pathname: '/admin/approval/approve_edit_requests',
+                          pathname: '/admin/approval/edit_requests',
                         })
                       }
                     >
                       Quay lại
                     </Button>
-                    {element?.status == 0 && (
+                    {element?.status == 0 && userRole == 0 && (
                       <Button
                         type="submit"
                         variant="contained"
@@ -435,7 +437,7 @@ const InformationChangeDetails = () => {
                         Duyệt yêu cầu
                       </Button>
                     )}
-                    {element?.status == 0 && (
+                    {element?.status == 0 && userRole == 0 && (
                       <Button
                         type="submit"
                         variant="contained"

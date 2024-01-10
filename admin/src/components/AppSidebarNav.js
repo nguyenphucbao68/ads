@@ -19,38 +19,51 @@ export const AppSidebarNav = ({ items }) => {
       </>
     )
   }
+  const roleAdapter = (userRole) => {
+    var sideBarRole = -1
+    if (userRole == 2 || userRole == 1) sideBarRole = 1
+    else if (userRole == 0) sideBarRole = 2
+    return sideBarRole
+  }
+  const sideBarRole = roleAdapter(JSON.parse(localStorage.getItem('user')).role)
 
   const navItem = (item, index) => {
-    const { component, name, badge, icon, ...rest } = item
+    const { role, component, name, badge, icon, ...rest } = item
     const Component = component
     return (
-      <Component
-        {...(rest.to &&
-          !rest.items && {
-            component: NavLink,
-          })}
-        key={index}
-        {...rest}
-      >
-        {navLink(name, icon, badge)}
-      </Component>
+      (role == 0 || role == sideBarRole) && (
+        <Component
+          {...(rest.to &&
+            !rest.items && {
+              component: NavLink,
+            })}
+          key={index}
+          {...rest}
+        >
+          {navLink(name, icon, badge)}
+        </Component>
+      )
     )
   }
   const navGroup = (item, index) => {
-    const { component, name, icon, to, ...rest } = item
+    const { role, component, name, icon, to, ...rest } = item
     const Component = component
     return (
-      <Component
-        idx={String(index)}
-        key={index}
-        toggler={navLink(name, icon)}
-        visible={location.pathname.startsWith(to)}
-        {...rest}
-      >
-        {item.items?.map((item, index) =>
-          item.items ? navGroup(item, index) : navItem(item, index),
-        )}
-      </Component>
+      (role == 0 || role == sideBarRole) && (
+        <Component
+          idx={String(index)}
+          key={index}
+          toggler={navLink(name, icon)}
+          visible={location.pathname.startsWith(to)}
+          {...rest}
+        >
+          {item.items?.map(
+            (item, index) =>
+              (item.role == 0 || item.role == sideBarRole) &&
+              (item.items ? navGroup(item, index) : navItem(item, index)),
+          )}
+        </Component>
+      )
     )
   }
 

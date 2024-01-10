@@ -199,17 +199,17 @@ const routes = [
   { path: '/admin/assign_location', name: 'Account List', element: AccountLocationAssign },
   { path: '/admin/approval', name: 'Approval', exact: true },
   {
-    path: '/admin/approval/edit_requests',
+    path: '/admin/approval/edit_requests/create',
     name: 'Information Change Requests',
     element: EditRequestCreate,
   },
   {
-    path: '/admin/approval/approve_edit_requests',
+    path: '/admin/approval/edit_requests',
     name: 'Information Change Requests Approval',
     element: InformationChangeList,
   },
   {
-    path: '/admin/approval/approve_edit_requests/:id',
+    path: '/admin/approval/edit_requests/:id',
     name: 'Information Change Requests Details',
     element: InformationChangeDetails,
   },
