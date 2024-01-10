@@ -24,14 +24,14 @@ const SpotTypeCreate = () => {
         <h4 id="ads-panel-type-title" className="card-title mb-0">
           Tạo mới loại đất
         </h4>
-        <Box
-          sx={{
-            height: 'calc(100vh - 340px)',
-            width: '100%',
-            marginTop: '15px',
-          }}
-        >
-          <CForm onSubmit={handleSubmit(onSave)}>
+        <CForm onSubmit={handleSubmit(onSave)}>
+          <Box
+            sx={{
+              height: 'calc(100vh - 340px)',
+              width: '100%',
+              marginTop: '15px',
+            }}
+          >
             <CRow className="mb-3">
               <CFormLabel htmlFor="spotTypeName" className="col-sm-2 col-form-label">
                 Tên
@@ -40,53 +40,53 @@ const SpotTypeCreate = () => {
                 <CFormInput
                   type="text"
                   id="spotTypeName"
+                  placeholder="Nhập tên loại đất"
                   {...register('name', {
-                    required: 'Vui lòng nhập tên loại bảng quảng cáo',
+                    required: 'Vui lòng nhập tên loại bảng đất',
                     minLength: 1,
                   })}
                 />
               </CCol>
             </CRow>
-          </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => onSave()}
-                type="submit"
-                disabled={!formState.isDirty}
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                sx={{
-                  borderRadius: '8px',
-                }}
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+            }}
+          >
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Lưu
-              </Button>
+                <Button
+                  type="submit"
+                  disabled={!formState.isDirty}
+                  variant="contained"
+                  startIcon={<SaveIcon />}
+                  color="primary"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Lưu
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
+              ></Grid>
             </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            ></Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </CForm>
       </CCardBody>
     </CCard>
   )

@@ -19,7 +19,6 @@ const getAll = async () => {
 const getById = async (id) => {
   const data = await prisma.spot_type.findUnique({
     where: {
-      is_deleted: false,
       id: parseInt(id, 10),
     },
   });
