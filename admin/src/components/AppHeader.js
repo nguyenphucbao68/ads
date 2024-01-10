@@ -73,7 +73,7 @@ const AppHeader = () => {
         <CHeaderNav>
           <CNavItem>
             <CNavLink
-              to="admin/report"
+              to="admin/approval/edit_requests"
               style={{
                 display: 'flex',
                 alignItems: 'center',

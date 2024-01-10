@@ -72,6 +72,7 @@ const AdsPanelDetail = () => {
     getValues,
     setValue,
   } = useForm()
+  const userRole = JSON.parse(localStorage.getItem('user')).role
 
   // Fetch data
   const init = async () => {
@@ -251,9 +252,25 @@ const AdsPanelDetail = () => {
         onCancel={() => setIsModalDisplay(false)}
       />
       <CCardBody>
-        <h4 id="ads-panel-type-title" className="card-title mb-0">
-          Chi tiết bảng quảng cáo
-        </h4>
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <h4 id="ads-panel-type-title" className="card-title mb-0">
+            Chi tiết bảng quảng cáo
+          </h4>
+          <Button
+            onClick={() =>
+              navigate(`/admin/approval/ads_licenses/create?adsPanelId=${data.adsPanelDetail.id}`)
+            }
+          >
+            Yêu cầu cấp phép
+          </Button>
+        </div>
         <Box
           sx={{
             height: '100%',
@@ -342,22 +359,24 @@ const AdsPanelDetail = () => {
                             marginBottom: '5px',
                           }}
                         >
-                          <CancelIcon
-                            onClick={() => {
-                              setData((pre) => ({
-                                ...pre,
-                                fileSelected: pre.fileSelected.filter((_, i) => i !== index),
-                              }))
-                            }}
-                            style={{
-                              position: 'absolute',
-                              top: '-10px',
-                              right: '-15px',
-                              cursor: 'pointer',
-                              zIndex: 999,
-                            }}
-                            color="error"
-                          />
+                          {userRole == 0 && (
+                            <CancelIcon
+                              onClick={() => {
+                                setData((pre) => ({
+                                  ...pre,
+                                  fileSelected: pre.fileSelected.filter((_, i) => i !== index),
+                                }))
+                              }}
+                              style={{
+                                position: 'absolute',
+                                top: '-10px',
+                                right: '-15px',
+                                cursor: 'pointer',
+                                zIndex: 999,
+                              }}
+                              color="error"
+                            />
+                          )}
                           <img
                             ref={ref}
                             onClick={open}
@@ -375,78 +394,85 @@ const AdsPanelDetail = () => {
                   ))}
                 </Gallery>
               </CCol>
-              <CCol sm={2} className="mt-2">
-                <Button
-                  component="label"
-                  variant="outlined"
-                  startIcon={<CloudUpload />}
-                  onClick={() => widgetRef.current.open()}
-                >
-                  Thêm ảnh
-                  <VisuallyHiddenInput
-                    type="file"
-                    disabled
-                    // multiple
-                    {...register('images', { required: true })}
-                    // onChange={uploadMultiFiles}
+              {userRole == 0 && (
+                <CCol sm={2} className="mt-2">
+                  <Button
+                    component="label"
+                    variant="outlined"
+                    startIcon={<CloudUpload />}
+                    onClick={() => widgetRef.current.open()}
+                  >
+                    Thêm ảnh
+                    <VisuallyHiddenInput
+                      type="file"
+                      disabled
+                      // multiple
+                      {...register('images', { required: true })}
+                      // onChange={uploadMultiFiles}
+                    />
+                  </Button>
+                </CCol>
+              )}
+            </CRow>
+            {userRole == 0 && (
+              <CRow className="mt-2 mb-3">
+                <CFormLabel htmlFor="inputOldAddress" className="col-sm-2 col-form-label">
+                  Địa chỉ hiện tại
+                </CFormLabel>
+                <CCol sm={10}>
+                  <CFormInput
+                    type="text"
+                    readOnly
+                    plainText
+                    id="inputOldAddress"
+                    {...register('old_address', {})}
+                    feedback={errors.old_address?.message}
                   />
+                </CCol>
+              </CRow>
+            )}
+            {userRole == 0 && (
+              <CRow className="mt-2 mb-3">
+                <CFormLabel htmlFor="inputNewAddress" className="col-sm-2 col-form-label">
+                  Địa chỉ mới
+                </CFormLabel>
+                <CCol sm={8}>
+                  <CFormInput
+                    type="text"
+                    readOnly
+                    plainText
+                    placeholder="Chọn địa chỉ mới trên bản đồ"
+                    id="inputNewAddress"
+                    {...register('new_address', {})}
+                    feedback={errors.new_address?.message}
+                  />
+                </CCol>
+                {/* Add reset button */}
+                <Button
+                  className="col-sm-2 mt-1 pt-2 pb-2"
+                  variant="outlined"
+                  onClick={() => {
+                    setValue('new_address', null)
+                    setCurrentMarker(null)
+                  }}
+                >
+                  Đặt lại
                 </Button>
-              </CCol>
-            </CRow>
-            <CRow className="mt-2 mb-3">
-              <CFormLabel htmlFor="inputOldAddress" className="col-sm-2 col-form-label">
-                Địa chỉ hiện tại
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormInput
-                  type="text"
-                  readOnly
-                  plainText
-                  id="inputOldAddress"
-                  {...register('old_address', {})}
-                  feedback={errors.old_address?.message}
-                />
-              </CCol>
-            </CRow>
-            <CRow className="mt-2 mb-3">
-              <CFormLabel htmlFor="inputNewAddress" className="col-sm-2 col-form-label">
-                Địa chỉ mới
-              </CFormLabel>
-              <CCol sm={8}>
-                <CFormInput
-                  type="text"
-                  readOnly
-                  plainText
-                  placeholder="Chọn địa chỉ mới trên bản đồ"
-                  id="inputNewAddress"
-                  {...register('new_address', {})}
-                  feedback={errors.new_address?.message}
-                />
-              </CCol>
-              {/* Add reset button */}
-              <Button
-                className="col-sm-2 mt-1 pt-2 pb-2"
-                variant="outlined"
-                onClick={() => {
-                  setValue('new_address', null)
-                  setCurrentMarker(null)
-                }}
-              >
-                Đặt lại
-              </Button>
-            </CRow>
-
-            <CRow className="mb-3">
-              <CCol sm={12}>
-                <LandingPage
-                  height="650px"
-                  width="100%"
-                  onChangeNewAddress={onChangeNewAddress}
-                  currentMarker={currentMarker}
-                  setCurrentMarker={setCurrentMarker}
-                />
-              </CCol>
-            </CRow>
+              </CRow>
+            )}
+            {userRole == 0 && (
+              <CRow className="mb-3">
+                <CCol sm={12}>
+                  <LandingPage
+                    height="650px"
+                    width="100%"
+                    onChangeNewAddress={onChangeNewAddress}
+                    currentMarker={currentMarker}
+                    setCurrentMarker={setCurrentMarker}
+                  />
+                </CCol>
+              </CRow>
+            )}
             {/* <CRow className="mb-3">
               <CFormLabel htmlFor="spot_id" className="col-sm-2 col-form-label">
                 Điểm đặt tại đây
@@ -466,50 +492,52 @@ const AdsPanelDetail = () => {
             width: '100%',
           }}
         >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => onSave()}
-                type="submit"
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="success"
-                sx={{
-                  borderRadius: '8px',
-                }}
-                disabled={!formState.isDirty}
+          {userRole == 0 && (
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Lưu
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => setIsModalDisplay(true)}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
+                <Button
+                  onClick={() => onSave()}
+                  type="submit"
+                  variant="contained"
+                  startIcon={<SaveIcon />}
+                  color="success"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                  disabled={!formState.isDirty}
+                >
+                  Lưu
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
               >
-                Xóa
-              </Button>
+                <Button
+                  onClick={() => setIsModalDisplay(true)}
+                  variant="text"
+                  startIcon={<DeleteIcon />}
+                  color="error"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Xóa
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
+          )}
         </Box>
       </CCardBody>
     </CCard>

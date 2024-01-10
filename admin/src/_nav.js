@@ -22,23 +22,28 @@ const _nav = [
       color: 'info',
       // text: 'NEW',
     },
+    role: 0, //0: all, 1: Phường quận, 2: sở vhtt
   },
 
   {
     component: CNavTitle,
     name: 'Thống kê',
+    role: 2,
   },
   {
+    role: 2,
     component: CNavItem,
     name: 'Thống kê',
     to: '/statistics',
     icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
   {
+    role: 0,
     component: CNavTitle,
     name: 'Quản lý',
   },
   {
+    role: 0,
     component: CNavGroup,
     name: 'Quản lý',
     to: '/admin',
@@ -46,41 +51,49 @@ const _nav = [
 
     items: [
       {
+        role: 2,
         component: CNavItem,
         name: 'Phường',
         to: '/admin/wards',
       },
       {
+        role: 2,
         component: CNavItem,
         name: 'Quận',
         to: '/admin/districts',
       },
       {
+        role: 2,
         component: CNavItem,
         name: 'Loại đất',
         to: '/admin/spot_types',
       },
       {
+        role: 2,
         component: CNavItem,
         name: 'Loại báo cáo',
         to: '/admin/report_types',
       },
       {
+        role: 2,
         component: CNavItem,
         name: 'Loại hình quảng cáo',
         to: '/admin/ads_types',
       },
       {
+        role: 2,
         component: CNavItem,
         name: 'Loại bảng quảng cáo',
         to: '/admin/ads_panel_types',
       },
       {
+        role: 0,
         component: CNavItem,
         name: 'Điểm đặt quảng cáo',
         to: '/admin/ads_spots',
       },
       {
+        role: 0,
         component: CNavItem,
         name: 'Bảng quảng cáo',
         to: '/admin/ads_panels',
@@ -88,6 +101,7 @@ const _nav = [
     ],
   },
   {
+    role: 0,
     component: CNavGroup,
     name: 'Xét duyệt',
     to: '/admin/approval',
@@ -102,17 +116,20 @@ const _nav = [
       />
     ),
     items: [
+      // {
+      //   role: 1,
+      //   component: CNavItem,
+      //   name: 'Tạo yêu cầu chỉnh sửa',
+      //   to: '/admin/approval/edit_requests/create',
+      // },
       {
+        role: 0,
         component: CNavItem,
-        name: 'Tạo yêu cầu chỉnh sửa',
+        name: 'Yêu cầu chỉnh sửa',
         to: '/admin/approval/edit_requests',
       },
       {
-        component: CNavItem,
-        name: 'Duyệt yêu cầu chỉnh sửa',
-        to: '/admin/approval/approve_edit_requests',
-      },
-      {
+        role: 0,
         component: CNavItem,
         name: 'Cấp phép quảng cáo',
         to: '/admin/approval/ads_licenses',
@@ -120,50 +137,53 @@ const _nav = [
     ],
   },
   {
+    role: 1,
     component: CNavItem,
     name: 'Báo cáo của người dân',
     to: '/admin/report',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
   },
   {
+    role: 2,
     component: CNavItem,
     name: 'Tạo tài khoản',
     to: '/admin/create_account',
     icon: <CIcon icon={cilUserPlus} customClassName="nav-icon" />,
   },
   {
+    role: 2,
     component: CNavItem,
     name: 'Phân công khu vực',
     to: '/admin/assign_location',
     icon: <CIcon icon={cilPenNib} customClassName="nav-icon" />,
   },
-  {
-    component: CNavTitle,
-    name: 'Thông tin người dùng',
-  },
-  {
-    component: CNavGroup,
-    name: 'Cá nhân',
-    to: '/profile',
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Thông tin cá nhân',
-        to: '/profile/info',
-      },
-      {
-        component: CNavItem,
-        name: 'Cập nhật thông tin',
-        to: '/profile/edit',
-      },
-      {
-        component: CNavItem,
-        name: 'Đổi mật khẩu',
-        to: '/profile/change_password',
-      },
-    ],
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: 'Thông tin người dùng',
+  // },
+  // {
+  //   component: CNavGroup,
+  //   name: 'Cá nhân',
+  //   to: '/profile',
+  //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: 'Thông tin cá nhân',
+  //       to: '/profile/info',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Cập nhật thông tin',
+  //       to: '/profile/edit',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Đổi mật khẩu',
+  //       to: '/profile/change_password',
+  //     },
+  //   ],
+  // },
   // {
   //   component: CNavTitle,
   //   name: 'MODULES',

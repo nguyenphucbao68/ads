@@ -83,6 +83,7 @@ const InformationChangeList = () => {
   const showSuccesToast = (message) => {
     toast.success(message)
   }
+  const userRole = JSON.parse(localStorage.getItem('user')).role
 
   useEffect(() => {
     if (location.state?.type === 'success') {
@@ -95,8 +96,16 @@ const InformationChangeList = () => {
       dispatchICRs({ type: 'TURN_ON_LOADING' })
       let data = await ICRService.getAll()
       data = data.map((item) => {
-        const oldInf = JSON.parse(item.old_information)
-        console.log(oldInf)
+        var oldInf = JSON.parse(item.old_information)
+        if (item.type == 0) {
+          oldInf = {
+            ...oldInf,
+            ward: oldInf.ads_spot.ward,
+            district: oldInf.ads_spot.district,
+            address: oldInf.ads_spot.address,
+          }
+        }
+
         const newInf = JSON.parse(item.new_information)
         return {
           ...item,
@@ -104,6 +113,7 @@ const InformationChangeList = () => {
           new_information: newInf,
         }
       })
+      console.log(data)
       dispatchICRs({
         type: 'INITIALIZE_ICRS',
         payload: data || [],
@@ -118,7 +128,9 @@ const InformationChangeList = () => {
       <CCard className="mb-4">
         <Toaster position="top-right" reverseOrder={false} />
         <CCardBody>
-          <h4 className="card-title mb-0">Xét duyệt các yêu cầu chỉnh sửa</h4>
+          <h4 className="card-title mb-0">
+            {userRole == 0 ? 'Xét duyệt các yêu cầu chỉnh sửa' : 'Các yêu cầu chỉnh sửa của bạn'}
+          </h4>
           <Box
             sx={{
               height: 'calc(100vh - 300px)',
@@ -147,7 +159,7 @@ const InformationChangeList = () => {
               getRowId={(row) => row.id}
               rowSelection={false}
               onRowClick={(params) => {
-                navigate(`/admin/approval/approve_edit_requests/${params.row.id}`)
+                navigate(`/admin/approval/edit_requests/${params.row.id}`)
               }}
               paginationModel={{ page: ICRs.page, pageSize: ICRs.pageSize }}
               onPaginationModelChange={(params) => {
@@ -165,7 +177,8 @@ const InformationChangeList = () => {
               }}
               slotProps={{
                 toolbar: {
-                  addNew: null,
+                  addNew:
+                    userRole != 0 ? () => navigate('/admin/approval/edit_requests/create') : null,
                 },
               }}
               localeText={GRID_DEFAULT_LOCALE_TEXT}

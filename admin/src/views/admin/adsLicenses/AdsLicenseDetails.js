@@ -64,6 +64,7 @@ const AdsLicenseDetails = () => {
     },
     fileSelected: [],
   })
+  const userRole = JSON.parse(localStorage.getItem('user')).role
 
   useEffect(() => {
     const fetchData = async () => {
@@ -544,7 +545,7 @@ const AdsLicenseDetails = () => {
                   </Button>
                 )}
               </Grid>
-              {data.adsLicense.status === 0 && (
+              {data.adsLicense.status === 0 && userRole == 0 && (
                 <Grid
                   item
                   xs={6}

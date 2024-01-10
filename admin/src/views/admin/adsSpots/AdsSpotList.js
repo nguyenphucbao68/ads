@@ -134,6 +134,7 @@ const AdsSpotList = () => {
   const showSuccesToast = (message) => {
     toast.success(message)
   }
+  const userRole = JSON.parse(localStorage.getItem('user')).role
 
   useEffect(() => {
     if (location.state?.type === 'success') {
@@ -213,7 +214,7 @@ const AdsSpotList = () => {
             }}
             slotProps={{
               toolbar: {
-                addNew: () => navigate('/admin/ads_spots/create'),
+                addNew: userRole == 0 ? () => navigate('/admin/ads_spots/create') : null,
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

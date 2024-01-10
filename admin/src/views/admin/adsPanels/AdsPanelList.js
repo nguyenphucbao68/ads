@@ -50,6 +50,7 @@ const AdsPanelList = () => {
   })
 
   const user = JSON.parse(localStorage.getItem('user'))
+  const userRole = user.role
 
   const id = user?.role === 1 ? user?.district?.id : user?.role === 2 ? user?.ward?.id : null
   const role = user?.role
@@ -135,7 +136,7 @@ const AdsPanelList = () => {
             }}
             slotProps={{
               toolbar: {
-                addNew: () => navigateToCreate(),
+                addNew: userRole == 0 ? () => navigateToCreate() : null,
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

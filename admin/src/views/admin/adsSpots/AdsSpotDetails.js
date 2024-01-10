@@ -97,6 +97,7 @@ const AdsSpotDetails = () => {
       images: data.fileSelected,
     },
   })
+  const userRole = JSON.parse(localStorage.getItem('user')).role
 
   const onChangeNewAddress = useCallback((address) => {
     setData((pre) => ({
@@ -302,22 +303,24 @@ const AdsSpotDetails = () => {
                             marginBottom: '5px',
                           }}
                         >
-                          <CancelIcon
-                            onClick={() => {
-                              setData((pre) => ({
-                                ...pre,
-                                fileSelected: pre.fileSelected.filter((_, i) => i !== index),
-                              }))
-                            }}
-                            style={{
-                              position: 'absolute',
-                              top: '-10px',
-                              right: '-15px',
-                              cursor: 'pointer',
-                              zIndex: 999,
-                            }}
-                            color="error"
-                          />
+                          {userRole == 0 && (
+                            <CancelIcon
+                              onClick={() => {
+                                setData((pre) => ({
+                                  ...pre,
+                                  fileSelected: pre.fileSelected.filter((_, i) => i !== index),
+                                }))
+                              }}
+                              style={{
+                                position: 'absolute',
+                                top: '-10px',
+                                right: '-15px',
+                                cursor: 'pointer',
+                                zIndex: 999,
+                              }}
+                              color="error"
+                            />
+                          )}
                           <img
                             ref={ref}
                             onClick={open}
@@ -335,23 +338,25 @@ const AdsSpotDetails = () => {
                   ))}
                 </Gallery>
               </CCol>
-              <CCol sm={2} className="mt-2">
-                <Button
-                  component="label"
-                  variant="outlined"
-                  startIcon={<CloudUpload />}
-                  onClick={() => widgetRef.current.open()}
-                >
-                  Thêm ảnh
-                  <VisuallyHiddenInput
-                    type="file"
-                    disabled
-                    // multiple
-                    {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
-                    // onChange={uploadMultiFiles}
-                  />
-                </Button>
-              </CCol>
+              {userRole == 0 && (
+                <CCol sm={2} className="mt-2">
+                  <Button
+                    component="label"
+                    variant="outlined"
+                    startIcon={<CloudUpload />}
+                    onClick={() => widgetRef.current.open()}
+                  >
+                    Thêm ảnh
+                    <VisuallyHiddenInput
+                      type="file"
+                      disabled
+                      // multiple
+                      {...register('images', { required: 'Vui lòng chọn hình ảnh' })}
+                      // onChange={uploadMultiFiles}
+                    />
+                  </Button>
+                </CCol>
+              )}
             </CRow>
             <CRow className="mb-3">
               <CFormLabel htmlFor="optSpotType" className="col-sm-2 col-form-label">
@@ -408,7 +413,6 @@ const AdsSpotDetails = () => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="flexRadioIsAvailable"
                     id="flexRadioAvailable"
                     {...register('is_available', {
                       required: 'Vui lòng chọn tình trạng quy hoạch',
@@ -424,7 +428,6 @@ const AdsSpotDetails = () => {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="flexRadioIsAvailable"
                     id="flexRadioNotAvailable"
                     {...register('is_available', {
                       required: 'Vui lòng chọn tình trạng quy hoạch',
@@ -463,56 +466,58 @@ const AdsSpotDetails = () => {
               marginTop: '20px',
             }}
           >
-            <Grid container>
-              <Grid
-                item
-                container
-                direction="row"
-                xs={6}
-                justifyContent="flex-start"
-                alignItems="center"
-              >
-                <Button
-                  onClick={() => onSubmit()}
-                  type="submit"
-                  variant="contained"
-                  startIcon={<SaveIcon />}
-                  color="primary"
-                  disabled={!formState.isDirty}
-                  sx={{
-                    borderRadius: '8px',
-                  }}
+            {userRole == 0 && (
+              <Grid container>
+                <Grid
+                  item
+                  container
+                  direction="row"
+                  xs={6}
+                  justifyContent="flex-start"
+                  alignItems="center"
                 >
-                  Lưu
-                </Button>
-              </Grid>
-              <Grid
-                item
-                xs={6}
-                container
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="center"
-              >
-                <Button
-                  onClick={() =>
-                    setData((pre) => ({
-                      ...pre,
-                      showConfirmModal: true,
-                    }))
-                  }
-                  type="button"
-                  variant="text"
-                  startIcon={<DeleteIcon />}
-                  color="error"
-                  sx={{
-                    borderRadius: '8px',
-                  }}
+                  <Button
+                    onClick={() => onSubmit()}
+                    type="submit"
+                    variant="contained"
+                    startIcon={<SaveIcon />}
+                    color="primary"
+                    disabled={!formState.isDirty}
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                  >
+                    Lưu
+                  </Button>
+                </Grid>
+                <Grid
+                  item
+                  xs={6}
+                  container
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
                 >
-                  Xóa
-                </Button>
+                  <Button
+                    onClick={() =>
+                      setData((pre) => ({
+                        ...pre,
+                        showConfirmModal: true,
+                      }))
+                    }
+                    type="button"
+                    variant="text"
+                    startIcon={<DeleteIcon />}
+                    color="error"
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                  >
+                    Xóa
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
+            )}
           </Box>
         </CForm>
       </CCardBody>
