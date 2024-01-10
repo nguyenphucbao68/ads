@@ -16,6 +16,7 @@ const ApiError = require('./utils/ApiError');
 const http = require('http');
 const { Server } = require('socket.io');
 const { socketController } = require('./controllers');
+const swagger = require('./utils/swagger');
 
 const app = express();
 //socket server
@@ -60,13 +61,11 @@ passport.use('jwt', jwtStrategy);
 io.on('connection', (socket) => {
   socket.on('joinRoomById', async (msg) => {
     const room = await socketController.findRoomById(msg);
-    if(room)
-      socket.join(room);
+    if (room) socket.join(room);
   });
-//   socket.on('disconnect', function() {
-//     console.log('Got disconnect!');
-//  });
-
+  //   socket.on('disconnect', function() {
+  //     console.log('Got disconnect!');
+  //  });
 });
 app.use((req, res, next) => {
   req.io = io;
@@ -80,6 +79,9 @@ if (config.env === 'production') {
 
 // v1 api routes
 app.use('/v1', routes);
+
+// Serve swagger docs
+swagger(app);
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {

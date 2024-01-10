@@ -180,7 +180,22 @@ const updateAdsLicense = async (id, body) => {
     },
   });
 
-  return data;
+  // update ads_panel
+  let result = {};
+  if (parseInt(body.status, 10) == 1) {
+    result = await prisma.ads_panel.update({
+      where: {
+        id: parseInt(data.ads_panel_id, 10),
+      },
+      data: {
+        image: body.image,
+        expire_date: new Date(body.expire_date),
+        updated_at: new Date(),
+      },
+    });
+  }
+
+  return result;
 };
 
 const deleteAdsLicense = async (id) => {

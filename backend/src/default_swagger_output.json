@@ -1,0 +1,2707 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ads Management API Documentation",
+    "version": "1.0.0",
+    "description": "Documentation for Ads Management API",
+    "contact": {
+      "name": "Group 3"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000/v1",
+      "description": "Development server"
+    }
+  ],
+  "tags": ["Auth", "Officer", "Report", "User", "VHTT", "Ward"],
+  "paths": {
+    "/auth/signin": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "This endpoint is used to sign in",
+        "summary": "Sign in",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access": {
+                      "example": {
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcwNDgxOTYxNywiZXhwIjoxNzA0ODIxNDE3LCJ0eXBlIjoiYWNjZXNzIn0.UBRD30K0iI-IBoLybKEHfYK4vyvNQtI43Kc6UI069LM"
+                      }
+                    },
+                    "refreshToken": {
+                      "example": {
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcwNDgxOTYxNywiZXhwIjoxNzA3NDExNjE3LCJ0eXBlIjoicmVmcmVzaCJ9.aWyO_v4HNA3jqZiX8IA5BAeOHi8DoDt8mpaLi_P_i8M"
+                      }
+                    },
+                    "user": {
+                      "example": {
+                        "id": 1,
+                        "role": 0,
+                        "name": "admin",
+                        "dob": "10/10/2002",
+                        "email": "admin@gmail.com",
+                        "phone": null,
+                        "username": "admin",
+                        "otp": "94f03302-849c-4e51-a7af-56da38c39595",
+                        "expire_date": "2022-08-27T14:43:55.772Z",
+                        "is_deleted": false,
+                        "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcwNDgxOTQzMiwiZXhwIjoxNzA3NDExNDMyLCJ0eXBlIjoicmVmcmVzaCJ9.nIHLmwAQk_9Lq_zj4JC-64V7IRDF0dSkpQ6UXclL7nE",
+                        "created_at": "2024-01-08T16:02:57.962Z",
+                        "updated_at": "2024-01-08T16:02:57.962Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "example": 401
+                    },
+                    "message": {
+                      "example": "Incorrect email or password"
+                    },
+                    "stack": {
+                      "example": "Error: Incorrect email or password\n    at Object.loginUserWithEmailAndPassword (/Users/khanhnguyen/Khanh/School/HCMUS/Year4/WebNangCao/Github/ads/backend/src/services/auth.service.js:30:11)\n    at async /Users/khanhnguyen/Khanh/School/HCMUS/Year4/WebNangCao/Github/ads/backend/src/controllers/auth.controller.js:18:16"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "admin@gmail.com"
+                  },
+                  "password": {
+                    "example": "V@ilachinh12312"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh-tokens": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "This endpoint is used to refresh token",
+        "summary": "Refresh token",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Auth"],
+        "description": "This endpoint is used to reset password",
+        "summary": "Reset password",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/send-verification-email": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "This endpoint is used to send verification email",
+        "summary": "Send verification email",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "example@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password-email": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "This endpoint is used to reset password email",
+        "summary": "Reset password email",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "example@gmail.com"
+                  },
+                  "newPassword": {
+                    "example": "string"
+                  },
+                  "rePassword": {
+                    "example": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/send-email": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "This endpoint is used to send email",
+        "summary": "Send email",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/verify-email": {
+      "post": {
+        "tags": ["Auth"],
+        "description": "This endpoint is used to verify email",
+        "summary": "Verify email",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+
+    "/officer/ads-licenses": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to get ads licenses",
+        "summary": "Get ads licenses",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "user_id": 1,
+                    "type": 0,
+                    "ward_id": 1,
+                    "district_id": 1,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/ads-license": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to create ads license",
+        "summary": "Create ads license",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsLicense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/ads-license/{id}": {
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to delete ads license",
+        "summary": "Delete ads license",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsLicense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/district/wards": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to get wards",
+        "summary": "Get wards",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "string",
+                    "district_id": 1,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/reports": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to get reports",
+        "summary": "Get reports",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "report_type_id": 1,
+                    "name": "Investment Account",
+                    "email": "string",
+                    "phone": "string",
+                    "content": "string",
+                    "image": "string",
+                    "status": 0,
+                    "view_status": 0,
+                    "is_deleted": false,
+                    "ads_panel_id": 1,
+                    "handled_user_id": 1,
+                    "longtitute": 10.123456,
+                    "latitute": 10.123456,
+                    "ward_id": 1,
+                    "district_id": 1,
+                    "address": "string",
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/reports/{id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to get report",
+        "summary": "Get report",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to update report",
+        "summary": "Update report",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "example": "any"
+                  },
+                  "content": {
+                    "example": "any"
+                  },
+                  "status": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/edit-requests": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Officer"],
+        "description": "This endpoint is used to create edit request",
+        "summary": "Create edit request",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+
+    "/report/": {
+      "post": {
+        "tags": ["Report"],
+        "description": "This endpoint is used to create report",
+        "summary": "Create report",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "wid": {
+                    "example": "any"
+                  },
+                  "did": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/report/create": {
+      "post": {
+        "tags": ["Report"],
+        "description": "This endpoint is used to create report",
+        "summary": "Create report",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/user/": {
+      "get": {
+        "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "This endpoint is used to get profile of user",
+        "summary": "Get user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["User"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "This endpoint is used to update profile of user",
+        "summary": "Update user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/vhtt/districts/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get district",
+        "summary": "Get district",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/District"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to update district",
+        "summary": "Update district",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/District"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to delete district",
+        "summary": "Delete district",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/District"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/districts": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get districts",
+        "summary": "Get districts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "string",
+                    "province_id": 1,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to create district",
+        "summary": "Create district",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/District"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/wards/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ward",
+        "summary": "Get ward",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ward"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to update ward",
+        "summary": "Update ward",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ward"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to delete ward",
+        "summary": "Delete ward",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ward"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/wards": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get wards",
+        "summary": "Get wards",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "string",
+                    "district_id": 1,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to create ward",
+        "summary": "Create ward",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ward"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-spots/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads spot",
+        "summary": "Get ads spot",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsSpot"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to update ads spot",
+        "summary": "Update ads spot",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsSpot"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to delete ads spot",
+        "summary": "Delete ads spot",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsSpot"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-spots": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads spots",
+        "summary": "Get ads spots",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "user_id": 1,
+                    "type": 0,
+                    "ward_id": 1,
+                    "district_id": 1,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to create ads spot",
+        "summary": "Create ads spot",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsSpot"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-spots/{id}/ads-panels": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads panels of ads spot by id",
+        "summary": "Get ads panels",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "ads_spot_id": 1,
+                    "type": 0,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/user/ads-spots": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads spots of user",
+        "summary": "Get ads spots",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "user_id": 1,
+                    "type": 0,
+                    "ward_id": 1,
+                    "district_id": 1,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/user/ads-spots/{id}/ads-panels": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads panels of ads spot by id",
+        "summary": "Get ads panels",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "ads_spot_id": 1,
+                    "type": 0,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/vhtt/ads-panels/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads panel",
+        "summary": "Get ads panel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsPanel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to update ads panel",
+        "summary": "Update ads panel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/AdsPanel"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to delete ads panel",
+        "summary": "Delete ads panel",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/components/schemas/AdsPanel"
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/vhtt/ads-panels": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads panels",
+        "summary": "Get ads panels",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "ads_spot_id": 1,
+                    "type": 0,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to create ads panel",
+        "summary": "Create ads panel",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsPanel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-licenses/{id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads license",
+        "summary": "Get ads license",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsLicense"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to update ads license",
+        "summary": "Update ads license",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsLicense"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to delete ads license",
+        "summary": "Delete ads license",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsLicense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-licenses": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads licenses",
+        "summary": "Get ads licenses",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ward_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "district_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "user_id": 1,
+                    "type": 0,
+                    "ward_id": 1,
+                    "district_id": 1,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to create ads license",
+        "summary": "Create ads license",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsLicense"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-panel-types": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads panel types",
+        "summary": "Get ads panel types",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "string",
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to create ads panel type",
+        "summary": "Create ads panel type",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsPanelType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-panel-types/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads panel type",
+        "summary": "Get ads panel type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsPanelType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to update ads panel type",
+        "summary": "Update ads panel type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsPanelType"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used delete ads panel type",
+        "summary": "Delete ads panel type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsPanelType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/report-types": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get report types",
+        "summary": "Get report types",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "string",
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is used create report type",
+        "summary": "Create report type",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/report-types/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get report type",
+        "summary": "Get report type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "Update report type",
+        "summary": "Update report type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/ReportType"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint is delete report type",
+        "summary": "Delete report type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-types": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads types",
+        "summary": "Get ads types",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "string",
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint create ads type",
+        "summary": "Create ads type",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/ads-types/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get ads type",
+        "summary": "Get ads type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint update ads type",
+        "summary": "Update ads type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint delete ads type",
+        "summary": "Delete ads type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdsType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/spot-types": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get spot types",
+        "summary": "Get spot types",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "name": "string",
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint create spot type",
+        "summary": "Create spot type",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpotType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/spot-types/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get spot type",
+        "summary": "Get spot type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpotType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint update spot type",
+        "summary": "Update spot type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpotType"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint delete spot type",
+        "summary": "Delete spot type",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpotType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/edit-requests": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint create edit request",
+        "summary": "Create edit request",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InformationChangeRequest"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get edit requests",
+        "summary": "Get edit requests",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "type": 1,
+                    "old_information": "string",
+                    "new_information": "string",
+                    "reason": "string",
+                    "status": 1,
+                    "user_id": 1,
+                    "edited_at": "2021-08-27T14:43:55.772Z",
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/edit-requests/{id}": {
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint update edit request",
+        "summary": "Update edit request",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InformationChangeRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/users": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get users",
+        "summary": "Get users",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "role": 0,
+                    "name": "string",
+                    "dob": "string",
+                    "email": "string",
+                    "phone": "string",
+                    "username": "string",
+                    "otp": "string",
+                    "expire_date": "2021-08-27T14:43:55.772Z",
+                    "is_deleted": true,
+                    "refresh_token": "string",
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint create user",
+        "summary": "Create user",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/users/{id}": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get user",
+        "summary": "Get user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint update user",
+        "summary": "Update user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["VHTT"],
+        "description": "This endpoint delete user",
+        "summary": "Delete user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vhtt/statistics/reports": {
+      "get": {
+        "tags": ["VHTT"],
+        "description": "This endpoint is used to get statistics reports",
+        "summary": "Get statistics reports",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+
+    "/ward/:wardId/ads-panels": {
+      "get": {
+        "tags": ["Ward"],
+        "description": "This endpoint is used to get ads panels of ward",
+        "summary": "Get ads panels of ward",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "id": 1,
+                    "ads_spot_id": 1,
+                    "type": 0,
+                    "status": 0,
+                    "created_at": "2021-08-27T14:43:55.772Z",
+                    "updated_at": "2021-08-27T14:43:55.772Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "role": {
+            "example": 0
+          },
+          "name": {
+            "example": "admin"
+          },
+          "dob": {
+            "example": "10/10/2002"
+          },
+          "email": {
+            "example": "example@gmail.com"
+          },
+          "phone": {
+            "example": "0123456789"
+          },
+          "username": {
+            "example": "admin"
+          },
+          "otp": {
+            "example": "94f03302-849c-4e51-a7af-56da38c39595"
+          },
+          "expire_date": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "refresh_token": {
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcwNDgxOTQzMiwiZXhwIjoxNzA3NDExNDMyLCJ0eXBlIjoicmVmcmVzaCJ9.nIHLmwAQk_9Lq_zj4JC-64V7IRDF0dSkpQ6UXclL7nE"
+          },
+          "created_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "updated_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          }
+        }
+      },
+      "AdsSpot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "address": {
+            "example": "123 Nguyen Van Linh"
+          },
+          "ward_id": {
+            "example": 1
+          },
+          "district_id": {
+            "example": 1
+          },
+          "spot_type_id": {
+            "example": 1
+          },
+          "ads_type_id": {
+            "example": 1
+          },
+          "image": {
+            "example": "https://i.imgur.com/3gY1pxk.jpg,https://i.imgur.com/3gY1pxk.jpg"
+          },
+          "latitute": {
+            "example": 10.123456
+          },
+          "longtitute": {
+            "example": 10.123456
+          },
+          "is_available": {
+            "example": true
+          },
+          "max_ads_panel": {
+            "example": 1
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "updated_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          }
+        }
+      },
+      "AdsPanel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "ads_type_id": {
+            "example": 1
+          },
+          "height": {
+            "example": 1
+          },
+          "width": {
+            "example": 1
+          },
+          "expire_date": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "image": {
+            "example": "https://i.imgur.com/3gY1pxk.jpg"
+          },
+          "ads_spot_id": {
+            "example": 1
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "updated_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          }
+        }
+      },
+      "District": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "name": {
+            "example": "Quận 1"
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "updated_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          }
+        }
+      },
+      "Ward": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "name": {
+            "example": "Phường 1"
+          },
+          "district_id": {
+            "example": 1
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "updated_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          }
+        }
+      },
+      "AdsLicense": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "ads_panel_id": {
+            "example": 1
+          },
+          "content": {
+            "example": "&lt;p>CÔNG TY CỔ PHẦN ĐẦU TƯ SẢN XUẤT LÊ TRẦN&lt;/p>"
+          },
+          "user_id": {
+            "example": 1
+          },
+          "start_date": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "expire_date": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "status": {
+            "example": 1
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "address": {
+            "example": "123 Nguyen Van Linh"
+          },
+          "email": {
+            "example": "example@gmail.com"
+          },
+          "phone": {
+            "example": "0123456789"
+          },
+          "created_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "updated_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "name": {
+            "example": "CÔNG TY TNHH MỘT THÀNH VIÊN SẢN XUẤT VÀ THƯƠNG MẠI LIỄU TÚ"
+          },
+          "image": {
+            "example": "https://i.imgur.com/3gY1pxk.jpg"
+          }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "report_type_id": {
+            "example": 1
+          },
+          "name": {
+            "example": "Investment Account"
+          },
+          "email": {
+            "example": "example@gmail.com"
+          },
+          "phone": {
+            "example": "0123456789"
+          },
+          "content": {
+            "example": "string"
+          },
+          "image": {
+            "example": "https://i.imgur.com/3gY1pxk.jpg"
+          },
+          "status": {
+            "example": 1
+          },
+          "view_status": {
+            "example": 1
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "ads_panel_id": {
+            "example": 1
+          },
+          "handled_user_id": {
+            "example": 1
+          },
+          "longtitute": {
+            "example": 10.123456
+          },
+          "latitute": {
+            "example": 10.123456
+          },
+          "ward_id": {
+            "example": 1
+          },
+          "district_id": {
+            "example": 1
+          },
+          "address": {
+            "example": "123 Nguyen Van Linh"
+          },
+          "created_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          },
+          "updated_at": {
+            "example": "2024-01-08T16:02:57.962Z"
+          }
+        }
+      },
+      "InformationChangeRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "type": {
+            "example": 1
+          },
+          "old_information": {
+            "example": "string"
+          },
+          "new_information": {
+            "example": "string"
+          },
+          "reason": {
+            "example": "string"
+          },
+          "status": {
+            "example": 1
+          },
+          "user_id": {
+            "example": 1
+          },
+          "edited_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "created_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "updated_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          }
+        }
+      },
+      "AdsPanelType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "name": {
+            "example": "string"
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "updated_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          }
+        }
+      },
+      "AdsType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "name": {
+            "example": "string"
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "updated_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          }
+        }
+      },
+      "ReportType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "name": {
+            "example": "string"
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "updated_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          }
+        }
+      },
+      "SpotType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "example": 1
+          },
+          "name": {
+            "example": "string"
+          },
+          "is_deleted": {
+            "example": false
+          },
+          "created_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          },
+          "updated_at": {
+            "example": "2022-08-27T14:43:55.772Z"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
