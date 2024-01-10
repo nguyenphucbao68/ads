@@ -143,7 +143,7 @@ const AdsPanelList = () => {
             }}
             slotProps={{
               toolbar: {
-                addNew: userRole == 0 ? () => navigateToCreate() : null,
+                addNew: userRole === 0 ? () => navigateToCreate() : null,
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}
