@@ -198,6 +198,8 @@ const AdsSpotDetails = () => {
     fetchData()
   }, [id, dispatchAdsTypes, dispatchSpotTypes])
 
+  console.log(data.adsSpot)
+
   return (
     <CCard
       className="mb-4"
@@ -477,7 +479,7 @@ const AdsSpotDetails = () => {
                   alignItems="center"
                 >
                   <Button
-                    onClick={() => onSubmit()}
+                    onSubmit={onSubmit}
                     type="submit"
                     variant="contained"
                     startIcon={<SaveIcon />}
