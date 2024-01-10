@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useContext, useRef, useCallback } from 'react'
 
 import { Box, Button, Grid, styled } from '@mui/material'
-import { CCard, CCardBody, CForm, CCol, CRow, CFormLabel, CFormInput } from '@coreui/react'
+import {
+  CCard,
+  CCardBody,
+  CForm,
+  CCol,
+  CRow,
+  CFormLabel,
+  CFormInput,
+  CFormCheck,
+} from '@coreui/react'
 import SaveIcon from '@mui/icons-material/Save'
 import { AdsTypeContext } from 'src/contexts/AdsTypeProvider'
 import { SpotTypeContext } from 'src/contexts/SpotTypeProvider'
@@ -56,7 +65,7 @@ const AdsSpotCreate = () => {
         id: 1,
         name: '',
       },
-      is_available: true,
+      is_available: false,
       max_ads_panel: 1,
     },
     new_address: {
@@ -125,7 +134,7 @@ const AdsSpotCreate = () => {
             fileSelected: [...pre.fileSelected, result.info.url],
           }))
           setValue('images', [...getValues('images'), result.info.url], { shouldDirty: true })
-        } else console.error(error)
+        }
       },
     )
   }, [])
@@ -133,18 +142,26 @@ const AdsSpotCreate = () => {
   const onSubmit = async (dat) => {
     try {
       const body = {
-        address: data.new_address.address,
-        ward_name: data.new_address.ward,
-        district_name: data.new_address.district,
-        longtitude: Number(data.new_address.long),
-        latitude: Number(data.new_address.lat),
+        address:
+          data.new_address.address.length > 0 ? data.new_address.address : data.adsSpot.address,
+        ward_name:
+          data.new_address.address.length > 0 ? data.new_address.ward : data.adsSpot.ward.name,
+        district_name:
+          data.new_address.address.length > 0
+            ? data.new_address.district
+            : data.adsSpot.district.name,
+        longtitude: Number(
+          data.new_address.address.length > 0 ? data.new_address.long : data.adsSpot.longtitude,
+        ),
+        latitude: Number(
+          data.new_address.address.length > 0 ? data.new_address.lat : data.adsSpot.latitude,
+        ),
         spot_type_id: parseInt(dat.spot_type_id, 10),
         ads_type_id: parseInt(dat.ads_type_id, 10),
         image: dat.images.join(','),
-        is_available: Boolean(dat.is_available),
+        is_available: dat.is_available === 'true',
         max_ads_panel: parseInt(dat.max_ads_panel, 10),
       }
-
       const adsSpot = await adsSpotService.create(body)
       if (adsSpot.id) {
         navigate('/admin/ads_spots', {
@@ -288,15 +305,11 @@ const AdsSpotCreate = () => {
                   variant="outlined"
                   startIcon={<CloudUpload />}
                   onClick={() => widgetRef.current.open()}
+                  {...register('images', {
+                    validate: (value) => value.length > 0 || 'Vui lòng chọn hình ảnh',
+                  })}
                 >
                   Thêm ảnh
-                  <VisuallyHiddenInput
-                    type="file"
-                    disabled
-                    // multiple
-                    {...register('images', { validate: (value) => value.length > 0 })}
-                    // onChange={uploadMultiFiles}
-                  />
                 </Button>
               </CCol>
               {errors.images?.type === 'validate' && (
@@ -354,38 +367,46 @@ const AdsSpotCreate = () => {
                 Tình trạng quy hoạch
               </CFormLabel>
               <CCol sm={10}>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="flexRadioIsAvailable"
-                    id="flexRadioAvailable"
-                    {...register('is_available', {
-                      required: 'Vui lòng chọn tình trạng quy hoạch',
-                    })}
-                    value={true}
-                    defaultChecked={data.adsSpot.is_available}
-                  />
-                  <label className="form-check-label" htmlFor="flexRadioAvailable">
-                    Đã quy hoạch
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="flexRadioIsAvailable"
-                    id="flexRadioNotAvailable"
-                    {...register('is_available', {
-                      required: 'Vui lòng chọn tình trạng quy hoạch',
-                    })}
-                    value={false}
-                    defaultChecked={!data.adsSpot.is_available}
-                  />
-                  <label className="form-check-label" htmlFor="flexRadioNotAvailable">
-                    Chưa quy hoạch
-                  </label>
-                </div>
+                <CFormCheck
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineCheckbox1"
+                  label="Đã quy hoạch"
+                  value={true}
+                  checked={data.adsSpot.is_available}
+                  {...register('is_available', {})}
+                  onChange={() => {
+                    setData((pre) => ({
+                      ...pre,
+                      adsSpot: {
+                        ...pre.adsSpot,
+                        is_available: true,
+                      },
+                    }))
+
+                    setValue('is_available', true, { shouldDirty: true })
+                  }}
+                />
+                <CFormCheck
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineCheckbox2"
+                  label="Chưa quy hoạch"
+                  value={false}
+                  checked={!data.adsSpot.is_available}
+                  {...register('is_available', {})}
+                  onChange={() => {
+                    setData((pre) => ({
+                      ...pre,
+                      adsSpot: {
+                        ...pre.adsSpot,
+                        is_available: false,
+                      },
+                    }))
+
+                    setValue('is_available', false, { shouldDirty: true })
+                  }}
+                />
               </CCol>
             </CRow>
             <CRow className="mt-2 mb-3">
@@ -423,7 +444,6 @@ const AdsSpotCreate = () => {
                 alignItems="center"
               >
                 <Button
-                  onSubmit={onSubmit}
                   type="submit"
                   variant="contained"
                   startIcon={<SaveIcon />}

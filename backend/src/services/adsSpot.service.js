@@ -125,7 +125,7 @@ const createAdsSpot = async (body) => {
       },
     });
 
-    let newDistrict;
+    let newDistrict = districtData;
     if (!districtData) {
       newDistrict = await prisma.district.create({
         data: {
@@ -190,7 +190,7 @@ const updateAdsSpot = async (id, body) => {
       },
     });
 
-    let newDistrict;
+    let newDistrict = districtData;
     if (!districtData) {
       newDistrict = await prisma.district.create({
         data: {

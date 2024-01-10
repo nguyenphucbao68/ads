@@ -372,7 +372,7 @@ function LandingPage({
     [supercluster],
   )
 
-  const getClusters = () => {
+  const getClusters = useCallback(() => {
     return clusters.length > 0 && points.length > 0
       ? clusters.map((cluster) => {
           const [longitude, latitude] = cluster.geometry.coordinates
@@ -396,7 +396,7 @@ function LandingPage({
       : points.map((point) => {
           return <Pin key={point.key} data={point.properties} onClick={setPopupInfo} />
         })
-  }
+  }, [clusters, points, handleZoomCluster])
 
   return (
     <Container>
