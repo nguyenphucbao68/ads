@@ -75,7 +75,7 @@
                       "example": "Incorrect email or password"
                     },
                     "stack": {
-                      "example": "Error: Incorrect email or password\n    at Object.loginUserWithEmailAndPassword (/Users/khanhnguyen/Khanh/School/HCMUS/Year4/WebNangCao/Github/ads/backend/src/services/auth.service.js:30:11)\n    at async /Users/khanhnguyen/Khanh/School/HCMUS/Year4/WebNangCao/Github/ads/backend/src/controllers/auth.controller.js:18:16"
+                      "example": "string"
                     }
                   }
                 }
