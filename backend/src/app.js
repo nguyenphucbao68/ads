@@ -17,6 +17,8 @@ const http = require('http');
 const { Server } = require('socket.io');
 const { socketController } = require('./controllers');
 const swagger = require('./utils/swagger');
+const { infoLogger, errorLogger } = require('./utils/fileLogger');
+const expressWinston = require('express-winston');
 
 const app = express();
 //socket server
@@ -71,6 +73,25 @@ app.use((req, res, next) => {
   req.io = io;
   next();
 });
+
+//file logger
+app.use(
+  expressWinston.logger({
+    winstonInstance: infoLogger,
+    expressFormat: true,
+    meta: true, // log thêm thông tin meta
+    responseWhitelist: ['body'],
+    dynamicMeta: (req, res) => {
+      console.log(res.body);
+      return { response_body: res.body }; // log response body
+    },
+  })
+);
+app.use(
+  expressWinston.errorLogger({
+    winstonInstance: errorLogger,
+  })
+);
 
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {
