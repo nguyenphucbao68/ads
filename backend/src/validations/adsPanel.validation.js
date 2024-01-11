@@ -11,8 +11,8 @@ const createAdsPanel = {
     ads_spot_id: Joi.number().integer().required(),
     height: Joi.number().required(),
     width: Joi.number().required(),
-    expire_date: Joi.date().format('YYYY-MM-DD').required(),
-    image: Joi.string().required(),
+    // expire_date: Joi.date().format('YYYY-MM-DD').required(),
+    // image: Joi.string().required(),
   }),
 };
 

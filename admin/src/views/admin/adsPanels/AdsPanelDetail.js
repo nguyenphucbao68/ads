@@ -98,6 +98,8 @@ const AdsPanelDetail = () => {
       latitude: currentSpot.latitude,
       longitude: currentSpot.longtitude,
     })
+
+    setCurrentSpotId(currentSpot.id)
   }
 
   const formatDate = (dateString) => {
@@ -141,7 +143,7 @@ const AdsPanelDetail = () => {
       const height = getValues('height') || data.adsPanelDetail.height
       const expire_date = formatDate(getValues('expire_date') || data.adsPanelDetail.expire_date)
       const type = getValues('type') || data.adsPanelDetail.ads_type_id
-      const spot_id = data.currentSpot.id || data.adsPanelDetail.ads_spot_id
+      const spot_id = currentSpotId || 0
 
       const adsPanelUpdateData = {
         ads_type_id: type,
@@ -149,7 +151,7 @@ const AdsPanelDetail = () => {
         height: height,
         width: width,
         expire_date: expire_date,
-        image: data.fileSelected.length > 0 ? data.fileSelected[0] : data.adsPanelDetail.image,
+        image: data.fileSelected ? data.fileSelected.join(',') : '',
       }
 
       await adsPanelService.update(id, adsPanelUpdateData)
@@ -190,30 +192,6 @@ const AdsPanelDetail = () => {
       })),
   ]
 
-  // Khởi tạo cho drop down ví trí điểm đặt.
-  const selectedAdsSpot = data.adsSpotList.find(
-    (option) => option.id === data.adsPanelDetail.ads_spot_id,
-  )
-
-  const adsSpotOptions = [
-    {
-      label: selectedAdsSpot
-        ? selectedAdsSpot.address +
-          ', ' +
-          selectedAdsSpot.ward.name +
-          ', ' +
-          selectedAdsSpot.district.name
-        : '',
-      value: selectedAdsSpot ? selectedAdsSpot.id : '',
-    },
-    ...data.adsSpotList
-      .filter((option) => option.id !== data.adsPanelType.ads_spot_id)
-      .map((option) => ({
-        label: option.address + ', ' + option.ward.name + ', ' + option.district.name,
-        value: option.id,
-      })),
-  ]
-
   const cloudinaryRef = useRef()
   const widgetRef = useRef()
 
@@ -229,15 +207,15 @@ const AdsPanelDetail = () => {
         uploadPreset: 'u4mszkqu',
       },
       (error, result) => {
-        if (result.event === 'success') {
+        if (result.event === 'success' && data.fileSelected.length < 2) {
           setData((pre) => ({
             ...pre,
             fileSelected: [...pre.fileSelected, result.info.url],
           }))
-        } else console.error(error)
+        }
       },
     )
-  }, [])
+  }, [data.fileSelected])
 
   return (
     <CCard className="mb-4">
@@ -299,9 +277,10 @@ const AdsPanelDetail = () => {
                 <CFormInput
                   type="number"
                   id="height"
+                  placeholder="Nhập chiều cao (giá trị dương)"
                   defaultValue={data.adsPanelDetail.height}
                   {...register('height', {
-                    required: true,
+                    required: 'Vui lòng nhập chiều cao (giá trị dương)',
                     valueAsNumber: true,
                   })}
                 />
@@ -315,9 +294,10 @@ const AdsPanelDetail = () => {
                 <CFormInput
                   type="number"
                   id="width"
+                  placeholder="Nhập chiều rộng (giá trị dương)"
                   defaultValue={data.adsPanelDetail.width}
                   {...register('width', {
-                    required: true,
+                    required: 'Vui lòng nhập chiều rộng (giá trị dương)',
                     valueAsNumber: true,
                   })}
                 />
@@ -330,10 +310,10 @@ const AdsPanelDetail = () => {
               <CCol sm={10}>
                 {data.adsPanelDetail.expire_date ? (
                   <CFormInput
-                    type="text"
+                    type="date"
                     id="expire_date"
+                    placeholder="Ngày hết hạn"
                     defaultValue={formatDate(data.adsPanelDetail.expire_date)}
-                    disabled
                     {...register('expire_date', { required: true })}
                   />
                 ) : null}
@@ -400,7 +380,10 @@ const AdsPanelDetail = () => {
                     component="label"
                     variant="outlined"
                     startIcon={<CloudUpload />}
-                    onClick={() => widgetRef.current.open()}
+                    onClick={() => {
+                      if (data.fileSelected.length < 2) widgetRef.current.open()
+                      else toast('Mỗi bảng quảng cáo có tối đa 2 hình ảnh')
+                    }}
                   >
                     Thêm ảnh
                     <VisuallyHiddenInput
@@ -408,7 +391,7 @@ const AdsPanelDetail = () => {
                       disabled
                       // multiple
                       {...register('images', { required: true })}
-                      // onChange={uploadMultiFiles}
+                      // onChange={handleFileChange}
                     />
                   </Button>
                 </CCol>
@@ -468,23 +451,13 @@ const AdsPanelDetail = () => {
                     width="100%"
                     onChangeNewAddress={onChangeNewAddress}
                     currentMarker={currentMarker}
+                    setCurrentSpotId={setCurrentSpotId}
                     setCurrentMarker={setCurrentMarker}
+                    isEdit={true}
                   />
                 </CCol>
               </CRow>
             )}
-            {/* <CRow className="mb-3">
-              <CFormLabel htmlFor="spot_id" className="col-sm-2 col-form-label">
-                Điểm đặt tại đây
-              </CFormLabel>
-              <CCol sm={10}>
-                <CFormSelect
-                  aria-label="Default select example"
-                  options={adsSpotOptions}
-                  {...register('spot_id', { required: true })}
-                />
-              </CCol>
-            </CRow> */}
           </CForm>
         </Box>
         <Box
