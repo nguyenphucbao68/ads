@@ -1,10 +1,25 @@
 import { Card, Typography, Flex, Button } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CheckCircleOutlined, WarningFilled } from '@ant-design/icons';
 import { StyledCard } from './LocationInfo.style';
+import ModalReport from '../ModalReport/ModalReport';
+import { useModalReport } from '../../contexts/ModalReportProvider';
 const { Title, Paragraph } = Typography;
 
 function LocationInfo({ locationDetail }) {
+  const { dispatch } = useModalReport();
+
+  const showModal = () => {
+    console.log('On lcik');
+    dispatch({
+      type: 'ON_OPEN_MODAL',
+      payload: {
+        category: 'Thông tin địa điểm',
+        locationDetail,
+      },
+    });
+  };
+
   return (
     <StyledCard>
       <Flex gap={10}>
@@ -30,10 +45,11 @@ function LocationInfo({ locationDetail }) {
         </div>
       </Flex>
       <Flex justify='flex-end' align='center'>
-        <Button ghost danger>
+        <Button ghost danger onClick={showModal}>
           <WarningFilled />
           BÁO CÁO VI PHẠM
         </Button>
+        <ModalReport />
       </Flex>
     </StyledCard>
   );

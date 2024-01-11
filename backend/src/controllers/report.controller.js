@@ -12,7 +12,13 @@ const createReport = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getReportTypes = catchAsync(async (req, res) => {
+  const result = await reportService.getReportTypes();
+  res.send(result);
+});
+
 module.exports = {
   getReports,
   createReport,
+  getReportTypes,
 };
