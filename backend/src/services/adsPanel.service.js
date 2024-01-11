@@ -127,9 +127,18 @@ const getAdsPanelsByAdsSpotId = async (id) => {
 };
 
 // create a new adsPanel
-const createAdsPanel = async (adsPanelBody) => {
+const createAdsPanel = async (body) => {
+  const data = {
+    ads_type_id: body.ads_type_id,
+    height: body.height,
+    width: body.width,
+    expire_date: body.expire_date ? body.expire_date : new Date(),
+    image: body.image ? body.image : '',
+    ads_spot_id: body.ads_spot_id,
+  };
+  console.log(data);
   const adsPanel = await prisma.ads_panel.create({
-    data: adsPanelBody,
+    data: data,
   });
 
   return adsPanel;
@@ -149,7 +158,6 @@ const updateAdsPanel = async (id, adsPanelBody) => {
 
 // delete an existing adsPanel
 const deleteAdsPanel = async (id) => {
-  console.log('id ', id);
   const adsPanel = await prisma.ads_panel.update({
     where: {
       id: parseInt(id, 10),

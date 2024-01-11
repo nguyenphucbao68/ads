@@ -22,8 +22,8 @@ model ads_license {
   phone        String?
   created_at   DateTime? @default(now()) @db.Timestamp(6)
   updated_at   DateTime? @default(now()) @db.Timestamp(6)
-  name         String?
   image        String?
+  name         String?
   user         user?     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk")
   ads_panel    ads_panel @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "ads_license_fk_1")
 }
@@ -34,7 +34,7 @@ model ads_panel {
   height         Float          @db.Real
   width          Float          @db.Real
   expire_date    DateTime       @default(now()) @db.Timestamptz(6)
-  image          String
+  image          String?
   ads_spot_id    Int
   is_deleted     Boolean        @default(false)
   created_at     DateTime?      @default(now()) @db.Timestamp(6)
@@ -103,12 +103,12 @@ model information_change_request {
   type            Int
   old_information String
   new_information String
-  reason          String
   status          Int       @default(0)
   user_id         Int
-  edited_at       DateTime? @default(now()) @db.Timestamptz(6)
   created_at      DateTime? @default(now()) @db.Timestamp(6)
   updated_at      DateTime? @default(now()) @db.Timestamp(6)
+  edited_at       DateTime? @default(now()) @db.Timestamptz(6)
+  reason          String
   user            user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "information_change_request_fk")
 }
 
@@ -121,7 +121,6 @@ model report {
   content         String
   image           String?
   status          Int         @default(0)
-  view_status     Int         @default(0)
   created_at      DateTime    @default(now()) @db.Timestamptz(6)
   is_deleted      Boolean     @default(false)
   ads_panel_id    Int?
@@ -129,9 +128,10 @@ model report {
   updated_at      DateTime?   @default(now()) @db.Timestamp(6)
   longtitude      Float?      @db.Real
   latitude        Float?      @db.Real
-  ward_id         Int?
-  district_id     Int?
   address         String?
+  district_id     Int?
+  view_status     Int         @default(0)
+  ward_id         Int?
   report_type     report_type @relation(fields: [report_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "report_fk")
   ads_panel       ads_panel?  @relation(fields: [ads_panel_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "report_fk_1")
   user            user?       @relation(fields: [handled_user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "report_fk_2")
