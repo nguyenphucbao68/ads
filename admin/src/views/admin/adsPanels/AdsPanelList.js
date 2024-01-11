@@ -9,7 +9,7 @@ import CustomNoRowsOverlay from 'src/components/CustomNoRowsOverlay'
 import CustomGridToolbar from 'src/components/CustomGridToolbar'
 import { useNavigate } from 'react-router-dom'
 import * as adsPanelService from 'src/services/adsPanel'
-
+import * as adsSpotService from 'src/services/adsSpot'
 // Định nghĩa cấu trúc bảng
 const columns = [
   { field: 'id', headerName: 'STT', width: 200 },
@@ -20,14 +20,9 @@ const columns = [
     valueGetter: (params) => params.row.ads_panel_type.name,
   },
   {
-    field: 'height',
-    headerName: 'Chiều cao',
-    width: 200,
-  },
-  {
-    field: 'width',
-    headerName: 'Chiều rộng',
-    width: 200,
+    field: 'address',
+    headerName: 'Địa chỉ',
+    width: 600,
   },
   {
     field: 'expire_date',
@@ -69,8 +64,20 @@ const AdsPanelList = () => {
     setData((prevState) => ({ ...prevState, loading: true }))
 
     try {
-      let rawData = await adsPanelService.getAll(id, role)
+      let adsPanelsData = await adsPanelService.getAll(id, role) // Lấy danh sách các bảng theo role
+      let adsSpotsData = await adsSpotService.getAll() // Lấy danh sách các điểm đặt
 
+      let rawData = []
+
+      // Join adsPanelsData và adsSpotsData tương ứng với ads_spot_id bằng nhau để lấy địa chỉ của panel
+      await adsPanelsData.forEach((adsPanelItem) => {
+        const adsSpotItem = adsSpotsData.find((item) => item.id === adsPanelItem.ads_spot_id)
+        rawData.push({
+          ...adsPanelItem,
+          address:
+            adsSpotItem.address + ', ' + adsSpotItem.ward.name + ', ' + adsSpotItem.district.name,
+        })
+      })
       setData((prevState) => ({
         ...prevState,
         rows: rawData || [],
@@ -136,7 +143,7 @@ const AdsPanelList = () => {
             }}
             slotProps={{
               toolbar: {
-                addNew: userRole == 0 ? () => navigateToCreate() : null,
+                addNew: userRole === 0 ? () => navigateToCreate() : null,
               },
             }}
             localeText={GRID_DEFAULT_LOCALE_TEXT}

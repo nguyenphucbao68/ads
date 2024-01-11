@@ -78,14 +78,14 @@ const AdsTypeDetail = () => {
         <h4 id="ads-spots-title" className="card-title mb-0">
           Chi tiết điểm đặt quảng cáo
         </h4>
-        <Box
-          sx={{
-            height: 'calc(100vh - 340px)',
-            width: '100%',
-            marginTop: '15px',
-          }}
-        >
-          <CForm onSubmit={handleSubmit(onSave)}>
+        <CForm onSubmit={handleSubmit(onSave)}>
+          <Box
+            sx={{
+              height: 'calc(100vh - 340px)',
+              width: '100%',
+              marginTop: '15px',
+            }}
+          >
             <CRow className="mb-3">
               <CFormLabel htmlFor="adsTypeName" className="col-sm-2 col-form-label">
                 Tên
@@ -94,6 +94,7 @@ const AdsTypeDetail = () => {
                 <CFormInput
                   type="text"
                   id="adsTypeName"
+                  placeholder="Nhập tên loại hình quảng cáo"
                   defaultValue={data.name}
                   {...register('name', {
                     required: 'Vui lòng nhập tên loại hình quảng cáo',
@@ -102,58 +103,57 @@ const AdsTypeDetail = () => {
                 />
               </CCol>
             </CRow>
-          </CForm>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-          }}
-        >
-          <Grid container>
-            <Grid
-              item
-              container
-              direction="row"
-              xs={6}
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => onSave()}
-                type="submit"
-                variant="contained"
-                startIcon={<SaveIcon />}
-                color="primary"
-                sx={{
-                  borderRadius: '8px',
-                }}
-                disabled={!formState.isDirty}
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+            }}
+          >
+            <Grid container>
+              <Grid
+                item
+                container
+                direction="row"
+                xs={6}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                Lưu
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={6}
-              container
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-            >
-              <Button
-                onClick={() => setIsModalDisplay(true)}
-                variant="text"
-                startIcon={<DeleteIcon />}
-                color="error"
-                sx={{
-                  borderRadius: '8px',
-                }}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  startIcon={<SaveIcon />}
+                  color="primary"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                  disabled={!formState.isDirty}
+                >
+                  Lưu
+                </Button>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                container
+                direction="row"
+                justifyContent="flex-end"
+                alignItems="center"
               >
-                Xóa
-              </Button>
+                <Button
+                  onClick={() => setIsModalDisplay(true)}
+                  variant="text"
+                  startIcon={<DeleteIcon />}
+                  color="error"
+                  sx={{
+                    borderRadius: '8px',
+                  }}
+                >
+                  Xóa
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        </CForm>
       </CCardBody>
     </CCard>
   )
