@@ -25,6 +25,7 @@ import { useParams } from 'react-router-dom'
 import useSupercluster from 'use-supercluster'
 import ClusterMarker from 'src/components/Map/ClusterMarker/ClusterMarker'
 import { toast } from 'sonner'
+import ToggleFooter from 'src/components/Map/ToogleFooter/ToggleFooter'
 
 const geolocateStyle = {
   top: 0,
@@ -97,6 +98,8 @@ function LandingPage({
   const [adsPanels, setAdsPanel] = useState([])
   const [adsSpots, setAdsSpots] = useState([])
   const [bounds, setBounds] = useState(null)
+  const [adsSpotVisible, setAdsSpotVisible] = useState(true)
+  const [adsPanelReportVisible, setAdsPanelReportVisible] = useState(true)
 
   const mapRef = useRef(null)
 
@@ -432,9 +435,13 @@ function LandingPage({
             <CurrentPin size={20} />
           </Marker>
         )}
+        <ToggleFooter
+          setAdsSpotVisible={setAdsSpotVisible}
+          setAdsPanelReportVisible={setAdsPanelReportVisible}
+        />
         {!spotId && <AddressSearchInput onSelectAddress={onSelectAddress} />}
         {/* <Pin data={adsSpots} onClick={setPopupInfo} /> */}
-        {getClusters()}
+        {adsSpotVisible && getClusters()}
         <AdsPanelDetail adsPanelDetail={adsPanelDetail} onClosePanelDetail={onClosePanelDetail} />
         {popupInfo && (
           <AdsPanelList
