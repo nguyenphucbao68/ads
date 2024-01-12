@@ -82,7 +82,6 @@ app.use(
     meta: true, // log thêm thông tin meta
     responseWhitelist: ['body'],
     dynamicMeta: (req, res) => {
-      console.log(res.body);
       return { response_body: res.body }; // log response body
     },
   })
