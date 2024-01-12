@@ -7,8 +7,6 @@ import {
   LeftOutlined,
   RightOutlined,
 } from '@ant-design/icons';
-import AdsPanelDetail from '../AdsPanelDetail/AdsPanelDetail';
-import axios from 'axios';
 import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 
 const { Title } = Typography;

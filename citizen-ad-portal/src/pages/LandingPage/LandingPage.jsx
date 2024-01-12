@@ -295,12 +295,15 @@ function LandingPage() {
       );
     });
 
+  useEffect(() => {
+    console.log({ chaneInfo: popupInfo });
+  }, [popupInfo]);
   return (
     <Container>
       <AdsPanelDetail />
       <AddressSearchInput
         onSelectAddress={onSelectAddress}
-        isBackgroundDisplay={popupInfo !== null}
+        isBackgroundDisplay={popupInfo !== null && popupInfo !== undefined}
       />
 
       <ToggleFooter

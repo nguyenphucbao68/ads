@@ -44,7 +44,7 @@ function AddressSearchInput({ onSelectAddress, isBackgroundDisplay }) {
   return (
     <Container
       style={{
-        backgroundColor: isBackgroundDisplay ?? '#F0F0F0',
+        backgroundColor: isBackgroundDisplay ? '#F0F0F0' : null,
       }}
     >
       <AutoComplete

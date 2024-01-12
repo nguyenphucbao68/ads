@@ -15,7 +15,6 @@ function Pin({ data, onClick, colorFill }) {
       (item) => item === data.id
     ) > -1;
 
-  console.log({ isPanelReported });
 
   return (
     <Marker longitude={data.longtitude} latitude={data.latitude}>
@@ -36,7 +35,6 @@ function Pin({ data, onClick, colorFill }) {
           stroke='black'
           strokeWidth='2'
           fill={colorFill}
-          // fill={data.is_available ? 'blue' : 'red'}
         />
 
         <text
