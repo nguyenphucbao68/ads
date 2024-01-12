@@ -1,38 +1,42 @@
 version: '3'
 
 services:
-  vexe:
+  adsmanagement:
     build: .
-    image: vexere-backend
     environment:
-      - DATABASE_URL=postgres://nguyenphucbao098:RK3Y5MVxTruW@ep-sparkling-bonus-842154.ap-southeast-1.aws.neon.tech/neondb
+      - DATABASE_URL=postgres://postgres:localdb@db:5432/adswebsite
       - PORT=3000
       - JWT_SECRET=thisisasamplesecret
       - JWT_ACCESS_EXPIRATION_MINUTES=30
       - JWT_REFRESH_EXPIRATION_DAYS=30
       - JWT_RESET_PASSWORD_EXPIRATION_MINUTES=10
       - JWT_VERIFY_EMAIL_EXPIRATION_MINUTES=10
+      - GOOGLE_MAILER_CLIENT_ID=
+      - GOOGLE_MAILER_CLIENT_SECRET=
+      - GOOGLE_MAILER_REFRESH_TOKEN=
+      - ADMIN_EMAIL_ADDRESS=group9notification@gmail.com
     ports:
-      - '3000:3000'
+      - '4000:3000'
     # volumes:
     #   - .:/usr/src/node-app
     # networks:
     #   - node-network
+    command: bash -c "yarn db:schema && yarn seed && yarn start"
 
-  # postgres:
-  #   container_name: postgres
-  #   image: postgres:9.6-alpine
-  #   environment:
-  #     - POSTGRES_DB=ticketbooking
-  #     - POSTGRES_PASSWORD=localdb
-  #     - PGDATA=/var/lib/postgresql/data/ticketbooking/
-  #   volumes:
-  #     - data:/var/lib/postgresql/data
-  #   expose:
-  #     - '8080'
-  #     - '5432'
-  #   ports:
-  #     - '5432:5432'
-  #     - '8080:8080'
-# volumes:
-#   data:
+  db:
+    container_name: db
+    image: postgres:9.6-alpine
+    environment:
+      - POSTGRES_DB=adswebsite
+      - POSTGRES_PASSWORD=localdb
+      - PGDATA=/var/lib/postgresql/data/adsmanagement/
+    volumes:
+      - data:/var/lib/postgresql/data
+    expose:
+      - '8080'
+      - '5432'
+    ports:
+      - '5430:5432'
+      - '8080:8080'
+volumes:
+  data:
