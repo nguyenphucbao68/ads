@@ -196,7 +196,7 @@ const AdsLicenseCreate = () => {
                   <p className="text-danger">Địa chỉ đặt quảng cáo không được để trống</p>
                 )}
               </CCol>
-              <Button
+              {/* <Button
                 className="col-sm-2 mt-1 pt-2 pb-2"
                 variant="outlined"
                 onClick={() => {
@@ -205,7 +205,7 @@ const AdsLicenseCreate = () => {
                 }}
               >
                 Đặt lại
-              </Button>
+              </Button> */}
             </CRow>
             <CRow className="mb-3">
               {/* <CFormLabel htmlFor="labelAddress" className="col-sm-12 col-form-label"></CFormLabel> */}
@@ -384,7 +384,7 @@ const AdsLicenseCreate = () => {
 
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputStartDate" className="col-sm-2 col-form-label">
-                Ngày bắt đầu học hợp
+                Ngày bắt đầu hợp đồng
               </CFormLabel>
               <CCol sm={10}>
                 <CFormInput
