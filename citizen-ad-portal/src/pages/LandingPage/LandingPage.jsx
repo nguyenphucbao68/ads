@@ -29,6 +29,7 @@ import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 import AddressSearchInput from '../../components/AddressSearchInput/AddressSearchInput';
 
 import ClusterMarker from '../../components/ClusterMarker/ClusterMarker';
+import ToggleFooter from '../../components/ToogleFooter/ToggleFooter';
 
 const geolocateStyle = {
   top: 0,
@@ -280,7 +281,12 @@ function LandingPage() {
   return (
     <Container>
       <AdsPanelDetail />
-      <AddressSearchInput onSelectAddress={onSelectAddress} />
+      <AddressSearchInput
+        onSelectAddress={onSelectAddress}
+        isBackgroundDisplay={popupInfo === null}
+      />
+
+      <ToggleFooter />
       {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
           locationDetail={locationInfo}

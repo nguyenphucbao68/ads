@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   overflow: auto;
-  height: 100vh;
+  margin-top: 72px;
+  height: calc(100% - 72px);
   position: absolute;
   width: 400px;
   /* left: 0px; */

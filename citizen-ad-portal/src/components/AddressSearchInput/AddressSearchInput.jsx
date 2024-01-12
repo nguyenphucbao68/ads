@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { AutoComplete } from 'antd';
 import axios from 'axios';
-function AddressSearchInput({ onSelectAddress }) {
+import { SearchOutlined } from '@ant-design/icons';
+import { Container } from './AddressSearchInput.style';
+function AddressSearchInput({ onSelectAddress, isBackgroundDisplay }) {
   const [options, setOptions] = useState([]);
   const [input, setInput] = useState('');
 
@@ -38,14 +40,24 @@ function AddressSearchInput({ onSelectAddress }) {
   };
 
   return (
-    <AutoComplete
-      style={{ width: 200, zIndex: 2, position: 'fixed', left: '300' }}
-      onSearch={(value) => setInput(value)}
-      onSelect={onSelect}
-      placeholder='input here'
-      value={input}
-      options={options}
-    />
+    <Container
+      style={{
+        backgroundColor: isBackgroundDisplay ?? '#F0F0F0',
+      }}
+    >
+      <AutoComplete
+        style={{
+          width: '375px',
+          height: '40px',
+        }}
+        onSearch={(value) => setInput(value)}
+        onSelect={onSelect}
+        placeholder='input here'
+        value={input}
+        suffixIcon={<SearchOutlined size={'large'} />}
+        options={options}
+      />
+    </Container>
   );
 }
 
