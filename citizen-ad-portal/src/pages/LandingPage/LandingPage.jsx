@@ -84,6 +84,8 @@ function LandingPage() {
   const [adsPanelInfo, setAdsPanelInfo] = useState(null);
   const [adsPanels, setAdsPanel] = useState([]);
   const [bounds, setBounds] = useState(null);
+  const [adsSpotVisible, setAdsSpotVisible] = useState(true);
+  const [adsPanelReportVisible, setAdsPanelReportVisible] = useState(true);
 
   const mapRef = useRef(null);
 
@@ -257,11 +259,26 @@ function LandingPage() {
         cluster.properties;
 
       if (!isCluster) {
+        const isPanelReported =
+          JSON.parse(localStorage.getItem('reportedAdsSpot') || '[]').findIndex(
+            (item) => item === cluster.properties.id
+          ) > -1;
+
+        if (isPanelReported && !adsPanelReportVisible)
+          return <React.Fragment key={cluster.id} />;
+
+        const colorFill = isPanelReported
+          ? 'red'
+          : cluster.properties.is_available
+          ? 'blue'
+          : '#808080';
+
         return (
           <Pin
             key={cluster.id}
             data={cluster.properties}
             onClick={setPopupInfo}
+            colorFill={colorFill}
           />
         );
       }
@@ -283,10 +300,14 @@ function LandingPage() {
       <AdsPanelDetail />
       <AddressSearchInput
         onSelectAddress={onSelectAddress}
-        isBackgroundDisplay={popupInfo === null}
+        isBackgroundDisplay={popupInfo !== null}
       />
 
-      <ToggleFooter />
+      <ToggleFooter
+        setAdsSpotVisible={setAdsSpotVisible}
+        setAdsPanelReportVisible={setAdsPanelReportVisible}
+      />
+
       {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
           locationDetail={locationInfo}
@@ -326,7 +347,7 @@ function LandingPage() {
           </Marker>
         )}
 
-        {getClusters()}
+        {adsSpotVisible && getClusters()}
 
         {popupInfo && (
           <StyledPopup

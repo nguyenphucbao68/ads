@@ -39,6 +39,8 @@ function AddressSearchInput({ onSelectAddress, isBackgroundDisplay }) {
     setInput(data);
   };
 
+  console.log({ isBackgroundDisplay });
+
   return (
     <Container
       style={{
@@ -52,7 +54,7 @@ function AddressSearchInput({ onSelectAddress, isBackgroundDisplay }) {
         }}
         onSearch={(value) => setInput(value)}
         onSelect={onSelect}
-        placeholder='input here'
+        placeholder='Tìm kiếm địa chỉ'
         value={input}
         suffixIcon={<SearchOutlined size={'large'} />}
         options={options}
@@ -61,4 +63,4 @@ function AddressSearchInput({ onSelectAddress, isBackgroundDisplay }) {
   );
 }
 
-export default AddressSearchInput;
+export default React.memo(AddressSearchInput);

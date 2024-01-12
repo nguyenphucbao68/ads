@@ -7,8 +7,16 @@ import { Marker } from '@goongmaps/goong-map-react';
 
 const SIZE = 12;
 
-function Pin({ data, onClick }) {
+function Pin({ data, onClick, colorFill }) {
   if (!data) return <></>;
+
+  const isPanelReported =
+    JSON.parse(localStorage.getItem('reportedAdsSpot') || '[]').findIndex(
+      (item) => item === data.id
+    ) > -1;
+
+  console.log({ isPanelReported });
+
   return (
     <Marker longitude={data.longtitude} latitude={data.latitude}>
       <svg
@@ -27,7 +35,8 @@ function Pin({ data, onClick }) {
           r={SIZE}
           stroke='black'
           strokeWidth='2'
-          fill={data.is_available ? 'blue' : 'red'}
+          fill={colorFill}
+          // fill={data.is_available ? 'blue' : 'red'}
         />
 
         <text
