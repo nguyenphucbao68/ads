@@ -75,7 +75,7 @@ const InformationChangeDetails = () => {
   const onAcceptSubmit = async () => {
     const result = await ICRService.update(element.id, ACCEPT)
     if (result.id) {
-      toast.info('Cập nhật yêu cầu thành công')
+      console.log(result)
       navigate('/admin/approval/edit_requests', {
         state: {
           type: 'success',
@@ -87,7 +87,6 @@ const InformationChangeDetails = () => {
   const onCancelSubmit = async () => {
     const result = await ICRService.update(element.id, CANCEL)
     if (result.id) {
-      toast.info('Cập nhật yêu cầu thành công')
       navigate('/admin/approval/edit_requests', {
         state: {
           type: 'success',
@@ -107,7 +106,7 @@ const InformationChangeDetails = () => {
           {/* <Toaster position="top-right" reverseOrder={false} /> */}
           <CForm>
             <CCardBody>
-              <h4 className="card-title mb-0">Chi tiết báo cáo của {element?.name}</h4>
+              <h4 className="card-title mb-0">Chi yêu cầu thay đổi</h4>
 
               <Box
                 sx={{
@@ -426,7 +425,6 @@ const InformationChangeDetails = () => {
                     </Button>
                     {element?.status == 0 && userRole == 0 && (
                       <Button
-                        type="submit"
                         variant="contained"
                         color="primary"
                         sx={{
@@ -439,7 +437,6 @@ const InformationChangeDetails = () => {
                     )}
                     {element?.status == 0 && userRole == 0 && (
                       <Button
-                        type="submit"
                         variant="contained"
                         color="error"
                         sx={{
