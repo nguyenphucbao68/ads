@@ -29,6 +29,7 @@ import { useAdsPanelDetail } from '../../contexts/AdsPanelDetailProvider';
 import AddressSearchInput from '../../components/AddressSearchInput/AddressSearchInput';
 
 import ClusterMarker from '../../components/ClusterMarker/ClusterMarker';
+import ToggleFooter from '../../components/ToogleFooter/ToggleFooter';
 
 const geolocateStyle = {
   top: 0,
@@ -83,6 +84,8 @@ function LandingPage() {
   const [adsPanelInfo, setAdsPanelInfo] = useState(null);
   const [adsPanels, setAdsPanel] = useState([]);
   const [bounds, setBounds] = useState(null);
+  const [adsSpotVisible, setAdsSpotVisible] = useState(true);
+  const [adsPanelReportVisible, setAdsPanelReportVisible] = useState(true);
 
   const mapRef = useRef(null);
 
@@ -256,11 +259,26 @@ function LandingPage() {
         cluster.properties;
 
       if (!isCluster) {
+        const isPanelReported =
+          JSON.parse(localStorage.getItem('reportedAdsSpot') || '[]').findIndex(
+            (item) => item === cluster.properties.id
+          ) > -1;
+
+        if (isPanelReported && !adsPanelReportVisible)
+          return <React.Fragment key={cluster.id} />;
+
+        const colorFill = isPanelReported
+          ? 'red'
+          : cluster.properties.is_available
+          ? 'blue'
+          : '#808080';
+
         return (
           <Pin
             key={cluster.id}
             data={cluster.properties}
             onClick={setPopupInfo}
+            colorFill={colorFill}
           />
         );
       }
@@ -280,7 +298,16 @@ function LandingPage() {
   return (
     <Container>
       <AdsPanelDetail />
-      <AddressSearchInput onSelectAddress={onSelectAddress} />
+      <AddressSearchInput
+        onSelectAddress={onSelectAddress}
+        isBackgroundDisplay={popupInfo !== null}
+      />
+
+      <ToggleFooter
+        setAdsSpotVisible={setAdsSpotVisible}
+        setAdsPanelReportVisible={setAdsPanelReportVisible}
+      />
+
       {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
           locationDetail={locationInfo}
@@ -320,7 +347,7 @@ function LandingPage() {
           </Marker>
         )}
 
-        {getClusters()}
+        {adsSpotVisible && getClusters()}
 
         {popupInfo && (
           <StyledPopup
