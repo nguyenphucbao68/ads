@@ -577,6 +577,7 @@ const AdsLicenseDetails = () => {
                               status: 1,
                             },
                           }))
+                          console.log('result', result)
                           if (result.id) {
                             toast.success('Phê duyệt cấp phép quảng cáo thành công')
                           } else {
