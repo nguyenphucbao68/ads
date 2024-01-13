@@ -1,0 +1,2628 @@
+commit 7d70ab8b30f6f646133dded65fc11ecc6b7a4e04
+Merge: 7654fa2 9faa173
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Jan 12 23:27:35 2024 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 7654fa2d1c92a2ab3341be7aaa774ded5536fb07
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Jan 12 23:27:22 2024 +0700
+
+    delete: delete comment
+
+commit 9faa1735486e004f758d459fb00a3668556cfa85
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Jan 12 23:25:56 2024 +0700
+
+    remove console log at app.js
+
+commit af0ab9c56b10e8b2f24bfec3a40644ce7078a6d5
+Merge: eb2211b 5ee2550
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Jan 12 23:21:27 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit eb2211b74f360d882461925227e03b4afa57f9e0
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Jan 12 23:21:20 2024 +0700
+
+    fix bug undefined
+
+commit 5ee2550e5759c146b1f853eb7cf2ea59f2318982
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Jan 12 22:47:19 2024 +0700
+
+    feat: add toogle footer for landingpage
+
+commit 87cc0a98caa827bc825d473cbc8136e5e788443a
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Jan 12 22:36:26 2024 +0700
+
+    fix: fix bug in ads license details
+
+commit 60cdd69209f69caa95c079ea5942c8d62e2193eb
+Author: krnthoang542 <81230977+krnthoang542@users.noreply.github.com>
+Date:   Fri Jan 12 22:07:41 2024 +0700
+
+    add comment to logquery
+
+commit 391534e086b293dbc6046b6f0ccf21c02af8de22
+Merge: aeec41a 9900d77
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Fri Jan 12 21:42:40 2024 +0700
+
+    Merge pull request #108 from nguyenphucbao68/docker
+    
+    feat: dockerize project
+
+commit 9900d77e2725a6b3d226291f3c9f732e7f7f07ac
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Fri Jan 12 21:38:49 2024 +0700
+
+    add readme
+
+commit 7753ed0e76b5e85e014a770ff1c96dbecad40de0
+Merge: 7954009 aeec41a
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Fri Jan 12 20:31:16 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads into docker
+
+commit 79540097f19e742d9074f95392b51fb1c10e446a
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Fri Jan 12 20:27:06 2024 +0700
+
+    rm key
+
+commit 675628bf99a90bbb8212494bb970b0477ef14992
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Fri Jan 12 20:20:34 2024 +0700
+
+    feat: dockerize project
+
+commit aeec41ab7efc32a62a2bec6bbcec09d618067256
+Merge: 7912fa9 a248dea
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Fri Jan 12 19:51:54 2024 +0700
+
+    Merge pull request #107 from nguyenphucbao68/feature/footer-toggle
+    
+    Feature/footer toggle
+
+commit a248deac683067fe9cbb0e8b62563736277a796e
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Fri Jan 12 19:51:25 2024 +0700
+
+    feat: toggle complete
+
+commit a9a80f6bee6dded2b5e508f87945095a3aab4322
+Author: Thien Tien <thien.tien1551@gmail.com>
+Date:   Fri Jan 12 09:23:10 2024 +0700
+
+    feat: add toggle footer
+
+commit 7912fa9b826791cf4d38fdeafc64e23c87ddceab
+Merge: 8a1ced5 4017ca8
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Fri Jan 12 06:51:16 2024 +0700
+
+    Merge pull request #102 from nguyenphucbao68/feature/report
+    
+    feat: report (draft)
+
+commit 4017ca82129c871e010fd058466ff75881496bc4
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Fri Jan 12 06:50:51 2024 +0700
+
+    feat: report
+
+commit 8a1ced5e890b37d94a3d54cae4a2f9c85d190b41
+Merge: 164f1be 76ac74d
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Fri Jan 12 00:05:12 2024 +0700
+
+    Merge pull request #106 from nguyenphucbao68/integration/D
+    
+    fix: set spot id and maximum 2 images for ads panel
+
+commit 76ac74d944dca774786bb7eacfd4921e818a9516
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Fri Jan 12 00:04:34 2024 +0700
+
+    fix: set spot id and maximum 2 images for ads panel
+
+commit 164f1be32e61f72827f70e1770e90a98ef6738f5
+Merge: 3f4a65d 9ed8d14
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Jan 11 15:58:35 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 3f4a65d6dea53e45b080995fc73ad30889d84254
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Jan 11 15:58:26 2024 +0700
+
+    log rotation and log query
+
+commit 9ed8d143ffc745739937f68be13f3301cf01cb34
+Merge: 2734f57 4e4d62e
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Thu Jan 11 00:06:04 2024 +0700
+
+    Merge pull request #105 from nguyenphucbao68/integration/D
+    
+    Integration/d
+
+commit 4e4d62e72611fa37aef939a875e95672e0af2e9e
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Wed Jan 10 22:25:14 2024 +0700
+
+    fix: validate frontend spot type
+
+commit 9bbce280bcb5c86cc7944464d35a7ea079b4c13b
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Wed Jan 10 22:16:56 2024 +0700
+
+    fix: validation frontend ads panel type
+
+commit 3ef926c790543d98a2d624246b066b2b5f376f8b
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Wed Jan 10 22:13:11 2024 +0700
+
+    fix: validate admin report_type
+
+commit d3aa0080a5c396f7e5824b4b99d23c45affddf17
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Wed Jan 10 21:56:53 2024 +0700
+
+    fix: validate for ads_type
+
+commit 590e496f9075e6e7ef88a7eaaa4d97a6fdfe738f
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Wed Jan 10 21:35:38 2024 +0700
+
+    fix: ads panel list show address not height, width
+
+commit 2734f570fb0ba37768194c2530941d3ee7aaf207
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Jan 10 18:57:45 2024 +0700
+
+    fix: fix bug in ads spot create and update
+
+commit 1245b6b8686b3af746d57b573996b80d557f789f
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Jan 10 16:52:54 2024 +0700
+
+    fix: add phone to user
+
+commit 726d6f43fc51f2a48387766317aa91381b34e95a
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Jan 10 16:50:16 2024 +0700
+
+    refactor: add request body to method POST & PUT API
+
+commit e11e095e9e0c1fe36a6c5172273d50b4ead2f222
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Jan 10 16:14:55 2024 +0700
+
+    refactor: add request body to method POST & PUT API
+
+commit e4e8534dfa2e1d24901c10fc670fd58c815e44b4
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Jan 10 16:11:41 2024 +0700
+
+    refactor: add request body to method POST & PUT API
+
+commit 33e419370bb5526ade0f4b512e3a52cf1c027b5c
+Merge: a0c7dd7 18f55c1
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Jan 10 15:55:20 2024 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit a0c7dd74b8090ad846a860df37d0036be0c370d1
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Jan 10 15:55:13 2024 +0700
+
+    build: build API Docs with swagger UI
+
+commit 18f55c1e6453c065d01ce0057f3416db8a14477f
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Wed Jan 10 15:41:22 2024 +0700
+
+    authorize sidebar
+
+commit 7a70b75a06db6375d948df54c0b2fae6c7f36630
+Author: Tan Sang <btsang20@clc.fitus.edu.vn>
+Date:   Tue Jan 9 23:43:28 2024 +0700
+
+    fix: change spot id to get spot
+
+commit e1ea6a4629315553088138ae08833975705f9c63
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Tue Jan 9 23:37:55 2024 +0700
+
+    feat: create ads license (#104)
+
+commit 55b586701d3197e303bada2ea1bc10a4abee89e7
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Jan 9 23:10:41 2024 +0700
+
+    fix: data interface
+
+commit ba3901ff0a9b76d840910d9c40d5ed08e416e80e
+Author: Tan Sang <btsang20@clc.fitus.edu.vn>
+Date:   Tue Jan 9 21:37:17 2024 +0700
+
+    fix: data create
+
+commit 44a90aa5ad10ae5954e193bc95791110156ae403
+Author: Tan Sang <btsang20@clc.fitus.edu.vn>
+Date:   Tue Jan 9 21:30:52 2024 +0700
+
+    feat: update spot id
+
+commit 24192ef9b39c9d2ff0718e8190a315453c25d5a9
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Jan 9 19:03:06 2024 +0700
+
+    report for ads panel (not yet for location)
+
+commit 28609aa49ec0bcfe68549581abbda5370f36c3a9
+Merge: 99f1d36 25dd942
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Jan 9 18:38:03 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 99f1d366324e3c2a74fb9013177f886a086a0d5d
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Jan 9 18:38:00 2024 +0700
+
+    realtime update request
+
+commit b7e26eb9b75a7721e5c9fd54a01d64a3570786f7
+Author: Thien Tien <thien.tien1551@gmail.com>
+Date:   Tue Jan 9 17:03:33 2024 +0700
+
+    fix: add report uri to .env
+
+commit 8104a1193c974d32a047d505091fb23f06537bc0
+Author: Thien Tien <thien.tien1551@gmail.com>
+Date:   Tue Jan 9 17:01:50 2024 +0700
+
+    feat: report form
+
+commit c1a8dc7eca20b4c372f711378d4c9638c9b1dcd5
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Jan 9 12:57:31 2024 +0700
+
+    style: add margin bottom
+
+commit 632242a56cdb9872b09c858a294ccfba300c7460
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Jan 9 06:48:36 2024 +0700
+
+    feat: report (draft)
+
+commit 25dd942654df830e72fb6285110a6eb4d16374a9
+Merge: b2c67dc 2fe3d16
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Jan 9 03:28:32 2024 +0700
+
+    Merge pull request #101 from nguyenphucbao68/integration/D
+    
+    fix: integrate map
+
+commit 2fe3d16c223de2d7d0968389263185c6e824311b
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Jan 9 03:28:06 2024 +0700
+
+    fix: integrate map
+
+commit b2c67dc665892ddf5e838faa61e246072dc91432
+Merge: a49d948 8d6acda
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Jan 9 02:21:25 2024 +0700
+
+    Merge pull request #100 from nguyenphucbao68/integration/D
+    
+    fix: map cho ads panel
+
+commit 8d6acdab6085a0eec4cf324085583a5cb315c35e
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Jan 9 02:20:44 2024 +0700
+
+    fix: map cho ads panel
+
+commit a49d94856ba165ae9ba457312dd0198ead4bf86d
+Merge: 2182ab8 791e121
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Jan 9 02:05:49 2024 +0700
+
+    Merge pull request #99 from nguyenphucbao68/integration/D
+    
+    Integration/d
+
+commit 791e121426dd55958679b5289c8d5ac0bc4f9750
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Jan 9 02:05:26 2024 +0700
+
+    fix: upload image successful for create ads panel
+
+commit f6a61610acf3df683f5ea328e32361e3a92057fb
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Jan 9 01:30:51 2024 +0700
+
+    fix: show image when init ads panel
+
+commit 2182ab8a4bed29a2cefb2d8806175c6ffee90490
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Jan 9 00:07:47 2024 +0700
+
+    fix: render html by using dangerouslySetInnerHTML
+
+commit 72f5c4733e41cc7a010954221600a419c5f9cc8d
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 23:59:51 2024 +0700
+
+    fix: fix minHeight with AdsLicenseCreate.css
+
+commit 1e9c09069d08217746de2555e4c463aa437dae57
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 23:58:16 2024 +0700
+
+    fix: fix minHeight with AdsLicenseCreate.css
+
+commit 511a3f2526388c48c49af0ea8f264d86afc0d1df
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 23:52:08 2024 +0700
+
+    fix: fix minheight of ckeditor
+
+commit 60e868e8111b36b2420ebddb027313872d2db4c3
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 23:47:03 2024 +0700
+
+    refactor: adjust height of some screens
+
+commit d152f9f46c63752824d1b994167936ce93553e36
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 23:44:32 2024 +0700
+
+    refactor: adjust height of some screens
+
+commit 5c80b1f092acbc2818e5b47b3a290355cef2ce88
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 23:41:42 2024 +0700
+
+    fix: render html to react and show images of ads license details
+
+commit 87f9c78f29cba90aa8109f85f3313bd031adb2ef
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Mon Jan 8 22:53:42 2024 +0700
+
+    feat: seed data and add field image (#98)
+
+commit f7705241528ef34cdd2b40314382d0f373afe618
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Mon Jan 8 22:43:27 2024 +0700
+
+    feat: create ads license (#97)
+    
+    * feat: create ads license
+    
+    * feat: set address when search
+    
+    * feat: hide code
+
+commit 33fe717ab02e263b3dfd32754ff29c663dec8495
+Merge: 297c63c fa491c7
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 22:39:14 2024 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 297c63c0a25648c0ac064be634d6158b317b2dcf
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 22:39:09 2024 +0700
+
+    fix: fix address seearch in LandingPage
+
+commit fa491c73330feefa7c21a19160fa76c198aa4f94
+Merge: aa7cb4f 6a155d6
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Mon Jan 8 18:19:47 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit aa7cb4ffea0cc9ddc3b48f865efc2b3cd3ffa6c4
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Mon Jan 8 18:19:44 2024 +0700
+
+    realtime notification admin
+
+commit 6a155d6d6db3b0a1508ae78469f0684cee229fdd
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Jan 8 18:03:50 2024 +0700
+
+    fix: update update_at of ads spot update api
+
+commit 967292a0913e218ad40a9be1e03ac19954885c37
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 22:54:22 2024 +0700
+
+    fix: fix height of ads spot and ads license
+
+commit 680fa358c03b2489c3e60c0672e78c5d43090a97
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 16:14:38 2024 +0700
+
+    delete: delete client folder
+
+commit c3192336a4a9532f2d70bbc9837c882796b85872
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 16:10:11 2024 +0700
+
+    refactor: add field image to ads_license table and fix seed
+
+commit 595ea13dc74c6705087f649493fd84b4828e7849
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 15:53:02 2024 +0700
+
+    refactor: add map, ckeditor and image load in AdsLicenseCreate
+
+commit 727ae585455138fcca6909653af915a6e14317f3
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 14:17:09 2024 +0700
+
+    refactor: fix bug in adsLicenseDetails
+
+commit c294a06ed7ca4a55e97134e20355db2d0f320eba
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 14:10:17 2024 +0700
+
+    refactor: adjust height of landingpage in adsspotDetails
+
+commit 737c25269e366ad949ad8a693d19fe88981a71b3
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 14:07:19 2024 +0700
+
+    fix: fix layout of adsspotList
+
+commit daa4da8144f9da09993df4a9a4924c57a69dde34
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 14:04:16 2024 +0700
+
+    fix: fix api update and create ads spot
+
+commit d5b028222cec8a7860c75d796c3858597e7b2d0f
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 13:47:47 2024 +0700
+
+    fix: fix popup style
+
+commit 4e55dfdd455613272b2f5dd9f6a4104589b64f2c
+Merge: 44647eb 71ce052
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 13:45:36 2024 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 44647eb7c82774578f959fdb3e773fe4e0e96944
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 13:45:11 2024 +0700
+
+    refactor: remove footer
+
+commit 71ce052be6818b4b11c95b5aece8193318d24668
+Merge: 324f0c2 4f2e0a5
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sun Jan 7 13:44:54 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 324f0c26297c40fe8726cdea214ea1821c50dd9b
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sun Jan 7 13:44:25 2024 +0700
+
+    fix: fix popup style
+
+commit 4f2e0a559361c46af2aa7d6811721fad4c76c5c1
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Jan 7 13:40:52 2024 +0700
+
+    refactor: fix css of LandingPage
+
+commit 135f95f324789fa23ec9252ad3d19ee16033b67e
+Merge: 1639bb7 808296b
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Sun Jan 7 12:47:53 2024 +0700
+
+    Merge pull request #96 from nguyenphucbao68/feature/toggle-sidebar
+    
+    feat: add toggle sidebar for left side and right side
+
+commit 808296b8a2bb72a17e63b60ed589f750b2e371a6
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sun Jan 7 12:47:03 2024 +0700
+
+    feat: add toggle sidebar for left side and right side
+
+commit 1639bb7f51cf9e3dcfc43a075a812f48a2ec5e52
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Jan 7 11:31:46 2024 +0700
+
+    feat: pass role and id when fetch all spot (#95)
+
+commit 00cd5c5046bcc0ba3d6b89a5cd3fb33ec265efc5
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Jan 7 11:24:32 2024 +0700
+
+    feat: select spot in map (#94)
+
+commit 772cd04b81fc200c970cb24e9969295c0d7cbe19
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Jan 7 10:46:33 2024 +0700
+
+    feat: select panel on map (#93)
+
+commit 6f91de2e0aa6da319dfbde407feda53910921978
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Jan 7 10:29:51 2024 +0700
+
+    feat: update map for panel details (#92)
+
+commit 94145e05f50492eeff7249972f281066a4bfd75a
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Sat Jan 6 22:27:31 2024 +0700
+
+    accept edited request
+
+commit 058737d11dd6427a54166d69256a1fe6ac289dac
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Jan 6 19:35:37 2024 +0700
+
+    refactor: add columns district and ward to AdsSpotList
+
+commit fab32de2b647452254154b98d61708f32c2d1c6b
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Jan 6 17:44:24 2024 +0700
+
+    refactor: fix clusters not updated to use points insetad
+
+commit 44c672d36c8a0913e9c16dcf9f6b839958feaec6
+Merge: b2b2aab 1f0335e
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Jan 6 17:28:50 2024 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit b2b2aab7a716a3cd484cd6ef3806a136eb26e0fc
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Jan 6 17:28:35 2024 +0700
+
+    refactor: add cluster to LandingPage
+
+commit 1f0335e068fb5be55d20021029c55fa85422d2d8
+Merge: b53b777 c62ee6c
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Sat Jan 6 17:05:16 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit b53b7777fc0ed4094b6ca9589603fe96bb5e4ef1
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Sat Jan 6 17:05:13 2024 +0700
+
+    approve edit request list and detail
+
+commit c62ee6c8839b1ad727f87b1302d9ccbd6345c2c7
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sat Jan 6 15:53:53 2024 +0700
+
+    feat: update ui and data (#91)
+
+commit e8bd82f7ff87641f780fa3d9e895bc9af7258652
+Merge: baf2eef 56ad2e9
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Sat Jan 6 14:46:32 2024 +0700
+
+    Merge pull request #86 from nguyenphucbao68/feature/cluster
+    
+    feat: add cluster
+
+commit 56ad2e93335837727fdbb39b042445020132f255
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sat Jan 6 14:46:06 2024 +0700
+
+    style cluster by point count
+
+commit 8be563e751da461780b2891ed8e9cf3c6209eb24
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sat Jan 6 13:11:22 2024 +0700
+
+    feat: add useSuperCluster
+
+commit baf2eef0c1640c005003f520e498d0aed5eef5b1
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Jan 5 23:03:52 2024 +0700
+
+    refactor: change app icon & title and fix sidebar
+
+commit 41475c82487e10e95c3acfaf63a1a12255057b22
+Merge: 9117b46 8f89866
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Jan 5 00:06:03 2024 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 9117b463d2b7d2f7e6bfbcc5927b8463440e7343
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Jan 5 00:05:46 2024 +0700
+
+    build: finish AdsSpotCreate
+
+commit 8f89866bfa2ece26ffa03c4955a45bb63d7202f6
+Merge: 26f5c2f db6ded9
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Jan 4 23:01:13 2024 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 26f5c2f1b3f6ac85ee9158f1448591c297dd96eb
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Jan 4 23:01:09 2024 +0700
+
+    change information view
+
+commit db6ded93f070c4c719c81493723d51ab07ff0d72
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Thu Jan 4 22:34:08 2024 +0700
+
+    feat: notification & map for edit information request (#90)
+
+commit 2f03c94a39b34f6cb2ba334e4bf5661e616d4243
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Jan 4 22:00:52 2024 +0700
+
+    build: integrate submit form to update ads spot in adsSpotDetails
+
+commit 10c5579d27b2428ac5794cf22047ecb52a744c85
+Merge: 1dfd080 091b14a
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Jan 4 20:52:40 2024 +0700
+
+    Merge pull request #89 from nguyenphucbao68/khanh-api-d
+    
+    build: build landingpage for ads spot details
+
+commit 091b14a4f812f4980172ea92822230e985a5920b
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Jan 4 20:47:19 2024 +0700
+
+    build: build landingpage for ads spot details
+
+commit 1dfd080b22d202a323142d89f16785dd00913fd2
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Wed Jan 3 21:59:02 2024 +0700
+
+    feat: text editor and default data (#88)
+    
+    * feat: text editor and default data
+    
+    * feat: change input to textarea
+    
+    * feat: update upload image button
+    
+    * feat: remove require image
+    
+    * feat: something
+
+commit ce002977fdf56cc5d5dc91eca07837ea82340a2e
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Wed Jan 3 06:52:39 2024 +0700
+
+    style: adjust size of clustered points
+
+commit e913681252010c3a6bd55436aa0fc6f756db9e98
+Merge: 4f16b7c bb792f4
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Jan 2 22:04:49 2024 +0700
+
+    Merge pull request #87 from nguyenphucbao68/integration/D
+    
+    fix: create and update ads panel fe
+
+commit bb792f44b7a1d7335eca4dae787a686383baed95
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Jan 2 22:04:17 2024 +0700
+
+    fix: create and update ads panel fe
+
+commit b1f642a9836293b1c4f3d8ca3b0a00dad3fa8b71
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Jan 2 20:37:00 2024 +0700
+
+    feat: add cluster
+
+commit 4f16b7c1175f09745a8a1335b76978d413a43d70
+Merge: d241b4d a3d0010
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Jan 2 11:27:22 2024 +0700
+
+    Merge pull request #85 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix responsive for ReportStatistics
+
+commit a3d00101c818c2e6b6cb59ed771d50f024cc7915
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Jan 2 11:26:46 2024 +0700
+
+    fix: fix responsive for ReportStatistics
+
+commit d241b4d2311173ca353a39287b5bd03afc43c0f5
+Merge: f14d6fd 738884e
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Jan 2 11:02:58 2024 +0700
+
+    Merge pull request #84 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix order of seed file
+
+commit 738884e550b624b7d20c0aec918197ab36acf3be
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Jan 2 11:02:31 2024 +0700
+
+    fix: fix order of seed file
+
+commit f14d6fdfe1ffcf608d72ed28fa0d63b6e53a583e
+Merge: dc8216d 7ae905c
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Jan 2 11:00:00 2024 +0700
+
+    Merge pull request #83 from nguyenphucbao68/khanh-api-d
+    
+    refactor: fix seed data for user_ward and user_district and add some …
+
+commit 7ae905c2bde1a26ccbe41a40823dc506d3394b45
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Jan 2 10:59:38 2024 +0700
+
+    refactor: fix seed data for user_ward and user_district and add some dependencies for map styles
+
+commit dc8216d8cb8381cbb0e904c1ef741c7bb8c66e0a
+Merge: aca86fa d440f95
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Tue Jan 2 08:16:00 2024 +0700
+
+    Merge pull request #82 from nguyenphucbao68/feature/search
+    
+    adjust .ennv
+
+commit d440f958ff8f6f88725aaf366322a296feff3553
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Jan 2 08:15:41 2024 +0700
+
+    adjust .ennv
+
+commit aca86fa635e87ace266aae04fce4baaf521fa696
+Merge: 6ae1259 bd84c9f
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Tue Jan 2 08:14:55 2024 +0700
+
+    Merge pull request #81 from nguyenphucbao68/feature/search
+    
+    Feature/search
+
+commit bd84c9f611c222e26efe69217ea331c6184294eb
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Jan 2 08:08:57 2024 +0700
+
+    transition when select address
+
+commit c43bc8aaa5cdbf9fe32bf392e365a5c79a8f9422
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Jan 2 07:21:14 2024 +0700
+
+    places api
+
+commit 6ae12592789712b70f272cb15fe55272d89b3737
+Merge: 365e599 ad52c48
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Jan 2 00:30:48 2024 +0700
+
+    Merge pull request #79 from nguyenphucbao68/integration/D
+    
+    fix: ads panel integration (need to modify validation, not done)
+
+commit ad52c484458bda25958eadfb73c7eeed29c7c4c0
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Jan 2 00:30:13 2024 +0700
+
+    fix: ads panel integration (need to modify validation, not done)
+
+commit 365e5990f96771b25941e37954030361b47c1742
+Merge: 32129ad 21ce21d
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Jan 2 00:11:07 2024 +0700
+
+    Merge pull request #78 from nguyenphucbao68/integration/D
+    
+    Fix initial default value of dropdown ads panel match the ads panel
+
+commit 21ce21dcc8b1b86ad683ce4eb0c43631d4c6efd8
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Jan 2 00:10:27 2024 +0700
+
+    fix: initial default value of dropdown ads panel match the ads panel detail
+
+commit 32129ad683f9277fdb0ebae03605d72320192034
+Merge: e201610 5b8fced
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Mon Jan 1 22:58:50 2024 +0700
+
+    Merge pull request #77 from nguyenphucbao68/integration/D
+    
+    Fix
+
+commit 5b8fceda11fa37cb6ab6f46c04ebb91e937ad09e
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Mon Jan 1 22:58:18 2024 +0700
+
+    fix button save and delete at the bottom of layout
+
+commit 5c716350bec1e566e6f1ec309cf381c40be816a4
+Merge: 4d44205 e201610
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Mon Jan 1 22:47:10 2024 +0700
+
+    pull code and fix api get all type order by id asc
+
+commit e2016109906c53f21de0011a579c2a6cc5f999db
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Mon Jan 1 20:35:46 2024 +0700
+
+    feat: upload image (#76)
+
+commit ef8a62adaf2523ac2bab136626f365f3b1deecef
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Mon Jan 1 20:19:59 2024 +0700
+
+    fix: update data and api (#75)
+
+commit 73863bcf578e39f4f5e07af708b9da28e3a472ce
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Mon Jan 1 20:07:20 2024 +0700
+
+    Update officer.service.js
+
+commit 5e81830fba60dd3a2b801e78f26191970d389179
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Mon Jan 1 18:45:19 2024 +0700
+
+    report validation
+
+commit 75ce8060ad28585632a7249dd604c1f065175728
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Mon Jan 1 17:40:38 2024 +0700
+
+    update schema
+
+commit 4bd0274ffa2d9ad8711296eb4167e086594046e5
+Merge: c93a555 3f34ad8
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Mon Jan 1 15:42:48 2024 +0700
+
+    Merge pull request #74 from nguyenphucbao68/integrate/landing-page
+    
+    integrate ads spot
+
+commit 3f34ad84845ea85091d49c5343a182e53b1ee03a
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Mon Jan 1 15:42:15 2024 +0700
+
+    integrate ads panel info
+
+commit 984e651e4a2a1da91c24c819676fa3d8f2397eb8
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Mon Jan 1 15:03:49 2024 +0700
+
+    fix marker icon
+
+commit 724ecf00c8c7ef29399ce739e6f1ff18aa9971a5
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Mon Jan 1 14:40:22 2024 +0700
+
+    integrate ads pannel detail
+
+commit 87e0db70415df4aa2a7ae02464ee0dc14813d566
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Mon Jan 1 14:01:08 2024 +0700
+
+    ads panels integrate
+
+commit d34927b2d51a1f90f8730e2e5cebf1080e6eb6d0
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Mon Jan 1 13:32:58 2024 +0700
+
+    integrate ads spot
+
+commit c93a55502bd0e4e601c497560fd03eb44934b958
+Merge: 1a13e0f dc99988
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sun Dec 31 18:04:20 2023 +0700
+
+    Merge pull request #73 from nguyenphucbao68/khanh-api-d
+    
+    delete: delete consolde logn
+
+commit dc99988f500c0f991fcca2e711e9953671d76d07
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 31 18:03:46 2023 +0700
+
+    delete: delete consolde logn
+
+commit 1a13e0fac8197f13ba5f8b61213c25ebc4e2526e
+Merge: aba5dc3 7605d65
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sun Dec 31 18:03:01 2023 +0700
+
+    Merge pull request #72 from nguyenphucbao68/khanh-api-d
+    
+    refactor: Fix responsive for chart of report statistic
+
+commit 7605d655e72ce3c876a18762f3adef93fc0fc0b6
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 31 18:02:28 2023 +0700
+
+    refactor: Fix responsive for chart of report statistic
+
+commit aba5dc3b8d9258084efab8384804132a58d9dfee
+Author: krnthoang542 <81230977+krnthoang542@users.noreply.github.com>
+Date:   Sun Dec 31 16:23:42 2023 +0700
+
+    Delete backend/.env
+
+commit 4071c156c72bcec453c22775f4f2397f5db2cd35
+Merge: 4249de1 14145e4
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Sun Dec 31 15:21:17 2023 +0700
+
+    Merge pull request #11 from nguyenphucbao68/landing-page
+    
+    Landing page
+
+commit 14145e436284d7bf9a73006b2604b58e427f0a02
+Merge: f5b7a60 bacbb98
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sun Dec 31 15:20:55 2023 +0700
+
+    Merge branch 'main' into landing-page
+
+commit f5b7a60e003b74e86a03bdd49b2d65d4735d8c03
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sun Dec 31 15:06:40 2023 +0700
+
+    ads panel info & location info
+
+commit e45db8c990b100ca3592420e42d9a4afde54e08d
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sun Dec 31 13:28:31 2023 +0700
+
+    rm .env
+
+commit b5113837a672e07633fa76b2d604e078184f10b1
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sun Dec 31 13:27:09 2023 +0700
+
+    reverse geocoding
+
+commit 4249de13dca7feaca969b68a7786999d5a281ef4
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Dec 31 12:32:03 2023 +0700
+
+    feat: send mail when update status of report (#71)
+
+commit 82b1c5c74a9f91c70218006de685a87a82d30f1f
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Dec 31 09:06:30 2023 +0700
+
+    feat: integrate change information request (#70)
+    
+    * feat: authorization for get ads panel & ads spot
+    
+    * feat: add auth
+    
+    * feat: create change information request
+    
+    * feat: update schema
+    
+    * feat: Ui for create information change request
+    
+    * feat: change information request
+    
+    ---------
+    
+    Co-authored-by: Tan Sang <btsangk20@gmail.com>
+
+commit 4d44205b108de0dceb822f8f8eff2c3bc66205f2
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sat Dec 30 15:16:12 2023 +0700
+
+    fix to get the uploaded images
+
+commit a46390354a19ed786958a3b1dce8a8e255b6d0a5
+Merge: 29036ff 83a7c72
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Dec 28 17:02:59 2023 +0700
+
+    Merge pull request #69 from nguyenphucbao68/khanh-api-d
+    
+    refactor: Fix filter by ward and district in Ads License List screen
+
+commit 83a7c72a0a5e1fe88bb36c9bea98b7445531d50d
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 28 17:02:08 2023 +0700
+
+    refactor: Fix filter by ward and district in Ads License List screen
+
+commit 4785548550d0f3634a52b0d5ad58e8147d1b00ec
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 26 22:46:47 2023 +0700
+
+    integrate: update ads panel
+
+commit 29036fff5c19278acc047cfb8c7f2e2e1e4bc5ff
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Mon Dec 25 14:53:26 2023 +0700
+
+    add socket io middleware
+
+commit c9ad53818a1b51533a6a63b25542f0a33c0f43ea
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Dec 24 01:12:13 2023 +0700
+
+    feat: integrate create ads license (#68)
+
+commit 145b9bb1b2cf8c4aef19585ae31f64d7cce3afd9
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sat Dec 23 23:14:01 2023 +0700
+
+    feat: integrate ads license (#67)
+
+commit 1261380a42786843140643229a5e1c96e1aff2ed
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Sat Dec 23 16:42:37 2023 +0700
+
+    view report list, and detail
+
+commit 3d64805e220e14db94c488971add3d63a0563c20
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sat Dec 23 15:57:33 2023 +0700
+
+    add panel detail (not fixed css)
+
+commit 897f8f2155682676ccfbc0b1bceee907c689d124
+Merge: 1bac744 19aa250
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Thu Dec 21 23:07:05 2023 +0700
+
+    Merge pull request #66 from nguyenphucbao68/integration/D
+    
+    Fix backend get all ads panel (done)  and fix frontend manage ads panel (upload image, select type) (70%)
+
+commit 19aa250bf3517d42b5c95c66a43ca30ef7ef6544
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Thu Dec 21 23:05:11 2023 +0700
+
+    fix: backend getAdsPanel, frontend upload image, select type
+
+commit 495999c846122a2b754a5837e21dfd2edb8ad3f9
+Merge: 23c90d5 1bac744
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Thu Dec 21 23:03:58 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads into integration/D
+
+commit fe96fde572cf7c70b8e34876f774d535617bc65f
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Thu Dec 21 18:41:08 2023 +0700
+
+    ads panel detail
+
+commit 1bac74406a07b117cdc3450fc2ad2ffc9997b2e6
+Merge: c165089 059f74c
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Dec 21 18:17:31 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit c165089a055346e95ef62909dd8d89f23dfcb942
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Dec 21 18:17:29 2023 +0700
+
+    report list screen
+
+commit 059f74c3296f675594823198444a9e1caadd773a
+Merge: eca87c6 c95de36
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 17:58:17 2023 +0700
+
+    Merge pull request #65 from nguyenphucbao68/khanh-api-d
+    
+    refactor: Render AdsLicense content in html
+
+commit c95de36f1f73dcfde744c155712f8cbf11095db8
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 17:57:49 2023 +0700
+
+    refactor: Render AdsLicense content in html
+
+commit eca87c60d67c8ba831ea49f49548c346061bbcfe
+Merge: c4b83d5 a735973
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 17:32:13 2023 +0700
+
+    Merge pull request #64 from nguyenphucbao68/khanh-api-d
+    
+    refactor: add ckeditor and add some information to AdsLicenseDetails
+
+commit a73597358d78e6085d1672561483ced6a48760c8
+Merge: 177e190 eb17865
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 17:31:47 2023 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/khanh-api-d' into khanh-api-d
+
+commit 177e1905ecaf4498f5b359f7306c5cee3709a4e0
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 17:31:00 2023 +0700
+
+    refactor: add ckeditor and add some information to AdsLicenseDetails
+
+commit eb17865267da80cdd525b560ef162ec697112c60
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 17:31:00 2023 +0700
+
+    refactor: add ckeditor and add some information to AdsLicenseDetails
+
+commit c4b83d595fc5e2d01019ff638f41d042dc0c8160
+Merge: 799d71e bacbb98
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Dec 21 16:13:00 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 799d71e028eef944b62169915739c1019a075e3b
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Thu Dec 21 16:11:41 2023 +0700
+
+    fix get reports
+
+commit bacbb98d8a9b98e9a136addeee90ac5b25ebedc2
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Thu Dec 21 15:40:18 2023 +0700
+
+    hotfix: fix typo
+
+commit 3b977124c88b503c3b4f68843fdc48101fbe6183
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Thu Dec 21 15:38:00 2023 +0700
+
+    hotfix: fix typo
+
+commit be41e23ad9281e64807db11298b903ab6f9e4d84
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Thu Dec 21 15:35:15 2023 +0700
+
+    styled for ads panel
+
+commit ab5e59d5f30f96111f057aeeea21b18782790a75
+Merge: 045b303 67f3e59
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 13:43:30 2023 +0700
+
+    Merge pull request #63 from nguyenphucbao68/khanh-api-d
+    
+    refactor: show blank phone value in AccountAssignModal
+
+commit 67f3e59e895fc4eb6f31948ab27a9fcc5bd0fde6
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 13:43:08 2023 +0700
+
+    refactor: show blank phone value in AccountAssignModal
+
+commit 045b30371d8219faa583c79a784f495843a13e84
+Merge: 9584694 5882099
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 12:54:18 2023 +0700
+
+    Merge pull request #62 from nguyenphucbao68/khanh-api-d
+    
+    refactor: add is_available in AdsSpotDetails for ads spot information
+
+commit 58820991dc117ca7b6f7901b362644847f29c8b4
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 12:54:03 2023 +0700
+
+    refactor: add is_available in AdsSpotDetails for ads spot information
+
+commit 83cdbf87212578354f37e8cc1dbbd01bed58e20d
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Thu Dec 21 06:18:06 2023 +0700
+
+    ads panel
+
+commit 9584694ad14c88244c5dfc45630318d082f62d3f
+Merge: 5f7eb39 dd1f20b
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 01:08:38 2023 +0700
+
+    Merge pull request #61 from nguyenphucbao68/khanh-api-d
+    
+    build: build filter by ward id and district id for AdsLicenseList
+
+commit dd1f20b6f36e702c7c90ddff33912e1cd0b2ba29
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 01:08:15 2023 +0700
+
+    build: build filter by ward id and district id for AdsLicenseList
+
+commit 5f7eb3938d90fe329f93e01cea60bbf812a7b7b7
+Merge: d8c5bed 08ab336
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 00:24:05 2023 +0700
+
+    Merge pull request #60 from nguyenphucbao68/khanh-api-d
+    
+    build: build approve and disapprove ads license in AdsLicenseDetails
+
+commit 08ab336d0126b8dd62284948419c11d706cdcbcc
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Thu Dec 21 00:23:41 2023 +0700
+
+    build: build approve and disapprove ads license in AdsLicenseDetails
+
+commit d8c5bed2c194caa01e17db422f4da64a69e8ce7c
+Merge: 001f9ed 418bd45
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 23:29:13 2023 +0700
+
+    Merge pull request #59 from nguyenphucbao68/khanh-api-d
+    
+    refactor: build AdsLicenseDetails page and fix seed data
+
+commit 418bd45b1d5b6390d051b02b20cffac3ad0b7c2d
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 23:27:07 2023 +0700
+
+    refactor: build AdsLicenseDetails page and fix seed data
+
+commit 23c90d5ea824efb32323f9270e4b37d144595c8a
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Wed Dec 20 22:00:11 2023 +0700
+
+    fix: ads panel type display name on list, format date
+
+commit 001f9edfb7b8c84e97caba0ae0ebaa3c1cd889b7
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Wed Dec 20 21:28:30 2023 +0700
+
+    feat: get all panel by spot id (#58)
+
+commit 8c88856c496d50a374453d841a1af0060a9835fd
+Merge: 34e8b5f 58c0d45
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 18:32:49 2023 +0700
+
+    Merge pull request #57 from nguyenphucbao68/khanh-api-d
+    
+    build: build AdsLicenseList screen and 2 buttons to quick approve or …
+
+commit 58c0d45c9376d460956dd0fd5804de6909ac2492
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 18:32:28 2023 +0700
+
+    build: build AdsLicenseList screen and 2 buttons to quick approve or decline for an ads license
+
+commit 34e8b5fefacc291c9cb2bd6f2e042b3035ba190a
+Merge: 2e31f7a 05a16d8
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:49:23 2023 +0700
+
+    Merge pull request #56 from nguyenphucbao68/khanh-api-d
+    
+    refactor: add cloud upload to AdsSpotDetails
+
+commit 05a16d8d97daf582c0ece5f34758846b5659097a
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:49:05 2023 +0700
+
+    refactor: add cloud upload to AdsSpotDetails
+
+commit 2e31f7a0e1e9bbf4ef988448dcd7a617b71d4518
+Merge: ae33752 d8e42dc
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:47:03 2023 +0700
+
+    Merge pull request #55 from nguyenphucbao68/khanh-api-d
+    
+    build: build remove images button
+
+commit d8e42dc544d7ab8f885edad8a614d2bc715c80dc
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:46:20 2023 +0700
+
+    build: build remove images button
+
+commit ae33752ee5a35d20045a21706d7a9df5414f6b67
+Merge: 45f198f 9b263c2
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:31:42 2023 +0700
+
+    Merge pull request #54 from nguyenphucbao68/khanh-api-d
+    
+    build: integrate cloudinary image upload in AdsSpotDetails
+
+commit 9b263c28df8bcefd706b917db36d3e85279f174f
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:31:19 2023 +0700
+
+    build: integrate cloudinary image upload in AdsSpotDetails
+
+commit 45f198fb2d6f32b89fce564a6ca6b592386373f5
+Merge: 93c7e16 a50c51d
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:05:00 2023 +0700
+
+    Merge pull request #53 from nguyenphucbao68/khanh-api-d
+    
+    fix: add register validation to upload file button
+
+commit a50c51d5c2d7a6bb12e50dc1c6eb3737fc876e90
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 14:04:31 2023 +0700
+
+    fix: add register validation to upload file button
+
+commit 93c7e16d31d5b331cca806f3eced6d34facb21c8
+Merge: a7e33d7 c3d5c89
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 13:58:45 2023 +0700
+
+    Merge pull request #52 from nguyenphucbao68/khanh-api-d
+    
+    refactor: fix bug in upload image in ads spot details screen
+
+commit c3d5c89356e2fd799db2c1e72bcaac7bba770299
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 20 13:58:23 2023 +0700
+
+    refactor: fix bug in upload image in ads spot details screen
+
+commit d2c6ce24ff7d85e7fe93646833fe7183cf2524a8
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Wed Dec 20 06:50:44 2023 +0700
+
+    ads panel for pin info
+
+commit a7e33d7d7dc23f9719ec7d72facffec293c7a93c
+Merge: 3111bc8 d742fb1
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:58:59 2023 +0700
+
+    Merge pull request #51 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix column user_id in ads_license table to NULLABLE
+
+commit d742fb19fcb1c75a08eaed1093538eeddddb854b
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:58:35 2023 +0700
+
+    fix: fix column user_id in ads_license table to NULLABLE
+
+commit 3111bc82ff2fed1a27424d3dd26f11523a6eaffc
+Merge: eb4eb6c 7de3525
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:44:22 2023 +0700
+
+    Merge pull request #50 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix seed file
+
+commit 7de3525942b658256a2a743e789cc4fde9498337
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:44:01 2023 +0700
+
+    fix: fix seed file
+
+commit eb4eb6ce1c72f0f01f488ad02e709c8386748e55
+Merge: f6fb7a6 b6917cc
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:26:43 2023 +0700
+
+    Merge pull request #49 from nguyenphucbao68/khanh-api-d
+    
+    add column name in ads_license
+
+commit b6917cc8d2fab84dbf45a804df1feeced91cda5e
+Merge: 5eb6cb2 7134ee6
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:26:04 2023 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/khanh-api-d' into khanh-api-d
+
+commit 5eb6cb2d7326958eb65eecc9ce33e70f0e417114
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:25:21 2023 +0700
+
+    add column name in ads_license
+
+commit 7134ee602f5e300432b3cc171b1ff2c60c1318da
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 22:25:21 2023 +0700
+
+    add column name in ads_license
+
+commit f6fb7a62669e4e42a55ee915341e758bb2d8fa11
+Merge: fb43fbb ff18989
+Author: Tran Thien Tien <thien.tien1551@gmail.com>
+Date:   Tue Dec 19 21:34:47 2023 +0700
+
+    Merge pull request #48 from nguyenphucbao68/feature/report-api
+    
+    Feature/report api
+
+commit ff18989e1748edb5d82c741e75b4f17876153ae5
+Merge: 9f9376b fb43fbb
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Dec 19 21:33:38 2023 +0700
+
+    fix: resolve conflict
+
+commit 9f9376b159c78c67cbb5958b647634ea6a401e5f
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Dec 19 21:29:52 2023 +0700
+
+    fix: resolve conflict
+
+commit f9e02ead927c7c68b74e07980ba7be264b51702f
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Dec 19 21:27:39 2023 +0700
+
+    feat: officer & ads-panel api
+
+commit fb43fbb2b84c9847bc0e1bd6db15260475e9250f
+Merge: 2971e6e b7bde6d
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Dec 19 21:24:48 2023 +0700
+
+    Merge pull request #47 from nguyenphucbao68/integration/D
+    
+    Integrate Spot Type
+
+commit b7bde6d8093de982d575205dcd22ef72cb870fcc
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 19 21:22:22 2023 +0700
+
+    integrate: spot type
+
+commit 2971e6ec08b7d4226a26b77ede76c9ced03d7bca
+Merge: 0559ef3 28ca2fe
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Dec 19 20:52:52 2023 +0700
+
+    Merge pull request #46 from nguyenphucbao68/integration/D
+    
+    Integrate Ads Type
+
+commit 28ca2feff89ae1a83d50738a6cbd44515d761142
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 19 20:52:15 2023 +0700
+
+    integrate: ads type
+
+commit 0559ef37953c501fe9f7eab86b6b3c2b962cd5ff
+Merge: c67613c 98e43bf
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 18:39:51 2023 +0700
+
+    Merge pull request #45 from nguyenphucbao68/khanh-api-d
+    
+    build: build ReportStatistic api and admin screen
+
+commit 98e43bfae4ede3ccaf6aab3139e2f3f2fbd2a25e
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 18:39:33 2023 +0700
+
+    build: build ReportStatistic api and admin screen
+
+commit c67613c03dfc4b3a84caa34af0818508546387fe
+Merge: 092e1cd 6809f96
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Dec 19 17:24:54 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 092e1cd59d5b00ef7458f2058f05836623c99386
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Dec 19 17:24:41 2023 +0700
+
+    Update schema.prisma
+
+commit 6809f96d734bee6f8de73041e69f20f789ea9052
+Merge: ddab9af 157c8e0
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Tue Dec 19 17:24:39 2023 +0700
+
+    Merge pull request #44 from nguyenphucbao68/forgot-password
+    
+    feat: forgot password
+
+commit 157c8e01048fb82f0f5970659415f1912e26b222
+Merge: 0052d52 ddab9af
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Tue Dec 19 17:24:08 2023 +0700
+
+    merge
+
+commit 0052d529e95d8942a5c2f17e03ede62925ef4fe5
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Tue Dec 19 17:21:35 2023 +0700
+
+    feat: fotgot password
+
+commit ddab9afb4a3f3cfcf90fd7071aa55667d2ff837b
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Dec 19 17:19:25 2023 +0700
+
+    update db, admin view report
+
+commit 24c903a7161adf53b9881f06230eacf882ff5e0f
+Merge: d1634d1 93c70e0
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 15:41:42 2023 +0700
+
+    Merge pull request #43 from nguyenphucbao68/khanh-api-d
+    
+    build: build assign location for user
+
+commit 93c70e0cd32bff3ac76f5d815972b09e4ea0b3ed
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 15:41:23 2023 +0700
+
+    build: build assign location for user
+
+commit d1634d10f3bce989de39465d4f60561aa1138498
+Merge: 00b4850 1520805
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Dec 19 15:29:06 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 00b48500e3c440c9e50b8492a1fb0e834d0fbbc6
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Tue Dec 19 15:29:04 2023 +0700
+
+    update auth for C api
+
+commit 1520805c7db8c193cb6a8564878c855161187780
+Merge: ab98a23 f52d0ee
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Dec 19 15:02:15 2023 +0700
+
+    Merge pull request #42 from nguyenphucbao68/integration/D
+    
+    Fix integration
+
+commit f52d0ee728af9747644e7a8664848ae5c95394a4
+Merge: 5f35e3d ab98a23
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 19 15:01:29 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads into integration/D
+
+commit 5f35e3df3e80bda6a155c62d62356cc284c0a970
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 19 14:57:30 2023 +0700
+
+    integrate: report type
+
+commit ab98a235cbc0f89f412f229a98c88288c06248f6
+Merge: 93d77c0 4ee2e95
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 14:26:44 2023 +0700
+
+    Merge pull request #41 from nguyenphucbao68/khanh-api-d
+    
+    build: build assign location for user
+
+commit 4ee2e95f7cfc70d38db57315013edf9e74a71a83
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 14:26:25 2023 +0700
+
+    build: build assign location for user
+
+commit 84d0574b2c1cb37304e3d27b72803101afe24581
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 19 14:21:28 2023 +0700
+
+    integration ads panel type
+
+commit 93d77c0d81b20827f693922240856343125ca644
+Merge: 753c6cc 05840f2
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 14:17:25 2023 +0700
+
+    Merge pull request #40 from nguyenphucbao68/khanh-api-d
+    
+    build: build assign location for user
+
+commit 05840f245782a2a170a3ad10080d30529f8f8a80
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 14:17:07 2023 +0700
+
+    build: build assign location for user
+
+commit 753c6cc89740848642655e51636765b8b27d67f6
+Merge: 1b9f55c fa907b0
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 12:01:23 2023 +0700
+
+    Merge pull request #39 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix prisma
+
+commit fa907b04dc3bc44bc8853405daa47eda9132f096
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 12:00:59 2023 +0700
+
+    fix: fix prisma
+
+commit 1b9f55c5fa264febb665dfc25e036007ba55d45a
+Merge: 63469dc e8e4791
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 11:22:18 2023 +0700
+
+    Merge pull request #38 from nguyenphucbao68/khanh-api-d
+    
+    build: build AccountLocationAssign screen
+
+commit e8e47911d0e3ca66f24fb1e7ca6fa98e2008e39f
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 19 11:21:28 2023 +0700
+
+    build: build AccountLocationAssign screen
+
+commit 63469dc3f1e583ae723ccf34c4e21ed6ea9ddfb9
+Merge: 6f29157 4221f37
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Tue Dec 19 10:17:50 2023 +0700
+
+    Merge pull request #37 from nguyenphucbao68/upload-image
+    
+    upload image
+
+commit 4221f37569dfe3b20a9dfdea58c4f4a1fa55a22b
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Tue Dec 19 10:14:42 2023 +0700
+
+    upload
+
+commit 6f291571897e1575489e075cf4e9044a205a57e5
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 19 09:59:39 2023 +0700
+
+    fix: password of seeded user
+
+commit 18d8c48bc03988ef73393b83c89d531d0acc2590
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 19 09:55:24 2023 +0700
+
+    fix: add created_at updated_at to table, modify table ads_report
+
+commit 1dc8a29f9c7be803ea3ada3b4be261998c5dcc51
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Dec 19 07:54:45 2023 +0700
+
+    feat: add information for pin
+
+commit 2bbdb0eff1a8f6576b9123e80d044a613c703f6d
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Tue Dec 19 07:38:08 2023 +0700
+
+    add marker
+
+commit 502ac69184b8108b95572b4c81abe171668b557a
+Merge: 91a241a 013baa9
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 22:23:31 2023 +0700
+
+    Merge pull request #36 from nguyenphucbao68/auth-axios
+    
+    fix refresh navigate + update account + reset pass
+
+commit 013baa9e8e7abd40729f1e0fd61dd45a0f0682e8
+Merge: daccc2e 91a241a
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 22:23:20 2023 +0700
+
+    merge
+
+commit daccc2e8a9e5cb83c90443467febe95efce61df3
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 22:21:45 2023 +0700
+
+    fix refresh navigate + update account + reset pass
+
+commit 91a241a49074edb36cc0f251953c530bbb968b09
+Merge: 89361af 1f60f2b
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 18:33:54 2023 +0700
+
+    Merge pull request #35 from nguyenphucbao68/khanh-api-d
+    
+    refactor: add email phone and address to ads_license table
+
+commit 1f60f2bf744ec7de1563b255b9f0b6bf90bd1ca7
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 18:33:32 2023 +0700
+
+    refactor: add email phone and address to ads_license table
+
+commit 89361afa558f8077f1350539e4a6ed1beb610585
+Merge: 2f334b5 cdbcc27
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 17:28:52 2023 +0700
+
+    Merge pull request #34 from nguyenphucbao68/khanh-api-d
+    
+    build: build api to forward and reverse geocoding
+
+commit cdbcc27c2e182ed65a7fd5d1394f451c7fbb0cf8
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 17:28:22 2023 +0700
+
+    build: build api to forward and reverse geocoding
+
+commit 2f334b5fc2b1571cd89d7d84af3fe4630d0fc78a
+Merge: 640cadd 9167521
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 16:42:09 2023 +0700
+
+    Merge pull request #33 from nguyenphucbao68/khanh-api-d
+    
+    Khanh api d
+
+commit 9167521efaa5ee79b9c0f0fe2811d037a0a13851
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 16:41:47 2023 +0700
+
+    build: finish integrate ward and district admin modules
+
+commit 856d542aadc5ec4bfd6df07498907dbbbd5c2fd2
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 15:23:55 2023 +0700
+
+    fix: call onConfirm when click submit
+
+commit 640cadda3be30e7918a832152b5b94f32f2c5e85
+Merge: 51da04f 6610317
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 15:21:05 2023 +0700
+
+    Merge pull request #32 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix bug in get role
+
+commit 6610317c1d83fffa8be9122cfe142aade40a0efe
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 15:20:43 2023 +0700
+
+    fix: fix bug in get role
+
+commit 51da04f7574ce86299574958bcf1b251a97958cb
+Merge: 560e6cf 01a58c2
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 12:11:37 2023 +0700
+
+    Merge pull request #31 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix bug in services
+
+commit 01a58c208477120425e3fd88f9568fed5eddd594
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 12:10:26 2023 +0700
+
+    fix: fix bug in services
+
+commit 560e6cf18c53464917471d881f4cd3460af7b347
+Merge: 0f64085 7341e2a
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 12:03:03 2023 +0700
+
+    Merge pull request #30 from nguyenphucbao68/khanh-api-d
+    
+    Khanh api d
+
+commit 7341e2a322398f3101119df6f45f8d01b8716e64
+Merge: 9c8e788 7c4c1c8
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 12:02:46 2023 +0700
+
+    refactor: resolve conflicts
+
+commit 9c8e7888d3185d304180d427b8f0cb3ff25bfc37
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 12:01:51 2023 +0700
+
+    refactor: resolve conflicts
+
+commit 7c4c1c8e0afc186ac10cd670ccf4c59c2e91f683
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 12:00:47 2023 +0700
+
+    refactor: fix sidebar for each role of admin
+
+commit 0f64085f38f739458338b1303cd7614b626a614e
+Merge: c08f484 42988d9
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 11:55:20 2023 +0700
+
+    Merge pull request #29 from nguyenphucbao68/auth-axios
+    
+    fix refresh + profile update
+
+commit 42988d94c2a7f68a073a03cf2238db2bc188aaa9
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 11:55:04 2023 +0700
+
+    navigate when refresh token expired
+
+commit 86204610a30473ca0ab147367a849ae346c19719
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 11:54:00 2023 +0700
+
+    fix refresh + profile update
+
+commit c08f48465360dab8138c3b22a1692d3318e7d21e
+Merge: f02fc26 3ad80dd
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 11:12:02 2023 +0700
+
+    Merge pull request #28 from nguyenphucbao68/auth-axios
+    
+    fix auth backend
+
+commit 3ad80dd2b67c229b3330041177cc93e999529211
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 11:11:14 2023 +0700
+
+    fix auth backend
+
+commit f02fc26f1faf677145edb70cecd7f8feedec743a
+Merge: 1d65039 2e2363b
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 10:17:35 2023 +0700
+
+    Merge pull request #27 from nguyenphucbao68/auth-axios
+    
+    add auth + axios
+
+commit 2e2363b7ceff1f7052a0167350816799c798ac0c
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 10:16:58 2023 +0700
+
+    update refreshtoken
+
+commit 78148e1275fe233838785679fa177714a713de27
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 10:14:03 2023 +0700
+
+    auth
+
+commit c5dd53ae3da77f0ef7bcd74eb671e973f95edcc1
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 18 09:40:28 2023 +0700
+
+    add auth + axios
+
+commit 1d65039b799a90b033669d96820ec0e97a9c43c0
+Merge: 28ff954 bf68473
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Mon Dec 18 01:15:32 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 28ff9542e57440821b1616d0307306c0c0f7dc79
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Mon Dec 18 01:15:15 2023 +0700
+
+    fix seed data
+
+commit bf684733bae1a303c783289ad895960bd4ae181c
+Merge: 2018ff2 f4b09c9
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 00:50:04 2023 +0700
+
+    Merge pull request #26 from nguyenphucbao68/khanh-api-d
+    
+    Khanh api d
+
+commit f4b09c9f7dfd709e48393cc831a67aceb2ec4172
+Merge: 9f6a9c1 d4c8553
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 00:49:49 2023 +0700
+
+    build: build DistrictList, DistrictCreate, DistrictDetails
+
+commit 9f6a9c17204dd48d685c8e1c5f2d0754bc385b49
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 00:48:16 2023 +0700
+
+    build: build DistrictList, DistrictCreate, DistrictDetails
+
+commit 72e2ce8a005cd1952b82ad0521b5b075866db007
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 00:36:44 2023 +0700
+
+    build: build WardList, WardDetails and WardCreate screens
+
+commit f3f5bedff6018debec7e0e208017c7b8ff18f064
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 23:21:36 2023 +0700
+
+    refactor: fix layout
+
+commit d1a148f2500c6893f7e34aa41c2af2516b72a02e
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 22:59:00 2023 +0700
+
+    fix: fix varibale name
+
+commit d4c855396aa729aa29a688ce29fec9e79b86ecd3
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 18 00:36:44 2023 +0700
+
+    build: build WardList, WardDetails and WardCreate screens
+
+commit ee59c39496755164ca39ea26afabc58bde8ab0cd
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 23:21:36 2023 +0700
+
+    refactor: fix layout
+
+commit e1957146f3a3d55b01a6b2ef63be7adab4124e01
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 22:59:00 2023 +0700
+
+    fix: fix varibale name
+
+commit 2018ff2ccfb2d957df2cf2232702a47f63607809
+Merge: f55372e 0a82857
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 22:52:32 2023 +0700
+
+    Merge pull request #25 from nguyenphucbao68/khanh-api-d
+    
+    build: build files upload and toast notification when submit or delet…
+
+commit 0a8285711ea1ed19d0e9b8838e68876f9f9431e2
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 22:51:44 2023 +0700
+
+    build: build files upload and toast notification when submit or delete ads spots, refactor UI of AdsSpotDetails
+
+commit f55372e488cea4f4247a6f6dad8102c540052038
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sun Dec 17 21:48:15 2023 +0700
+
+    delete old project file and rename file by convention
+
+commit 0bea7365745f42f7548e5b2abe98644dc53caf55
+Merge: 5816436 af29727
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Sun Dec 17 21:41:07 2023 +0700
+
+    Merge pull request #24 from nguyenphucbao68/integration/D
+    
+    Integration panels
+
+commit af29727667a797f333c04b00e297009c43418d97
+Merge: d9daee4 5816436
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sun Dec 17 21:36:13 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads into integration/D
+
+commit d9daee46a2f393c32a3f3db8f18b3d68b03b3362
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sun Dec 17 21:35:56 2023 +0700
+
+    integrate ads panel adspanel type report type
+
+commit 5816436ea76d43daea728d1e6e638a952d0e7d3d
+Merge: aaf42cf fa9cdad
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 19:11:58 2023 +0700
+
+    Merge pull request #23 from nguyenphucbao68/khanh-api-d
+    
+    build: build ads-types and spot-types routes, validation, controller,…
+
+commit fa9cdad3a6a807e777c77b1f9ae1b625c36df414
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 19:11:39 2023 +0700
+
+    build: build ads-types and spot-types routes, validation, controller, services, and integrate be to AdsSpotDetails
+
+commit aaf42cf53a16a6ed1333cd4c7ce4aa297306c9f0
+Merge: c3a25ef 47b7bd3
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 17:46:44 2023 +0700
+
+    Merge pull request #22 from nguyenphucbao68/khanh-api-d
+    
+    build: build AdsSpotProvider and build UI for AdsSpotDetails
+
+commit 47b7bd3410546ca263eaf756f4448b90419cbe10
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 17 17:46:13 2023 +0700
+
+    build: build AdsSpotProvider and build UI for AdsSpotDetails
+
+commit c4409263bacc0f41edc561f1d6a1a9dde2140137
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sun Dec 17 13:01:33 2023 +0700
+
+    change layout of ads panel type
+
+commit c3a25eff77bd6d1a15f1506f4b7e8c6b4aa9da0d
+Merge: 2179d00 642976f
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Sun Dec 17 11:43:24 2023 +0700
+
+    Merge pull request #21 from nguyenphucbao68/integration/D
+    
+    Restore .env.example
+
+commit 642976fb4f35b87abe810a50bd88e49dba9d0ee5
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sun Dec 17 11:39:46 2023 +0700
+
+    restore .env.example file
+
+commit 50465dba5cb4ddab32f58c2bb439b9da4303ec94
+Merge: aaf03ee 2179d00
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sun Dec 17 11:33:12 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads into integration/D
+
+commit 2179d00d71374aa9b57a796125a9fe50848bd5fe
+Author: vdnhan <duy-nhan@system-exe.com.vn>
+Date:   Sat Dec 16 16:10:49 2023 +0700
+
+    feat: integration spot type ads panel report
+
+commit aaf03ee2960beebaa67ec2e939c2242ffe2d897c
+Author: vdnhan <duy-nhan@system-exe.com.vn>
+Date:   Sat Dec 16 16:10:49 2023 +0700
+
+    feat: integration spot type ads panel report
+
+commit 26f84f1928a70eb2f54bd0962d930174b51ebff4
+Merge: 2fd0970 5c56d29
+Author: vdnhan <duy-nhan@system-exe.com.vn>
+Date:   Sat Dec 16 15:38:45 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads
+
+commit 2fd0970e28990276a65ed8625d1044af5450be77
+Author: vdnhan <duy-nhan@system-exe.com.vn>
+Date:   Sat Dec 16 15:33:41 2023 +0700
+
+    Integration loại bảng quảng cáo
+
+commit 03e07e4ee753feaca1726ead2ffdad1abab8d6be
+Author: vdnhan <duy-nhan@system-exe.com.vn>
+Date:   Sat Dec 16 15:33:41 2023 +0700
+
+    Integration loại bảng quảng cáo
+
+commit 5c56d293e68ad9b7296a8c62f19a51df64d68603
+Merge: ef67d4e b51d99a
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Sat Dec 16 14:37:55 2023 +0700
+
+    Merge pull request #20 from nguyenphucbao68/integration/D
+    
+    Delete user route
+
+commit b51d99a47e49329a885c119d7772e95d2836f023
+Author: vdnhan <duy-nhan@system-exe.com.vn>
+Date:   Sat Dec 16 14:35:18 2023 +0700
+
+    fix: delete user.route
+
+commit ef67d4e152342f997317360e5255a051f0503eca
+Merge: 0429f8f 8afd600
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Sat Dec 16 00:47:26 2023 +0700
+
+    Merge pull request #19 from nguyenphucbao68/api/e
+    
+    backend API
+
+commit 8afd600be7068e11b3ff012e777d41a8ca2d6a1e
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sat Dec 16 00:46:51 2023 +0700
+
+    backend API
+
+commit 0429f8f45f7aa8a5435ee70835eb14facee627c3
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 18:34:01 2023 +0700
+
+    change route
+
+commit 3e2c50d2f0f9d0c1a1080e1799b30d20b4c99fb4
+Merge: 486bee0 53a637a
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 18:13:52 2023 +0700
+
+    Merge branch 'hoang-c-api'
+
+commit 53a637a5ca81826e81ac45901d608bfa392d3a25
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 18:13:08 2023 +0700
+
+    get wards of a district
+
+commit ec74c9ccba382425efe092bbde0c00f098481635
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 17:45:07 2023 +0700
+
+    crud ads licenses
+
+commit 486bee0df28019978b8e69e1ce1d86398fd078f7
+Merge: 556833d ad80d44
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 17:07:50 2023 +0700
+
+    Merge pull request #18 from nguyenphucbao68/khanh-api-d
+    
+    refactor: add integer validation for id
+
+commit ad80d44479c3267120eaea38efbbe69dfe74499e
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 17:06:56 2023 +0700
+
+    refactor: add integer validation for id
+
+commit 556833d8adc4562f8ae687e3af6c1aeea3bb0087
+Merge: 586a343 25bcf9c
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 16:18:26 2023 +0700
+
+    Merge pull request #17 from nguyenphucbao68/khanh-api-d
+    
+    Khanh api d
+
+commit 25bcf9c381f5da690c6c89a5d3c7b5dcf2e4c579
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 16:17:40 2023 +0700
+
+    feat: add all missing controllers and services of vhtt route
+
+commit efda3c4903d2b39018d0a22a89f9f423d6148886
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 16:10:17 2023 +0700
+
+    feat: add missing validations to adsPanel and adsSpot
+
+commit 4bc747e105f958d32544cb7f14d1a331251955c3
+Merge: 532cc93 586a343
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 15:33:54 2023 +0700
+
+    Merge branch 'main' into hoang-c-api
+
+commit 586a343bcbf54ec282b8ee80094522876a93dbc9
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 15:21:24 2023 +0700
+
+    Update .gitignore
+
+commit 457835430ea00baaf52a04eef99383ba170a4356
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 15:20:24 2023 +0700
+
+    Delete .env
+
+commit 0a974159ef76f362ce004f46e23638e276211b99
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Fri Dec 15 15:19:15 2023 +0700
+
+    .
+
+commit d5b84fda523cc36ddcef67147692201e982bb57e
+Merge: e3aa6fc ad29d0f
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Fri Dec 15 13:47:01 2023 +0700
+
+    Merge pull request #16 from nguyenphucbao68/refresh-token
+    
+    fix refresh-token
+
+commit ad29d0fe3b483e1adefc0d62e93fe4c90b4923c6
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Fri Dec 15 13:43:18 2023 +0700
+
+    fix refresh-token
+
+commit e3aa6fc784e1f36546a881c8ac4b0270356dcb87
+Merge: 76449b0 9490498
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 12:57:09 2023 +0700
+
+    Merge pull request #15 from nguyenphucbao68/khanh-api-d
+    
+    refactor: get rid of auth in vhtt.route.js
+
+commit 949049835e3b95fcbcbd8d0fc2fd365dbb7b5f30
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 12:56:40 2023 +0700
+
+    refactor: get rid of auth in vhtt.route.js
+
+commit 76449b0b14d899042b8dd93ce40a4344040982e6
+Merge: 133e613 e531155
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 12:55:50 2023 +0700
+
+    Merge pull request #14 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix vhtt.route.js
+
+commit e53115598e0693bacc787652f7ac6d7b9ccc5235
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Dec 15 12:55:30 2023 +0700
+
+    fix: fix vhtt.route.js
+
+commit 133e613d568c4f09c0546ba59576a60a401b66b7
+Merge: a4af9c1 3edd8c5
+Author: Võ Duy Nhân <79904346+vdnhan1608@users.noreply.github.com>
+Date:   Tue Dec 12 03:53:34 2023 +0700
+
+    Merge pull request #10 from nguyenphucbao68/seed-data
+    
+    Seed data
+
+commit 3edd8c524b0f90494e2bfd79c09975b6c6e133ff
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 12 03:52:52 2023 +0700
+
+    fix seed data
+
+commit 2bb0c4113840c3b0a097d4d5ec2f557e79893946
+Merge: 7ade248 a4af9c1
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 12 02:10:00 2023 +0700
+
+    Merge branch 'main' of https://github.com/nguyenphucbao68/ads into seed-data
+
+commit 7ade248145fc1efdf691834e52a32fafceb6a37e
+Merge: bbefc7f dfd92a9
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Tue Dec 12 02:09:42 2023 +0700
+
+    add .env example
+
+commit a4af9c1d461aecdc52730ea3c03486ac94a620cd
+Merge: 3a7c4e7 7689ee5
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 11 13:51:08 2023 +0700
+
+    Merge pull request #13 from nguyenphucbao68/report-ad-license
+    
+    feat: api ads license
+
+commit 7689ee5fb0df1c9e63daa7f011df138c55936452
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Mon Dec 11 13:47:49 2023 +0700
+
+    feat: api ads license
+
+commit 3a7c4e7642ab34f85199ddf7c286e8a514ffbc49
+Merge: dfd92a9 261b21b
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Mon Dec 11 11:39:09 2023 +0700
+
+    Merge pull request #12 from nguyenphucbao68/khanh-api-d
+    
+    Khanh api d
+
+commit 261b21bbe6f4cc3bf0c4fce98b3af3d31b4e1740
+Merge: 6b81f33 5eb57ec
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 11 11:38:44 2023 +0700
+
+    refactor: resolve conflicts
+
+commit 6b81f334b6ffde79395da3005aa2e2b7227fff9a
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 11 11:36:48 2023 +0700
+
+    refactor: resolve conflicts
+
+commit 2ab930880692387be4bed6e131cbcbebe41ecb4d
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 11 11:33:33 2023 +0700
+
+    refactor: resolve conflicts
+
+commit 5eb57ec7863d91348d91a4998e3753c7a75b87f6
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 11 11:27:40 2023 +0700
+
+    build: build template for all vhtt routes, controllers and services
+
+commit 087970ba7bce4cba9f113d07ed8be13f75109a0e
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Mon Dec 11 11:09:11 2023 +0700
+
+    refactor: fix vhtt route
+
+commit 02fe6bfecf2ee9800bd1ebc318e7a0ec7422587b
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Mon Dec 11 07:47:15 2023 +0700
+
+    add map
+
+commit bbefc7f3784f9fc32f2ee20bc4edee76271e0a1c
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Mon Dec 11 01:48:37 2023 +0700
+
+    seed data
+
+commit 3db720705100333b63709c6f31aec4eca9ae5768
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Sun Dec 10 22:32:54 2023 +0700
+
+    file config env
+
+commit dfd92a96172a18fd6ab825236d6a2aeb8d2c9347
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Sun Dec 10 00:50:14 2023 +0700
+
+    feat: get all ads spot, get all spot by panel id, create report,... (#9)
+
+commit 8bfeeb492de64f8713eb5ac1b38015d94c9b9a8a
+Merge: 94eb0e1 2e507e0
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 22:09:40 2023 +0700
+
+    Merge pull request #8 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix layout of ads spot list
+
+commit 2e507e04c40be662ce6cf3d6814710893c3847e8
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 22:09:09 2023 +0700
+
+    fix: fix layout of ads spot list
+
+commit 94eb0e1071ef70c7eaf8323bff985d1761f184c2
+Merge: 5f99a16 016de97
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 21:28:03 2023 +0700
+
+    Merge pull request #7 from nguyenphucbao68/khanh-api-d
+    
+    fix: fix error when unauthorized
+
+commit 016de9792d898af5f776ed3af4a95d2186f27655
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 21:27:14 2023 +0700
+
+    fix: fix error when unauthorized
+
+commit 5f99a167799756af0c231cbf0e5fbc021eb22247
+Merge: fa04de7 55ccceb
+Author: Nguyễn Đinh Quang Khánh <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 21:21:33 2023 +0700
+
+    Merge pull request #6 from nguyenphucbao68/khanh-api-d
+    
+    build: build apis frames and fix adsSpotList.js
+
+commit 55ccceb79fd3c24e9c7c7516355697016b28ca45
+Merge: bc388eb 5fc77f0
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 21:20:31 2023 +0700
+
+    resolve conflicts
+
+commit bc388ebe7185a62e2bbb33697a4faf80cc52adec
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 21:07:10 2023 +0700
+
+    build: build apis frames and fix adsSpotList.js
+
+commit 3e3453dd704b132ab98f4b80e979213833ac131e
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 21:18:19 2023 +0700
+
+    resolve conflicts
+
+commit 5fc77f07db9e412581ec4985f14cdc3c1eb91752
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 21:07:10 2023 +0700
+
+    build: build apis frames and fix adsSpotList.js
+
+commit d11a0cf7c44a32a8e132588e50dbbf9eec24f4f2
+Author: Tien <73010955+tientran505@users.noreply.github.com>
+Date:   Sat Dec 9 16:49:26 2023 +0700
+
+    init
+
+commit fa04de73815897b21828de021281ae64696a1f05
+Merge: 0c8865d b30c59c
+Author: Jack Nguyen <nguyenphucbao098@gmail.com>
+Date:   Sat Dec 9 16:48:41 2023 +0700
+
+    Merge pull request #5 from nguyenphucbao68/report-ad-license
+    
+    Report ad license
+
+commit b30c59c533348a6d1a9cae545de0541e4974b939
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Sat Dec 9 16:47:40 2023 +0700
+
+    feat: add reports + ad license
+
+commit 373d45aea481b4a238bc6bd12c509e52b9cbfb24
+Merge: a3e3730 0c8865d
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Sat Dec 9 13:36:09 2023 +0700
+
+    merge
+
+commit 0c8865d85da560710a492ec0e3419a6d14e0317f
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 13:26:23 2023 +0700
+
+    refactor: refactor search quick filter
+
+commit 447e7645cce5cf214c2d76b0ea83805672a1da7d
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sat Dec 9 13:24:07 2023 +0700
+
+    refactor: refactor search quick filter
+
+commit 1b6cf7253d504749aa4409508af88069613a96e8
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Fri Dec 8 15:12:25 2023 +0700
+
+    refactor: update env.example
+
+commit a8985dc2d129f4a0dc0fe653f9a539b078dc5512
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 18:27:17 2023 +0700
+
+    refactor: refactor UI of checkbox for isAvailable field and change variant of search texfield to outlined
+
+commit 532cc93ec84205170e850fad36e14df77fc3e6fe
+Author: krnthoang542 <81230977+simplord542@users.noreply.github.com>
+Date:   Wed Dec 6 18:24:19 2023 +0700
+
+    api frame
+
+commit ea8c570593f66891d314f1c4644570ff9b7b4962
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 17:34:13 2023 +0700
+
+    refactor: add create button to datagrid
+
+commit 7a39ea4b1821eaa8b565ff72dc874f97f256983c
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 17:27:09 2023 +0700
+
+    refactor: add create button to datagrid
+
+commit 6f2777bb3f31f88d9699b22d1a54b5bcacc9522b
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 17:15:00 2023 +0700
+
+    refactor: add create button to datagrid
+
+commit 9ab89fe9555a111e98f8bc31b7cb0c5f707f2178
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 17:11:38 2023 +0700
+
+    refactor: add create button to datagrid
+
+commit d318baaddd6732148421b0364438125f7e2a6ce7
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 11:46:55 2023 +0700
+
+    change icon of admin and approval
+
+commit 14a783a6ec119e30692abefc77f92ead26348fbf
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 11:43:12 2023 +0700
+
+    refactor: refactor admin role on top of sidebar
+
+commit cd2a18b447da8adb646fc0f03282647b44246381
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 10:55:54 2023 +0700
+
+    clean code
+
+commit 4c403307ea8f3c6bd29559359fcc58e9223ddee1
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Wed Dec 6 02:59:31 2023 +0700
+
+    build: build template for manage ads spots and template for sidebar (need to restructure again due to other routes)
+
+commit f29d0e0740492e145363c8a9b0b4c30f23b4f971
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 5 10:57:11 2023 +0700
+
+    build: build backend server template
+
+commit d5ddaa47d0b2450a761617d12a35103a7a7e0aed
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 5 00:34:29 2023 +0700
+
+    refactor: refactor using Restful for admin_ver2
+
+commit bc25cc03136adc64f0740e4314ef49c1b188f12c
+Merge: 1d05b05 b972be5
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 5 00:06:01 2023 +0700
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 1d05b054c91b4e98743e22cbe5cbcdce8ce3a9b9
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Tue Dec 5 00:05:18 2023 +0700
+
+    build: build react_ver2 supported by react_admin module
+
+commit b972be589f4898f35e49f141b3934e5f57d81e0f
+Author: bunrealcua <voduynhan.123@gmail.com>
+Date:   Mon Dec 4 23:44:39 2023 +0700
+
+    Thêm file schema prisma
+
+commit a3e3730f1d21a2b35cf5bbb7caa1e8e320a9c201
+Author: jacknguyen <nguyenphucbao098@gmail.com>
+Date:   Sun Dec 3 19:17:58 2023 +0700
+
+    feat: template admin edit + create
+
+commit f1f307ca79da70f6ad8ecd45a6b585e3d9ef132f
+Author: ndqkhanh20 <khanhndq2002@gmail.com>
+Date:   Sun Dec 3 00:32:12 2023 +0700
+
+    build: build admin boilerplate
+
+commit 9454962f13590582e0858714c48879f0c2e06dfb
+Author: btsang <105647814+btsangk20@users.noreply.github.com>
+Date:   Thu Nov 30 22:55:13 2023 +0700
+
+    feat: login, register & change password form (#1)
+
+commit 53744816ccab7ef732f2b0ea6f77a81ba83236a4
+Author: Tan Sang <btsangk20@gmail.com>
+Date:   Thu Nov 23 11:11:45 2023 +0700
+
+    init source
