@@ -16,6 +16,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UploadOutlined } from '@ant-design/icons';
 import { updateLocalStorage } from '../../common/common';
+import moment from 'moment';
 
 const layout = {
   labelCol: { span: 6 },
@@ -132,11 +133,13 @@ function ModalReport() {
         });
 
         if (state.adsPanelItem) {
-          updateLocalStorage(
-            'reportedAdsSpot',
-            state.adsPanelItem.ads_spot_id
-          );
-          updateLocalStorage('reportedAdsPanel', state.adsPanelItem.id);
+          updateLocalStorage('reports', {
+            ...body,
+            adsPanelItem: state.adsPanelItem,
+            sendDate: moment('vi').format('llll'),
+          });
+          updateLocalStorage('reportedAdsSpot', state.adsPanelItem.ads_spot_id);
+          // updateLocalStorage('reportedAdsPanel', state.adsPanelItem.id);
         }
       })
       .catch((e) => {
@@ -155,15 +158,6 @@ function ModalReport() {
     console.log('reset form');
     form.resetFields();
   }, [state.category]);
-
-  // const checkFileUploaded = (rule, value, callback) => {
-  //   // Kiểm tra xem có file đang được tải lên hay không
-  //   if (!value || value.fileList.length === 0) {
-  //     callback('Vui lòng tải lên ít nhất một ảnh!');
-  //   } else {
-  //     callback();
-  //   }
-  // };
 
   return (
     <>
@@ -257,21 +251,6 @@ function ModalReport() {
               </button>
             </Upload>
           </Form.Item>
-
-          {/* <Modal
-          open={previewOpen}
-          title={previewTitle}
-          footer={null}
-        //   onCancel={handleCancel}
-        >
-          <img
-            alt='example'
-            style={{
-              width: '100%',
-            }}
-            src={previewImage}
-          />
-        </Modal> */}
 
           <div style={{ marginTop: 20 }}>
             <CKEditor id='content' ref={editorRef} editor={ClassicEditor} />

@@ -30,6 +30,7 @@ import AddressSearchInput from '../../components/AddressSearchInput/AddressSearc
 
 import ClusterMarker from '../../components/ClusterMarker/ClusterMarker';
 import ToggleFooter from '../../components/ToogleFooter/ToggleFooter';
+import ReportList from '../../components/ReportList/ReportList';
 
 const geolocateStyle = {
   top: 0,
@@ -295,9 +296,6 @@ function LandingPage() {
       );
     });
 
-  useEffect(() => {
-    console.log({ chaneInfo: popupInfo });
-  }, [popupInfo]);
   return (
     <Container>
       <AdsPanelDetail />
@@ -310,6 +308,8 @@ function LandingPage() {
         setAdsSpotVisible={setAdsSpotVisible}
         setAdsPanelReportVisible={setAdsPanelReportVisible}
       />
+
+      <ReportList />
 
       {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
