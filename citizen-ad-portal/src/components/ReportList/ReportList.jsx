@@ -9,15 +9,15 @@ import {
 } from '@ant-design/icons';
 import ReportListItem from '../ReportListItem/ReportListItem';
 import moment from 'moment';
+import { getFormattedAddress } from '../../common/common';
 const { Paragraph, Title, Link } = Typography;
 
 function ReportList() {
   const [showModalReport, setShowModalReport] = useState(false);
-  const [viewDetailMode, setViewDetailMode] = useState(false);
+  const [viewDetailMode, setViewDetailMode] = useState(null);
   const [onHover, setOnHover] = useState(false);
-  const [reports, getReports] = useState(() =>
-    JSON.parse(localStorage.getItem('reports') || '[]')
-  );
+  const [reports, setReports] = useState([]);
+  const [current, setCurrent] = useState(1);
 
   const handleOk = () => {
     setShowModalReport(false);
@@ -28,8 +28,15 @@ function ReportList() {
   };
 
   useEffect(() => {
-    console.log({ reports });
-  }, [reports]);
+    setReports(JSON.parse(localStorage.getItem('reports') || '[]'));
+  }, [showModalReport]);
+
+  const onModalReportOpen = () => {
+    setShowModalReport(true);
+    setReports(JSON.parse(localStorage.getItem('reports') || '[]'));
+    setCurrent(1);
+    setViewDetailMode(null);
+  };
 
   return (
     <Container>
@@ -38,11 +45,12 @@ function ReportList() {
         onMouseLeave={() => setOnHover(false)}
         shape={onHover ? 'round' : 'circle'}
         icon={<UnorderedListOutlined />}
-        onClick={() => setShowModalReport(true)}
+        onClick={onModalReportOpen}
       >
         {onHover ? 'Xem lại các báo cáo vi phạm' : ''}
       </Button>
       <Modal
+        width={600}
         title={
           viewDetailMode
             ? 'XEM CHI TIẾT BÁO CÁO VI PHẠM'
@@ -58,32 +66,62 @@ function ReportList() {
             pagination={{
               position: 'bottom',
               align: 'center',
-              onChange: (page) => console.log({ page }),
-              pageSize: 3,
+              onChange: (page) => setCurrent(page),
+              pageSize: 2,
+              defaultCurrent: 1,
+              current,
             }}
-          >
-            <List.Item>
-              <Flex style={{ width: '100%' }} align='center' gap={10}>
-                <AimOutlined style={{ fontSize: 34 }} />
-                <Flex vertical>
-                  <Title level={5}>Phân loại: Báo cáo bảng quảng cáo</Title>
-                  <Paragraph>Tên: Trụ cụm Panel</Paragraph>
-                  <Paragraph>
-                    Địa chỉ: 411 Hưnsadadasdasdasdasdasdg phú
-                  </Paragraph>
-                  <Paragraph>Ngày gửi: 13/5/2023</Paragraph>
+            dataSource={reports}
+            renderItem={(item, idx) => (
+              <List.Item key={idx}>
+                <Flex style={{ width: '100%' }} align='center' gap={10}>
+                  <AimOutlined style={{ fontSize: 34 }} />
+                  <Flex vertical>
+                    <Title level={5}>
+                      {'Phân loại: ' + item.adsPanelItem
+                        ? 'Báo cáo bảng quảng cáo'
+                        : 'Báo cáo địa điểm'}
+                    </Title>
+                    <Paragraph>
+                      {'Loại vị trí: ' +
+                        item.adsPanelItem.ads_spot.spot_type.name}
+                    </Paragraph>
+                    <Paragraph>
+                      {'Loại bảng quảng cáo: ' +
+                        item.adsPanelItem.ads_panel_type.name}
+                    </Paragraph>
+                    <Paragraph>
+                      {'Địa chỉ: ' +
+                        getFormattedAddress(
+                          item.adsPanelItem.ads_spot.address,
+                          item.adsPanelItem.ads_spot.ward.name,
+                          item.adsPanelItem.ads_spot.district.name
+                        )}
+                    </Paragraph>
+                    <Paragraph>{'Ngày gửi: ' + item.sendDate}</Paragraph>
+                  </Flex>
+                  <Link
+                    style={{ marginLeft: 'auto' }}
+                    onClick={() =>
+                      setViewDetailMode({
+                        ...item,
+                        reportCategory: item.adsPanelItem
+                          ? 'Bảng quảng cáo'
+                          : 'Địa điểm',
+                      })
+                    }
+                  >
+                    Xem chi tiết <RightOutlined />{' '}
+                  </Link>
                 </Flex>
-                <Link
-                  style={{ marginLeft: 'auto' }}
-                  onClick={() => setViewDetailMode(true)}
-                >
-                  Xem chi tiết <RightOutlined />{' '}
-                </Link>
-              </Flex>
-            </List.Item>
-          </List>
+              </List.Item>
+            )}
+          />
         ) : (
-          <ReportListItem goBack={() => setViewDetailMode(false)} />
+          <ReportListItem
+            goBack={() => setViewDetailMode(null)}
+            item={viewDetailMode}
+          />
         )}
       </Modal>
     </Container>

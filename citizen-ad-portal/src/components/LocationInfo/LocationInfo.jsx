@@ -10,7 +10,6 @@ function LocationInfo({ locationDetail }) {
   const { dispatch } = useModalReport();
 
   const showModal = () => {
-    console.log('On lcik');
     dispatch({
       type: 'ON_OPEN_MODAL',
       payload: {

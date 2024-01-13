@@ -9,7 +9,7 @@ import {
   Typography,
   message,
 } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useModalReport } from '../../contexts/ModalReportProvider';
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -31,6 +31,7 @@ function ModalReport() {
   const [reportTypes, setReportTypes] = useState([]);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const editorRef = useRef();
 
   useEffect(() => {
     // fetch report types
@@ -41,6 +42,7 @@ function ModalReport() {
     }).then(({ data }) => {
       setReportTypes(data);
     });
+    console.log('asdasdasdsadsa');
   }, []);
 
   const cloudName = 'dzjaj79nw';
@@ -71,8 +73,6 @@ function ModalReport() {
       console.log('Error uploading image to Cloudinary', error);
     }
   };
-
-  const editorRef = useRef();
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -136,7 +136,10 @@ function ModalReport() {
           updateLocalStorage('reports', {
             ...body,
             adsPanelItem: state.adsPanelItem,
-            sendDate: moment('vi').format('llll'),
+            sendDate: moment().format('DD/MM/YYYY hh:mm:ss'),
+            reportType: reportTypes.filter(
+              (item) => body.report_type_id === item.id
+            )[0].name,
           });
           updateLocalStorage('reportedAdsSpot', state.adsPanelItem.ads_spot_id);
           // updateLocalStorage('reportedAdsPanel', state.adsPanelItem.id);
@@ -157,6 +160,12 @@ function ModalReport() {
   useEffect(() => {
     console.log('reset form');
     form.resetFields();
+
+    console.log({ edit: editorRef.current });
+
+    if (editorRef.current && editorRef.current.editor) {
+      editorRef.current.editor.setData('');
+    }
   }, [state.category]);
 
   return (
