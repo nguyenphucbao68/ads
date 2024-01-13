@@ -62,8 +62,9 @@ passport.use('jwt', jwtStrategy);
 // add socket io
 io.on('connection', (socket) => {
   socket.on('joinRoomById', async (msg) => {
-    const room = await socketController.findRoomById(msg);
-    if (room) socket.join(room);
+    // const room = await socketController.findRoomById(msg);
+    // if (room) socket.join(room);
+    socket.join(`user-${msg}`);
   });
   //   socket.on('disconnect', function() {
   //     console.log('Got disconnect!');
