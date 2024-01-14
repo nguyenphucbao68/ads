@@ -104,6 +104,7 @@ const AdsSpotCreate = () => {
   })
 
   const onChangeNewAddress = useCallback((address) => {
+    console.log({ address })
     setData((pre) => ({
       ...pre,
       new_address: address,
