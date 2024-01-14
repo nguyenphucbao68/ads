@@ -35,7 +35,9 @@ const ReportDetails = () => {
   const [currentModelImage, setCurrentModalImage] = useState('')
   useEffect(() => {
     setIsLoading(true)
-    setElement(reports.rows.find((value) => value.id == id))
+    const e = reports.rows.find((value) => value.id == id)
+    e.image = JSON.parse(e.image)
+    setElement(e)
     setIsLoading(false)
   }, [])
   const {
@@ -57,16 +59,15 @@ const ReportDetails = () => {
   const navigate = useNavigate()
 
   const onSubmit = async (data) => {
-    if ((data?.status === '1' || data?.status === '2') && content) {
+    if (data?.status === '1' || data?.status === '2') {
       const result = await ReportService.updateStatus(id, {
         status: data.status,
-        content: content,
         user: {
           id: user?.id,
           email: element?.email,
         },
       })
-
+      console.log(result)
       if (result.id) {
         navigate('/admin/report', {
           state: {

@@ -93,16 +93,6 @@ const getReportById = async (id) => {
 };
 
 const updateReportStatus = async (userId, reportId, body) => {
-  const validHandleUser = await prisma.report.findFirst({
-    where: {
-      id: reportId,
-      handled_user_id: null,
-    },
-  });
-
-  if (!validHandleUser) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Không có quyền truy cập');
-  }
 
   return await prisma.report.update({
     where: {
@@ -110,7 +100,6 @@ const updateReportStatus = async (userId, reportId, body) => {
     },
     data: {
       status: body.status,
-      content: body.content,
       handled_user_id: userId,
     },
   });
