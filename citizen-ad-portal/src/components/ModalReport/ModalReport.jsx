@@ -18,6 +18,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import { updateLocalStorage } from '../../common/common';
 import moment from 'moment';
 import { useWardData } from '../../contexts/WardProvider';
+import ReCAPTCHA from 'react-google-recaptcha';
+import Paragraph from 'antd/es/skeleton/Paragraph';
 
 const layout = {
   labelCol: { span: 6 },
@@ -32,6 +34,7 @@ function ModalReport() {
   const [reportTypes, setReportTypes] = useState([]);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const [verified, setVerified] = useState(false);
   const editorRef = useRef();
   const { wardData } = useWardData();
 
@@ -48,6 +51,7 @@ function ModalReport() {
 
   const cloudName = 'dzjaj79nw';
   const uploadPreset = 'u4mszkqu';
+  const captchaRef = useRef();
 
   const customRequest = async ({ file, onSuccess, onError, onProgress }) => {
     try {
@@ -87,6 +91,15 @@ function ModalReport() {
   const onFinish = (values) => {
     setConfirmLoading(true);
 
+    if (editorRef.current.editor.getData() === '') {
+      messageApi.open({
+        type: 'error',
+        content: 'Nội dung không được để trống',
+      });
+      setConfirmLoading(false);
+      return;
+    }
+
     let ads_panel_id;
     let longtitude;
     let latitude;
@@ -123,10 +136,13 @@ function ModalReport() {
       ward_id = addressInfo.id;
       address = state.locationDetail.formatted_address;
     }
+
     const body = {
       ads_panel_id,
       ...values,
-      image: JSON.stringify(values.image.map((item) => item.response.url)),
+      image: JSON.stringify(
+        values.image ? values.image.map((item) => item.response.url) : []
+      ),
       longtitude,
       latitude,
       content: editorRef.current.editor.getData(),
@@ -177,9 +193,12 @@ function ModalReport() {
   };
 
   useEffect(() => {
-    console.log('reset form');
     form.resetFields();
 
+    if (captchaRef.current) {
+      captchaRef.current.reset();
+      setVerified(false);
+    }
     if (editorRef.current && editorRef.current.editor) {
       editorRef.current.editor.setData('');
     }
@@ -192,7 +211,6 @@ function ModalReport() {
       <Modal
         title='BÁO CÁO VI PHẠM'
         open={state.isOpenModal}
-        onOk={onCloseModal}
         onCancel={onCloseModal}
         width={700}
         footer={null}
@@ -279,9 +297,17 @@ function ModalReport() {
             </Upload>
           </Form.Item>
 
+          <Typography.Paragraph strong>Nội dung báo cáo:</Typography.Paragraph>
           <div style={{ marginTop: 20 }}>
             <CKEditor id='content' ref={editorRef} editor={ClassicEditor} />
           </div>
+
+          <ReCAPTCHA
+            style={{ marginTop: '20px' }}
+            sitekey={process.env.REACT_APP_ADS_RECAPTCHA_CLIENT_SITE_KEY}
+            onChange={() => setVerified(true)}
+            ref={captchaRef}
+          />
 
           <Flex
             justify='flex-end'
@@ -289,7 +315,12 @@ function ModalReport() {
             gap={10}
             style={{ marginTop: '20px' }}
           >
-            <Button loading={confirmLoading} type='primary' htmlType='submit'>
+            <Button
+              loading={confirmLoading}
+              type='primary'
+              htmlType='submit'
+              disabled={!verified}
+            >
               Gửi
             </Button>
             <Button onClick={onCloseModal}>Huỷ</Button>

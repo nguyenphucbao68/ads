@@ -1,7 +1,7 @@
 import { Col, Row, Typography, Image } from 'antd';
 import React, { useEffect, useRef } from 'react';
 import { LeftOutlined } from '@ant-design/icons';
-const { Paragraph, Link } = Typography;
+const { Paragraph, Link, Text } = Typography;
 
 function ReportListItem({ goBack, item }) {
   console.log({ item });
@@ -63,11 +63,15 @@ function ReportListItem({ goBack, item }) {
           </Paragraph>
         </Col>
         <Col>
-          <Image.PreviewGroup>
-            {images.map((img, idx) => (
-              <Image key={idx} width={50} src={img} />
-            ))}
-          </Image.PreviewGroup>
+          {images.length > 0 ? (
+            <Image.PreviewGroup>
+              {images.map((img, idx) => (
+                <Image key={idx} width={50} src={img} />
+              ))}
+            </Image.PreviewGroup>
+          ) : (
+            <Text>Không có hình ảnh</Text>
+          )}
         </Col>
       </Row>
       <Row gutter={10} align={'middle'}>
