@@ -10,13 +10,6 @@ const SIZE = 12;
 function Pin({ data, onClick, colorFill }) {
   if (!data) return <></>;
 
-  const isPanelReported =
-    JSON.parse(localStorage.getItem('reportedAdsSpot') || '[]').findIndex(
-      (item) => item === data.id
-    ) > -1;
-
-  console.log({ isPanelReported });
-
   return (
     <Marker longitude={data.longtitude} latitude={data.latitude}>
       <svg

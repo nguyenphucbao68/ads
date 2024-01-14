@@ -25,6 +25,8 @@ import { useParams } from 'react-router-dom'
 import useSupercluster from 'use-supercluster'
 import ClusterMarker from 'src/components/Map/ClusterMarker/ClusterMarker'
 import { toast } from 'sonner'
+import ToggleFooter from 'src/components/Map/ToogleFooter/ToggleFooter'
+import ReportList from 'src/components/Map/ReportList/ReportList'
 
 const geolocateStyle = {
   top: 0,
@@ -432,6 +434,11 @@ function LandingPage({
             <CurrentPin size={20} />
           </Marker>
         )}
+        <ToggleFooter
+          setAdsSpotVisible={setAdsSpotVisible}
+          setAdsPanelReportVisible={setAdsPanelReportVisible}
+        />
+        <ReportList />
         {!spotId && <AddressSearchInput onSelectAddress={onSelectAddress} />}
         {/* <Pin data={adsSpots} onClick={setPopupInfo} /> */}
         {getClusters()}

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import AdsPanel from '../AdsPanel/AdsPanel';
 import { Container, SideBarToggle } from './AdsPanelList.style';
-import { Button, Flex, Typography } from 'antd';
+import {  Flex, Typography } from 'antd';
 import {
   ExclamationCircleOutlined,
   LeftOutlined,
