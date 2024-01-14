@@ -34,6 +34,8 @@ function Pin({ data, onClick }) {
           fill={
             id == data.id
               ? 'green'
+              : data.isReported
+              ? 'red'
               : data.is_available
               ? 'blue'
               : data.is_available === null

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import ReactMapGL, {
@@ -27,6 +27,8 @@ import ClusterMarker from 'src/components/Map/ClusterMarker/ClusterMarker'
 import { toast } from 'sonner'
 import ToggleFooter from 'src/components/Map/ToogleFooter/ToggleFooter'
 import ReportList from 'src/components/Map/ReportList/ReportList'
+import { ReportContext } from 'src/contexts/ReportProvider'
+import WarningMarker from 'src/components/Map/WarningMarker/WarningMarker'
 
 const geolocateStyle = {
   top: 0,
@@ -288,6 +290,37 @@ function LandingPage({
     popUpInfoFunc()
   }, [popupInfo])
 
+  const { reports } = useContext(ReportContext)
+  const getLocationReportMarker = () => {
+    const locationReport = reports.rows.filter((item) => item['ads_panel_id'] == null)
+
+    console.log({ locationReport, reports })
+    const data = locationReport.map((item, idx) =>
+      adsPanelReportVisible ? (
+        <WarningMarker
+          key={idx}
+          lat={item.latitude}
+          lng={item.longtitude}
+          onClick={() => {
+            setLocationInfo({
+              name: '',
+              address: item.address,
+            })
+            setCurrentMarker({
+              latitude: item.latitude,
+              longitude: item.longtitude,
+            })
+          }}
+        />
+      ) : (
+        <React.Fragment key={idx} />
+      ),
+    )
+
+    console.log({ report_data: data })
+    return data
+  }
+
   const onSelectAddress = useCallback((placeId) => {
     axios({
       method: 'get',
@@ -373,8 +406,29 @@ function LandingPage({
           const { cluster: isCluster, point_count: pointCount } = cluster.properties
 
           if (!isCluster) {
-            return <Pin key={cluster.id} data={cluster.properties} onClick={setPopupInfo} />
+            const isPanelReported =
+              reports.rows.findIndex(
+                (item) =>
+                  item['ads_panel_id'] !== null && cluster.properties.id === item['ads_spot_id'],
+              ) > -1
+
+            if (isPanelReported && !adsPanelReportVisible) {
+              return <React.Fragment key={cluster.id} />
+            }
+
+            if (!isPanelReported && !adsSpotVisible) {
+              return <React.Fragment key={cluster.id} />
+            }
+
+            return (
+              <Pin
+                key={cluster.id}
+                data={{ ...cluster.properties, isReported: isPanelReported }}
+                onClick={setPopupInfo}
+              />
+            )
           }
+
           return (
             <ClusterMarker
               id={cluster.id}
@@ -433,7 +487,8 @@ function LandingPage({
         <ReportList />
         {!spotId && <AddressSearchInput onSelectAddress={onSelectAddress} />}
         {/* <Pin data={adsSpots} onClick={setPopupInfo} /> */}
-        {adsSpotVisible && getClusters()}
+        {getClusters()}
+        {getLocationReportMarker()}
         <AdsPanelDetail adsPanelDetail={adsPanelDetail} onClosePanelDetail={onClosePanelDetail} />
         {popupInfo && (
           <AdsPanelList

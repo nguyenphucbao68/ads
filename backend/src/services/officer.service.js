@@ -59,12 +59,24 @@ const getReportsByRole = async (role, userId) => {
     });
 
     data =
-      await prisma.$queryRaw`select r.*, rt.name as report_type_name, w.name as ward_name, d.name as district_name from report r 
+      await prisma.$queryRaw`select r.*, rt.name as report_type_name, w.name as ward_name, d.name as district_name, adp.ads_spot_id as ads_spot_id
+      from report r 
       join report_type rt on rt.id = r.report_type_id  
+      join ads_panel adp on r.ads_panel_id = adp.id
       join ward w on w.id = r.ward_id
       join district d on d.id = r.district_id    
       where r.ward_id = ${userWard.ward_id}
       order by r.created_at desc`;
+
+    let data_2 = await prisma.$queryRaw`select r.*, rt.name as report_type_name, w.name as ward_name, d.name as district_name
+      from report r 
+      join report_type rt on rt.id = r.report_type_id  
+      join ward w on w.id = r.ward_id
+      join district d on d.id = r.district_id    
+      where r.ward_id = ${userWard.ward_id} and r.ads_panel_id is null
+      order by r.created_at desc`;
+
+    data = [...data, data_2];
   } else {
     const userDistrict = await prisma.user_district.findFirst({
       where: {
@@ -73,12 +85,24 @@ const getReportsByRole = async (role, userId) => {
     });
 
     data =
-      await prisma.$queryRaw`select r.*, rt.name as report_type_name, w.name as ward_name, d.name as district_name from report r 
+      await prisma.$queryRaw`select r.*, rt.name as report_type_name, w.name as ward_name, d.name as district_name, adp.ads_spot_id as ads_spot_id
+      from report r 
       join report_type rt on rt.id = r.report_type_id
+      join ads_panel adp on r.ads_panel_id = adp.id
       join ward w on w.id = r.ward_id
       join district d on d.id = r.district_id
       where r.district_id = ${userDistrict.district_id}
       order by r.created_at desc`;
+
+    data_2 = await prisma.$queryRaw`select r.*, rt.name as report_type_name, w.name as ward_name, d.name as district_name
+      from report r 
+      join report_type rt on rt.id = r.report_type_id
+      join ward w on w.id = r.ward_id
+      join district d on d.id = r.district_id
+      where r.district_id = ${userDistrict.district_id} and r.ads_panel_id is null
+      order by r.created_at desc`;
+
+    data = [...data, ...data_2];
   }
 
   return data;
@@ -93,7 +117,6 @@ const getReportById = async (id) => {
 };
 
 const updateReportStatus = async (userId, reportId, body) => {
-
   return await prisma.report.update({
     where: {
       id: reportId,

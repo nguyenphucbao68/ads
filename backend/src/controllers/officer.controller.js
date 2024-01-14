@@ -21,6 +21,7 @@ const deleteAdsLicense = catchAsync(async (req, res) => {
 
 const getReportsByRole = catchAsync(async (req, res) => {
   const result = await officerService.getReportsByRole(req.user.role, req.user.id);
+  console.log({result})
   res.send(result);
 });
 

@@ -326,7 +326,6 @@ function LandingPage() {
       )
     );
 
-    console.log({ data });
     return data;
   };
 

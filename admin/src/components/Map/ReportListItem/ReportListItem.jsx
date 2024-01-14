@@ -11,7 +11,9 @@ function ReportListItem({ goBack, item }) {
   const colRef = useRef()
 
   useEffect(() => {
+    console.log({ cur: colRef.current })
     colRef.current.innerHTML = content
+    colRef.current.innerHTML = colRef.current.innerText
   }, [])
 
   return (
@@ -30,7 +32,7 @@ function ReportListItem({ goBack, item }) {
             Hình thức báo cáo:
           </Paragraph>
         </Col>
-        <Col>{item.reportType}</Col>
+        <Col>{item.report_type_name}</Col>
       </Row>
       <Row gutter={10} align={'middle'}>
         <Col span={7}>
