@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Container = styled.div`
   position: absolute;
-  right: 10px;
+  right: 0;
   top: 25%;
   z-index: 2;
-`;
+`

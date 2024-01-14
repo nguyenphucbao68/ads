@@ -31,6 +31,7 @@ import AddressSearchInput from '../../components/AddressSearchInput/AddressSearc
 import ClusterMarker from '../../components/ClusterMarker/ClusterMarker';
 import ToggleFooter from '../../components/ToogleFooter/ToggleFooter';
 import ReportList from '../../components/ReportList/ReportList';
+import WarningMarker from '../../components/WarningMarker/WarningMarker';
 
 const geolocateStyle = {
   top: 0,
@@ -105,7 +106,7 @@ function LandingPage() {
 
   const onClick = useCallback((event) => {
     const feature = event.features[0];
-    // console.log({ feature });
+    console.log({ event, feature });
 
     const [lng, lat] = event.lngLat;
     const latlng = `${lat},${lng}`;
@@ -268,6 +269,9 @@ function LandingPage() {
         if (isPanelReported && !adsPanelReportVisible)
           return <React.Fragment key={cluster.id} />;
 
+        if (!isPanelReported && !adsSpotVisible)
+          return <React.Fragment key={cluster.id} />;
+
         const colorFill = isPanelReported
           ? 'red'
           : cluster.properties.is_available
@@ -295,6 +299,36 @@ function LandingPage() {
         />
       );
     });
+
+  const getLocationReportMarker = () => {
+    const reports = JSON.parse(localStorage.getItem('reports') || '[]');
+
+    const locationReport = reports.filter((item) =>
+      item.hasOwnProperty('locationDetail')
+    );
+
+    const data = locationReport.map(({ locationDetail }, idx) =>
+      adsPanelReportVisible ? (
+        <WarningMarker
+          key={idx}
+          lat={locationDetail.geometry.location.lat}
+          lng={locationDetail.geometry.location.lng}
+          onClick={() => {
+            setLocationInfo(locationDetail);
+            setCurrentMarker({
+              latitude: locationDetail.geometry.location.lat,
+              longitude: locationDetail.geometry.location.lng,
+            });
+          }}
+        />
+      ) : (
+        <React.Fragment key={idx} />
+      )
+    );
+
+    console.log({ data });
+    return data;
+  };
 
   return (
     <Container>
@@ -350,7 +384,8 @@ function LandingPage() {
           </Marker>
         )}
 
-        {adsSpotVisible && getClusters()}
+        {getClusters()}
+        {getLocationReportMarker()}
 
         {popupInfo && (
           <StyledPopup

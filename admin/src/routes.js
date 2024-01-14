@@ -116,9 +116,14 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+// Landing Page
+const LandingPage = React.lazy(() =>
+  import('./views/admin/adsSpots/LandingPage/LandingPageWrapper'),
+)
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/dashboard', name: 'Dashboard', element: LandingPage },
 
   {
     path: 'account/update',
