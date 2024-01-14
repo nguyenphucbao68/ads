@@ -182,14 +182,14 @@ const updateAdsLicense = async (id, body) => {
 
   // update ads_panel
   let result = {};
-  if (parseInt(body.status, 10) == 1) {
+  if (data.status == 1) {
     result = await prisma.ads_panel.update({
       where: {
         id: parseInt(data.ads_panel_id, 10),
       },
       data: {
-        image: body.image,
-        expire_date: new Date(body.expire_date),
+        image: data.image,
+        expire_date: new Date(data.expire_date),
         updated_at: new Date(),
       },
     });
