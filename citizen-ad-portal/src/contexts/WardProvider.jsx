@@ -10,14 +10,14 @@ export const WardProvider = ({ children }) => {
     axios({
       method: 'get',
       url: 'http://localhost:4000/v1/citizen/wards',
-      responseType,
+      responseType: 'json',
     }).then(({ data }) => {
       setWardData(data);
     });
   }, []);
 
   return (
-    <WardContext.Provider value={wardData}>{children}</WardContext.Provider>
+    <WardContext.Provider value={{ wardData }}>{children}</WardContext.Provider>
   );
 };
 

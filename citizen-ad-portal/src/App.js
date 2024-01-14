@@ -2,6 +2,7 @@ import './App.css';
 import { AdsPanelDetailProvider } from './contexts/AdsPanelDetailProvider';
 import { AdsSpotProvider } from './contexts/AdsSpotProvider';
 import { ModalReportProvider } from './contexts/ModalReportProvider';
+import { WardProvider } from './contexts/WardProvider';
 import LandingPage from './pages/LandingPage/LandingPage';
 
 function App() {
@@ -10,7 +11,9 @@ function App() {
       <AdsSpotProvider>
         <AdsPanelDetailProvider>
           <ModalReportProvider>
-            <LandingPage />
+            <WardProvider>
+              <LandingPage />
+            </WardProvider>
           </ModalReportProvider>
         </AdsPanelDetailProvider>
       </AdsSpotProvider>

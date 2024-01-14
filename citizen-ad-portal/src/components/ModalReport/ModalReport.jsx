@@ -9,13 +9,17 @@ import {
   Typography,
   message,
 } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useModalReport } from '../../contexts/ModalReportProvider';
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UploadOutlined } from '@ant-design/icons';
 import { updateLocalStorage } from '../../common/common';
+import moment from 'moment';
+import { useWardData } from '../../contexts/WardProvider';
+import ReCAPTCHA from 'react-google-recaptcha';
+import Paragraph from 'antd/es/skeleton/Paragraph';
 
 const layout = {
   labelCol: { span: 6 },
@@ -30,6 +34,9 @@ function ModalReport() {
   const [reportTypes, setReportTypes] = useState([]);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const [verified, setVerified] = useState(false);
+  const editorRef = useRef();
+  const { wardData } = useWardData();
 
   useEffect(() => {
     // fetch report types
@@ -44,6 +51,7 @@ function ModalReport() {
 
   const cloudName = 'dzjaj79nw';
   const uploadPreset = 'u4mszkqu';
+  const captchaRef = useRef();
 
   const customRequest = async ({ file, onSuccess, onError, onProgress }) => {
     try {
@@ -71,8 +79,6 @@ function ModalReport() {
     }
   };
 
-  const editorRef = useRef();
-
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -84,7 +90,15 @@ function ModalReport() {
 
   const onFinish = (values) => {
     setConfirmLoading(true);
-    console.log({ ...values, current: editorRef.current.editor.getData() });
+
+    if (editorRef.current.editor.getData() === '') {
+      messageApi.open({
+        type: 'error',
+        content: 'Nội dung không được để trống',
+      });
+      setConfirmLoading(false);
+      return;
+    }
 
     let ads_panel_id;
     let longtitude;
@@ -100,20 +114,41 @@ function ModalReport() {
     }
 
     if (state.locationDetail) {
-      console.log({ locationDetail: state.locationDetail });
       longtitude = state.locationDetail.geometry.location.lng;
       latitude = state.locationDetail.geometry.location.lat;
-      district_id = state.locationDetail.district_id;
-      ward_id = state.locationDetail.ward_id;
-      district_id = state.locationDetail.district_id;
+
+      const addressInfo = wardData.find(
+        (item) =>
+          state.locationDetail.compound.commune === item.name &&
+          state.locationDetail.compound.district == item.district.name
+      );
+
+      if (!addressInfo) {
+        messageApi.open({
+          type: 'error',
+          content: 'Địa chỉ không hợp lệ. Gửi báo cáo thất bại',
+        });
+        setConfirmLoading(false);
+        return;
+      }
+
+      district_id = addressInfo.district_id;
+      ward_id = addressInfo.id;
+      address = state.locationDetail.formatted_address;
     }
+
     const body = {
       ads_panel_id,
       ...values,
-      image: JSON.stringify(values.image.map((item) => item.response.url)),
+      image: JSON.stringify(
+        values.image ? values.image.map((item) => item.response.url) : []
+      ),
       longtitude,
       latitude,
       content: editorRef.current.editor.getData(),
+      district_id,
+      ward_id,
+      address,
     };
 
     axios({
@@ -131,16 +166,22 @@ function ModalReport() {
           content: 'Gửi báo cáo thành công',
         });
 
+        updateLocalStorage('reports', {
+          ...body,
+          adsPanelItem: state.adsPanelItem,
+          locationDetail: state.locationDetail,
+          sendDate: moment().format('DD/MM/YYYY hh:mm:ss'),
+          reportType: reportTypes.filter(
+            (item) => body.report_type_id === item.id
+          )[0].name,
+        });
+
         if (state.adsPanelItem) {
-          updateLocalStorage(
-            'reportedAdsSpot',
-            state.adsPanelItem.ads_spot_id
-          );
-          updateLocalStorage('reportedAdsPanel', state.adsPanelItem.id);
+          updateLocalStorage('reportedAdsSpot', state.adsPanelItem.ads_spot_id);
         }
       })
       .catch((e) => {
-        console.log(e.toJSON());
+        console.log({ error: e });
 
         messageApi.open({
           type: 'error',
@@ -152,18 +193,17 @@ function ModalReport() {
   };
 
   useEffect(() => {
-    console.log('reset form');
     form.resetFields();
-  }, [state.category]);
 
-  // const checkFileUploaded = (rule, value, callback) => {
-  //   // Kiểm tra xem có file đang được tải lên hay không
-  //   if (!value || value.fileList.length === 0) {
-  //     callback('Vui lòng tải lên ít nhất một ảnh!');
-  //   } else {
-  //     callback();
-  //   }
-  // };
+    if (captchaRef.current) {
+      captchaRef.current.reset();
+      setVerified(false);
+    }
+    if (editorRef.current && editorRef.current.editor) {
+      editorRef.current.editor.setData('');
+    }
+    setConfirmLoading(false);
+  }, [state.category]);
 
   return (
     <>
@@ -171,7 +211,6 @@ function ModalReport() {
       <Modal
         title='BÁO CÁO VI PHẠM'
         open={state.isOpenModal}
-        onOk={onCloseModal}
         onCancel={onCloseModal}
         width={700}
         footer={null}
@@ -258,24 +297,17 @@ function ModalReport() {
             </Upload>
           </Form.Item>
 
-          {/* <Modal
-          open={previewOpen}
-          title={previewTitle}
-          footer={null}
-        //   onCancel={handleCancel}
-        >
-          <img
-            alt='example'
-            style={{
-              width: '100%',
-            }}
-            src={previewImage}
-          />
-        </Modal> */}
-
+          <Typography.Paragraph strong>Nội dung báo cáo:</Typography.Paragraph>
           <div style={{ marginTop: 20 }}>
             <CKEditor id='content' ref={editorRef} editor={ClassicEditor} />
           </div>
+
+          <ReCAPTCHA
+            style={{ marginTop: '20px' }}
+            sitekey={process.env.REACT_APP_ADS_RECAPTCHA_CLIENT_SITE_KEY}
+            onChange={() => setVerified(true)}
+            ref={captchaRef}
+          />
 
           <Flex
             justify='flex-end'
@@ -283,7 +315,12 @@ function ModalReport() {
             gap={10}
             style={{ marginTop: '20px' }}
           >
-            <Button loading={confirmLoading} type='primary' htmlType='submit'>
+            <Button
+              loading={confirmLoading}
+              type='primary'
+              htmlType='submit'
+              disabled={!verified}
+            >
               Gửi
             </Button>
             <Button onClick={onCloseModal}>Huỷ</Button>

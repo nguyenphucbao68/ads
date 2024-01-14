@@ -30,6 +30,7 @@ import AddressSearchInput from '../../components/AddressSearchInput/AddressSearc
 
 import ClusterMarker from '../../components/ClusterMarker/ClusterMarker';
 import ToggleFooter from '../../components/ToogleFooter/ToggleFooter';
+import ReportList from '../../components/ReportList/ReportList';
 
 const geolocateStyle = {
   top: 0,
@@ -300,13 +301,15 @@ function LandingPage() {
       <AdsPanelDetail />
       <AddressSearchInput
         onSelectAddress={onSelectAddress}
-        isBackgroundDisplay={popupInfo !== null}
+        isBackgroundDisplay={popupInfo !== null && popupInfo !== undefined}
       />
 
       <ToggleFooter
         setAdsSpotVisible={setAdsSpotVisible}
         setAdsPanelReportVisible={setAdsPanelReportVisible}
       />
+
+      <ReportList />
 
       {locationInfo && currentMarker && (
         <AdsPanelLocationInfo
