@@ -133,22 +133,22 @@ const ward = [
   },
   {
     name: 'Phường 1',
-    district_id: 3,
+    district_id: 6,
     is_deleted: false,
   },
   {
     name: 'Phường 2',
-    district_id: 3,
+    district_id: 6,
     is_deleted: false,
   },
   {
     name: 'Phường 3',
-    district_id: 3,
+    district_id: 6,
     is_deleted: false,
   },
   {
     name: 'Phường 4',
-    district_id: 3,
+    district_id: 6,
     is_deleted: false,
   },
   {
