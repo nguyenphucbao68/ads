@@ -12,7 +12,7 @@ const logger = createLogger({
   format: format.combine(format.timestamp(), format.json()),
   transports: [
     new transports.File({
-      filename: './info-11-12.log',
+      filename: './info-11-12.log',// change to the desire log file
     }),
   ],
 });

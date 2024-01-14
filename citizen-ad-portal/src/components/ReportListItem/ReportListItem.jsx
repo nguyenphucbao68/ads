@@ -1,18 +1,18 @@
-import { Col, Row, Typography, Image } from 'antd'
-import React, { useEffect, useRef } from 'react'
-import { LeftOutlined } from '@ant-design/icons'
-const { Paragraph, Link, Text } = Typography
+import { Col, Row, Typography, Image } from 'antd';
+import React, { useEffect, useRef } from 'react';
+import { LeftOutlined } from '@ant-design/icons';
+const { Paragraph, Link, Text } = Typography;
 
 function ReportListItem({ goBack, item }) {
-  console.log({ item })
-  const images = JSON.parse(item.image)
-  const content = item.content
+  console.log({ item });
+  const images = JSON.parse(item.image);
+  const content = item.content;
 
-  const colRef = useRef()
+  const colRef = useRef();
 
   useEffect(() => {
-    colRef.current.innerHTML = content
-  }, [])
+    colRef.current.innerHTML = content;
+  }, []);
 
   return (
     <React.Fragment>
@@ -86,7 +86,7 @@ function ReportListItem({ goBack, item }) {
         <LeftOutlined /> Quay lại
       </Link>
     </React.Fragment>
-  )
+  );
 }
 
-export default ReportListItem
+export default ReportListItem;

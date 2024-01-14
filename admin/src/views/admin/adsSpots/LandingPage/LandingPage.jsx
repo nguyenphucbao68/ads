@@ -99,6 +99,8 @@ function LandingPage({
   const [adsPanels, setAdsPanel] = useState([])
   const [adsSpots, setAdsSpots] = useState([])
   const [bounds, setBounds] = useState(null)
+  const [adsSpotVisible, setAdsSpotVisible] = useState(true)
+  const [adsPanelReportVisible, setAdsPanelReportVisible] = useState(true)
 
   const mapRef = useRef(null)
 
@@ -297,16 +299,6 @@ function LandingPage({
 
         const { lng: longitude, lat: latitude } = location
 
-        // onChangeNewAddress({
-        //   address: data.result.formatted_address,
-        //   ward: data.result.compound.commune.includes('Phường')
-        //     ? data.result.compound.commune
-        //     : 'Phường ' + data.result.compound.commune,
-        //   district: data.result.compound.district,
-        //   long: longitude,
-        //   lat: latitude,
-        // })
-
         setViewport({
           longitude: location.lng,
           latitude: location.lat,
@@ -441,7 +433,7 @@ function LandingPage({
         <ReportList />
         {!spotId && <AddressSearchInput onSelectAddress={onSelectAddress} />}
         {/* <Pin data={adsSpots} onClick={setPopupInfo} /> */}
-        {getClusters()}
+        {adsSpotVisible && getClusters()}
         <AdsPanelDetail adsPanelDetail={adsPanelDetail} onClosePanelDetail={onClosePanelDetail} />
         {popupInfo && (
           <AdsPanelList

@@ -143,7 +143,7 @@ const AdsPanelDetail = () => {
       const height = getValues('height') || data.adsPanelDetail.height
       const expire_date = formatDate(getValues('expire_date') || data.adsPanelDetail.expire_date)
       const type = getValues('type') || data.adsPanelDetail.ads_type_id
-      const spot_id = currentSpotId || 0
+      const spot_id = currentSpotId || null
 
       const adsPanelUpdateData = {
         ads_type_id: type,
@@ -207,7 +207,7 @@ const AdsPanelDetail = () => {
         uploadPreset: 'u4mszkqu',
       },
       (error, result) => {
-        if (result.event === 'success' && data.fileSelected.length < 2) {
+        if (result.event === 'success' && data.fileSelected.length < 1) {
           setData((pre) => ({
             ...pre,
             fileSelected: [...pre.fileSelected, result.info.url],
@@ -381,7 +381,7 @@ const AdsPanelDetail = () => {
                     variant="outlined"
                     startIcon={<CloudUpload />}
                     onClick={() => {
-                      if (data.fileSelected.length < 2) widgetRef.current.open()
+                      if (data.fileSelected.length < 1) widgetRef.current.open()
                       else toast('Mỗi bảng quảng cáo có tối đa 2 hình ảnh')
                     }}
                   >

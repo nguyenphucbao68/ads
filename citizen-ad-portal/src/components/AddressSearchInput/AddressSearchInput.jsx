@@ -34,17 +34,14 @@ function AddressSearchInput({ onSelectAddress, isBackgroundDisplay }) {
   const onSelect = (data) => {
     const filteredData = options.filter((item) => item.value === data);
 
-    console.log({ filteredData });
     onSelectAddress(filteredData[0].placeId);
     setInput(data);
   };
 
-  console.log({ isBackgroundDisplay });
-
   return (
     <Container
       style={{
-        backgroundColor: isBackgroundDisplay ?? '#F0F0F0',
+        backgroundColor: isBackgroundDisplay ? '#F0F0F0' : null,
       }}
     >
       <AutoComplete

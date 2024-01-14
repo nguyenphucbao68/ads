@@ -29,7 +29,6 @@ function Pin({ data, onClick, colorFill }) {
           stroke='black'
           strokeWidth='2'
           fill={colorFill}
-          // fill={data.is_available ? 'blue' : 'red'}
         />
 
         <text

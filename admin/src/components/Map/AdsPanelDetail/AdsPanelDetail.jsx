@@ -22,15 +22,21 @@ function AdsPanelDetail({ adsPanelDetail, onClosePanelDetail }) {
         >
           <StyledCard hoverable>
             <img
-              src="https://prviet.vn/ImageUpload/userfiles/images/HINH-TONG-HOP/thiet-ke-thi-cong-pano-quang-cao-ngoai-troi-pano-cot-bien-thiet-ke-quang-cao-prviet-02.jpg"
+              src={
+                adsPanelDetail.image.length != 0
+                  ? adsPanelDetail.image
+                  : 'https://img.freepik.com/free-photo/textured-background-white-tone_53876-128610.jpg'
+              }
               alt="Hình ảnh bảng quảng cáo"
             />
             <StyledCloseCircleOutlined onClick={onClosePanelDetail} />
             <CardBody vertical>
               <Title level={5}>{adsPanelDetail.ads_panel_type.name}</Title>
-              <Paragraph level={5}>
-                Ngày hết hạn: {moment(adsPanelDetail.expire_date).format('L')}
-              </Paragraph>
+              {adsPanelDetail.image.length != 0 && (
+                <Paragraph level={5}>
+                  Ngày hết hạn: {moment(adsPanelDetail.expire_date).format('L')}
+                </Paragraph>
+              )}
               <Paragraph level={5}>
                 {getFormattedAddress(
                   adsPanelDetail.ads_spot.address,

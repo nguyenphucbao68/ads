@@ -113,7 +113,6 @@ const InformationChangeList = () => {
           new_information: newInf,
         }
       })
-      console.log(data)
       dispatchICRs({
         type: 'INITIALIZE_ICRS',
         payload: data || [],

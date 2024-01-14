@@ -335,7 +335,7 @@ function LandingPage() {
       <AdsPanelDetail />
       <AddressSearchInput
         onSelectAddress={onSelectAddress}
-        isBackgroundDisplay={popupInfo !== null}
+        isBackgroundDisplay={popupInfo !== null && popupInfo !== undefined}
       />
 
       <ToggleFooter
