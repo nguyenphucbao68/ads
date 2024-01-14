@@ -25,6 +25,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import * as ReportService from '../../../services/report'
 import { useForm } from 'react-hook-form'
 
+import he from 'he'
 import { ReportContext } from 'src/contexts/ReportProvider'
 const ReportDetails = () => {
   const { id } = useParams()
@@ -95,7 +96,7 @@ const ReportDetails = () => {
 
               <Box
                 sx={{
-                  height: 'calc(450px)',
+                  height: 'calc(700px)',
                   width: '100%',
                   overflowY: 'auto',
                 }}
@@ -175,41 +176,20 @@ const ReportDetails = () => {
                 </CRow>
                 <CRow className="mt-2 mb-3">
                   <CFormLabel htmlFor="content" className="col-sm-2 col-form-label">
-                    Nội dung xử lí
+                    Nội dung báo cáo
                   </CFormLabel>
-                  <CCol sm={10}>
-                    {/* <CFormInput
-                      type="text"
-                      id="content"
-                      defaultValue={element?.content}
-                      {...register('content', { required: 'Vui lòng nhập nội dung xử lí' })}
-                      feedback={errors.content?.message}
-                    />
-                    <span className="text-danger">{errors.content?.message}</span> */}
-                    <CKEditor
-                      id="content"
-                      editor={ClassicEditor}
-                      data={element?.content}
-                      onReady={(editor) => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log('Editor is ready to use!', editor)
-                      }}
-                      onChange={(event) => {
-                        console.log(event)
-                      }}
-                      onBlur={(event, editor) => {
-                        const content = editor.getData()
-                        setContent(content)
-                      }}
-                      onFocus={(event, editor) => {
-                        console.log('Focus.', editor)
-                      }}
-                      onInit={(editor) => {
-                        editor.editing.view.change((writer) => {
-                          writer.setStyle('height', '400px', editor.editing.view.document.getRoot())
-                        })
-                      }}
-                    />
+                  <CCol
+                    sm={12}
+                    style={{
+                      overflowY: 'auto',
+                      maxHeight: '150px',
+                      backgroundColor: '#f5f5f5',
+                      padding: '10px',
+                      margin: '10px',
+                      borderRadius: '8px',
+                    }}
+                  >
+                    <div dangerouslySetInnerHTML={{ __html: he.decode(element?.content) }} />
                   </CCol>
                 </CRow>
                 <CRow className="mt-2 mb-3">
