@@ -195,13 +195,12 @@ const sendEmail = async (email, otp) => {
 };
 
 // send mail update report status
-const sendUpdateStatusEmail = async (user, reportId, content, status) => {
+const sendUpdateStatusEmail = async (user, reportId, address, status) => {
   const subject = 'Cập nhật trạng thái báo cáo';
   // replace this url with the link to the email verification page of your front-end app
   const reportUrl = `http://link-to-app/report/${reportId}`;
   const text = `Chào bạn,
-Báo cáo của bạn ${status === 1 ? 'đang được xử lí' : 'đã được xử lí'}
-Nội dung: ${content}
+Báo cáo của bạn tại địa điểm ${address} ${status === 1 ? 'đang được xử lí' : 'đã được xử lí'}
 Xem chi tiết báo cáo: ${reportUrl}`;
 
   try {

@@ -25,17 +25,7 @@ const columns = [
     headerName: 'Trạng thái',
     renderCell: (cellValues) => {
       const status = cellValues.value
-      return status == 0 ? <span>Chưa xử lý</span> : <span>Đã xử lý</span>
-    },
-  },
-
-  {
-    field: 'view_status',
-    headerName: '',
-    flex: 2,
-    renderCell: (cellValues) => {
-      const dot = cellValues.value
-      return dot == 0 ? <FiberManualRecordIcon color="info" fontSize="small" /> : <span />
+      return <span>{status == 0 ? 'Chưa xử lý' : status == 1 ? 'Đang xử lý' : 'Đã xử lý'}</span>
     },
   },
 ]
@@ -53,7 +43,6 @@ const ReportList = () => {
           .toISOString()
           .replace(/T/, ' ') // replace T with a space
           .replace(/\..+/, '') // delete the dot and everything after
-        element.image = element.image.split(',')
       })
       dispatchReports({
         type: 'INITIALIZE_REPORTS',
