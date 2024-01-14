@@ -1644,7 +1644,7 @@ const report = [
 const user = [
   {
     // id: 1,
-    email: 'admin@gmail.com',
+    email: 'vhtt@gmail.com',
     role: 0, // VH-TT
     name: 'admin',
     dob: '10/10/2002',
@@ -1657,7 +1657,7 @@ const user = [
   },
   {
     // id: 2,
-    email: 'district@gmail.com',
+    email: 'district1@gmail.com',
     role: 1, // District
     name: 'district',
     dob: '10/10/2002',
@@ -1670,7 +1670,7 @@ const user = [
   },
   {
     // id: 3,
-    email: 'ward@gmail.com',
+    email: 'ward1@gmail.com',
     role: 2, // ward
     name: 'ward',
     dob: '10/10/2002',
