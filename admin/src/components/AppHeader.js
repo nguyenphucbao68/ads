@@ -54,7 +54,7 @@ const AppHeader = () => {
               Trang chủ
             </CNavLink>
           </CNavItem>
-          <CNavItem>
+          {/* <CNavItem>
             <CNavLink to="/statistics" component={NavLink}>
               Thống kê
             </CNavLink>
@@ -68,7 +68,7 @@ const AppHeader = () => {
             <CNavLink to="/profile/info" component={NavLink}>
               Cá nhân
             </CNavLink>
-          </CNavItem>
+          </CNavItem> */}
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
