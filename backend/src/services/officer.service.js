@@ -48,7 +48,10 @@ const deleteAdsLicense = async (userid, licenseId) => {
 };
 
 const getReportsByRole = async (role, userId) => {
-  if (role !== 'ward' && role !== 'district') throw new ApiError(httpStatus.UNAUTHORIZED, 'Không có quyền truy cập');
+  if (role !== 'ward' && role !== 'district') {
+    if (role == 'vhtt') return [];
+    else throw new ApiError(httpStatus.UNAUTHORIZED, 'Không có quyền truy cập');
+  }
 
   let data = [];
   if (role === 'ward') {

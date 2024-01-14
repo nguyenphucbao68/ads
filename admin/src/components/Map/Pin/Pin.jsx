@@ -39,8 +39,8 @@ function Pin({ data, onClick }) {
               : data.is_available
               ? 'blue'
               : data.is_available === null
-              ? 'red'
-              : 'red'
+              ? 'grey'
+              : 'grey'
           }
         />
 
