@@ -1,25 +1,25 @@
 import React, { useState } from 'react'
 import LandingPage from './LandingPage'
+import { CCard } from '@coreui/react'
 
 function LandingPageWrapper() {
   const [currentMarker, setCurrentMarker] = useState(null)
 
   return (
-    <div
-      style={{
-        width: '100vh',
-        height: '100vh',
-        marginLeft: '-100px',
+    <CCard
+      className="mb-4"
+      sx={{
+        backgroundColor: '#fff',
       }}
     >
       <LandingPage
         height="80vh"
-        width="80vw"
+        width="100%"
         currentMarker={currentMarker}
         setCurrentMarker={setCurrentMarker}
         onChangeNewAddress={() => {}}
       />
-    </div>
+    </CCard>
   )
 }
 

@@ -12,7 +12,7 @@ import {
 } from '@ant-design/icons'
 import ReportListItem from '../ReportListItem/ReportListItem'
 import moment from 'moment'
-import { getFormattedAddress } from '../../common/common'
+import { getFormattedAddress } from 'src/utils/address'
 const { Paragraph, Title, Link } = Typography
 
 function ReportList() {
