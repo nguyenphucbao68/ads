@@ -143,7 +143,7 @@ const AdsPanelDetail = () => {
       const height = getValues('height') || data.adsPanelDetail.height
       const expire_date = formatDate(getValues('expire_date') || data.adsPanelDetail.expire_date)
       const type = getValues('type') || data.adsPanelDetail.ads_type_id
-      const spot_id = currentSpotId || 0
+      const spot_id = currentSpotId || null
 
       const adsPanelUpdateData = {
         ads_type_id: type,

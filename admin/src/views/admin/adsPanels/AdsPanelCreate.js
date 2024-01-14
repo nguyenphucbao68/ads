@@ -67,7 +67,7 @@ const AdsPanelCreate = () => {
       const height = getValues('height') || 0
 
       const type = getValues('type') || data.adsPanelType[0].id
-      const spot_id = data.currentSpot.id || 1
+      const spot_id = currentSpotId || null
 
       const adsPanelCreateData = {
         ads_type_id: type,
