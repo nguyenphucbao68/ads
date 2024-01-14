@@ -6,6 +6,9 @@ import {
   AimOutlined,
   RightOutlined,
   LeftOutlined,
+  PushpinOutlined,
+  EnvironmentOutlined,
+  ExceptionOutlined,
 } from '@ant-design/icons';
 import ReportListItem from '../ReportListItem/ReportListItem';
 import moment from 'moment';
@@ -72,50 +75,74 @@ function ReportList() {
               current,
             }}
             dataSource={reports}
-            renderItem={(item, idx) => (
-              <List.Item key={idx}>
-                <Flex style={{ width: '100%' }} align='center' gap={10}>
-                  <AimOutlined style={{ fontSize: 34 }} />
-                  <Flex vertical>
-                    <Title level={5}>
-                      {'Phân loại: ' + item.adsPanelItem
-                        ? 'Báo cáo bảng quảng cáo'
-                        : 'Báo cáo địa điểm'}
-                    </Title>
-                    <Paragraph>
-                      {'Loại vị trí: ' +
-                        item.adsPanelItem.ads_spot.spot_type.name}
-                    </Paragraph>
-                    <Paragraph>
-                      {'Loại bảng quảng cáo: ' +
-                        item.adsPanelItem.ads_panel_type.name}
-                    </Paragraph>
-                    <Paragraph>
-                      {'Địa chỉ: ' +
-                        getFormattedAddress(
-                          item.adsPanelItem.ads_spot.address,
-                          item.adsPanelItem.ads_spot.ward.name,
-                          item.adsPanelItem.ads_spot.district.name
-                        )}
-                    </Paragraph>
-                    <Paragraph>{'Ngày gửi: ' + item.sendDate}</Paragraph>
+            renderItem={(item, idx) =>
+              item.adsPanelItem ? (
+                <List.Item key={idx}>
+                  <Flex style={{ width: '100%' }} align='center' gap={10}>
+                    <ExceptionOutlined style={{ fontSize: 34 }} />
+                    <Flex vertical style={{ width: '70%' }}>
+                      <Title level={5}>
+                        {'Phân loại: Báo cáo bảng quảng cáo'}
+                      </Title>
+                      <Paragraph>
+                        {'Loại vị trí: ' +
+                          item.adsPanelItem.ads_spot.spot_type.name}
+                      </Paragraph>
+                      <Paragraph>
+                        {'Loại bảng quảng cáo: ' +
+                          item.adsPanelItem.ads_panel_type.name}
+                      </Paragraph>
+                      <Paragraph>
+                        {'Địa chỉ: ' +
+                          getFormattedAddress(
+                            item.adsPanelItem.ads_spot.address,
+                            item.adsPanelItem.ads_spot.ward.name,
+                            item.adsPanelItem.ads_spot.district.name
+                          )}
+                      </Paragraph>
+                      <Paragraph>{'Ngày gửi: ' + item.sendDate}</Paragraph>
+                    </Flex>
+                    <Link
+                      style={{ marginLeft: 'auto' }}
+                      onClick={() =>
+                        setViewDetailMode({
+                          ...item,
+                          reportCategory: item.adsPanelItem
+                            ? 'Bảng quảng cáo'
+                            : 'Địa điểm',
+                        })
+                      }
+                    >
+                      Xem chi tiết <RightOutlined />{' '}
+                    </Link>
                   </Flex>
-                  <Link
-                    style={{ marginLeft: 'auto' }}
-                    onClick={() =>
-                      setViewDetailMode({
-                        ...item,
-                        reportCategory: item.adsPanelItem
-                          ? 'Bảng quảng cáo'
-                          : 'Địa điểm',
-                      })
-                    }
-                  >
-                    Xem chi tiết <RightOutlined />{' '}
-                  </Link>
-                </Flex>
-              </List.Item>
-            )}
+                </List.Item>
+              ) : (
+                <List.Item key={idx}>
+                  <Flex style={{ width: '100%' }} align='center' gap={10}>
+                    <EnvironmentOutlined style={{ fontSize: 34 }} />
+                    <Flex vertical style={{ width: '70%' }}>
+                      <Title level={5}>{'Phân loại: Báo cáo địa điểm'}</Title>
+                      <Paragraph>
+                        {'Địa chỉ: ' + item.locationDetail.formatted_address}
+                      </Paragraph>
+                      <Paragraph>{'Ngày gửi: ' + item.sendDate}</Paragraph>
+                    </Flex>
+                    <Link
+                      style={{ marginLeft: 'auto' }}
+                      onClick={() =>
+                        setViewDetailMode({
+                          ...item,
+                          reportCategory: 'Địa điểm',
+                        })
+                      }
+                    >
+                      Xem chi tiết <RightOutlined />{' '}
+                    </Link>
+                  </Flex>
+                </List.Item>
+              )
+            }
           />
         ) : (
           <ReportListItem

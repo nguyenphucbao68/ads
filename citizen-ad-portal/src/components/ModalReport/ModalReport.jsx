@@ -17,6 +17,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { UploadOutlined } from '@ant-design/icons';
 import { updateLocalStorage } from '../../common/common';
 import moment from 'moment';
+import { useWardData } from '../../contexts/WardProvider';
 
 const layout = {
   labelCol: { span: 6 },
@@ -32,6 +33,7 @@ function ModalReport() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const editorRef = useRef();
+  const { wardData } = useWardData();
 
   useEffect(() => {
     // fetch report types
@@ -42,7 +44,6 @@ function ModalReport() {
     }).then(({ data }) => {
       setReportTypes(data);
     });
-    console.log('asdasdasdsadsa');
   }, []);
 
   const cloudName = 'dzjaj79nw';
@@ -85,7 +86,6 @@ function ModalReport() {
 
   const onFinish = (values) => {
     setConfirmLoading(true);
-    console.log({ ...values, current: editorRef.current.editor.getData() });
 
     let ads_panel_id;
     let longtitude;
@@ -101,12 +101,27 @@ function ModalReport() {
     }
 
     if (state.locationDetail) {
-      console.log({ locationDetail: state.locationDetail });
       longtitude = state.locationDetail.geometry.location.lng;
       latitude = state.locationDetail.geometry.location.lat;
-      district_id = state.locationDetail.district_id;
-      ward_id = state.locationDetail.ward_id;
-      district_id = state.locationDetail.district_id;
+
+      const addressInfo = wardData.find(
+        (item) =>
+          state.locationDetail.compound.commune === item.name &&
+          state.locationDetail.compound.district == item.district.name
+      );
+
+      if (!addressInfo) {
+        messageApi.open({
+          type: 'error',
+          content: 'Địa chỉ không hợp lệ. Gửi báo cáo thất bại',
+        });
+        setConfirmLoading(false);
+        return;
+      }
+
+      district_id = addressInfo.district_id;
+      ward_id = addressInfo.id;
+      address = state.locationDetail.formatted_address;
     }
     const body = {
       ads_panel_id,
@@ -115,6 +130,9 @@ function ModalReport() {
       longtitude,
       latitude,
       content: editorRef.current.editor.getData(),
+      district_id,
+      ward_id,
+      address,
     };
 
     axios({
@@ -132,21 +150,22 @@ function ModalReport() {
           content: 'Gửi báo cáo thành công',
         });
 
+        updateLocalStorage('reports', {
+          ...body,
+          adsPanelItem: state.adsPanelItem,
+          locationDetail: state.locationDetail,
+          sendDate: moment().format('DD/MM/YYYY hh:mm:ss'),
+          reportType: reportTypes.filter(
+            (item) => body.report_type_id === item.id
+          )[0].name,
+        });
+
         if (state.adsPanelItem) {
-          updateLocalStorage('reports', {
-            ...body,
-            adsPanelItem: state.adsPanelItem,
-            sendDate: moment().format('DD/MM/YYYY hh:mm:ss'),
-            reportType: reportTypes.filter(
-              (item) => body.report_type_id === item.id
-            )[0].name,
-          });
           updateLocalStorage('reportedAdsSpot', state.adsPanelItem.ads_spot_id);
-          // updateLocalStorage('reportedAdsPanel', state.adsPanelItem.id);
         }
       })
       .catch((e) => {
-        console.log(e.toJSON());
+        console.log({ error: e });
 
         messageApi.open({
           type: 'error',
@@ -161,11 +180,10 @@ function ModalReport() {
     console.log('reset form');
     form.resetFields();
 
-    console.log({ edit: editorRef.current });
-
     if (editorRef.current && editorRef.current.editor) {
       editorRef.current.editor.setData('');
     }
+    setConfirmLoading(false);
   }, [state.category]);
 
   return (
